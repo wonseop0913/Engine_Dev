@@ -27,7 +27,7 @@ struct BULB_API EmitterSetting {
 	UINT StartIdx = 0;
 	UINT TextureIdx = 0;
 
-	Bulb::Vector3 EmitDirection;
+	Bulb::Vector3 EmitDirection = { 0.0f, 1.0f, 0.0f };
 	float ConeAngle = 15.0f;
 
 	UINT EmitterShape = 0;		// 0 = Default, 1 = Cone
@@ -72,8 +72,8 @@ public:
 
 	void SetMountPerTick(UINT value) { _mountPerTick = value; }
 
-	Bulb::Vector3 GetConeDirection() { return _coneDirection; }
-	void SetConeDirection(Bulb::Vector3& dir) { _coneDirection = dir; }
+	Bulb::Vector3 GetConeDirection() { return _emitDirection; }
+	void SetConeDirection(Bulb::Vector3& dir) { _emitDirection = dir; }
 
 	float GetConeAngle() { return _emitterSetting.ConeAngle; }
 	void SetConeAngle(float angle) { _emitterSetting.ConeAngle = angle; }
@@ -91,7 +91,7 @@ private:
 	EmitterShape _emitterShape;
 	EmitterSetting _emitterSetting;
 	Bulb::Vector3 _offset;
-	Bulb::Vector3 _coneDirection = { 0.0f, 1.0f, 0.0f };
+	Bulb::Vector3 _emitDirection = { 0.0f, 1.0f, 0.0f };
 	string _particleTexture;
 
 	float _instantiateTime = 0.0f;

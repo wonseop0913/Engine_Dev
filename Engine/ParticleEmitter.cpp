@@ -53,7 +53,7 @@ void ParticleEmitter::Update(ID3D12GraphicsCommandList* cmdList)
 	_emitterSetting.EmitterShape = (UINT)_emitterShape;
 
 	if (_emitterShape == EmitterShape::Cone) {
-		XMStoreFloat3(&_emitterSetting.EmitDirection, XMVector3Rotate(XMLoadFloat3(&_coneDirection), XMLoadFloat4(&rot)));
+		XMStoreFloat3(&_emitterSetting.EmitDirection, XMVector3Rotate(XMLoadFloat3(&_emitDirection), XMLoadFloat4(&rot)));
 	}
 
 	_lastSpawnIdx = (_lastSpawnIdx + _emitMount) % MAX_PARTICLE_MOUNT;
@@ -105,14 +105,14 @@ void ParticleEmitter::LoadXML(Bulb::XMLElement compElem)
 
 	Bulb::XMLElement coneDirElem = compElem.FirstChildElement("ConeDirection");
 	if (!coneDirElem.IsNullPtr()) {
-		_coneDirection.x = coneDirElem.FloatAttribute("X", 0.0f);
-		_coneDirection.y = coneDirElem.FloatAttribute("Y", 0.0f);
-		_coneDirection.z = coneDirElem.FloatAttribute("Z", 0.0f);
+		_emitDirection.x = coneDirElem.FloatAttribute("X", 0.0f);
+		_emitDirection.y = coneDirElem.FloatAttribute("Y", 0.0f);
+		_emitDirection.z = coneDirElem.FloatAttribute("Z", 0.0f);
 
-		if (_coneDirection.Length() < 0.001f)
-			_coneDirection = { 0.0f, 1.0f, 0.0f };
+		if (_emitDirection.Length() < 0.001f)
+			_emitDirection = { 0.0f, 1.0f, 0.0f };
 
-		_coneDirection = _coneDirection.Normalize();	// È¤½Ã ¸ô¶ó¼­ ³Ö¾îµÒ
+		_emitDirection = _emitDirection.Normalize();	// È¤½Ã ¸ô¶ó¼­ ³Ö¾îµÒ
 	}
 
 	_particleTexture = compElem.Attribute("ParticleTexture");
@@ -141,9 +141,9 @@ void ParticleEmitter::SaveXML(Bulb::XMLElement compElem)
 	particleSizeElem.SetAttribute("Y", _emitterSetting.ParticleSize.y);
 
 	Bulb::XMLElement coneDirElem = compElem.InsertNewChildElement("ConeDirection");
-	coneDirElem.SetAttribute("X", _coneDirection.x);
-	coneDirElem.SetAttribute("Y", _coneDirection.y);
-	coneDirElem.SetAttribute("Z", _coneDirection.z);
+	coneDirElem.SetAttribute("X", _emitDirection.x);
+	coneDirElem.SetAttribute("Y", _emitDirection.y);
+	coneDirElem.SetAttribute("Z", _emitDirection.z);
 
 	compElem.SetAttribute("ParticleTexture", _particleTexture.c_str());
 }
@@ -157,7 +157,7 @@ shared_ptr<Component> ParticleEmitter::Duplicate()
 	comp->SetParticleSetting(_emitterSetting);
 	comp->SetEmitterShape(_emitterShape);
 	comp->SetParticleOffset(_offset);
-	comp->SetConeDirection(_coneDirection);
+	comp->SetConeDirection(_emitDirection);
 	comp->SetParticleTexture(_particleTexture);
 
 	return comp;
