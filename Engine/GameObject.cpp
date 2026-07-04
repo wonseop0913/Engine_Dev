@@ -116,6 +116,10 @@ void GameObject::Update()
 
 void GameObject::Render(ID3D12GraphicsCommandList* cmdList, UINT renderState)
 {
+	// 이따금 람다식에서 오브젝트가 nullptr이 아님에도 함수가 호출된 이후 본 함수에서 nullptr 에러가 발생하는 경우가 있음.
+	// 원인 불명이므로 임시조치
+	if (this == nullptr) return;
+
 	if (!_isActive || _parentInactiveStack > 0) return;
 
 	for (auto& componentVec : _components) {
