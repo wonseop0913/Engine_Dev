@@ -78,6 +78,33 @@ void Camera::Update()
 	}
 }
 
+bool Camera::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::SeparatorText("Settings");
+		ImGui::InputFloat("##CameraNearZ", &_nearZ);
+		if (ImGui::IsItemDeactivatedAfterEdit())
+			SetNearZ(_nearZ > 0.f ? _nearZ : 0.1f);
+		ImGui::InputFloat("##CameraFarZ", &_farZ);
+		if (ImGui::IsItemDeactivatedAfterEdit())
+			SetFarZ(_farZ > _nearZ ? _farZ : _nearZ);
+
+		ImGui::SeparatorText("Main Camera");
+		if (ImGui::Button("Set Main Camera")) {
+			SetAsMainCamera();
+		}
+		ImGui::Text("Is Main Camera: ");
+		ImGui::SameLine();
+		if (_isMainCamera)
+			ImGui::TextColored({ 0, 1, 0, 1 }, "True");
+		else
+			ImGui::TextColored({ 1, 0, 0, 1 }, "False");
+	}
+
+	return false;
+}
+
 void Camera::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG

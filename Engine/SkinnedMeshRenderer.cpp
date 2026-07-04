@@ -54,6 +54,23 @@ void SkinnedMeshRenderer::Render(ID3D12GraphicsCommandList* cmdList, UINT render
 	cmdList->DrawIndexedInstanced(_mesh->GetIndexCount(), 1, 0, 0, 0);
 }
 
+bool SkinnedMeshRenderer::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("SkinnedMeshRenderer", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::SeparatorText("Mesh");
+		ImGui::Text(Utils::ToChar(_mesh->GetNameW()));
+
+		ImGui::SeparatorText("Material");
+		ImGui::Text(Utils::ToChar(_material->GetNameW()));
+
+		ImGui::SeparatorText("RootBone");
+		ImGui::Text(_rootBone->GetGameObject()->GetName().c_str());
+	}
+
+	return false;
+}
+
 void SkinnedMeshRenderer::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG

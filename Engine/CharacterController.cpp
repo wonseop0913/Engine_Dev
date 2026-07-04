@@ -79,6 +79,15 @@ void CharacterController::PreUpdate()
 	_desiredVelocity = { 0.0f, 0.0f, 0.0f };
 }
 
+bool CharacterController::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("CharacterController", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+	}
+
+	return false;
+}
+
 void CharacterController::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG

@@ -106,6 +106,82 @@ void Animator::Update()
 	}
 }
 
+bool Animator::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Animator", ImGuiTreeNodeFlags_DefaultOpen)) {
+		static string addAnimPath;
+
+		if (ImGui::Button("PreviewMode Toggle")) {
+			SetPreviewMode(!_isPreviewMode);
+		}
+
+		if (_isPreviewMode) {
+			ImGui::SeparatorText("Preview Mode");
+			ImGui::Text("Name:");
+			ImGui::SameLine();
+			ImGui::Text(_previewAnimation != nullptr ? _previewAnimation->GetName().c_str() : "None");
+
+			ImGui::SeparatorText("AnimationTick");
+			float duration = _previewAnimation != nullptr ? _previewAnimation->GetDuration() : 0.0f;
+			if (ImGui::SliderFloat("##TickSlider", &_previewTick, 0.0f, duration, "%.1f")) {
+				SetPreviewPlaying(false);
+			}
+			if (ImGui::Button(_isPreviewPlaying ? "Pause" : "Play")) {
+				SetPreviewPlaying(!_isPreviewPlaying);
+			}
+
+			ImGui::InputText("##PreviewAnimationName", &addAnimPath);
+			if (ImGui::Button("Set Animation")) {
+				auto animation = RESOURCE->LoadAnimation(addAnimPath);
+				if (animation == nullptr) {
+					DEBUG->ErrorLog("Failed to load animation");
+					return false;
+				}
+				SetPreviewAnimation(animation);
+				addAnimPath = "";
+			}
+		}
+		else
+		{
+			ImGui::SeparatorText("Current Animation");
+			ImGui::Text(_animations[_currentAnimation] != nullptr ? _animations[_currentAnimation]->GetName().c_str() : "None");
+			ImGui::SeparatorText("Animation Tick");
+			if (_animations[_currentAnimation] != nullptr)
+				ImGui::Text("%.1f / %.1f", _currentTick, _animations[_currentAnimation]->GetDuration());
+			else
+				ImGui::Text("-- / --");
+
+			ImGui::SeparatorText("Animation List");
+			ImGui::InputText("##AddAnimationName", &addAnimPath);
+			if (ImGui::Button("Add Animation")) {
+				auto animation = RESOURCE->LoadAnimation(addAnimPath);
+				if (animation == nullptr) {
+					DEBUG->ErrorLog("Failed to load animation");
+					return false;
+				}
+				AddAnimation(animation);
+				addAnimPath = "";
+			}
+
+			vector<string> removeQueue;
+			for (auto& a : _animations) {
+				ImGui::Text(a.first.c_str());
+				ImGui::SameLine();
+				string buttonLabel = "-##" + a.second->GetPath();
+				if (ImGui::Button(buttonLabel.c_str())) {
+					removeQueue.push_back(a.first);
+				}
+			}
+			if (removeQueue.size() > 0) {
+				for (const string& name : removeQueue)
+					RemoveAnimation(name);
+			}
+		}
+	}
+
+	return false;
+}
+
 void Animator::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG

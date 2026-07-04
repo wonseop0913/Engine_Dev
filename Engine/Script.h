@@ -7,6 +7,10 @@ public:
 	Script();
 	virtual ~Script();
 
+#ifdef BULB_EDITOR
+	virtual bool ShowComponentEditorGUI() override { return false; }
+#endif
+
 	virtual void OnDestroy() override = 0;
 
 	virtual void LoadXML(Bulb::XMLElement compElem) override = 0;

@@ -55,10 +55,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="-2" PosY="1.5" PosZ="4.25" ScaleX="8" ScaleY="2.5" ScaleZ="0.5" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="-2" PosY="1.5" PosZ="4" ScaleX="8" ScaleY="2.5" ScaleZ="0.25" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="4" y="1.25" z="0.25"/>
+                                <Extent x="4" y="1.25" z="0.125"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -67,10 +67,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="0" PosY="1.5" PosZ="-4.25" ScaleX="12" ScaleY="2.5" ScaleZ="0.5" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="0" PosY="1.5" PosZ="-4" ScaleX="12" ScaleY="2.5" ScaleZ="0.25" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="6" y="1.25" z="0.25"/>
+                                <Extent x="6" y="1.25" z="0.125"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -79,10 +79,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="-6.25" PosY="1.5" PosZ="0" ScaleX="0.5" ScaleY="2.5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="-6" PosY="1.5" PosZ="0" ScaleX="0.25" ScaleY="2.5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="0.25" y="1.25" z="4"/>
+                                <Extent x="0.125" y="1.25" z="4"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -91,10 +91,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="6.25" PosY="1.5" PosZ="0" ScaleX="0.5" ScaleY="2.5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="6" PosY="1.5" PosZ="0" ScaleX="0.25" ScaleY="2.5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="0.25" y="1.25" z="4"/>
+                                <Extent x="0.125" y="1.25" z="4"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -103,10 +103,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="4" PosY="-1" PosZ="3.75" ScaleX="4" ScaleY="2.5" ScaleZ="0.5" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="4" PosY="-1" PosZ="4" ScaleX="4" ScaleY="2.5" ScaleZ="0.25" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="2" y="1.25" z="0.25"/>
+                                <Extent x="2" y="1.25" z="0.125"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -139,10 +139,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="1.75" PosY="0.25" PosZ="8" ScaleX="0.5" ScaleY="5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="2" PosY="0.25" PosZ="8" ScaleX="0.25" ScaleY="5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="0.25" y="2.5" z="4"/>
+                                <Extent x="0.125" y="2.5" z="4"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -151,10 +151,10 @@
                 </GameObject>
                 <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="6.25" PosY="0.25" PosZ="8" ScaleX="0.5" ScaleY="5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="6" PosY="0.25" PosZ="8" ScaleX="0.25" ScaleY="5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="0.25" y="2.5" z="4"/>
+                                <Extent x="0.125" y="2.5" z="4"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -396,11 +396,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-2" PosY="0.25" PosZ="11.75" ScaleX="8" ScaleY="5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="-2" PosY="0.25" PosZ="12" ScaleX="8" ScaleY="5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="4" y="2.5" z="0.25"/>
+                        <Extent x="4" y="2.5" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -409,11 +409,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-6.25" PosY="0.25" PosZ="14" ScaleX="0.5" ScaleY="5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="-6" PosY="0.25" PosZ="14" ScaleX="0.25" ScaleY="5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="2.5" z="2"/>
+                        <Extent x="0.125" y="2.5" z="2"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -422,7 +422,7 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="4" PosY="0.25" PosZ="24.25" ScaleX="12" ScaleY="5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="4" PosY="0.25" PosZ="24" ScaleX="12" ScaleY="5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
@@ -435,11 +435,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="8" PosY="0.25" PosZ="11.75" ScaleX="4" ScaleY="5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="8" PosY="0.25" PosZ="12" ScaleX="4" ScaleY="5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="2" y="2.5" z="0.25"/>
+                        <Extent x="2" y="2.5" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -448,11 +448,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="10.25" PosY="0.25" PosZ="14" ScaleX="0.5" ScaleY="5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="10" PosY="0.25" PosZ="14" ScaleX="0.25" ScaleY="5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="2.5" z="2"/>
+                        <Extent x="0.125" y="2.5" z="2"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -461,11 +461,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="10.25" PosY="0.25" PosZ="22" ScaleX="0.5" ScaleY="5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="10" PosY="0.25" PosZ="22" ScaleX="0.25" ScaleY="5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="2.5" z="2"/>
+                        <Extent x="0.125" y="2.5" z="2"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -474,11 +474,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-6.25" PosY="-2.25" PosZ="28" ScaleX="0.5" ScaleY="10" ScaleZ="16" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="-6" PosY="-2.25" PosZ="28" ScaleX="0.25" ScaleY="10" ScaleZ="16" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="5" z="8"/>
+                        <Extent x="0.125" y="5" z="8"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -487,11 +487,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="6.25" PosY="0.25" PosZ="28" ScaleX="0.5" ScaleY="5" ScaleZ="8" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="6" PosY="0.25" PosZ="28" ScaleX="0.25" ScaleY="5" ScaleZ="8" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="2.5" z="4"/>
+                        <Extent x="0.125" y="2.5" z="4"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -539,11 +539,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="0" PosY="-2.25" PosZ="36.25" ScaleX="20" ScaleY="10" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="0" PosY="-2.25" PosZ="36" ScaleX="20" ScaleY="10" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="10" y="5" z="0.25"/>
+                        <Extent x="10" y="5" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -552,11 +552,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="10.25" PosY="-4.75" PosZ="25" ScaleX="0.5" ScaleY="5" ScaleZ="22" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="10" PosY="-4.75" PosZ="25" ScaleX="0.25" ScaleY="5" ScaleZ="22" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="2.5" z="11"/>
+                        <Extent x="0.125" y="2.5" z="11"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -565,11 +565,11 @@
         </GameObject>
         <GameObject Name="SmallFloor" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="0" PosY="-5" PosZ="34" ScaleX="4" ScaleY="0.5" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="0" PosY="-5" PosZ="34" ScaleX="4" ScaleY="0.25" ScaleZ="4" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="2" y="0.25" z="2"/>
+                        <Extent x="2" y="0.125" z="2"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -578,11 +578,11 @@
         </GameObject>
         <GameObject Name="HalfWall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="3.25" PosY="-6" PosZ="28" ScaleX="2.5" ScaleY="2.5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="3.25" PosY="-6" PosZ="28" ScaleX="2.5" ScaleY="2.5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="1.25" y="1.25" z="0.25"/>
+                        <Extent x="1.25" y="1.25" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -591,11 +591,11 @@
         </GameObject>
         <GameObject Name="HalfWall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="3.25" PosY="-6" PosZ="24" ScaleX="2.5" ScaleY="2.5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="3.25" PosY="-6" PosZ="24" ScaleX="2.5" ScaleY="2.5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="1.25" y="1.25" z="0.25"/>
+                        <Extent x="1.25" y="1.25" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -604,11 +604,11 @@
         </GameObject>
         <GameObject Name="HalfWall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="4" PosY="-6" PosZ="20" ScaleX="4" ScaleY="2.5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="4" PosY="-6" PosZ="20" ScaleX="4" ScaleY="2.5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="2" y="1.25" z="0.25"/>
+                        <Extent x="2" y="1.25" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -617,7 +617,7 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="5.75" PosY="-4.75" PosZ="23" ScaleX="0.5" ScaleY="5" ScaleZ="14" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="5.875" PosY="-4.75" PosZ="23" ScaleX="0.25" ScaleY="5" ScaleZ="14" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
@@ -630,11 +630,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="0" PosY="-4.75" PosZ="16" ScaleX="12" ScaleY="5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="0" PosY="-4.75" PosZ="16" ScaleX="12" ScaleY="5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="6" y="2.5" z="0.25"/>
+                        <Extent x="6" y="2.5" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -643,11 +643,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="0" PosY="-4.75" PosZ="13.75" ScaleX="20" ScaleY="5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="0" PosY="-4.75" PosZ="14" ScaleX="20" ScaleY="5" ScaleZ="0.25" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="10" y="2.5" z="0.25"/>
+                        <Extent x="10" y="2.5" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -740,11 +740,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-6.25" PosY="-4.75" PosZ="17.875" ScaleX="0.5" ScaleY="5" ScaleZ="4.25" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="-6" PosY="-4.75" PosZ="17.875" ScaleX="0.25" ScaleY="5" ScaleZ="4.25" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="2.5" z="2"/>
+                        <Extent x="0.125" y="2.5" z="2"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -753,11 +753,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-10.25" PosY="-2.25" PosZ="25" ScaleX="0.5" ScaleY="10" ScaleZ="22" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="-10" PosY="-2.25" PosZ="25" ScaleX="0.25" ScaleY="10" ScaleZ="22" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="0.25" y="5" z="11"/>
+                        <Extent x="0.125" y="5" z="11"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
@@ -766,11 +766,11 @@
         </GameObject>
         <GameObject Name="Wall" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-8" PosY="0.25" PosZ="13.75" ScaleX="4" ScaleY="5" ScaleZ="0.5" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="-8" PosY="0.25" PosZ="14" ScaleX="4" ScaleY="5" ScaleZ="0.25" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="2" y="2.5" z="0.25"/>
+                        <Extent x="2" y="2.5" z="0.125"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>

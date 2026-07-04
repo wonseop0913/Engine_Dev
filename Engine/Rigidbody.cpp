@@ -40,6 +40,7 @@ void Rigidbody::Init()
 	bodySettings.mIsSensor = _isTrigger;
 	bodySettings.mUserData = reinterpret_cast<JPH::uint64>(_gameObject.lock().get());
 	bodySettings.mGravityFactor = _isGravity ? 1.0f : 0.0f;
+	bodySettings.mAllowDynamicOrKinematic = true;
 
 	// 시스템 등록
 	JPH::BodyInterface& bodyInterface = PHYSICS->GetPhysicsSystem()->GetBodyInterface();
@@ -81,6 +82,46 @@ void Rigidbody::PreUpdate()
 void Rigidbody::Update()
 {
 
+}
+
+bool Rigidbody::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Rigidbody", ImGuiTreeNodeFlags_DefaultOpen)) {
+		if (_isPhysicsActive)
+			ImGui::TextColored({ 0, 1, 0, 1 }, "Physics Active");
+		else
+			ImGui::TextColored({ 1, 0, 0, 1 }, "Physics Inactive");
+		if (ImGui::Checkbox("Static", &_isStatic)) {
+			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetMotionType(
+				_bodyID,
+				_isStatic ? EMotionType::Static : EMotionType::Dynamic,
+				EActivation::Activate);
+		}
+		if (ImGui::Checkbox("Gravity", &_isGravity)) {
+			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetGravityFactor(_bodyID, _isGravity ? 1.0f : 0.0f);
+		}
+		if (ImGui::Checkbox("Trigger", &_isTrigger)) {
+			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetIsSensor(_bodyID, _isTrigger);
+		}
+
+		switch (_colliderShape) {
+		case ColliderShape::Box: {
+			static float extentsValues[3];
+			extentsValues[0] = _extents.x;
+			extentsValues[1] = _extents.y;
+			extentsValues[2] = _extents.z;
+			ImGui::SeparatorText("Extents");
+			if (ImGui::InputFloat3("##ColliderExtents", extentsValues)) {
+				_extents.x = extentsValues[0];
+				_extents.y = extentsValues[1];
+				_extents.z = extentsValues[2];
+			}
+			break;
+		}
+		}
+	}
+
+	return false;
 }
 
 void Rigidbody::OnDestroy()

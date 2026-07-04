@@ -48,7 +48,6 @@ void DirectionalLight::Update()
 
 		// projMat 갱신 부분 추가해야함
 		// ㄴ굳이 갱신 해야하나? 잘 모르겠음
-		// auto shadowMapViewport = RENDER->GetShadowMap()->GetViewport();
 		XMMATRIX matProj = XMMatrixOrthographicLH(
 			100.0f,
 			100.0f,
@@ -59,6 +58,32 @@ void DirectionalLight::Update()
 
 		SetFramesDirty();
 	}
+}
+
+bool DirectionalLight::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		static float inputs[4];
+		inputs[0] = diffuse.r;
+		inputs[1] = diffuse.g;
+		inputs[2] = diffuse.b;
+		inputs[3] = diffuse.a;
+
+		ImGui::Text("Light Color");
+		if (ImGui::InputFloat4("##DiffuseLight", inputs)) {
+			diffuse.r = clamp(inputs[0], 0.0f, 1.0f);
+			diffuse.g = clamp(inputs[1], 0.0f, 1.0f);
+			diffuse.b = clamp(inputs[2], 0.0f, 1.0f);
+			diffuse.a = clamp(inputs[3], 0.0f, 1.0f);
+		}
+
+		ImGui::InputFloat("##LightIntensity", &intensity);
+
+		ImGui::SeparatorText("Directional Light");
+	}
+
+	return false;
 }
 
 void DirectionalLight::OnDestroy()

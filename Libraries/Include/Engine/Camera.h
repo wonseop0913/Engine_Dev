@@ -12,6 +12,10 @@ public:
 	void Init() override;
 	void Update() override;
 
+#ifdef BULB_EDITOR
+	virtual bool ShowComponentEditorGUI() override;
+#endif
+
 	void OnDestroy() override;
 
 	void LoadXML(Bulb::XMLElement compElem) override;

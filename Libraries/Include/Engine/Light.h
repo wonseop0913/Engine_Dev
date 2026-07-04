@@ -17,6 +17,10 @@ public:
 	virtual void Init() override = 0;
 	virtual void Update() override = 0;
 
+#ifdef BULB_EDITOR
+	virtual bool ShowComponentEditorGUI() override = 0;
+#endif
+
 	virtual void OnDestroy() override = 0;
 
 	virtual void LoadXML(Bulb::XMLElement compElem) override = 0;

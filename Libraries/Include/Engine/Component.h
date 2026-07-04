@@ -18,6 +18,11 @@ public:
 	virtual void Update() { }
 	virtual void Render(ID3D12GraphicsCommandList* cmdList, UINT renderState) { }
 
+#ifdef BULB_EDITOR
+	// Returns true when component should delete by GUI function.
+	virtual bool ShowComponentEditorGUI() = 0;
+#endif
+
 	virtual void OnDestroy() = 0;
 
 	virtual void OnCollisionEnter(shared_ptr<GameObject> other) { }

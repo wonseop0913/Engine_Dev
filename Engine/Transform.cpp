@@ -27,6 +27,75 @@ Transform::~Transform()
 #endif
 }
 
+bool Transform::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		bool isChanged = false;
+		Bulb::Vector3 pos = GetLocalPosition();
+		Bulb::Vector3 rot = GetLocalRotation();
+		Bulb::Vector3 scale = GetLocalScale();
+
+		ImGui::Text("Depth Level: %d", GetDepthLevel());
+
+		ImGui::SeparatorText("Position");
+		ImGui::Text("X");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Position_X", &pos.x))
+			isChanged = true;
+		ImGui::Text("Y");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Position_Y", &pos.y))
+			isChanged = true;
+		ImGui::Text("Z");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Position_Z", &pos.z))
+			isChanged = true;
+
+		if (isChanged) {
+			SetLocalPosition(pos);
+		}
+
+		isChanged = false;
+		ImGui::SeparatorText("Rotation");
+		ImGui::Text("X");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Rotation_X", &rot.x))
+			isChanged = true;
+		ImGui::Text("Y");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Rotation_Y", &rot.y))
+			isChanged = true;
+		ImGui::Text("Z");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Rotation_Z", &rot.z))
+			isChanged = true;
+
+		if (isChanged)
+			SetLocalRotation(rot);
+
+		isChanged = false;
+		ImGui::SeparatorText("Scale");
+		ImGui::Text("X");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Scale_X", &scale.x))
+			isChanged = true;
+		ImGui::Text("Y");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Scale_Y", &scale.y))
+			isChanged = true;
+		ImGui::Text("Z");
+		ImGui::SameLine();
+		if (ImGui::InputFloat("##Transform_Scale_Z", &scale.z))
+			isChanged = true;
+
+		if (isChanged)
+			SetLocalScale(scale);
+	}
+
+	return false;
+}
+
 void Transform::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG

@@ -96,6 +96,15 @@ void Terrain::Render(ID3D12GraphicsCommandList* cmdList, UINT renderState)
 	cmdList->DrawIndexedInstanced(_terrainMesh->GetIndexCount(), 1, 0, 0, 0);
 }
 
+bool Terrain::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Terrain", ImGuiTreeNodeFlags_DefaultOpen)) {
+
+	}
+
+	return false;
+}
+
 void Terrain::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG
