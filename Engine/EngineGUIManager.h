@@ -117,6 +117,7 @@ private:
 	unordered_map<string, bool> _guiToggleValues;
 
 	shared_ptr<GameObject> _selectedObj = nullptr;
+	shared_ptr<GameObject> _childQueueObj = nullptr;
 	bool _isParentSelectMode = false;
 
 	bool _isEditorColorChangedOnPlay = false;
