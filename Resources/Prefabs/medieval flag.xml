@@ -1,7 +1,7 @@
 <Prefab Name="medieval flag" PSO="opaque_solid" Tag="Default">
     <Components>
         <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.003" ScaleY="0.003" ScaleZ="0.003" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
-        <Component ComponentType="PointLight" Intensity="5.0">
+        <Component ComponentType="PointLight" Intensity="5.0" FallOffStart="0.5" FallOffEnd="2.0">
             <Diffuse r="0.5" g="0.1" b="0" a="0"/>
         </Component>
     </Components>

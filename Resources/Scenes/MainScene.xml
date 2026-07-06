@@ -180,7 +180,7 @@
                         <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
-                                <Extent x="8" y="0.25" z="11"/>
+                                <Extent x="8" y="0.25" z="10"/>
                                 <Offset x="0" y="0" z="0"/>
                                 <RotOffset x="0" y="0" z="0"/>
                             </Collider>
@@ -481,7 +481,7 @@
                 </GameObject>
                 <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="-7.5" PosY="-3.7" PosZ="25.85" ScaleX="1.25" ScaleY="0.49999997" ScaleZ="4.7170005" QuatX="0.27563742" QuatY="0" QuatZ="-0" QuatW="0.96126163"/>
+                        <Component ComponentType="Transform" PosX="-7.5" PosY="-3.7" PosZ="25.85" ScaleX="1.25" ScaleY="0.49999997" ScaleZ="4.7170005" QuatX="0.27563745" QuatY="0" QuatZ="-0" QuatW="0.96126169"/>
                         <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
@@ -494,7 +494,7 @@
                 </GameObject>
                 <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="-7.5" PosY="-6.1999998" PosZ="29.85" ScaleX="1.25" ScaleY="0.49999994" ScaleZ="4.7170005" QuatX="0.27563745" QuatY="0" QuatZ="-0" QuatW="0.96126163"/>
+                        <Component ComponentType="Transform" PosX="-7.5" PosY="-6.1999998" PosZ="29.85" ScaleX="1.25" ScaleY="0.49999994" ScaleZ="4.7170005" QuatX="0.27563748" QuatY="0" QuatZ="-0" QuatW="0.96126169"/>
                         <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">

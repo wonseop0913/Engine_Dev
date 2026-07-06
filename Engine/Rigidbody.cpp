@@ -30,7 +30,7 @@ void Rigidbody::Init()
 		CreateShape();
 	}
 
-	// Body »ý¼º ¼³Á¤
+	// Body ìƒì„± ì„¤ì •
 	JPH::BodyCreationSettings bodySettings(_shapeResult.Get(),
 		JPH::RVec3(pos.x, pos.y, pos.z),
 		JPH::Quat(rot.x, rot.y, rot.z, rot.w),
@@ -42,7 +42,7 @@ void Rigidbody::Init()
 	bodySettings.mGravityFactor = _isGravity ? 1.0f : 0.0f;
 	bodySettings.mAllowDynamicOrKinematic = true;
 
-	// ½Ã½ºÅÛ µî·Ï
+	// ì‹œìŠ¤í…œ ë“±ë¡
 	JPH::BodyInterface& bodyInterface = PHYSICS->GetPhysicsSystem()->GetBodyInterface();
 	_bodyID = bodyInterface.CreateAndAddBody(bodySettings, JPH::EActivation::Activate);
 
@@ -112,9 +112,7 @@ bool Rigidbody::ShowComponentEditorGUI()
 			extentsValues[2] = _extents.z;
 			ImGui::SeparatorText("Extents");
 			if (ImGui::InputFloat3("##ColliderExtents", extentsValues)) {
-				_extents.x = extentsValues[0];
-				_extents.y = extentsValues[1];
-				_extents.z = extentsValues[2];
+				SetColliderExtents({ extentsValues[0], extentsValues[1], extentsValues[2] });
 			}
 			break;
 		}

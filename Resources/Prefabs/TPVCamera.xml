@@ -14,7 +14,7 @@
                 <GameObject Name="Camera" PSO="opaque_solid" Tag="Default">
                     <Components>
                         <Component ComponentType="Transform"/>
-                        <Component ComponentType="Camera" NearZ="0.05" FarZ="100" MainCamera="True"/>
+                        <Component ComponentType="Camera" NearZ="0.05" FarZ="1000" MainCamera="True"/>
                     </Components>
                 </GameObject>
             </GameObjects>

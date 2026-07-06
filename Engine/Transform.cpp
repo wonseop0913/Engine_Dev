@@ -31,66 +31,33 @@ bool Transform::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		bool isChanged = false;
 		Bulb::Vector3 pos = GetLocalPosition();
 		Bulb::Vector3 rot = GetLocalRotation();
 		Bulb::Vector3 scale = GetLocalScale();
 
 		ImGui::Text("Depth Level: %d", GetDepthLevel());
 
+		float posInput[3] = { pos.x, pos.y, pos.z };
 		ImGui::SeparatorText("Position");
-		ImGui::Text("X");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Position_X", &pos.x))
-			isChanged = true;
-		ImGui::Text("Y");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Position_Y", &pos.y))
-			isChanged = true;
-		ImGui::Text("Z");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Position_Z", &pos.z))
-			isChanged = true;
-
-		if (isChanged) {
-			SetLocalPosition(pos);
+		ImGui::InputFloat3("##TransformPosition", posInput);
+		if (ImGui::IsItemDeactivatedAfterEdit()) {
+			SetLocalPosition({ posInput[0], posInput[1], posInput[2] });
 		}
 
-		isChanged = false;
+		float rotInput[3] = { rot.x, rot.y, rot.z };
 		ImGui::SeparatorText("Rotation");
-		ImGui::Text("X");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Rotation_X", &rot.x))
-			isChanged = true;
-		ImGui::Text("Y");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Rotation_Y", &rot.y))
-			isChanged = true;
-		ImGui::Text("Z");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Rotation_Z", &rot.z))
-			isChanged = true;
+		ImGui::InputFloat3("##TransformRotation", rotInput);
+		if (ImGui::IsItemDeactivatedAfterEdit()) {
+			SetLocalRotation({ rotInput[0], rotInput[1], rotInput[2] });
+		}
 
-		if (isChanged)
-			SetLocalRotation(rot);
 
-		isChanged = false;
+		float scaleInput[3] = { scale.x, scale.y, scale.z };
 		ImGui::SeparatorText("Scale");
-		ImGui::Text("X");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Scale_X", &scale.x))
-			isChanged = true;
-		ImGui::Text("Y");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Scale_Y", &scale.y))
-			isChanged = true;
-		ImGui::Text("Z");
-		ImGui::SameLine();
-		if (ImGui::InputFloat("##Transform_Scale_Z", &scale.z))
-			isChanged = true;
-
-		if (isChanged)
-			SetLocalScale(scale);
+		ImGui::InputFloat3("##TransformScale", scaleInput);
+		if (ImGui::IsItemDeactivatedAfterEdit()) {
+			SetLocalScale({ scaleInput[0], scaleInput[1], scaleInput[2] });
+		}
 	}
 
 	return false;
@@ -117,7 +84,7 @@ void Transform::LoadXML(Bulb::XMLElement compElem)
 
 	SetLocalQuaternion(quat.Normalize());
 
-	// ¼öµ¿À¸·Î ¾À ÀÛ¼ºÇÏ´Â°Ô ¾Æ´Ï¸é ±»ÀÌ ÇÊ¿äÇÒ±î ½ÍÀ½
+	// ìˆ˜ë™ìœ¼ë¡œ ì”¬ ì‘ì„±í•˜ëŠ”ê²Œ ì•„ë‹ˆë©´ êµ³ì´ í•„ìš”í• ê¹Œ ì‹¶ìŒ
 	//Bulb::XMLElement lookAtElem = compElem.FirstChildElement("LookAt");
 	//if (lookAtElem) {
 	//	LookAt({ lookAtElem->FloatAttribute("x"), lookAtElem->FloatAttribute("y"), lookAtElem->FloatAttribute("z") });
@@ -129,7 +96,7 @@ void Transform::SaveXML(Bulb::XMLElement compElem)
 {
 	compElem.SetAttribute("ComponentType", "Transform");
 
-	// ForcedUpdateTransform() ¾²°í Á÷Á¢ Á¢±ÙÇÏ´Â°Ç ¹®Á¦°¡ ¾ø´ÂÁö °ËÁõ ÈÄ Àû¿ë
+	// ForcedUpdateTransform() ì“°ê³  ì§ì ‘ ì ‘ê·¼í•˜ëŠ”ê±´ ë¬¸ì œê°€ ì—†ëŠ”ì§€ ê²€ì¦ í›„ ì ìš©
 	Bulb::Vector3 pos = GetLocalPosition();
 	compElem.SetAttribute("PosX", pos.x);
 	compElem.SetAttribute("PosY", pos.y);
@@ -243,7 +210,7 @@ void Transform::ForceUpdateTransform()
 
 void Transform::UpdateTransform()
 {
-	// ¾Õ¿¡¼­ Á¶°Ç ´Ù °É·¯³»±ä ÇÏ´Âµ¥ È¤½Ã ¸ô¶ó¼­ ÇÑ¹ø ´õ È®ÀÎ
+	// ì•ì—ì„œ ì¡°ê±´ ë‹¤ ê±¸ëŸ¬ë‚´ê¸´ í•˜ëŠ”ë° í˜¹ì‹œ ëª°ë¼ì„œ í•œë²ˆ ë” í™•ì¸
 	if (!_isDirty)
 		return;
 
