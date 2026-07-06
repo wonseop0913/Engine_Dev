@@ -27,6 +27,8 @@ public:
 	void LoadMeshes();
 	void LoadPrefabs();
 
+	shared_ptr<EditorCamera> GetEditorCamera() { return _editorCamera; }
+
 	const vector<string>& GetPrefabList() { return _prefabDirectories; }
 
 private:
@@ -40,6 +42,8 @@ private:
 
 	bool _isOnPlay = false;
 	string _currentWindowText;
+
+	shared_ptr<EditorCamera> _editorCamera;
 
 	vector<GameObjectSnapshot> _objectSnapshots;
 	vector<ComponentSnapshot> _compSnapshots;

@@ -13,9 +13,12 @@ public:
 	void LoadXML(Bulb::XMLElement compElem) override {}
 	void SaveXML(Bulb::XMLElement compElem) override {}
 
-private:
-	shared_ptr<Transform> _transform;
-	float _yaw = 0.0f;
-	float _pitch = 0.0f;
+	void MoveToTargetObject(shared_ptr<Transform> target);
+
+public:
+	shared_ptr<Transform> transform;
+	float yaw = 0.0f;
+	float pitch = 0.0f;
+	float shiftSpeed = 2.5f;
 };
 

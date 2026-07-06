@@ -41,7 +41,8 @@ void EditorManager::Init()
 	cameraObj->SetTag("EditorCamera");
 	cameraObj->GetTransform()->SetPosition({ 0, 3, 0 });
 	cameraObj->AddComponent(ComponentFactory::Create("Camera"));
-	cameraObj->AddComponent(ComponentFactory::Create("EditorCamera"));
+	_editorCamera = static_pointer_cast<EditorCamera>(ComponentFactory::Create("EditorCamera"));
+	cameraObj->AddComponent(_editorCamera);
 	cameraObj->Init();
 
 	LoadMeshes();
@@ -83,7 +84,7 @@ void EditorManager::Stop()
 
 	auto& objects = RENDER->GetObjects();
 
-	// ·±Å¸ÀÓÁß »ı¼ºµÈ ¿ÀºêÁ§Æ® »èÁ¦
+	// ëŸ°íƒ€ì„ì¤‘ ìƒì„±ëœ ì˜¤ë¸Œì íŠ¸ ì‚­ì œ
 	for (int i = 0; i < objects.size(); ++i) {
 		if (!objects[i]->IsSnapshotCaptured()) {
 			RENDER->DeleteGameobject(objects[i]);
@@ -91,7 +92,7 @@ void EditorManager::Stop()
 		}
 	}
 
-	// »èÁ¦µÇÁö ¾ÊÀº ¿ÀºêÁ§Æ®µé º¹±¸
+	// ì‚­ì œë˜ì§€ ì•Šì€ ì˜¤ë¸Œì íŠ¸ë“¤ ë³µêµ¬
 	for (auto& go : objects) {
 		for (int i = 0; i < _objectSnapshots.size(); ++i) {
 			GameObjectSnapshot objectSnapshot = _objectSnapshots[i];
@@ -107,7 +108,7 @@ void EditorManager::Stop()
 		}
 	}
 
-	// »èÁ¦µÈ ¿ÀºêÁ§Æ®µé º¹±¸
+	// ì‚­ì œëœ ì˜¤ë¸Œì íŠ¸ë“¤ ë³µêµ¬
 	for (auto& objectSnapshot : _objectSnapshots) {
 		shared_ptr<GameObject> go = GameObject::Instantiate();
 		go->RestoreSnapshot(objectSnapshot);
@@ -172,7 +173,7 @@ void EditorManager::RestoreObjectComponents(shared_ptr<GameObject> go, GameObjec
 			}
 			if (flag) break;
 		}
-		// ·±Å¸ÀÓ Áß¿¡ »èÁ¦µÈ °æ¿ì
+		// ëŸ°íƒ€ì„ ì¤‘ì— ì‚­ì œëœ ê²½ìš°
 		if (!flag) {
 			shared_ptr<Component> comp = ComponentFactory::Create(compSnapshot.componentType);
 			go->AddComponent(comp);

@@ -58,16 +58,18 @@ void DebugManager::PreUpdate()
 
 void DebugManager::Update()
 {
-	JPH::BodyManager::DrawSettings drawSettings;
-	drawSettings.mDrawShape = true;
-	drawSettings.mDrawShapeWireframe = true;
-	PHYSICS->GetPhysicsSystem()->DrawBodies(drawSettings, this);
+	if (_isPhysicsDebugRenderEnabled) {
+		JPH::BodyManager::DrawSettings drawSettings;
+		drawSettings.mDrawShape = true;
+		drawSettings.mDrawShapeWireframe = true;
+		PHYSICS->GetPhysicsSystem()->DrawBodies(drawSettings, this);
+	}
 
 	_vertexUploadBuffer->CopyData(_vertices.data(), _vertices.size());
 	_indexUploadBuffer->CopyData(_indices.data(), _indices.size());
 }
 
-// Jolt √ﬂ∞° ¿Ã»ƒ ∑Œ¡˜ ºˆ¡§¿Ã « ø‰«‘
+// Jolt Ï∂îÍ∞Ä Ïù¥ÌõÑ Î°úÏßÅ ÏàòÏ†ïÏù¥ ÌïÑÏöîÌï®
 void DebugManager::Render(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->IASetVertexBuffers(0, 1, &_vertexBufferView);
@@ -157,11 +159,8 @@ JPH::DebugRenderer::Batch DebugManager::CreateTriangleBatch(const Vertex* inVert
 	return batch;
 }
 
-// π⁄Ω∫∏∏ ∑ª¥ı∏µ «“ ºˆ ¿÷µµ∑œ µ«¿÷¿Ω. ∞≥º± ∞°¥…«œ∏È ∞≥º±«œ¥¬ ∆Ì¿Ã ¡¡¿ª µÌ.
 void DebugManager::DrawGeometry(RMat44Arg inModelMatrix, const AABox& inWorldSpaceBounds, float inLODScaleSq, ColorArg inModelColor, const GeometryRef& inGeometry, ECullMode inCullMode /*= ECullMode::CullBackFace*/, ECastShadow inCastShadow /*= ECastShadow::On*/, EDrawMode inDrawMode /*= EDrawMode::Solid*/)
 {
-	if (!_isPhysicsDebugRenderEnabled) return;
-
 	XMMATRIX world = XMLoadFloat4x4((XMFLOAT4X4*)&inModelMatrix);
 
 	const TriangleBatch* triangleBatch = static_cast<const TriangleBatch *>(inGeometry->mLODs[0].mTriangleBatch.GetPtr());

@@ -394,6 +394,9 @@ void EngineGUIManager::HierarchyObjectRecursion(shared_ptr<Transform> transform)
 			_childQueueObj = nullptr;
 		}
 		_selectedObj = transform->GetGameObject();
+		if (ImGui::IsMouseDoubleClicked(0)) {
+			EDITOR->GetEditorCamera()->MoveToTargetObject(_selectedObj->GetTransform());
+		}
 	}
 	// right click
 	else if (ImGui::IsItemClicked(1)) {

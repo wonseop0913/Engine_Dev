@@ -10,7 +10,7 @@ EditorCamera::~EditorCamera()
 
 void EditorCamera::Init()
 {
-	_transform = GetTransform();
+	transform = GetTransform();
 }
 
 void EditorCamera::Update()
@@ -18,71 +18,79 @@ void EditorCamera::Update()
 	if (EDITOR->IsOnPlay()) return;
 
 	if (EDITOR->isNoneMouseMode) {
-		// Mouse Delta¸¦ »ç¿ëÇÏÁö ¾Ê°í Å°º¸µå È­»ìÇ¥·Î °¢µµÁ¶ÀýÇÒ ¼ö ÀÖµµ·Ï
+		float cameraSpeed = INPUTM->IsKeyPress(KeyValue::SHIFT) ? shiftSpeed : 1.0f;
+
+		// Mouse Deltaë¥¼ ì‚¬ìš©í•˜ì§€ ì•Šê³  í‚¤ë³´ë“œ í™”ì‚´í‘œë¡œ ê°ë„ì¡°ì ˆí•  ìˆ˜ ìžˆë„ë¡
 		if (INPUTM->IsKeyPress(KeyValue::UP)) {
-			_pitch -= TIME->DeltaTime();
+			pitch -= TIME->DeltaTime() * cameraSpeed;
 		}
 		if (INPUTM->IsKeyPress(KeyValue::DOWN)) {
-			_pitch += TIME->DeltaTime();
+			pitch += TIME->DeltaTime() * cameraSpeed;
 		}
 		if (INPUTM->IsKeyPress(KeyValue::RIGHT)) {
-			_yaw += TIME->DeltaTime();
+			yaw += TIME->DeltaTime() * cameraSpeed;
 		}
 		if (INPUTM->IsKeyPress(KeyValue::LEFT)) {
-			_yaw -= TIME->DeltaTime();
+			yaw -= TIME->DeltaTime() * cameraSpeed;
 		}
 
-		XMVECTOR quatPitch = XMQuaternionRotationAxis(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), _pitch);
-		XMVECTOR quatYaw = XMQuaternionRotationAxis(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), _yaw);
+		XMVECTOR quatPitch = XMQuaternionRotationAxis(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), pitch);
+		XMVECTOR quatYaw = XMQuaternionRotationAxis(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), yaw);
 
-		XMVECTOR quatFinal = XMQuaternionRotationRollPitchYaw(_pitch, _yaw, 0.0f);
+		XMVECTOR quatFinal = XMQuaternionRotationRollPitchYaw(pitch, yaw, 0.0f);
 
-		_transform->SetQuaternion(quatFinal);
+		transform->SetQuaternion(quatFinal);
 
 		if (INPUTM->IsKeyPress(KeyValue::W))
-			_transform->Translate(_transform->GetLook() * TIME->DeltaTime() * 5.0f);
+			transform->Translate(transform->GetLook() * TIME->DeltaTime() * 5.0f);
 		if (INPUTM->IsKeyPress(KeyValue::S))
-			_transform->Translate(_transform->GetLook() * TIME->DeltaTime() * -5.0f);
+			transform->Translate(transform->GetLook() * TIME->DeltaTime() * -5.0f);
 		if (INPUTM->IsKeyPress(KeyValue::D))
-			_transform->Translate(_transform->GetRight() * TIME->DeltaTime() * 5.0f);
+			transform->Translate(transform->GetRight() * TIME->DeltaTime() * 5.0f);
 		if (INPUTM->IsKeyPress(KeyValue::A))
-			_transform->Translate(_transform->GetRight() * TIME->DeltaTime() * -5.0f);
+			transform->Translate(transform->GetRight() * TIME->DeltaTime() * -5.0f);
 		if (INPUTM->IsKeyPress(KeyValue::E))
-			_transform->Translate(_transform->GetUp() * TIME->DeltaTime() * 5.0f);
+			transform->Translate(transform->GetUp() * TIME->DeltaTime() * 5.0f);
 		if (INPUTM->IsKeyPress(KeyValue::Q))
-			_transform->Translate(_transform->GetUp() * TIME->DeltaTime() * -5.0f);
+			transform->Translate(transform->GetUp() * TIME->DeltaTime() * -5.0f);
 	}
 	else {
 		if (INPUTM->IsMouseRightButtonPress()) {
 			Bulb::Vector2 mouseDelta = INPUTM->GetMouseDelta();
 
-			_yaw += mouseDelta.x * TIME->DeltaTime();
-			_pitch += mouseDelta.y * TIME->DeltaTime();
+			yaw += mouseDelta.x * TIME->DeltaTime();
+			pitch += mouseDelta.y * TIME->DeltaTime();
 
-			XMVECTOR quatPitch = XMQuaternionRotationAxis(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), _pitch);
-			XMVECTOR quatYaw = XMQuaternionRotationAxis(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), _yaw);
+			XMVECTOR quatPitch = XMQuaternionRotationAxis(XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f), pitch);
+			XMVECTOR quatYaw = XMQuaternionRotationAxis(XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f), yaw);
 
-			XMVECTOR quatFinal = XMQuaternionRotationRollPitchYaw(_pitch, _yaw, 0.0f);
+			XMVECTOR quatFinal = XMQuaternionRotationRollPitchYaw(pitch, yaw, 0.0f);
 
-			_transform->SetQuaternion(quatFinal);
+			transform->SetQuaternion(quatFinal);
 
 			if (INPUTM->IsKeyPress(KeyValue::W))
-				_transform->Translate(_transform->GetLook() * TIME->DeltaTime() * 5.0f);
+				transform->Translate(transform->GetLook() * TIME->DeltaTime() * 5.0f);
 			if (INPUTM->IsKeyPress(KeyValue::S))
-				_transform->Translate(_transform->GetLook() * TIME->DeltaTime() * -5.0f);
+				transform->Translate(transform->GetLook() * TIME->DeltaTime() * -5.0f);
 			if (INPUTM->IsKeyPress(KeyValue::D))
-				_transform->Translate(_transform->GetRight() * TIME->DeltaTime() * 5.0f);
+				transform->Translate(transform->GetRight() * TIME->DeltaTime() * 5.0f);
 			if (INPUTM->IsKeyPress(KeyValue::A))
-				_transform->Translate(_transform->GetRight() * TIME->DeltaTime() * -5.0f);
+				transform->Translate(transform->GetRight() * TIME->DeltaTime() * -5.0f);
 			if (INPUTM->IsKeyPress(KeyValue::E))
-				_transform->Translate(_transform->GetUp() * TIME->DeltaTime() * 5.0f);
+				transform->Translate(transform->GetUp() * TIME->DeltaTime() * 5.0f);
 			if (INPUTM->IsKeyPress(KeyValue::Q))
-				_transform->Translate(_transform->GetUp() * TIME->DeltaTime() * -5.0f);
+				transform->Translate(transform->GetUp() * TIME->DeltaTime() * -5.0f);
 		}
 	}
 }
 
 void EditorCamera::OnDestroy()
 {
-	_transform.reset();
+	transform.reset();
+}
+
+void EditorCamera::MoveToTargetObject(shared_ptr<Transform> target)
+{
+	Bulb::Vector3 targetPosDir = -transform->GetLook();
+	transform->SetPosition(target->GetPosition() + targetPosDir * 5.0f);
 }
