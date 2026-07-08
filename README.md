@@ -59,4 +59,4 @@ enum 관련 확장 기능
 
 # 개발 인원
 
-### [이원섭](https://github.com/ayuriK152) - Head Programmer
+### [이원섭](https://github.com/wonseop0913) - Head Programmer
