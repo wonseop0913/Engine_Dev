@@ -50,6 +50,7 @@ cbuffer cbCamera : register(b2) {
 
 cbuffer MeshInfo : register(b3) {
     uint InstanceStartIndex;
+    uint InstanceOffset;    // Only using for editor outline render now
 };
 
 

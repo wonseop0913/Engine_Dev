@@ -5,12 +5,12 @@
 
 MeshRenderer::MeshRenderer() : Super(ComponentType::MeshRenderer)
 {
-
+	_meshInstanceIdxOffset = -1;
 }
 
 MeshRenderer::MeshRenderer(ComponentType type) : Super(type)
 {
-
+	_meshInstanceIdxOffset = -1;
 }
 
 MeshRenderer::~MeshRenderer()
@@ -42,6 +42,8 @@ void MeshRenderer::Render(ID3D12GraphicsCommandList* cmdList, UINT renderState)
 
 	UINT startIndex = RENDER->GetMeshInstanceStartIndex(_mesh);
 	cmdList->SetGraphicsRoot32BitConstant(ROOT_PARAM_MESHINFO_C, startIndex, 0);
+	cmdList->SetGraphicsRoot32BitConstant(ROOT_PARAM_MESHINFO_C, -1, 1);
+	// cmdList->SetGraphicsRoot32BitConstant(ROOT_PARAM_MESHINFO_C, _meshInstanceIdxOffset, 1);
 
 	cmdList->DrawIndexedInstanced(_mesh->GetIndexCount(), _mesh->GetInstanceCount(), 0, 0, 0);
 }
@@ -158,11 +160,12 @@ void MeshRenderer::SetMesh(shared_ptr<Mesh> mesh)
 	if (_mesh != nullptr) _mesh->DecreaseInstanceCount();
 
 	_mesh = mesh;
+	_meshInstanceIdxOffset = _mesh->GetInstanceCount();
 	_mesh->IncreaseInstanceCount();
 	if (_mesh->GetMaterial() != nullptr) _material = _mesh->GetMaterial();
 	else if (_material == nullptr) _material = RESOURCE->Get<Material>(L"Mat_Default");
 
-	// asset parser ÀÓ½ÃÁ¶Ä¡
+	// asset parser ìž„ì‹œì¡°ì¹˜
 	if (GRAPHIC->GetDevice() == nullptr)
 		return;
 	_mesh->CreateBuffer();

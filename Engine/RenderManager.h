@@ -15,6 +15,9 @@
 #define		PSO_PARTICLE_UPDATE		"particle_update"
 #define		PSO_PARTICLE_RENDER		"particle_render"
 #define		PSO_UI					"ui"
+#define		PSO_OUTLINE_SOLID		"outline_solid"
+#define		PSO_OUTLINE_SKINNED		"outline_skinned"
+#define		PSO_OUTLINE_TERRAIN		"outline_terrain"
 
 #define		PSO_IDX_OPAQUE_SOLID		0
 #define		PSO_IDX_OPAQUE_SKINNED		1
@@ -30,8 +33,11 @@
 #define		PSO_IDX_PARTICLE_UPDATE		11
 #define		PSO_IDX_PARTICLE_RENDER		12
 #define		PSO_IDX_UI					13
+#define		PSO_IDX_OUTLINE_SKINNED		14
+#define		PSO_IDX_OUTLINE_SKINNED		15
+#define		PSO_IDX_OUTLINE_TERRAIN		16
 
-#define		PSO_COUNT					14		// Except Skybox
+#define		PSO_COUNT					17		// Except Skybox
 
 #define		RENDERSTATE_MAIN		0
 #define		RENDERSTATE_SHADOWMAP	1

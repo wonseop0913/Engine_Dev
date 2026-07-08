@@ -1,5 +1,7 @@
 #pragma once
 
+#define		DEFUALT_NUM_DESCRIPTORS		3
+
 class Graphic
 {
 	friend class BulbApplication;
@@ -57,6 +59,9 @@ public:
 	IDWriteFactory* GetWriteFactory() const { return _dWriteFactory.Get(); }
 
 	ComPtr<ID3D12DescriptorHeap> GetConstantBufferHeap()const { return _cbvHeap; }
+
+	ComPtr<ID3D12DescriptorHeap> GetRTVHeap()const { return _rtvHeap; }
+	UINT GetRTVDescriptorSize()const { return _rtvDescriptorSize; }
 
 	ID3D12Resource* GetCurrentBackBuffer()const { return _swapChainBuffer[_currBackBuffer].Get(); }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const {
@@ -175,7 +180,7 @@ private:
 
 	AppDesc _appDesc;
 
-	//===========================∏Æ∆—≈‰∏µ « ºˆ!!!!!!!!============
+	//===========================Î¶¨Ìå©ÌÜ†ÎßÅ ÌïÑÏàò!!!!!!!!============
 
 	UINT _passCbvOffset = 0;
 

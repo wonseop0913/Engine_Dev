@@ -106,6 +106,8 @@ public:
 	static EngineGUIManager* GetInstance();
 	static Bulb::ProcessResult Delete();
 
+	shared_ptr<GameObject> GetSelectedGameObject() { return _selectedObj; }
+
 public:
 	bool isShowDemoWindow = true;
 

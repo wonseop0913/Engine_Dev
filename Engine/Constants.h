@@ -15,6 +15,7 @@ struct InstanceConstants
 	XMFLOAT4X4 World = MathHelper::Identity4x4();
 	XMFLOAT4X4 WorldInv = MathHelper::Identity4x4();
 	UINT MaterialIndex = 0;
+	XMFLOAT3 padding;
 };
 
 struct MaterialConstants

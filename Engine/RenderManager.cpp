@@ -285,6 +285,12 @@ void RenderManager::Render()
 			}
 		}
 
+#ifdef BULB_EDITOR
+		SetStateDefault(_cmdLists[1]);
+
+		EDITOR->Render(_cmdLists[1]);
+#endif
+
 		ThrowIfFailed(_cmdLists[1]->Close());
 	});
 
@@ -703,7 +709,7 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
-		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(1, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
 
 		slotRootParameter[ROOT_PARAM_INSTCANCE_SB].InitAsDescriptorTable(1, &instanceTable);
 		slotRootParameter[ROOT_PARAM_BONE_SB].InitAsDescriptorTable(1, &boneTable);
@@ -741,7 +747,7 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
-		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(1, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
 
 		slotRootParameter[ROOT_PARAM_TERRAININFO_C].InitAsConstants(4, REGISTER_NUM_TERRAININFO_C, 1);
 		slotRootParameter[ROOT_PARAM_TERRAIN_SB].InitAsDescriptorTable(1, &terrainTable);
@@ -779,7 +785,7 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
-		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(1, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
 
 		slotRootParameter[ROOT_PARAM_PARTICLES_RW].InitAsUnorderedAccessView(REGISTER_NUM_PARTICLES_RW, 1);
 		slotRootParameter[ROOT_PARAM_EMITTER_CB].InitAsConstants(sizeof(EmitterSetting) / 4, REGISTER_NUM_EMITTER_CB, 1);
@@ -817,7 +823,7 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
-		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(1, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
 
 		slotRootParameter[ROOT_PARAM_UI_SB].InitAsDescriptorTable(1, &uiTable);
 
@@ -1021,6 +1027,28 @@ void RenderManager::BuildPSOs()
 		clientUI.SampleDesc.Quality = 0;
 	}
 
+	// Editor Outline
+	auto outlineSolid = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), L"defaultVS", L"shadowPS");
+	outlineSolid.RTVFormats[0] = DXGI_FORMAT_R8_UNORM;
+	outlineSolid.SampleDesc.Count = 1;
+	outlineSolid.SampleDesc.Quality = 0;
+	outlineSolid.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	outlineSolid.DSVFormat = DXGI_FORMAT_UNKNOWN;
+
+	auto outlineSkinned = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), L"skinnedVS", L"shadowPS");
+	outlineSkinned.RTVFormats[0] = DXGI_FORMAT_R8_UNORM;
+	outlineSkinned.SampleDesc.Count = 1;
+	outlineSkinned.SampleDesc.Quality = 0;
+	outlineSkinned.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	outlineSkinned.DSVFormat = DXGI_FORMAT_UNKNOWN;
+
+	auto outlineTerrain = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), L"terrainVS", L"shadowPS");
+	outlineTerrain.RTVFormats[0] = DXGI_FORMAT_R8_UNORM;
+	outlineTerrain.SampleDesc.Count = 1;
+	outlineTerrain.SampleDesc.Quality = 0;
+	outlineTerrain.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	outlineSkinned.DSVFormat = DXGI_FORMAT_UNKNOWN;
+
 	BuildPSO(PSO_OPAQUE_SOLID, opaqueSolid);
 	BuildPSO(PSO_OPAQUE_SKINNED, opaqueSkinned);
 	BuildPSO(PSO_TRANS_SOLID, transSolid);
@@ -1035,6 +1063,9 @@ void RenderManager::BuildPSOs()
 	BuildPSO(PSO_PARTICLE_UPDATE, particleUpdate);
 	BuildPSO(PSO_PARTICLE_RENDER, particleRender);
 	BuildPSO(PSO_UI, clientUI);
+	BuildPSO(PSO_OUTLINE_SOLID, outlineSolid);
+	BuildPSO(PSO_OUTLINE_SKINNED, outlineSkinned);
+	BuildPSO(PSO_OUTLINE_TERRAIN, outlineTerrain);
 
 	SetDefaultPSO();
 }

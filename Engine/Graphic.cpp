@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Graphic.h"
 #include "Camera.h"
 
@@ -99,8 +99,7 @@ void Graphic::OnResize()
 	_currBackBuffer = 0;
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(_rtvHeap->GetCPUDescriptorHandleForHeapStart());
-	for (UINT i = 0; i < _SwapChainBufferCount; i++)
-	{
+	for (UINT i = 0; i < _SwapChainBufferCount; i++) {
 		ThrowIfFailed(_swapChain->GetBuffer(i, IID_PPV_ARGS(&_swapChainBuffer[i])));
 		_device->CreateRenderTargetView(_swapChainBuffer[i].Get(), nullptr, rtvHeapHandle);
 		rtvHeapHandle.Offset(1, _rtvDescriptorSize);
@@ -555,7 +554,11 @@ void Graphic::BuildDescriptorHeaps()
 {
 	// Render Target View
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
-	rtvHeapDesc.NumDescriptors = _SwapChainBufferCount + 1;
+#ifdef BULB_EDITOR
+	rtvHeapDesc.NumDescriptors = _SwapChainBufferCount + 2;		// SwapChain(2) + MSAA(1) + EditorOutline(1)
+#else
+	rtvHeapDesc.NumDescriptors = _SwapChainBufferCount + 1;		// SwapChain(2) + MSAA(1)
+#endif
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	rtvHeapDesc.NodeMask = 0;
@@ -564,7 +567,7 @@ void Graphic::BuildDescriptorHeaps()
 
 	// Depth Stencil View
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
-	dsvHeapDesc.NumDescriptors = 2;
+	dsvHeapDesc.NumDescriptors = DEFUALT_NUM_DESCRIPTORS;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	dsvHeapDesc.NodeMask = 0;

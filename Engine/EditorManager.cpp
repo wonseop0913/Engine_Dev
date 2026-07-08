@@ -47,6 +47,44 @@ void EditorManager::Init()
 
 	LoadMeshes();
 	LoadPrefabs();
+
+	BuildResource();
+	BuildDescriptors();
+}
+
+void EditorManager::Render(ID3D12GraphicsCommandList* cmdList)
+{
+	shared_ptr<GameObject> seletedObject = ENGINEGUI->GetSelectedGameObject();
+	if (seletedObject != nullptr) {
+		shared_ptr<MeshRenderer> meshRenderer = seletedObject->GetComponent<MeshRenderer>();
+		if (meshRenderer == nullptr) return;
+
+		cmdList->ClearRenderTargetView(EDITOR->GetRTV(), Colors::Black, 0, nullptr);
+		cmdList->OMSetRenderTargets(1, &EDITOR->GetRTV(), true, nullptr);
+
+		// Terrain의 경우 일단 배제
+		if (seletedObject->GetPSOName() == PSO_OPAQUE_SOLID ||
+			seletedObject->GetPSOName() == PSO_TRANS_SOLID)
+			cmdList->SetPipelineState(RENDER->GetPSO(PSO_OUTLINE_SOLID).Get());
+
+		else if (seletedObject->GetPSOName() == PSO_OPAQUE_SKINNED ||
+			seletedObject->GetPSOName() == PSO_TRANS_SKINNED)
+			cmdList->SetPipelineState(RENDER->GetPSO(PSO_OUTLINE_SKINNED).Get());
+
+		shared_ptr<Mesh> mesh = meshRenderer->GetMesh();
+
+		if (mesh == nullptr) return;
+
+		cmdList->IASetVertexBuffers(0, 1, &mesh->vertexBufferView);
+		cmdList->IASetIndexBuffer(&mesh->indexBufferView);
+		cmdList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		UINT startIndex = RENDER->GetMeshInstanceStartIndex(mesh);
+		cmdList->SetGraphicsRoot32BitConstant(ROOT_PARAM_MESHINFO_C, startIndex, 0);
+		cmdList->SetGraphicsRoot32BitConstant(ROOT_PARAM_MESHINFO_C, meshRenderer->GetMeshInstanceIndexOffset(), 1);
+
+		cmdList->DrawIndexedInstanced(mesh->GetIndexCount(), 1, 0, 0, 0);
+	}
 }
 
 void EditorManager::Play()
@@ -154,6 +192,76 @@ void EditorManager::LoadPrefabs()
 
 		_prefabDirectories.push_back(i->path().string());
 	}
+}
+
+void EditorManager::BuildDescriptors()
+{
+	_dsvHeapIndex = GRAPHIC->GetAndIncreaseDSVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDsv(GRAPHIC->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart());
+	hCpuDsv.Offset(_dsvHeapIndex, GRAPHIC->GetDSVDescriptorSize());
+
+	// DSV
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = DXGI_FORMAT_R8_UNORM;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+	// GRAPHIC->GetDevice()->CreateDepthStencilView(_outlineRenderTarget.Get(), &dsvDesc, hCpuDsv);
+	_dsvHandle = hCpuDsv;
+
+	// SRV
+	_srvHeapIndex = RENDER->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	hCpuSrv.Offset(_srvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Format = DXGI_FORMAT_R8_UNORM;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	GRAPHIC->GetDevice()->CreateShaderResourceView(_outlineRenderTarget.Get(), &srvDesc, hCpuSrv);
+
+	_srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+		RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
+		_srvHeapIndex,
+		GRAPHIC->GetCBVSRVDescriptorSize());
+}
+
+void EditorManager::BuildResource()
+{
+	D3D12_RESOURCE_DESC texDesc =
+		CD3DX12_RESOURCE_DESC::Tex2D(
+			DXGI_FORMAT_R8_UNORM, 
+			GRAPHIC->GetAppDesc().clientWidth, 
+			GRAPHIC->GetAppDesc().clientHeight
+		);
+	texDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+	D3D12_CLEAR_VALUE clearValue;
+	clearValue.Format = DXGI_FORMAT_R8_UNORM;
+	clearValue.Color[0] = 0.0f;
+	clearValue.Color[1] = 0.0f;
+	clearValue.Color[2] = 0.0f;
+	clearValue.Color[3] = 1.0f;
+
+	ThrowIfFailed(GRAPHIC->GetDevice()->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&texDesc,
+		D3D12_RESOURCE_STATE_RENDER_TARGET,
+		&clearValue,
+		IID_PPV_ARGS(&_outlineRenderTarget)));
+
+	_rtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		GRAPHIC->GetRTVHeap()->GetCPUDescriptorHandleForHeapStart(),
+		3,		// Swapchain(2) + MSAA(1)
+		GRAPHIC->GetRTVDescriptorSize()
+	);
+
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = DXGI_FORMAT_R8_UNORM;
+	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	GRAPHIC->GetDevice()->CreateRenderTargetView(_outlineRenderTarget.Get(), &rtvDesc, _rtvHandle);
 }
 
 void EditorManager::RestoreObjectComponents(shared_ptr<GameObject> go, GameObjectSnapshot objectSnapshot)

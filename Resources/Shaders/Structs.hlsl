@@ -44,6 +44,7 @@ struct Instance {
     float4x4 World;
     float4x4 WorldInv;
     uint MaterialIdx;
+    float3 padding;
 };
 
 struct Material {

@@ -29,6 +29,8 @@ VertexOut VS(VertexIn vin, uint instanceID : SV_InstanceID) {
 #endif
 
     Instance instanceData = Instances[instanceID + InstanceStartIndex];
+    if (InstanceOffset != -1)
+        instanceData = Instances[InstanceStartIndex + InstanceOffset];
 
     float4 posW;
 

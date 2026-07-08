@@ -25,11 +25,15 @@ public:
 	ComponentSnapshot CaptureSnapshot() override;
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
 
+	UINT GetMeshInstanceIndexOffset() { return _meshInstanceIdxOffset; }
+
 protected:
 	MeshRenderer(ComponentType type);
 
 	shared_ptr<Mesh> _mesh;
 	shared_ptr<Material> _material;
+
+	UINT _meshInstanceIdxOffset;
 
 public:
 	shared_ptr<Mesh> GetMesh() { return _mesh; }
