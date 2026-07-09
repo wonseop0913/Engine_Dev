@@ -888,8 +888,8 @@ void RenderManager::BuildSRVDescriptorHeap()
 void RenderManager::BuildPSOs()
 {
 	// Default Layout
-	auto opaqueSolid = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), L"defaultVS", L"defaultPS");
-	auto opaqueSkinned = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), L"skinnedVS", L"defaultPS");
+	auto opaqueSolid = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_DEFAULT, SHADER_PIXEL_DEFAULT);
+	auto opaqueSkinned = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_SKINNED, SHADER_PIXEL_DEFAULT);
 
 	auto transSolid = opaqueSolid;
 	auto transSkinned = opaqueSkinned;
@@ -918,12 +918,12 @@ void RenderManager::BuildPSOs()
 	opaqueWireframe.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 
 	// Skybow Layout
-	auto skybox = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), L"skyboxVS", L"skyboxPS");
+	auto skybox = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_SKYBOX, SHADER_PIXEL_SKYBOX);
 	skybox.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	skybox.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 	// Debug Layout
-	auto debug = CreatePSODesc(_colliderDebugInputLayout, _rootSignatureDefault.Get(), L"debugVS", L"debugPS");
+	auto debug = CreatePSODesc(_colliderDebugInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_DEBUG, SHADER_PIXEL_DEBUG);
 	{
 		debug.DepthStencilState.DepthEnable = false;
 		debug.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
@@ -934,7 +934,7 @@ void RenderManager::BuildPSOs()
 	}
 
 	// Shadowmap Layout
-	auto shadow = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), L"shadowVS", L"shadowPS");
+	auto shadow = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_SHADOW, SHADER_PIXEL_SHADOW);
 	{
 		shadow.RTVFormats[0] = DXGI_FORMAT_UNKNOWN; // ���̸�
 		shadow.NumRenderTargets = 0;
@@ -949,7 +949,7 @@ void RenderManager::BuildPSOs()
 	}
 
 	// Shadowmap skinned mesh Layout
-	auto skinnedShadow = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), L"skinnedShadowVS", L"shadowPS");
+	auto skinnedShadow = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_SKINNEDSHADOW, SHADER_PIXEL_SHADOW);
 	{
 		skinnedShadow.RTVFormats[0] = DXGI_FORMAT_UNKNOWN;
 		skinnedShadow.NumRenderTargets = 0;
@@ -960,7 +960,7 @@ void RenderManager::BuildPSOs()
 		skinnedShadow.SampleDesc.Quality = 0;
 	}
 
-	auto terrainShadow = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), L"terrainShadowVS", L"shadowPS");
+	auto terrainShadow = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), SHADER_VERTEX_TERRAINSHADOW, SHADER_PIXEL_SHADOW);
 	{
 		terrainShadow.RTVFormats[0] = DXGI_FORMAT_UNKNOWN; // ���̸�
 		terrainShadow.NumRenderTargets = 0;
@@ -975,11 +975,11 @@ void RenderManager::BuildPSOs()
 	}
 
 	// Terrain Layout
-	auto terrain = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), L"terrainVS", L"terrainPS");
+	auto terrain = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), SHADER_VERTEX_TERRAIN, SHADER_PIXEL_TERRAIN);
 
 	// Particle Layout
-	auto particleUpdate = CreateCSPSODesc(_rootSignatureParticle.Get(), L"particleCS");
-	auto particleRender = CreatePSODesc(_rootSignatureParticle.Get(), L"particleVS", L"particlePS", L"", L"", L"particleGS");
+	auto particleUpdate = CreateCSPSODesc(_rootSignatureParticle.Get(), SHADER_COMPUTE_PARTICLE);
+	auto particleRender = CreatePSODesc(_rootSignatureParticle.Get(), SHADER_VERTEX_PARTICLE, SHADER_PIXEL_PARTICLE, L"", L"", SHADER_GEOMETRY_PARTICLE);
 	{
 		particleRender.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
@@ -1008,7 +1008,7 @@ void RenderManager::BuildPSOs()
 	}
 
 	// UI Layout
-	auto clientUI = CreatePSODesc(_solidInputLayout, _rootSignatureUI.Get(), L"uiVS", L"uiPS");
+	auto clientUI = CreatePSODesc(_solidInputLayout, _rootSignatureUI.Get(), SHADER_VERTEX_UI, SHADER_PIXEL_UI);
 	{
 		clientUI.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 
@@ -1028,21 +1028,21 @@ void RenderManager::BuildPSOs()
 	}
 
 	// Editor Outline
-	auto outlineSolid = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), L"defaultVS", L"shadowPS");
+	auto outlineSolid = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_DEFAULT, SHADER_PIXEL_SHADOW);
 	outlineSolid.RTVFormats[0] = DXGI_FORMAT_R8_UNORM;
 	outlineSolid.SampleDesc.Count = 1;
 	outlineSolid.SampleDesc.Quality = 0;
 	outlineSolid.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	outlineSolid.DSVFormat = DXGI_FORMAT_UNKNOWN;
 
-	auto outlineSkinned = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), L"skinnedVS", L"shadowPS");
+	auto outlineSkinned = CreatePSODesc(_skinnedInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_SKINNED, SHADER_PIXEL_SHADOW);
 	outlineSkinned.RTVFormats[0] = DXGI_FORMAT_R8_UNORM;
 	outlineSkinned.SampleDesc.Count = 1;
 	outlineSkinned.SampleDesc.Quality = 0;
 	outlineSkinned.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	outlineSkinned.DSVFormat = DXGI_FORMAT_UNKNOWN;
 
-	auto outlineTerrain = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), L"terrainVS", L"shadowPS");
+	auto outlineTerrain = CreatePSODesc(_solidInputLayout, _rootSignatureTerrain.Get(), SHADER_VERTEX_TERRAIN, SHADER_PIXEL_SHADOW);
 	outlineTerrain.RTVFormats[0] = DXGI_FORMAT_R8_UNORM;
 	outlineTerrain.SampleDesc.Count = 1;
 	outlineTerrain.SampleDesc.Quality = 0;

@@ -1,10 +1,33 @@
 #pragma once
 #include "Resource.h"
 
-#define DEFAULT_MESH_SKYBOX		L"Mesh_SkyboxSphere"
-#define DEFAULT_MESH_BOX		L"Mesh_BasicBox"
-#define DEFAULT_MESH_SPHERE		L"Mesh_BasicSphere"
-#define DEFAULT_MESH_QUAD		L"Mesh_BasicQuad"
+#define DEFAULT_MESH_SKYBOX				L"Mesh_SkyboxSphere"
+#define DEFAULT_MESH_BOX				L"Mesh_BasicBox"
+#define DEFAULT_MESH_SPHERE				L"Mesh_BasicSphere"
+#define DEFAULT_MESH_QUAD				L"Mesh_BasicQuad"
+
+#define SHADER_VERTEX_DEFAULT			L"defaultVS"
+#define SHADER_VERTEX_SKINNED			L"skinnedVS"
+#define SHADER_VERTEX_SKYBOX			L"skyboxVS"
+#define SHADER_VERTEX_SHADOW			L"shadowVS"
+#define SHADER_VERTEX_SKINNEDSHADOW		L"skinnedShadowVS"
+#define SHADER_VERTEX_DEBUG				L"debugVS"
+#define SHADER_VERTEX_PARTICLE			L"particleVS"
+#define SHADER_VERTEX_TERRAIN			L"terrainVS"
+#define SHADER_VERTEX_TERRAINSHADOW		L"terrainShadowVS"
+#define SHADER_VERTEX_UI				L"uiVS"
+
+#define SHADER_PIXEL_DEFAULT			L"defaultPS"
+#define SHADER_PIXEL_SKYBOX				L"skyboxPS"
+#define SHADER_PIXEL_SHADOW				L"shadowPS"
+#define SHADER_PIXEL_DEBUG				L"debugPS"
+#define SHADER_PIXEL_PARTICLE			L"particlePS"
+#define SHADER_PIXEL_TERRAIN			L"terrainPS"
+#define SHADER_PIXEL_UI					L"uiPS"
+
+#define SHADER_COMPUTE_PARTICLE			L"particleCS"
+
+#define SHADER_GEOMETRY_PARTICLE		L"particleGS"
 
 class Mesh;
 
@@ -82,7 +105,7 @@ bool ResourceManager::Add(const wstring& key, shared_ptr<T> resource)
 	ResourceType type = GetResourceType<T>();
 	KeyObjMap& keyObjMap = _resources[static_cast<UINT8>(type)];
 
-	// Áßº¹ Ãß°¡ ¹æÁö
+	// ì¤‘ë³µ ì¶”ê°€ ë°©ì§€
 	auto found = keyObjMap.find(key);
 	if (found != keyObjMap.end())
 		return false;
