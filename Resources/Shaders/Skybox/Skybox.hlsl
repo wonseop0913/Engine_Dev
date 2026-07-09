@@ -1,4 +1,4 @@
-#include "Default.hlsl"
+#include "../Default/Default.hlsl"
 
 struct VertexSkyboxIn {
     float3 Position : POSITION;

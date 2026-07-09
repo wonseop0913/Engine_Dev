@@ -1,4 +1,4 @@
-#include "Structs.hlsl"
+#include "../Common/Structs.hlsl"
 
 #pragma once
 

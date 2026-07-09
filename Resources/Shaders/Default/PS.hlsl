@@ -1,4 +1,4 @@
-#include "Lighting.hlsl"
+#include "../Common/Lighting.hlsl"
 
 float4 PS(VertexOut pin) : SV_TARGET {
     Material mat = Materials[pin.MaterialIdx];

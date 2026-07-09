@@ -1,4 +1,4 @@
-#include "Common.hlsl"
+#include "../Common/Common.hlsl"
 
 struct VS_OUT {
     float3  Position : POSITION;

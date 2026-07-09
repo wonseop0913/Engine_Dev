@@ -1,4 +1,4 @@
-#include "Lighting.hlsl"
+#include "../Common/Lighting.hlsl"
 
 cbuffer TerrainInfo : register(b0, space1) {
     uint TerrainInstanceIdx;

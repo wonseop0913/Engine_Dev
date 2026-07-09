@@ -1,4 +1,4 @@
-#include "Common.hlsl"
+#include "../Common/Common.hlsl"
 
 #define MIPMAP_LEVEL_MAX    10
 

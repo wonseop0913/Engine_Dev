@@ -42,55 +42,55 @@ void ResourceManager::Init()
 	};
 
 	// opaque shaders
-	auto stdVS = make_shared<Shader>(L"DefaultVS.hlsl", nullptr, ShaderType::VS);
+	auto stdVS = make_shared<Shader>(L"Default\\VS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_DEFAULT, stdVS);
-	auto skinnedVS = make_shared<Shader>(L"DefaultVS.hlsl", skinnedDefines, ShaderType::VS);
+	auto skinnedVS = make_shared<Shader>(L"Default\\VS.hlsl", skinnedDefines, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_SKINNED, skinnedVS);
-	auto opaquePS = make_shared<Shader>(L"DefaultPS.hlsl", nullptr, ShaderType::PS);
+	auto opaquePS = make_shared<Shader>(L"Default\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_DEFAULT, opaquePS);
 
 	// skybox shaders
-	auto skyboxVS = make_shared<Shader>(L"SkyboxVS.hlsl", nullptr, ShaderType::VS);
+	auto skyboxVS = make_shared<Shader>(L"Skybox\\VS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_SKYBOX, skyboxVS);
-	auto skyboxPS = make_shared<Shader>(L"SkyboxPS.hlsl", nullptr, ShaderType::PS);
+	auto skyboxPS = make_shared<Shader>(L"Skybox\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_SKYBOX, skyboxPS);
 
 	// shadowmap shaders
-	auto shadowVS = make_shared<Shader>(L"ShadowVS.hlsl", nullptr, ShaderType::VS);
+	auto shadowVS = make_shared<Shader>(L"Shadow\\VS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_SHADOW, shadowVS);
-	auto skinnedShadowVS = make_shared<Shader>(L"ShadowVS.hlsl", skinnedDefines, ShaderType::VS);
+	auto skinnedShadowVS = make_shared<Shader>(L"Shadow\\VS.hlsl", skinnedDefines, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_SKINNEDSHADOW, skinnedShadowVS);
-	auto shadowPS = make_shared<Shader>(L"ShadowPS.hlsl", nullptr, ShaderType::PS);
+	auto shadowPS = make_shared<Shader>(L"Shadow\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_SHADOW, shadowPS);
 
 	// collider debug shaders
-	auto debugVS = make_shared<Shader>(L"DebugVS.hlsl", nullptr, ShaderType::VS);
+	auto debugVS = make_shared<Shader>(L"Editor\\DebugVS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_DEBUG, debugVS);
-	auto debugPS = make_shared<Shader>(L"DebugPS.hlsl", nullptr, ShaderType::PS);
+	auto debugPS = make_shared<Shader>(L"Editor\\DebugPS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_DEBUG, debugPS);
 
 	// particle shaders
-	auto particleCS = make_shared<Shader>(L"ParticleCS.hlsl", nullptr, ShaderType::CS);
+	auto particleCS = make_shared<Shader>(L"Particle\\CS.hlsl", nullptr, ShaderType::CS);
 	Add<Shader>(SHADER_COMPUTE_PARTICLE, particleCS);
-	auto particleVS = make_shared<Shader>(L"ParticleVS.hlsl", nullptr, ShaderType::VS);
+	auto particleVS = make_shared<Shader>(L"Particle\\VS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_PARTICLE, particleVS);
-	auto particleGS = make_shared<Shader>(L"ParticleGS.hlsl", nullptr, ShaderType::GS);
+	auto particleGS = make_shared<Shader>(L"Particle\\GS.hlsl", nullptr, ShaderType::GS);
 	Add<Shader>(SHADER_GEOMETRY_PARTICLE, particleGS);
-	auto particlePS = make_shared<Shader>(L"ParticlePS.hlsl", nullptr, ShaderType::PS);
+	auto particlePS = make_shared<Shader>(L"Particle\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_PARTICLE, particlePS);
 
 	// terrain shaders
-	auto terrainVS = make_shared<Shader>(L"TerrainVS.hlsl", nullptr, ShaderType::VS);
+	auto terrainVS = make_shared<Shader>(L"Terrain\\VS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_TERRAIN, terrainVS);
-	auto terrainPS = make_shared<Shader>(L"TerrainPS.hlsl", nullptr, ShaderType::PS);
+	auto terrainPS = make_shared<Shader>(L"Terrain\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_TERRAIN, terrainPS);
-	auto terrainShadowVS = make_shared<Shader>(L"TerrainShadowVS.hlsl", nullptr, ShaderType::VS);
+	auto terrainShadowVS = make_shared<Shader>(L"Terrain\\ShadowVS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_TERRAINSHADOW, terrainShadowVS);
 
 	// ui shaders
-	auto uiVS = make_shared<Shader>(L"UIVS.hlsl", nullptr, ShaderType::VS);
+	auto uiVS = make_shared<Shader>(L"UI\\VS.hlsl", nullptr, ShaderType::VS);
 	Add<Shader>(SHADER_VERTEX_UI, uiVS);
-	auto uiPS = make_shared<Shader>(L"UIPS.hlsl", nullptr, ShaderType::PS);
+	auto uiPS = make_shared<Shader>(L"UI\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_UI, uiPS);
 
 

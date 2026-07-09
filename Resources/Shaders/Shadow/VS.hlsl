@@ -1,4 +1,4 @@
-#include "Default.hlsl"
+#include "../Default/Default.hlsl"
 
 VertexOut VS(VertexIn vin, uint instanceID : SV_InstanceID) {
     VertexOut vout;
