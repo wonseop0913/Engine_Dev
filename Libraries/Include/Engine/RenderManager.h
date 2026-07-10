@@ -104,7 +104,6 @@
 #define		REGISTER_NUM_UIINSTANCE_SB		0
 #pragma endregion
 
-#define		DESCRIPTOR_HEAP_SIZE			512
 #define		DEFAULT_TEXTURE_ARR_SIZE		100
 #define		STATIC_SAMPLER_COUNT			7
 
@@ -134,8 +133,6 @@ public:
 
 	void InitializeOnRuntime();
 
-	ComPtr<ID3D12DescriptorHeap> GetCommonSRVHeap()const { return _srvHeap; }
-
 	const ComPtr<ID3D12PipelineState>& GetCurrPSO() { return _currPSO; }
 
 	// Create PSO Descriptor
@@ -157,8 +154,6 @@ public:
 
 	void BuildFrameResources();
 	int GetNumFrameResources() { return _numFrameResources; }
-
-	UINT GetAndIncreaseSRVHeapIndex() { return _srvHeapIndex++; }
 
 	shared_ptr<GameObject> AddGameObject(shared_ptr<GameObject> obj);
 
@@ -269,10 +264,6 @@ private:
 
 	vector<shared_ptr<Light>> _lights;
 	vector<shared_ptr<Terrain>> _terrains;
-
-	// SRV Heap
-	ComPtr<ID3D12DescriptorHeap> _srvHeap;
-	UINT _srvHeapIndex = 0;
 
 	int _skyboxTexSrvHeapIndex = -1;
 	unique_ptr<ShadowMap> _shadowMap = nullptr;

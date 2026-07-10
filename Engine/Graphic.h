@@ -1,6 +1,8 @@
 #pragma once
 
-#define		DEFUALT_NUM_DESCRIPTORS		3
+#define		DEFUALT_NUM_DSVDESCRIPTORS		3
+#define		DEFAULT_NUM_RTVDESCRIPTORS		10
+#define		DEFAULT_NUM_SRVDESCRIPTORS		512
 
 class Graphic
 {
@@ -62,6 +64,7 @@ public:
 
 	ComPtr<ID3D12DescriptorHeap> GetRTVHeap()const { return _rtvHeap; }
 	UINT GetRTVDescriptorSize()const { return _rtvDescriptorSize; }
+	UINT GetAndIncreaseRTVIndex() { return _rtvDescOffset++; }
 
 	ID3D12Resource* GetCurrentBackBuffer()const { return _swapChainBuffer[_currBackBuffer].Get(); }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const {
@@ -71,14 +74,18 @@ public:
 			_rtvDescriptorSize);
 	}
 
+	ID3D12Resource* GetMainRenderTarget() const { return _mainRenderTarget.Get(); }
+	D3D12_CPU_DESCRIPTOR_HANDLE GetMainRTVHandle() const { return _mainRtvHandle; }
+
 	ID3D12Resource* GetMSAARenderTarget() const { return _msaaRenderTarget.Get(); }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetMSAARTVHandle() const { return _msaaRtvHandle; }
 
-	UINT GetAndIncreaseDSVHeapIndex() {
-		return _dsvHeapIndex++;
-	}
+	UINT GetAndIncreaseDSVIndex() { return _dsvDescIndex++; }
 	ComPtr<ID3D12DescriptorHeap> GetDSVHeap()const { return _dsvHeap; }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDSVHandle()const { return _dsvHandle; }
+
+	ComPtr<ID3D12DescriptorHeap> GetSRVHeap()const { return _srvHeap; }
+	UINT GetAndIncreaseSRVHeapIndex() { return _srvHeapIndex++; }
 
 	D3D12_VIEWPORT GetViewport()const { return _screenViewport; }
 	D3D12_RECT GetScissorRect()const { return _scissorRect; }
@@ -104,10 +111,14 @@ private:
 	bool InitDirect3D();
 	void Init11On12();
 
+	void AssignmentRTVHeapIndices();
+
 	void BuildCommandObjects();
 	void BuildSwapChain();
 	void BuildDescriptorHeaps();
-	void BuildMSAARenderTarget();
+	void BuildMainPassRTV();
+	void BuildMSAARTV();
+	void BuildMainPassSRV();
 
 	void FlushCommandQueue();
 
@@ -151,17 +162,30 @@ private:
 	ComPtr<ID3D12Resource>			_swapChainBuffer[_SwapChainBufferCount];
 	ComPtr<ID3D12Resource>			_depthStencilBuffer;
 
+	ComPtr<ID3D12Resource>			_mainRenderTarget;
+	D3D12_CPU_DESCRIPTOR_HANDLE		_mainRtvHandle;
+	UINT							_mainRtvHeapIndex;
+	CD3DX12_GPU_DESCRIPTOR_HANDLE	_mainSrvHandle;
+	UINT							_mainSrvHeapIndex;
+
 	// MSAA
 	ComPtr<ID3D12Resource>			_msaaRenderTarget;
 	D3D12_CPU_DESCRIPTOR_HANDLE		_msaaRtvHandle;
+	UINT							_msaaRtvHeapIndex;
 	UINT							_msaaSampleCount = 4;
 	UINT							_msaaQuality = 0;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE		_dsvHandle;
-	UINT							_dsvHeapIndex = 0;
+	UINT							_dsvDescIndex = 0;
 
+	UINT							_rtvDescOffset = 0;
 	ComPtr<ID3D12DescriptorHeap>	_rtvHeap;
 	ComPtr<ID3D12DescriptorHeap>	_msaaRtvHeap;
+
+	// SRV Heap
+	ComPtr<ID3D12DescriptorHeap> _srvHeap;
+	UINT _srvHeapIndex = 0;
+
 	ComPtr<ID3D12DescriptorHeap>	_dsvHeap;
 	ComPtr<ID3D12DescriptorHeap>	_cbvHeap;
 

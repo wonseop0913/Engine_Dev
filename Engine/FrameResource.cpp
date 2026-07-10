@@ -156,8 +156,8 @@ void FrameResource::UpdateCameraCB()
 
 void FrameResource::BuildInstanceBufferSRV()
 {
-	_instanceSrvHeapIndex = RENDER->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	_instanceSrvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	hDescriptor.Offset(_instanceSrvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -174,8 +174,8 @@ void FrameResource::BuildInstanceBufferSRV()
 
 void FrameResource::BuildMaterialBufferSRV()
 {
-	_materialSrvHeapIndex = RENDER->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	_materialSrvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	hDescriptor.Offset(_materialSrvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -203,8 +203,8 @@ void FrameResource::BuildLightBufferSRV()
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-	_lightSrvHeapIndex = RENDER->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE heapHandle(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	_lightSrvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE heapHandle(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	heapHandle.Offset(_lightSrvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	GRAPHIC->GetDevice()->CreateShaderResourceView(lightSB->GetResource(), &srvDesc, heapHandle);

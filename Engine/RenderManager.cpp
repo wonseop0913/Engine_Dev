@@ -76,7 +76,6 @@ void RenderManager::Init()
 	BuildFrameResources();
 	BuildRootSignature();
 	BuildInputLayout();
-	BuildSRVDescriptorHeap();
 
 
 #ifdef BULB_EDITOR
@@ -876,15 +875,6 @@ void RenderManager::BuildInputLayout()
 	};
 }
 
-void RenderManager::BuildSRVDescriptorHeap()
-{
-	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.NumDescriptors = DESCRIPTOR_HEAP_SIZE;
-	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	ThrowIfFailed(GRAPHIC->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&_srvHeap)));
-}
-
 void RenderManager::BuildPSOs()
 {
 	// Default Layout
@@ -936,7 +926,7 @@ void RenderManager::BuildPSOs()
 	// Shadowmap Layout
 	auto shadow = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), SHADER_VERTEX_SHADOW, SHADER_PIXEL_SHADOW);
 	{
-		shadow.RTVFormats[0] = DXGI_FORMAT_UNKNOWN; // ���̸�
+		shadow.RTVFormats[0] = DXGI_FORMAT_UNKNOWN;
 		shadow.NumRenderTargets = 0;
 		shadow.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 		shadow.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
@@ -1072,25 +1062,28 @@ void RenderManager::BuildPSOs()
 
 void RenderManager::SetStateCommon(ID3D12GraphicsCommandList* cmdList)
 {
-	ID3D12DescriptorHeap* descriptorHeaps[] = { _srvHeap.Get() };
+	auto srvHeap = GRAPHIC->GetSRVHeap();
+	UINT srvDescSize = GRAPHIC->GetCBVSRVDescriptorSize();
+
+	ID3D12DescriptorHeap* descriptorHeaps[] = { srvHeap.Get() };
 	cmdList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE mat(RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
-	mat.Offset(_currFrameResource->GetMaterialSRVHeapIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE mat(srvHeap->GetGPUDescriptorHandleForHeapStart());
+	mat.Offset(_currFrameResource->GetMaterialSRVHeapIndex(), srvDescSize);
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_MATERIAL_SB, mat);
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE lightDesc(GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
-	lightDesc.Offset(_currFrameResource->GetLightSRVHeapIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE lightDesc(srvHeap->GetGPUDescriptorHandleForHeapStart());
+	lightDesc.Offset(_currFrameResource->GetLightSRVHeapIndex(), srvDescSize);
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_LIGHT_SB, lightDesc);
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE skybox(RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
-	skybox.Offset(_skyboxTexSrvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE skybox(srvHeap->GetGPUDescriptorHandleForHeapStart());
+	skybox.Offset(_skyboxTexSrvHeapIndex, srvDescSize);
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_SKYBOX_SR, skybox);
 
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_SHADOWMAP_SR, _shadowMap->GetSrv());
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
-	tex.Offset(0, GRAPHIC->GetCBVSRVDescriptorSize());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(srvHeap->GetGPUDescriptorHandleForHeapStart());
+	tex.Offset(0, srvDescSize);
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_TEXTURE_ARR, tex);
 
 	cmdList->SetGraphicsRoot32BitConstant(ROOT_PARAM_LIGHTINFO_C, _lights.size(), 0);
@@ -1108,7 +1101,7 @@ void RenderManager::SetStateDefault(ID3D12GraphicsCommandList* cmdList)
 
 	SetStateCommon(cmdList);
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE instance(RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE instance(GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart());
 	instance.Offset(_currFrameResource->GetInstanceSRVHeapIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_INSTCANCE_SB, instance);
 }
@@ -1141,7 +1134,7 @@ void RenderManager::SetStateUI(ID3D12GraphicsCommandList* cmdList)
 
 	SetStateCommon(cmdList);
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE uiInstances(RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE uiInstances(GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart());
 	uiInstances.Offset(UI->GetUIBufferSRVIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_UI_SB, uiInstances);
 }

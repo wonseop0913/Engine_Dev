@@ -21,7 +21,7 @@ UIText::~UIText()
 
 void UIText::Init()
 {
-	_textureSrvHeapIndex = RENDER->GetAndIncreaseSRVHeapIndex();
+	_textureSrvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
 
 	UpdateTextFormat();
 	UpdateTextLayout();
@@ -78,7 +78,7 @@ void UIText::SetTextColor(const Bulb::Color& color)
 void UIText::BuildDescriptors()
 {
 	// SRV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	hCpuSrv.Offset(_textureSrvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -89,7 +89,7 @@ void UIText::BuildDescriptors()
 	GRAPHIC->GetDevice()->CreateShaderResourceView(_textTexture.Get(), &srvDesc, hCpuSrv);
 
 	_srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
-		RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
+		GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
 		_textureSrvHeapIndex,
 		GRAPHIC->GetCBVSRVDescriptorSize());
 }

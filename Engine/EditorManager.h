@@ -35,7 +35,6 @@ public:
 	ID3D12Resource* GetOutlineRenderTarget() { return _outlineRenderTarget.Get(); }
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRTV() const { return _rtvHandle; }
-	D3D12_CPU_DESCRIPTOR_HANDLE GetDsv() const { return _dsvHandle; }
 	D3D12_GPU_DESCRIPTOR_HANDLE GetSrv() const { return _srvHandle; }
 
 private:
@@ -60,10 +59,9 @@ private:
 	vector<string> _prefabDirectories;
 
 	ComPtr<ID3D12Resource> _outlineRenderTarget;
-	UINT _dsvHeapIndex = 0;
-	UINT _srvHeapIndex = 0;
 	D3D12_CPU_DESCRIPTOR_HANDLE _rtvHandle;
-	D3D12_CPU_DESCRIPTOR_HANDLE _dsvHandle;
+	UINT _rtvHeapIndex = 0;
 	D3D12_GPU_DESCRIPTOR_HANDLE _srvHandle;
+	UINT _srvHeapIndex = 0;
 };
 

@@ -48,6 +48,8 @@ void EditorManager::Init()
 	LoadMeshes();
 	LoadPrefabs();
 
+	_rtvHeapIndex = GRAPHIC->GetAndIncreaseRTVIndex();
+
 	BuildResource();
 	BuildDescriptors();
 }
@@ -196,21 +198,9 @@ void EditorManager::LoadPrefabs()
 
 void EditorManager::BuildDescriptors()
 {
-	_dsvHeapIndex = GRAPHIC->GetAndIncreaseDSVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuDsv(GRAPHIC->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart());
-	hCpuDsv.Offset(_dsvHeapIndex, GRAPHIC->GetDSVDescriptorSize());
-
-	// DSV
-	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
-	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
-	dsvDesc.Format = DXGI_FORMAT_R8_UNORM;
-	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
-	// GRAPHIC->GetDevice()->CreateDepthStencilView(_outlineRenderTarget.Get(), &dsvDesc, hCpuDsv);
-	_dsvHandle = hCpuDsv;
-
 	// SRV
-	_srvHeapIndex = RENDER->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	_srvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	hCpuSrv.Offset(_srvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
@@ -221,7 +211,7 @@ void EditorManager::BuildDescriptors()
 	GRAPHIC->GetDevice()->CreateShaderResourceView(_outlineRenderTarget.Get(), &srvDesc, hCpuSrv);
 
 	_srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
-		RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
+		GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
 		_srvHeapIndex,
 		GRAPHIC->GetCBVSRVDescriptorSize());
 }
@@ -253,7 +243,7 @@ void EditorManager::BuildResource()
 
 	_rtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
 		GRAPHIC->GetRTVHeap()->GetCPUDescriptorHandleForHeapStart(),
-		3,		// Swapchain(2) + MSAA(1)
+		GRAPHIC->GetAndIncreaseRTVIndex(),
 		GRAPHIC->GetRTVDescriptorSize()
 	);
 

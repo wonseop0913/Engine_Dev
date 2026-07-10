@@ -41,7 +41,7 @@ Bulb::ProcessResult EngineGUIManager::Delete()
 
 void EngineGUIManager::Init()
 {
-	_srvHeapDescAllocator.Create(GRAPHIC->GetDevice(), RENDER->GetCommonSRVHeap().Get());
+	_srvHeapDescAllocator.Create(GRAPHIC->GetDevice(), GRAPHIC->GetSRVHeap().Get());
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -57,8 +57,8 @@ void EngineGUIManager::Init()
 	init_info.NumFramesInFlight = RENDER->GetNumFrameResources();
 	init_info.RTVFormat = GRAPHIC->GetBackBufferFormat();
 
-	RENDER->GetAndIncreaseSRVHeapIndex();
-	init_info.SrvDescriptorHeap = RENDER->GetCommonSRVHeap().Get();
+	GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	init_info.SrvDescriptorHeap = GRAPHIC->GetSRVHeap().Get();
 	init_info.SrvDescriptorAllocFn = [](
 		ImGui_ImplDX12_InitInfo*,
 		D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle,

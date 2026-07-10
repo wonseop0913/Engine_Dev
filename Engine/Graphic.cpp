@@ -25,8 +25,11 @@ bool Graphic::Init()
 	if (!InitDirect3D())
 		return false;
 
-	GetAndIncreaseDSVHeapIndex();
+	GetAndIncreaseDSVIndex();
+	AssignmentRTVHeapIndices();
 	OnResize();
+
+	BuildMainPassSRV();
 
 	UseGraphicsCommandList();
 	ExecuteGraphicsCommandList();
@@ -98,14 +101,17 @@ void Graphic::OnResize()
 
 	_currBackBuffer = 0;
 
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(_rtvHeap->GetCPUDescriptorHandleForHeapStart());
 	for (UINT i = 0; i < _SwapChainBufferCount; i++) {
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(
+			_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
+			i,
+			_rtvDescriptorSize);
 		ThrowIfFailed(_swapChain->GetBuffer(i, IID_PPV_ARGS(&_swapChainBuffer[i])));
 		_device->CreateRenderTargetView(_swapChainBuffer[i].Get(), nullptr, rtvHeapHandle);
-		rtvHeapHandle.Offset(1, _rtvDescriptorSize);
 	}
 
-	BuildMSAARenderTarget();
+	BuildMainPassRTV();
+	BuildMSAARTV();
 
 	D3D12_RESOURCE_DESC depthStencilDesc;
 	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -500,6 +506,15 @@ void Graphic::Init11On12()
 	ThrowIfFailed(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory), &_dWriteFactory));
 }
 
+void Graphic::AssignmentRTVHeapIndices()
+{
+	for (int i = 0; i < _SwapChainBufferCount; ++i)
+		GetAndIncreaseRTVIndex();
+
+	_mainRtvHeapIndex = GetAndIncreaseRTVIndex();
+	_msaaRtvHeapIndex = GetAndIncreaseRTVIndex();
+}
+
 void Graphic::BuildCommandObjects()
 {
 	D3D12_COMMAND_QUEUE_DESC queueDesc = {};
@@ -554,11 +569,8 @@ void Graphic::BuildDescriptorHeaps()
 {
 	// Render Target View
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
-#ifdef BULB_EDITOR
-	rtvHeapDesc.NumDescriptors = _SwapChainBufferCount + 2;		// SwapChain(2) + MSAA(1) + EditorOutline(1)
-#else
-	rtvHeapDesc.NumDescriptors = _SwapChainBufferCount + 1;		// SwapChain(2) + MSAA(1)
-#endif
+	// Current Usage: SwapChain(2) + MSAA(1) + MainPass(1) + EditorOutline(1)
+	rtvHeapDesc.NumDescriptors = DEFAULT_NUM_RTVDESCRIPTORS;
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	rtvHeapDesc.NodeMask = 0;
@@ -567,15 +579,56 @@ void Graphic::BuildDescriptorHeaps()
 
 	// Depth Stencil View
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
-	dsvHeapDesc.NumDescriptors = DEFUALT_NUM_DESCRIPTORS;
+	dsvHeapDesc.NumDescriptors = DEFUALT_NUM_DSVDESCRIPTORS;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 	dsvHeapDesc.NodeMask = 0;
 	ThrowIfFailed(_device->CreateDescriptorHeap(
 		&dsvHeapDesc, IID_PPV_ARGS(_dsvHeap.GetAddressOf())));
+
+	// Shader Resource View
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.NumDescriptors = DEFAULT_NUM_SRVDESCRIPTORS;
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	ThrowIfFailed(GRAPHIC->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&_srvHeap)));
 }
 
-void Graphic::BuildMSAARenderTarget()
+void Graphic::BuildMainPassRTV()
+{
+	D3D12_RESOURCE_DESC mainRTDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+		_backBufferFormat,
+		_appDesc.clientWidth,
+		_appDesc.clientHeight,
+		1,
+		1
+	);
+
+	mainRTDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+
+	D3D12_CLEAR_VALUE clearVal = {};
+	clearVal.Format = _backBufferFormat;
+	clearVal.Color[3] = 1.0f;
+
+	CD3DX12_HEAP_PROPERTIES heapProp(D3D12_HEAP_TYPE_DEFAULT);
+	ThrowIfFailed(_device->CreateCommittedResource(
+		&heapProp, D3D12_HEAP_FLAG_NONE,
+		&mainRTDesc, D3D12_RESOURCE_STATE_RESOLVE_SOURCE,
+		&clearVal, IID_PPV_ARGS(_mainRenderTarget.GetAddressOf())));
+
+	_mainRtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
+		_mainRtvHeapIndex,
+		_rtvDescriptorSize);
+
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+	rtvDesc.Format = _backBufferFormat;
+	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+
+	_device->CreateRenderTargetView(_mainRenderTarget.Get(), &rtvDesc, _mainRtvHandle);
+}
+
+void Graphic::BuildMSAARTV()
 {
 	if (!_appDesc._4xMsaaState) return;
 
@@ -608,22 +661,15 @@ void Graphic::BuildMSAARenderTarget()
 	clearVal.Format = _backBufferFormat;
 	clearVal.Color[3] = 1.0f;
 
-	// _msaaRenderTarget.Reset();
-
 	CD3DX12_HEAP_PROPERTIES heapProp(D3D12_HEAP_TYPE_DEFAULT);
 	ThrowIfFailed(_device->CreateCommittedResource(
 		&heapProp, D3D12_HEAP_FLAG_NONE,
 		&msaaRTDesc, D3D12_RESOURCE_STATE_RESOLVE_SOURCE,
 		&clearVal, IID_PPV_ARGS(_msaaRenderTarget.GetAddressOf())));
-	//_device->CreateCommittedResource(
-	//	&heapProp, D3D12_HEAP_FLAG_NONE,
-	//	&msaaRTDesc, D3D12_RESOURCE_STATE_RESOLVE_SOURCE,
-	//	&clearVal, IID_PPV_ARGS(&_msaaRenderTarget));
 
-	// 3. RTV 생성 (_rtvHeap의 슬롯 2개 뒤에 추가 — 스왑체인 버퍼가 0,1 사용 중)
 	_msaaRtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
 		_rtvHeap->GetCPUDescriptorHandleForHeapStart(),
-		_SwapChainBufferCount,   // 슬롯 인덱스 2
+		_msaaRtvHeapIndex,
 		_rtvDescriptorSize);
 
 	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
@@ -631,6 +677,26 @@ void Graphic::BuildMSAARenderTarget()
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2DMS;
 
 	_device->CreateRenderTargetView(_msaaRenderTarget.Get(), &rtvDesc, _msaaRtvHandle);
+}
+
+void Graphic::BuildMainPassSRV()
+{
+	// Main Pass SRV
+	_mainSrvHeapIndex = GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(_srvHeap->GetCPUDescriptorHandleForHeapStart());
+	hCpuSrv.Offset(_mainSrvHeapIndex, _cbvSrvUavDescriptorSize);
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Format = _backBufferFormat;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	_device->CreateShaderResourceView(_mainRenderTarget.Get(), &srvDesc, hCpuSrv);
+
+	_mainSrvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+		_srvHeap->GetGPUDescriptorHandleForHeapStart(),
+		_mainSrvHeapIndex,
+		_cbvSrvUavDescriptorSize);
 }
 
 void Graphic::FlushCommandQueue()

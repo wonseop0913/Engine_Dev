@@ -76,8 +76,8 @@ void Texture::Load(const wstring& path)
 
 void Texture::CreateSRV()
 {
-	_srvOffset = RENDER->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	_srvOffset = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	hDescriptor.Offset(_srvOffset, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};

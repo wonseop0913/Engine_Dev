@@ -39,7 +39,7 @@ void SkinnedMeshRenderer::Render(ID3D12GraphicsCommandList* cmdList, UINT render
 {
 	if (_rootBone == nullptr) return;
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE bone(RENDER->GetCommonSRVHeap()->GetGPUDescriptorHandleForHeapStart());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE bone(GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart());
 	bone.Offset(_skeleton->GetBoneTransformSRVIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
 
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_BONE_SB, bone);

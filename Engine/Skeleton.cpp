@@ -89,8 +89,8 @@ void Skeleton::CreateBuffer()
 	_boneTransformUploadBuffer = make_unique<UploadBuffer<XMFLOAT4X4>>(_bones.size(), false);
 
 	// Create SRV
-	_boneTransformSrvIndex = RENDER->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(RENDER->GetCommonSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	_boneTransformSrvIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
 	hDescriptor.Offset(_boneTransformSrvIndex, GRAPHIC->GetCBVSRVDescriptorSize());
 
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
