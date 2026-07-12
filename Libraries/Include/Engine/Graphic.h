@@ -76,6 +76,8 @@ public:
 
 	ID3D12Resource* GetMainRenderTarget() const { return _mainRenderTarget.Get(); }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetMainRTVHandle() const { return _mainRtvHandle; }
+	D3D12_GPU_DESCRIPTOR_HANDLE GetMainSRVHandle() const { return _mainSrvHandle; }
+	UINT GetMainRenderTargetSRVIndex() const { return _mainSrvHeapIndex; }
 
 	ID3D12Resource* GetMSAARenderTarget() const { return _msaaRenderTarget.Get(); }
 	D3D12_CPU_DESCRIPTOR_HANDLE GetMSAARTVHandle() const { return _msaaRtvHandle; }
@@ -165,7 +167,7 @@ private:
 	ComPtr<ID3D12Resource>			_mainRenderTarget;
 	D3D12_CPU_DESCRIPTOR_HANDLE		_mainRtvHandle;
 	UINT							_mainRtvHeapIndex;
-	CD3DX12_GPU_DESCRIPTOR_HANDLE	_mainSrvHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE		_mainSrvHandle;
 	UINT							_mainSrvHeapIndex;
 
 	// MSAA
@@ -184,7 +186,7 @@ private:
 
 	// SRV Heap
 	ComPtr<ID3D12DescriptorHeap> _srvHeap;
-	UINT _srvHeapIndex = 0;
+	UINT _srvHeapIndex = 1;
 
 	ComPtr<ID3D12DescriptorHeap>	_dsvHeap;
 	ComPtr<ID3D12DescriptorHeap>	_cbvHeap;

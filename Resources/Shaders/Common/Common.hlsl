@@ -23,7 +23,8 @@ StructuredBuffer<Material> Materials    : register(t0);
 StructuredBuffer<Light> Lights          : register(t1);
 TextureCube CubeMap                     : register(t2);
 Texture2D   ShadowMap                   : register(t3);
-Texture2D   TextureMaps[100]            : register(t4);
+Texture2D   MainPassRenderResult        : register(t4);
+Texture2D   TextureMaps[100]            : register(t5);
 
 cbuffer ClientInfo : register(b0) {
     float   DeltaTime;
@@ -52,6 +53,11 @@ cbuffer MeshInfo : register(b3) {
     uint InstanceStartIndex;
     uint InstanceOffset;    // Only using for editor outline render now
 };
+
+cbuffer RenderRefernces : register(b4) {
+    uint MainPassRenderResultIdx;
+    uint SubPassRenderResultIdx1;
+}
 
 
 /*************/

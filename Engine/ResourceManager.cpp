@@ -93,6 +93,12 @@ void ResourceManager::Init()
 	auto uiPS = make_shared<Shader>(L"UI\\PS.hlsl", nullptr, ShaderType::PS);
 	Add<Shader>(SHADER_PIXEL_UI, uiPS);
 
+	// PostProcessing shaders
+	auto ppVS = make_shared<Shader>(L"PostProcessing\\VS.hlsl", nullptr, ShaderType::VS);
+	Add<Shader>(L"postprocessingVS", ppVS);
+	auto ppPS = make_shared<Shader>(L"PostProcessing\\PS.hlsl", nullptr, ShaderType::PS);
+	Add<Shader>(L"postprocessingPS", ppPS);
+
 
 	//==========Texture==========
 	auto defaultTex = make_shared<Texture>(L"..\\Resources\\Textures\\EngineDefault\\white1x1.dds");

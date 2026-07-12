@@ -37,44 +37,46 @@
 #define		PSO_IDX_OUTLINE_SKINNED		15
 #define		PSO_IDX_OUTLINE_TERRAIN		16
 
-#define		PSO_COUNT					17		// Except Skybox
+#define		PSO_COUNT					18		// Except Skybox
 
 #define		RENDERSTATE_MAIN		0
 #define		RENDERSTATE_SHADOWMAP	1
 #define		RENDERSTATE_SUB			2
 
 #pragma region Root_Parameters
-#define		ROOT_PARAMETER_COUNT_BASE			9
-#define		ROOT_PARAMETER_COUNT_DEFAULT		11
-#define		ROOT_PARAMETER_COUNT_TERRAIN		11
-#define		ROOT_PARAMETER_COUNT_PARTICLE		11
-#define		ROOT_PARAMETER_COUNT_UI				10
+#define		ROOT_PARAMETER_COUNT_BASE			11
+#define		ROOT_PARAMETER_COUNT_DEFAULT		13
+#define		ROOT_PARAMETER_COUNT_TERRAIN		13
+#define		ROOT_PARAMETER_COUNT_PARTICLE		13
+#define		ROOT_PARAMETER_COUNT_UI				12
 
 // Common
 #define		ROOT_PARAM_MATERIAL_SB		0
 #define		ROOT_PARAM_LIGHT_SB			1
 #define		ROOT_PARAM_SKYBOX_SR		2
 #define		ROOT_PARAM_SHADOWMAP_SR		3
-#define		ROOT_PARAM_TEXTURE_ARR		4
-#define		ROOT_PARAM_CLIENTINFO_C		5
-#define		ROOT_PARAM_LIGHTINFO_C		6
-#define		ROOT_PARAM_CAMERA_CB		7
-#define		ROOT_PARAM_MESHINFO_C		8
+#define		ROOT_PARAM_MAINPASSREF_SR	4
+#define		ROOT_PARAM_TEXTURE_ARR		5
+#define		ROOT_PARAM_CLIENTINFO_C		6
+#define		ROOT_PARAM_LIGHTINFO_C		7
+#define		ROOT_PARAM_CAMERA_CB		8
+#define		ROOT_PARAM_MESHINFO_C		9
+#define		ROOT_PARAM_RENDERREF_C		10
 
 // Default
-#define		ROOT_PARAM_INSTCANCE_SB		9
-#define		ROOT_PARAM_BONE_SB			10
+#define		ROOT_PARAM_INSTCANCE_SB		11
+#define		ROOT_PARAM_BONE_SB			12
 
 // Terrain
-#define		ROOT_PARAM_TERRAININFO_C	9
-#define		ROOT_PARAM_TERRAIN_SB		10
+#define		ROOT_PARAM_TERRAININFO_C	11
+#define		ROOT_PARAM_TERRAIN_SB		12
 
 // Particle
-#define		ROOT_PARAM_PARTICLES_RW		9
-#define		ROOT_PARAM_EMITTER_CB		10
+#define		ROOT_PARAM_PARTICLES_RW		11
+#define		ROOT_PARAM_EMITTER_CB		12
 
 // UI
-#define		ROOT_PARAM_UI_SB			9
+#define		ROOT_PARAM_UI_SB			11
 #pragma endregion
 
 #pragma region Register_Numbers
@@ -82,11 +84,13 @@
 #define		REGISTER_NUM_LIGHT_SB			1
 #define		REGISTER_NUM_SKYBOX_SR			2
 #define		REGISTER_NUM_SHADOWMAP_SR		3
-#define		REGISTER_NUM_TEXTURE_ARR		4
+#define		REGISTER_NUM_MAINPASSREF_SR		4
+#define		REGISTER_NUM_TEXTURE_ARR		5
 #define		REGISTER_NUM_CLIENTINFO_C		0
 #define		REGISTER_NUM_LIGHTINFO_C		1
 #define		REGISTER_NUM_CAMERA_CB			2
 #define		REGISTER_NUM_MESHINFO_C			3
+#define		REGISTER_NUM_RENDERREF_C		4
 
 // Default
 #define		REGISTER_NUM_INSTANCE_SB		0
@@ -213,7 +217,6 @@ private:
 
 	void BuildRootSignature();
 	void BuildInputLayout();
-	void BuildSRVDescriptorHeap();
 	void BuildPSOs();
 
 	void SetStateCommon(ID3D12GraphicsCommandList* cmdList);

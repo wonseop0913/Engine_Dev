@@ -27,9 +27,8 @@ bool Graphic::Init()
 
 	GetAndIncreaseDSVIndex();
 	AssignmentRTVHeapIndices();
+	_mainSrvHeapIndex = GetAndIncreaseSRVHeapIndex();
 	OnResize();
-
-	BuildMainPassSRV();
 
 	UseGraphicsCommandList();
 	ExecuteGraphicsCommandList();
@@ -111,6 +110,7 @@ void Graphic::OnResize()
 	}
 
 	BuildMainPassRTV();
+	BuildMainPassSRV();
 	BuildMSAARTV();
 
 	D3D12_RESOURCE_DESC depthStencilDesc;
@@ -599,9 +599,7 @@ void Graphic::BuildMainPassRTV()
 	D3D12_RESOURCE_DESC mainRTDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		_backBufferFormat,
 		_appDesc.clientWidth,
-		_appDesc.clientHeight,
-		1,
-		1
+		_appDesc.clientHeight
 	);
 
 	mainRTDesc.Flags |= D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
@@ -613,7 +611,7 @@ void Graphic::BuildMainPassRTV()
 	CD3DX12_HEAP_PROPERTIES heapProp(D3D12_HEAP_TYPE_DEFAULT);
 	ThrowIfFailed(_device->CreateCommittedResource(
 		&heapProp, D3D12_HEAP_FLAG_NONE,
-		&mainRTDesc, D3D12_RESOURCE_STATE_RESOLVE_SOURCE,
+		&mainRTDesc, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 		&clearVal, IID_PPV_ARGS(_mainRenderTarget.GetAddressOf())));
 
 	_mainRtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
@@ -682,7 +680,6 @@ void Graphic::BuildMSAARTV()
 void Graphic::BuildMainPassSRV()
 {
 	// Main Pass SRV
-	_mainSrvHeapIndex = GetAndIncreaseSRVHeapIndex();
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(_srvHeap->GetCPUDescriptorHandleForHeapStart());
 	hCpuSrv.Offset(_mainSrvHeapIndex, _cbvSrvUavDescriptorSize);
 

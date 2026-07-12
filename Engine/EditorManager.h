@@ -36,6 +36,7 @@ public:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRTV() const { return _rtvHandle; }
 	D3D12_GPU_DESCRIPTOR_HANDLE GetSrv() const { return _srvHandle; }
+	UINT GetSRVIndex() const { return _srvHeapIndex; }
 
 private:
 	void BuildDescriptors();

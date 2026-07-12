@@ -154,9 +154,10 @@ void RenderManager::Render()
 
 	bool isMsaaEnabled = GRAPHIC->IsMSAAEnabled();
 	ID3D12Resource* backBuffer = GRAPHIC->GetCurrentBackBuffer();
-	ID3D12Resource* msaaRenderTarget = GRAPHIC->GetMSAARenderTarget();
+	ID3D12Resource* mainRenderTarget = GRAPHIC->GetMainRenderTarget();
+	ID3D12Resource* renderTarget = isMsaaEnabled ? GRAPHIC->GetMSAARenderTarget() : mainRenderTarget;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = isMsaaEnabled ? GRAPHIC->GetMSAARTVHandle() : GRAPHIC->GetCurrentBackBufferView();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = isMsaaEnabled ? GRAPHIC->GetMSAARTVHandle() : GRAPHIC->GetMainRTVHandle();
 
 	// ShadowMap Pass
 	_futures[0] = THREAD->EnqueueJob([this] {
@@ -210,18 +211,11 @@ void RenderManager::Render()
 	});
 
 	// Main Pass
-	_futures[1] = THREAD->EnqueueJob([this, isMsaaEnabled, backBuffer, msaaRenderTarget, rtvHandle] {
+	_futures[1] = THREAD->EnqueueJob([this, renderTarget, rtvHandle] {
 		SetStateDefault(_cmdLists[1]);
 
-		// MSAA Buffer Barrier Setting
-		if (!isMsaaEnabled) {
-			_cmdLists[1]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffer,
-				D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
-		}
-		else {
-			_cmdLists[1]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(msaaRenderTarget,
-				D3D12_RESOURCE_STATE_RESOLVE_SOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET));
-		}
+		_cmdLists[1]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(renderTarget,
+			D3D12_RESOURCE_STATE_RESOLVE_SOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
 		_cmdLists[1]->RSSetViewports(1, &GRAPHIC->GetViewport());
 		_cmdLists[1]->RSSetScissorRects(1, &GRAPHIC->GetScissorRect());
@@ -309,23 +303,42 @@ void RenderManager::Render()
 
 		PARTICLE->Render(_cmdLists[2], RENDERSTATE_SUB);
 
-		if (GRAPHIC->IsMSAAEnabled()) {
-			_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(msaaRenderTarget,
+		// MSAA가 꺼진 경우: 그냥 MainRenderTarget을 사용
+		// MSAA가 켜진 경우: MSAA->Main으로 복사 후 Main->Back복사
+		if (isMsaaEnabled) {
+			_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(renderTarget,
 				D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_RESOLVE_SOURCE));
 
-			_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffer,
-				D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RESOLVE_DEST));
+			_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mainRenderTarget,
+				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RESOLVE_DEST));
 
-			_cmdLists[2]->ResolveSubresource(backBuffer, 0, msaaRenderTarget, 0, GRAPHIC->GetBackBufferFormat());
+			_cmdLists[2]->ResolveSubresource(mainRenderTarget, 0, renderTarget, 0, GRAPHIC->GetBackBufferFormat());
 
-			_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffer,
-				D3D12_RESOURCE_STATE_RESOLVE_DEST, D3D12_RESOURCE_STATE_RENDER_TARGET));
+			_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(mainRenderTarget,
+				D3D12_RESOURCE_STATE_RESOLVE_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
 		}
+
+		_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffer,
+			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+
+		_cmdLists[2]->OMSetRenderTargets(1, &GRAPHIC->GetCurrentBackBufferView(), true, nullptr);
+
+		_cmdLists[2]->SetPipelineState(_PSOs["postprocessing"].Get());
+		_cmdLists[2]->SetGraphicsRootSignature(_rootSignatureDefault.Get());
+
+		_cmdLists[2]->SetGraphicsRootDescriptorTable(ROOT_PARAM_MAINPASSREF_SR, GRAPHIC->GetMainSRVHandle());
+		_cmdLists[2]->SetGraphicsRoot32BitConstant(ROOT_PARAM_RENDERREF_C, GRAPHIC->GetMainRenderTargetSRVIndex(), 0);
+		_cmdLists[2]->SetGraphicsRoot32BitConstant(ROOT_PARAM_RENDERREF_C, EDITOR->GetSRVIndex(), 1);
+
+		auto quad = RESOURCE->Get<Mesh>(DEFAULT_MESH_QUAD);
+		_cmdLists[2]->IASetVertexBuffers(0, 1, &quad->vertexBufferView);
+		_cmdLists[2]->IASetIndexBuffer(&quad->indexBufferView);
+		_cmdLists[2]->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		_cmdLists[2]->DrawIndexedInstanced(quad->GetIndexCount(), 1, 0, 0, 0);
 
 		// UI
 		SetStateUI(_cmdLists[2]);
-
-		_cmdLists[2]->OMSetRenderTargets(1, &GRAPHIC->GetCurrentBackBufferView(), true, nullptr);
 
 		_cmdLists[2]->SetPipelineState(_PSOs[PSO_UI].Get());
 		_cmdLists[2]->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -337,7 +350,7 @@ void RenderManager::Render()
 
 		_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffer,
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
-
+		
 		ThrowIfFailed(_cmdLists[2]->Close());
 	}
 
@@ -667,24 +680,26 @@ void RenderManager::BuildRootSignature()
 {
 	// Common
 	CD3DX12_DESCRIPTOR_RANGE matTable;
-	matTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 0);
+	matTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_MAT_SB, 0);
 	CD3DX12_DESCRIPTOR_RANGE lightTable;
-	lightTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1, 0);
+	lightTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_LIGHT_SB, 0);
 
 	// Textures
 	CD3DX12_DESCRIPTOR_RANGE cubemapTable;
-	cubemapTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 2, 0);
+	cubemapTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_SKYBOX_SR, 0);
 	CD3DX12_DESCRIPTOR_RANGE shadowTexTable;
-	shadowTexTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 3, 0);
+	shadowTexTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_SHADOWMAP_SR, 0);
+	CD3DX12_DESCRIPTOR_RANGE mainPassRenderRefTable;
+	mainPassRenderRefTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_MAINPASSREF_SR, 0);
 	CD3DX12_DESCRIPTOR_RANGE texTable;
-	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, DEFAULT_TEXTURE_ARR_SIZE, 4, 0);
+	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, DEFAULT_TEXTURE_ARR_SIZE, 5, 0);
 
 	/* Space 1 */
 	// Default
 	CD3DX12_DESCRIPTOR_RANGE instanceTable;
-	instanceTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0, 1);
+	instanceTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_INSTANCE_SB, 1);
 	CD3DX12_DESCRIPTOR_RANGE boneTable;
-	boneTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1, 1);
+	boneTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, REGISTER_NUM_BONE_SB, 1);
 
 	// Terrain
 	CD3DX12_DESCRIPTOR_RANGE terrainTable;
@@ -704,11 +719,13 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_LIGHT_SB].InitAsDescriptorTable(1, &lightTable);
 		slotRootParameter[ROOT_PARAM_SKYBOX_SR].InitAsDescriptorTable(1, &cubemapTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_SHADOWMAP_SR].InitAsDescriptorTable(1, &shadowTexTable, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[ROOT_PARAM_MAINPASSREF_SR].InitAsDescriptorTable(1, &mainPassRenderRefTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_TEXTURE_ARR].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
 		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_RENDERREF_C].InitAsConstants(2, REGISTER_NUM_RENDERREF_C);
 
 		slotRootParameter[ROOT_PARAM_INSTCANCE_SB].InitAsDescriptorTable(1, &instanceTable);
 		slotRootParameter[ROOT_PARAM_BONE_SB].InitAsDescriptorTable(1, &boneTable);
@@ -742,11 +759,13 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_LIGHT_SB].InitAsDescriptorTable(1, &lightTable);
 		slotRootParameter[ROOT_PARAM_SKYBOX_SR].InitAsDescriptorTable(1, &cubemapTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_SHADOWMAP_SR].InitAsDescriptorTable(1, &shadowTexTable, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[ROOT_PARAM_MAINPASSREF_SR].InitAsDescriptorTable(1, &mainPassRenderRefTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_TEXTURE_ARR].InitAsDescriptorTable(1, &texTable);
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
 		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_RENDERREF_C].InitAsConstants(2, REGISTER_NUM_RENDERREF_C);
 
 		slotRootParameter[ROOT_PARAM_TERRAININFO_C].InitAsConstants(4, REGISTER_NUM_TERRAININFO_C, 1);
 		slotRootParameter[ROOT_PARAM_TERRAIN_SB].InitAsDescriptorTable(1, &terrainTable);
@@ -780,11 +799,13 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_LIGHT_SB].InitAsDescriptorTable(1, &lightTable);
 		slotRootParameter[ROOT_PARAM_SKYBOX_SR].InitAsDescriptorTable(1, &cubemapTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_SHADOWMAP_SR].InitAsDescriptorTable(1, &shadowTexTable, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[ROOT_PARAM_MAINPASSREF_SR].InitAsDescriptorTable(1, &mainPassRenderRefTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_TEXTURE_ARR].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
 		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_RENDERREF_C].InitAsConstants(2, REGISTER_NUM_RENDERREF_C);
 
 		slotRootParameter[ROOT_PARAM_PARTICLES_RW].InitAsUnorderedAccessView(REGISTER_NUM_PARTICLES_RW, 1);
 		slotRootParameter[ROOT_PARAM_EMITTER_CB].InitAsConstants(sizeof(EmitterSetting) / 4, REGISTER_NUM_EMITTER_CB, 1);
@@ -818,11 +839,13 @@ void RenderManager::BuildRootSignature()
 		slotRootParameter[ROOT_PARAM_LIGHT_SB].InitAsDescriptorTable(1, &lightTable);
 		slotRootParameter[ROOT_PARAM_SKYBOX_SR].InitAsDescriptorTable(1, &cubemapTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_SHADOWMAP_SR].InitAsDescriptorTable(1, &shadowTexTable, D3D12_SHADER_VISIBILITY_PIXEL);
+		slotRootParameter[ROOT_PARAM_MAINPASSREF_SR].InitAsDescriptorTable(1, &mainPassRenderRefTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_TEXTURE_ARR].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
 		slotRootParameter[ROOT_PARAM_CLIENTINFO_C].InitAsConstants(2, REGISTER_NUM_CLIENTINFO_C);
 		slotRootParameter[ROOT_PARAM_LIGHTINFO_C].InitAsConstants(2, REGISTER_NUM_LIGHTINFO_C);
 		slotRootParameter[ROOT_PARAM_CAMERA_CB].InitAsConstantBufferView(REGISTER_NUM_CAMERA_CB);
 		slotRootParameter[ROOT_PARAM_MESHINFO_C].InitAsConstants(2, REGISTER_NUM_MESHINFO_C);
+		slotRootParameter[ROOT_PARAM_RENDERREF_C].InitAsConstants(2, REGISTER_NUM_RENDERREF_C);
 
 		slotRootParameter[ROOT_PARAM_UI_SB].InitAsDescriptorTable(1, &uiTable);
 
@@ -1039,6 +1062,14 @@ void RenderManager::BuildPSOs()
 	outlineTerrain.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	outlineSkinned.DSVFormat = DXGI_FORMAT_UNKNOWN;
 
+	auto postProcessing = CreatePSODesc(_solidInputLayout, _rootSignatureDefault.Get(), L"postprocessingVS", L"postprocessingPS");
+	postProcessing.DepthStencilState.DepthEnable = FALSE;
+	postProcessing.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	postProcessing.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	postProcessing.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+	postProcessing.SampleDesc.Count = 1;
+	postProcessing.SampleDesc.Quality = 0;
+
 	BuildPSO(PSO_OPAQUE_SOLID, opaqueSolid);
 	BuildPSO(PSO_OPAQUE_SKINNED, opaqueSkinned);
 	BuildPSO(PSO_TRANS_SOLID, transSolid);
@@ -1056,6 +1087,7 @@ void RenderManager::BuildPSOs()
 	BuildPSO(PSO_OUTLINE_SOLID, outlineSolid);
 	BuildPSO(PSO_OUTLINE_SKINNED, outlineSkinned);
 	BuildPSO(PSO_OUTLINE_TERRAIN, outlineTerrain);
+	BuildPSO("postprocessing", postProcessing);
 
 	SetDefaultPSO();
 }
