@@ -42,6 +42,16 @@ Bulb::ProcessResult EngineGUIManager::Delete()
 void EngineGUIManager::Init()
 {
 	_srvHeapDescAllocator.Create(GRAPHIC->GetDevice(), GRAPHIC->GetSRVHeap().Get());
+	_srvHeapDescAllocator.HeapStartCpu = CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart(),
+		DEFAULT_NUM_SRVDESCRIPTORS - 1,
+		GRAPHIC->GetCBVSRVDescriptorSize()
+	);
+	_srvHeapDescAllocator.HeapStartGpu = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+		GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
+		DEFAULT_NUM_SRVDESCRIPTORS - 1,
+		GRAPHIC->GetCBVSRVDescriptorSize()
+	);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -57,7 +67,6 @@ void EngineGUIManager::Init()
 	init_info.NumFramesInFlight = RENDER->GetNumFrameResources();
 	init_info.RTVFormat = GRAPHIC->GetBackBufferFormat();
 
-	GRAPHIC->GetAndIncreaseSRVHeapIndex();
 	init_info.SrvDescriptorHeap = GRAPHIC->GetSRVHeap().Get();
 	init_info.SrvDescriptorAllocFn = [](
 		ImGui_ImplDX12_InitInfo*,

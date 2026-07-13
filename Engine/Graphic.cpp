@@ -27,7 +27,7 @@ bool Graphic::Init()
 
 	GetAndIncreaseDSVIndex();
 	AssignmentRTVHeapIndices();
-	_mainSrvHeapIndex = GetAndIncreaseSRVHeapIndex();
+	// _mainSrvHeapIndex = GetAndIncreaseSRVHeapIndex();
 	OnResize();
 
 	UseGraphicsCommandList();
