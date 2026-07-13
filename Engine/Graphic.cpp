@@ -113,6 +113,11 @@ void Graphic::OnResize()
 	BuildMainPassSRV();
 	BuildMSAARTV();
 
+#ifdef BULB_EDITOR
+	if (EDITOR->_isInitialized)
+		EDITOR->BuildResource();
+#endif
+
 	D3D12_RESOURCE_DESC depthStencilDesc;
 	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	depthStencilDesc.Alignment = 0;

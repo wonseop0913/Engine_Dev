@@ -3,6 +3,7 @@
 class BULB_API EditorManager
 {
 	friend class BulbApplication;
+	friend class Graphic;
 
 public:
 	EditorManager() = default;
@@ -35,11 +36,11 @@ public:
 	ID3D12Resource* GetOutlineRenderTarget() { return _outlineRenderTarget.Get(); }
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetRTV() const { return _rtvHandle; }
-	D3D12_GPU_DESCRIPTOR_HANDLE GetSrv() const { return _srvHandle; }
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRV() const { return _srvHandle; }
 	UINT GetSRVIndex() const { return _srvHeapIndex; }
 
 private:
-	void BuildDescriptors();
+	void BuildSRV();
 	void BuildResource();
 	void RestoreObjectComponents(shared_ptr<GameObject> go, GameObjectSnapshot objectSnapshot);
 
@@ -48,6 +49,7 @@ public:
 
 private:
 	static EditorManager* s_instance;
+	bool _isInitialized = false;
 
 	bool _isOnPlay = false;
 	string _currentWindowText;

@@ -8,6 +8,8 @@ EditorManager::~EditorManager()
 #ifdef PRINT_DEBUG_CONSOLE_LOG
 	cout << "Released - EditorManager\n";
 #endif
+
+	_editorCamera.reset();
 }
 
 EditorManager* EditorManager::GetInstance()
@@ -49,20 +51,24 @@ void EditorManager::Init()
 	LoadPrefabs();
 
 	_rtvHeapIndex = GRAPHIC->GetAndIncreaseRTVIndex();
+	_srvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
 
 	BuildResource();
-	BuildDescriptors();
+	BuildSRV();
+
+	_isInitialized = true;
 }
 
 void EditorManager::Render(ID3D12GraphicsCommandList* cmdList)
 {
+	cmdList->ClearRenderTargetView(_rtvHandle, Colors::Black, 0, nullptr);
+
 	shared_ptr<GameObject> seletedObject = ENGINEGUI->GetSelectedGameObject();
 	if (seletedObject != nullptr) {
 		shared_ptr<MeshRenderer> meshRenderer = seletedObject->GetComponent<MeshRenderer>();
 		if (meshRenderer == nullptr) return;
 
-		cmdList->ClearRenderTargetView(EDITOR->GetRTV(), Colors::Black, 0, nullptr);
-		cmdList->OMSetRenderTargets(1, &EDITOR->GetRTV(), true, nullptr);
+		cmdList->OMSetRenderTargets(1, &_rtvHandle, true, nullptr);
 
 		// Terrain의 경우 일단 배제
 		if (seletedObject->GetPSOName() == PSO_OPAQUE_SOLID ||
@@ -196,28 +202,13 @@ void EditorManager::LoadPrefabs()
 	}
 }
 
-void EditorManager::BuildDescriptors()
+void EditorManager::BuildSRV()
 {
-	// SRV
-	_srvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
-	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
-	hCpuSrv.Offset(_srvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
-
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.Format = DXGI_FORMAT_R8_UNORM;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
-	GRAPHIC->GetDevice()->CreateShaderResourceView(_outlineRenderTarget.Get(), &srvDesc, hCpuSrv);
-
-	_srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
-		GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
-		_srvHeapIndex,
-		GRAPHIC->GetCBVSRVDescriptorSize());
 }
 
 void EditorManager::BuildResource()
 {
+	// RTV
 	D3D12_RESOURCE_DESC texDesc =
 		CD3DX12_RESOURCE_DESC::Tex2D(
 			DXGI_FORMAT_R8_UNORM, 
@@ -243,7 +234,7 @@ void EditorManager::BuildResource()
 
 	_rtvHandle = CD3DX12_CPU_DESCRIPTOR_HANDLE(
 		GRAPHIC->GetRTVHeap()->GetCPUDescriptorHandleForHeapStart(),
-		GRAPHIC->GetAndIncreaseRTVIndex(),
+		_rtvHeapIndex,
 		GRAPHIC->GetRTVDescriptorSize()
 	);
 
@@ -252,6 +243,22 @@ void EditorManager::BuildResource()
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
 	GRAPHIC->GetDevice()->CreateRenderTargetView(_outlineRenderTarget.Get(), &rtvDesc, _rtvHandle);
+
+	// SRV
+	CD3DX12_CPU_DESCRIPTOR_HANDLE hCpuSrv(GRAPHIC->GetSRVHeap()->GetCPUDescriptorHandleForHeapStart());
+	hCpuSrv.Offset(_srvHeapIndex, GRAPHIC->GetCBVSRVDescriptorSize());
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.Format = DXGI_FORMAT_R8_UNORM;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+	GRAPHIC->GetDevice()->CreateShaderResourceView(_outlineRenderTarget.Get(), &srvDesc, hCpuSrv);
+
+	_srvHandle = CD3DX12_GPU_DESCRIPTOR_HANDLE(
+		GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart(),
+		_srvHeapIndex,
+		GRAPHIC->GetCBVSRVDescriptorSize());
 }
 
 void EditorManager::RestoreObjectComponents(shared_ptr<GameObject> go, GameObjectSnapshot objectSnapshot)

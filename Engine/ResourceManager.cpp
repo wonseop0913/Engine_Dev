@@ -95,9 +95,9 @@ void ResourceManager::Init()
 
 	// PostProcessing shaders
 	auto ppVS = make_shared<Shader>(L"PostProcessing\\VS.hlsl", nullptr, ShaderType::VS);
-	Add<Shader>(L"postprocessingVS", ppVS);
+	Add<Shader>(SHADER_VERTEX_POSTPROCESSING, ppVS);
 	auto ppPS = make_shared<Shader>(L"PostProcessing\\PS.hlsl", nullptr, ShaderType::PS);
-	Add<Shader>(L"postprocessingPS", ppPS);
+	Add<Shader>(SHADER_PIXEL_POSTPROCESSING, ppPS);
 
 
 	//==========Texture==========

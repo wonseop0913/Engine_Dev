@@ -16,6 +16,7 @@
 #define SHADER_VERTEX_TERRAIN			L"terrainVS"
 #define SHADER_VERTEX_TERRAINSHADOW		L"terrainShadowVS"
 #define SHADER_VERTEX_UI				L"uiVS"
+#define SHADER_VERTEX_POSTPROCESSING	L"postprocessingVS"
 
 #define SHADER_PIXEL_DEFAULT			L"defaultPS"
 #define SHADER_PIXEL_SKYBOX				L"skyboxPS"
@@ -24,6 +25,7 @@
 #define SHADER_PIXEL_PARTICLE			L"particlePS"
 #define SHADER_PIXEL_TERRAIN			L"terrainPS"
 #define SHADER_PIXEL_UI					L"uiPS"
+#define SHADER_PIXEL_POSTPROCESSING		L"postprocessingPS"
 
 #define SHADER_COMPUTE_PARTICLE			L"particleCS"
 

@@ -18,6 +18,7 @@
 #define		PSO_OUTLINE_SOLID		"outline_solid"
 #define		PSO_OUTLINE_SKINNED		"outline_skinned"
 #define		PSO_OUTLINE_TERRAIN		"outline_terrain"
+#define		PSO_POSTPROCESSING		"postprocessing"
 
 #define		PSO_IDX_OPAQUE_SOLID		0
 #define		PSO_IDX_OPAQUE_SKINNED		1
@@ -44,38 +45,42 @@
 #define		RENDERSTATE_SUB			2
 
 #pragma region Root_Parameters
-#define		ROOT_PARAMETER_COUNT_BASE			10
-#define		ROOT_PARAMETER_COUNT_DEFAULT		12
-#define		ROOT_PARAMETER_COUNT_TERRAIN		12
-#define		ROOT_PARAMETER_COUNT_PARTICLE		12
-#define		ROOT_PARAMETER_COUNT_UI				11
+#define		ROOT_PARAMETER_COUNT_BASE				9
+#define		ROOT_PARAMETER_COUNT_DEFAULT			11
+#define		ROOT_PARAMETER_COUNT_TERRAIN			11
+#define		ROOT_PARAMETER_COUNT_PARTICLE			11
+#define		ROOT_PARAMETER_COUNT_UI					10
+#define		ROOT_PARAMETER_COUNT_POSTPROCESSING		11
 
 // Common
 #define		ROOT_PARAM_MATERIAL_SB		0
 #define		ROOT_PARAM_LIGHT_SB			1
 #define		ROOT_PARAM_SKYBOX_SR		2
 #define		ROOT_PARAM_SHADOWMAP_SR		3
-#define		ROOT_PARAM_MAINPASSREF_SR	4
-#define		ROOT_PARAM_TEXTURE_ARR		5
-#define		ROOT_PARAM_CLIENTINFO_C		6
-#define		ROOT_PARAM_LIGHTINFO_C		7
-#define		ROOT_PARAM_CAMERA_CB		8
-#define		ROOT_PARAM_MESHINFO_C		9
+#define		ROOT_PARAM_TEXTURE_ARR		4
+#define		ROOT_PARAM_CLIENTINFO_C		5
+#define		ROOT_PARAM_LIGHTINFO_C		6
+#define		ROOT_PARAM_CAMERA_CB		7
+#define		ROOT_PARAM_MESHINFO_C		8
 
 // Default
-#define		ROOT_PARAM_INSTCANCE_SB		10
-#define		ROOT_PARAM_BONE_SB			11
+#define		ROOT_PARAM_INSTCANCE_SB		9
+#define		ROOT_PARAM_BONE_SB			10
 
 // Terrain
-#define		ROOT_PARAM_TERRAININFO_C	10
-#define		ROOT_PARAM_TERRAIN_SB		11
+#define		ROOT_PARAM_TERRAININFO_C	9
+#define		ROOT_PARAM_TERRAIN_SB		10
 
 // Particle
-#define		ROOT_PARAM_PARTICLES_RW		10
-#define		ROOT_PARAM_EMITTER_CB		11
+#define		ROOT_PARAM_PARTICLES_RW		9
+#define		ROOT_PARAM_EMITTER_CB		10
 
 // UI
-#define		ROOT_PARAM_UI_SB			10
+#define		ROOT_PARAM_UI_SB			9
+
+// Post Processing
+#define		ROOT_PARAM_MAINPASS_SR		9
+#define		ROOT_PARAM_OUTLINEPASS_SR	10
 #pragma endregion
 
 #pragma region Register_Numbers
@@ -83,8 +88,7 @@
 #define		REGISTER_NUM_LIGHT_SB			1
 #define		REGISTER_NUM_SKYBOX_SR			2
 #define		REGISTER_NUM_SHADOWMAP_SR		3
-#define		REGISTER_NUM_MAINPASSREF_SR		4
-#define		REGISTER_NUM_TEXTURE_ARR		5
+#define		REGISTER_NUM_TEXTURE_ARR		4
 #define		REGISTER_NUM_CLIENTINFO_C		0
 #define		REGISTER_NUM_LIGHTINFO_C		1
 #define		REGISTER_NUM_CAMERA_CB			2
@@ -104,6 +108,10 @@
 
 // UI
 #define		REGISTER_NUM_UIINSTANCE_SB		0
+
+// Post Processing
+#define		REGISTER_NUM_MAINPASSREF_SR		0		// space1
+#define		REGISTER_NUM_SUBPASSREF_SR		0		// space2
 #pragma endregion
 
 #define		DEFAULT_TEXTURE_ARR_SIZE		100
@@ -235,6 +243,7 @@ private:
 	ComPtr<ID3D12RootSignature> _rootSignatureTerrain;
 	ComPtr<ID3D12RootSignature> _rootSignatureParticle;
 	ComPtr<ID3D12RootSignature> _rootSignatureUI;
+	ComPtr<ID3D12RootSignature> _rootSignaturePostProcessing;
 
 	// Input Layout
 	vector<D3D12_INPUT_ELEMENT_DESC> _solidInputLayout;
