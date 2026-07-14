@@ -161,7 +161,8 @@ void RenderManager::Render()
 
 	// ShadowMap Pass
 	_futures[0] = THREAD->EnqueueJob([this] {
-		SetStateDefault(_cmdLists[0]);
+		int renderState;
+		renderState = SetStateDefault(_cmdLists[0]);
 
 		_cmdLists[0]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(_shadowMap->GetResource(),
 			D3D12_RESOURCE_STATE_GENERIC_READ, D3D12_RESOURCE_STATE_DEPTH_WRITE));
@@ -194,10 +195,10 @@ void RenderManager::Render()
 
 		RefreshMeshShadowRenderCheckMap();
 
-		SetStateTerrain(_cmdLists[0]);
-
 		// Terrain
 		if (_terrains.size() > 0) {
+			renderState = SetStateTerrain(_cmdLists[0]);
+
 			_cmdLists[0]->SetPipelineState(_PSOs[PSO_SHADOWMAP_TERRAIN].Get());
 			for (auto& t : _terrains) {
 				t->Render(_cmdLists[0], RENDERSTATE_SHADOWMAP);
@@ -212,7 +213,8 @@ void RenderManager::Render()
 
 	// Main Pass
 	_futures[1] = THREAD->EnqueueJob([this, renderTarget, rtvHandle] {
-		SetStateDefault(_cmdLists[1]);
+		int renderState;
+		renderState = SetStateDefault(_cmdLists[1]);
 
 		_cmdLists[1]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(renderTarget,
 			D3D12_RESOURCE_STATE_RESOLVE_SOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET));
@@ -268,10 +270,10 @@ void RenderManager::Render()
 		DEBUG->Render(_cmdLists[1]);
 #endif
 
-		SetStateTerrain(_cmdLists[1]);
-
 		// Terrain
 		if (_terrains.size() > 0) {
+			renderState = SetStateTerrain(_cmdLists[1]);
+
 			_cmdLists[1]->SetPipelineState(_PSOs[PSO_TERRAIN].Get());
 			for (auto& t : _terrains) {
 				t->Render(_cmdLists[1], RENDERSTATE_MAIN);
@@ -279,7 +281,8 @@ void RenderManager::Render()
 		}
 
 #ifdef BULB_EDITOR
-		SetStateDefault(_cmdLists[1]);
+		if (renderState != RENDERSTATE_DEFAULT)
+			SetStateDefault(_cmdLists[1]);
 
 		EDITOR->Render(_cmdLists[1]);
 #endif
@@ -289,7 +292,8 @@ void RenderManager::Render()
 
 	// Particle System Update / Render
 	{
-		SetStateParticle(_cmdLists[2]);
+		int renderState;
+		renderState = SetStateParticle(_cmdLists[2]);
 
 		PARTICLE->Update(_cmdLists[2]);
 
@@ -337,7 +341,7 @@ void RenderManager::Render()
 		_cmdLists[2]->DrawIndexedInstanced(quad->GetIndexCount(), 1, 0, 0, 0);
 
 		// UI
-		SetStateUI(_cmdLists[2]);
+		renderState = SetStateUI(_cmdLists[2]);
 
 		_cmdLists[2]->SetPipelineState(_PSOs[PSO_UI].Get());
 		_cmdLists[2]->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -1153,7 +1157,7 @@ void RenderManager::SetStateCommon(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(ROOT_PARAM_CAMERA_CB, _currFrameResource->cameraCB->GetResource()->GetGPUVirtualAddress());
 }
 
-void RenderManager::SetStateDefault(ID3D12GraphicsCommandList* cmdList)
+int RenderManager::SetStateDefault(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->SetGraphicsRootSignature(_rootSignatureDefault.Get());
 
@@ -1165,9 +1169,11 @@ void RenderManager::SetStateDefault(ID3D12GraphicsCommandList* cmdList)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE instance(GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart());
 	instance.Offset(_currFrameResource->GetInstanceSRVHeapIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_INSTCANCE_SB, instance);
+
+	return RENDERSTATE_DEFAULT;
 }
 
-void RenderManager::SetStateTerrain(ID3D12GraphicsCommandList* cmdList)
+int RenderManager::SetStateTerrain(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->SetGraphicsRootSignature(_rootSignatureTerrain.Get());
 
@@ -1175,9 +1181,11 @@ void RenderManager::SetStateTerrain(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRoot32BitConstants(ROOT_PARAM_CLIENTINFO_C, 2, &clientInfo, 0);
 
 	SetStateCommon(cmdList);
+
+	return RENDERSTATE_TERRAIN;
 }
 
-void RenderManager::SetStateParticle(ID3D12GraphicsCommandList* cmdList)
+int RenderManager::SetStateParticle(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->SetGraphicsRootSignature(_rootSignatureParticle.Get());
 	cmdList->SetComputeRootSignature(_rootSignatureParticle.Get());
@@ -1187,9 +1195,11 @@ void RenderManager::SetStateParticle(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetComputeRoot32BitConstants(ROOT_PARAM_CLIENTINFO_C, 2, &clientInfo, 0);
 
 	SetStateCommon(cmdList);
+
+	return RENDERSTATE_PARTICLE;
 }
 
-void RenderManager::SetStateUI(ID3D12GraphicsCommandList* cmdList)
+int RenderManager::SetStateUI(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->SetGraphicsRootSignature(_rootSignatureUI.Get());
 
@@ -1198,6 +1208,8 @@ void RenderManager::SetStateUI(ID3D12GraphicsCommandList* cmdList)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE uiInstances(GRAPHIC->GetSRVHeap()->GetGPUDescriptorHandleForHeapStart());
 	uiInstances.Offset(UI->GetUIBufferSRVIndex(), GRAPHIC->GetCBVSRVDescriptorSize());
 	cmdList->SetGraphicsRootDescriptorTable(ROOT_PARAM_UI_SB, uiInstances);
+
+	return RENDERSTATE_UI;
 }
 
 #pragma endregion

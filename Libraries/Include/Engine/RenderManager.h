@@ -114,6 +114,11 @@
 #define		REGISTER_NUM_SUBPASSREF_SR		0		// space2
 #pragma endregion
 
+#define		RENDERSTATE_DEFAULT			0
+#define		RENDERSTATE_TERRAIN			1
+#define		RENDERSTATE_PARTICLE		2
+#define		RENDERSTATE_UI				3
+
 #define		DEFAULT_TEXTURE_ARR_SIZE		100
 #define		STATIC_SAMPLER_COUNT			7
 
@@ -226,10 +231,10 @@ private:
 	void BuildPSOs();
 
 	void SetStateCommon(ID3D12GraphicsCommandList* cmdList);
-	void SetStateDefault(ID3D12GraphicsCommandList* cmdList);
-	void SetStateTerrain(ID3D12GraphicsCommandList* cmdList);
-	void SetStateParticle(ID3D12GraphicsCommandList* cmdList);
-	void SetStateUI(ID3D12GraphicsCommandList* cmdList);
+	int SetStateDefault(ID3D12GraphicsCommandList* cmdList);
+	int SetStateTerrain(ID3D12GraphicsCommandList* cmdList);
+	int SetStateParticle(ID3D12GraphicsCommandList* cmdList);
+	int SetStateUI(ID3D12GraphicsCommandList* cmdList);
 
 	array<const CD3DX12_STATIC_SAMPLER_DESC, STATIC_SAMPLER_COUNT> GetStaticSamplers();
 

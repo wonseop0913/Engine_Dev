@@ -790,5 +790,31 @@
                 </GameObject>
             </GameObjects>
         </GameObject>
+        <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="12" PosY="-3.7" PosZ="18" ScaleX="4" ScaleY="0.49999994" ScaleZ="4.7170005" QuatX="0.19490513" QuatY="0.67971468" QuatZ="-0.19490515" QuatW="0.67971468"/>
+                <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="2" y="0.24999999" z="2.3585"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
+            </Components>
+        </GameObject>
+        <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="16" PosY="-6.1999998" PosZ="18" ScaleX="4.0000005" ScaleY="0.49999994" ScaleZ="4.717001" QuatX="0.19490513" QuatY="0.67971468" QuatZ="-0.19490513" QuatW="0.67971462"/>
+                <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="2" y="0.24999999" z="2.3585"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
+            </Components>
+        </GameObject>
     </GameObjects>
 </Scene>
