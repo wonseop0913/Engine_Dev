@@ -48,6 +48,11 @@ private:
 	std::atomic<uint32_t> mRefCount = 0;
 };
 
+class DebugRenderBodyFilter : public JPH::BodyDrawFilter {
+public:
+	bool ShouldDraw(const Body& inBody) const override;
+};
+
 class BULB_API DebugManager : public JPH::DebugRenderer
 {
 	JPH_OVERRIDE_NEW_DELETE
@@ -133,5 +138,7 @@ private:
 				6, 7,
 				7, 4
 	};
+
+	DebugRenderBodyFilter* _debugRenderBodyFilter;
 };
 

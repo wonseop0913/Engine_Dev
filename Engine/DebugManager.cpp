@@ -1,6 +1,13 @@
 #include "pch.h"
 #include "DebugManager.h"
 
+bool DebugRenderBodyFilter::ShouldDraw(const Body& inBody) const
+{
+	if (DEBUG->IsPhysicsDebugRenderEnabled()) return true;
+
+	return ENGINEGUI->GetSelectedGameObject() == reinterpret_cast<GameObject*>(inBody.GetUserData())->shared_from_this();
+}
+
 DebugManager* DebugManager::s_instance = nullptr;
 
 DebugManager::~DebugManager()
@@ -48,6 +55,8 @@ void DebugManager::Init()
 	_indexBufferView.SizeInBytes = sizeof(UINT32) * DEFAULT_INDEX_BUFFER_SIZE;
 
 	Initialize();
+
+	_debugRenderBodyFilter = new DebugRenderBodyFilter();
 }
 
 void DebugManager::PreUpdate()
@@ -58,18 +67,14 @@ void DebugManager::PreUpdate()
 
 void DebugManager::Update()
 {
-	if (_isPhysicsDebugRenderEnabled) {
-		JPH::BodyManager::DrawSettings drawSettings;
-		drawSettings.mDrawShape = true;
-		drawSettings.mDrawShapeWireframe = true;
-		PHYSICS->GetPhysicsSystem()->DrawBodies(drawSettings, this);
-	}
+	JPH::BodyManager::DrawSettings drawSettings;
+	drawSettings.mDrawShapeWireframe = true;
+	PHYSICS->GetPhysicsSystem()->DrawBodies(drawSettings, this, _debugRenderBodyFilter);
 
 	_vertexUploadBuffer->CopyData(_vertices.data(), _vertices.size());
 	_indexUploadBuffer->CopyData(_indices.data(), _indices.size());
 }
 
-// Jolt 추가 이후 로직 수정이 필요함
 void DebugManager::Render(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->IASetVertexBuffers(0, 1, &_vertexBufferView);
