@@ -206,7 +206,7 @@ using namespace JPH::literals;
 #include "InputManager.h"
 #include "FileIOUtil.h"
 #ifdef BULB_EDITOR
-#include "EngineGUIManager.h"
+#include "EditorGUIManager.h"
 #endif
 #include "EngineStatusManager.h"
 #include "DebugManager.h"

@@ -8,7 +8,8 @@
 
 #ifdef BULB_EDITOR
 #define EDITOR		GET_SINGLE(EditorManager)
-#define ENGINEGUI	GET_SINGLE(EngineGUIManager)
+#define EDITORGUI	GET_SINGLE(EditorGUIManager)
+#define DEBUG		GET_SINGLE(DebugManager)
 #endif
 #define APP			GET_SINGLE(BulbApplication)
 #define GRAPHIC		GET_SINGLE(Graphic)
@@ -17,7 +18,6 @@
 #define RENDER		GET_SINGLE(RenderManager)
 #define INPUTM		GET_SINGLE(InputManager)
 #define ENGINESTAT	GET_SINGLE(EngineStatusManager)
-#define DEBUG		GET_SINGLE(DebugManager)
 #define PHYSICS		GET_SINGLE(PhysicsManager)
 #define PARTICLE	GET_SINGLE(ParticleManager)
 #define SKELETON	GET_SINGLE(SkeletonManager)

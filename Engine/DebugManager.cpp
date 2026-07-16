@@ -5,7 +5,7 @@ bool DebugRenderBodyFilter::ShouldDraw(const Body& inBody) const
 {
 	if (DEBUG->IsPhysicsDebugRenderEnabled()) return true;
 
-	return ENGINEGUI->GetSelectedGameObject() == reinterpret_cast<GameObject*>(inBody.GetUserData())->shared_from_this();
+	return EDITORGUI->GetSelectedGameObject() == reinterpret_cast<GameObject*>(inBody.GetUserData())->shared_from_this();
 }
 
 DebugManager* DebugManager::s_instance = nullptr;

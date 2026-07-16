@@ -67,7 +67,7 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DXUtil.h" />
-    <ClInclude Include="EngineGUIManager.h" />
+    <ClInclude Include="EditorGUIManager.h" />
     <ClInclude Include="EngineStatusManager.h" />
     <ClInclude Include="FrameResource.h" />
     <ClInclude Include="BulbApplication.h" />
@@ -187,7 +187,7 @@
     <ClCompile Include="FileIOUtil.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DXUtil.cpp" />
-    <ClCompile Include="EngineGUIManager.cpp" />
+    <ClCompile Include="EditorGUIManager.cpp" />
     <ClCompile Include="EngineStatusManager.cpp" />
     <ClCompile Include="FrameResource.cpp" />
     <ClCompile Include="BulbApplication.cpp" />

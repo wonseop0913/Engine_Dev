@@ -63,7 +63,7 @@ void EditorManager::Render(ID3D12GraphicsCommandList* cmdList)
 {
 	cmdList->ClearRenderTargetView(_rtvHandle, Colors::Black, 0, nullptr);
 
-	shared_ptr<GameObject> seletedObject = ENGINEGUI->GetSelectedGameObject();
+	shared_ptr<GameObject> seletedObject = EDITORGUI->GetSelectedGameObject();
 	if (seletedObject != nullptr) {
 		shared_ptr<MeshRenderer> meshRenderer = seletedObject->GetComponent<MeshRenderer>();
 		if (meshRenderer == nullptr) return;

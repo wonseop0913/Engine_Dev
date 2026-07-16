@@ -79,7 +79,7 @@ void RenderManager::Init()
 
 
 #ifdef BULB_EDITOR
-	ENGINEGUI->Init();
+	EDITORGUI->Init();
 #endif
 	RESOURCE->Init();
 
@@ -348,7 +348,7 @@ void RenderManager::Render()
 		UI->Render(_cmdLists[2]);
 
 #ifdef BULB_EDITOR
-		ENGINEGUI->Render(_cmdLists[2]);
+		EDITORGUI->Render(_cmdLists[2]);
 #endif
 
 		_cmdLists[2]->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(backBuffer,

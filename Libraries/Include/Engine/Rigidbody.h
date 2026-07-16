@@ -12,7 +12,7 @@ enum class BULB_API ColliderShape
 
 class BULB_API Rigidbody : public Component
 {
-	friend class EngineGUIManager;
+	friend class EditorGUIManager;
 	using Super = Component;
 public:
 	Rigidbody();
@@ -81,7 +81,7 @@ public:
 	float customData;
 
 private:
-	bool _isGravity = true;				// Áß·Â ¿©ºÎ
+	bool _isGravity = true;				// ì¤‘ë ¥ ì—¬ë¶€
 	bool _isStatic = false;
 	bool _isTrigger = false;
 	bool _isPhysicsActive = true;

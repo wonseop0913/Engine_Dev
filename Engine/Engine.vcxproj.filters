@@ -167,7 +167,7 @@
     <ClInclude Include="DebugManager.h">
       <Filter>01. EngineComponents\01. Managers\01. Only Editor</Filter>
     </ClInclude>
-    <ClInclude Include="EngineGUIManager.h">
+    <ClInclude Include="EditorGUIManager.h">
       <Filter>01. EngineComponents\01. Managers\01. Only Editor</Filter>
     </ClInclude>
     <ClInclude Include="UIElement.h">
@@ -445,7 +445,7 @@
     <ClCompile Include="DebugManager.cpp">
       <Filter>01. EngineComponents\01. Managers\01. Only Editor</Filter>
     </ClCompile>
-    <ClCompile Include="EngineGUIManager.cpp">
+    <ClCompile Include="EditorGUIManager.cpp">
       <Filter>01. EngineComponents\01. Managers\01. Only Editor</Filter>
     </ClCompile>
     <ClCompile Include="UIElement.cpp">
