@@ -26,6 +26,7 @@ public:
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
 
 	UINT GetMeshInstanceIndexOffset() { return _meshInstanceIdxOffset; }
+	void SetMeshInstanceIndexOffset(UINT value) { _meshInstanceIdxOffset = value; }
 
 protected:
 	MeshRenderer(ComponentType type);

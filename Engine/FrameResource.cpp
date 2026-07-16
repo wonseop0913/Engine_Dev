@@ -68,6 +68,7 @@ void FrameResource::UpdateObjectSB()
 				UINT meshId = mesh->GetID();
 				if (_instanceIndices.size() > meshId) {
 					instanceIndex += _instanceIndices[meshId];
+					meshRenderer->SetMeshInstanceIndexOffset(_instanceIndices[meshId]);
 					++_instanceIndices[meshId];
 				}
 				else {
