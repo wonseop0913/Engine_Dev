@@ -242,12 +242,11 @@ void EditorGUIManager::ShowHierarchyView()
 		_guiToggleValues[TOGGLEVALUE_GUI_HIERARCHY] = true;
 
 		auto& objects = RENDER->GetObjects();
-		for (auto& o : objects) {
-			if (o->GetTag() == "EditorCamera")
+		for (int i = 0; i < objects.size(); ++i) {
+			if (objects[i]->GetTag() == "EditorCamera" || objects[i]->GetTransform()->GetDepthLevel() > 0)
 				continue;
-			if (o->GetTransform()->GetDepthLevel() > 0)
-				continue;
-			HierarchyObjectRecursion(o->GetTransform());
+
+			HierarchyObjectRecursion(objects[i]->GetTransform());
 		}
 	}
 	else if (_guiToggleValues[TOGGLEVALUE_GUI_HIERARCHY]) {
