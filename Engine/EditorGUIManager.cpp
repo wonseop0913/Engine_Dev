@@ -429,8 +429,8 @@ void EditorGUIManager::HierarchyObjectRecursion(shared_ptr<Transform> transform)
 
 	if (isNodeOpen) {
 		auto& childs = transform->GetChilds();
-		for (shared_ptr<Transform> child : childs) {
-			HierarchyObjectRecursion(child);
+		for (int i = 0; i < childs.size(); ++i) {
+			HierarchyObjectRecursion(childs[i]);
 		}
 		ImGui::TreePop();
 	}

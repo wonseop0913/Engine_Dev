@@ -580,12 +580,12 @@ void Transform::SetParent(shared_ptr<Transform> parent)
 
 	_parent = parent;
 
-	if (_parent != nullptr)
+	if (_parent != nullptr) {
 		XMStoreFloat4x4(&_matLocal, XMLoadFloat4x4(&_matWorld) * XMMatrixInverse(nullptr, XMLoadFloat4x4(&_parent->GetWorldMatrix())));
+		_parent->AddChild(static_pointer_cast<Transform>(shared_from_this()));
+	}
 	else
 		_matLocal = _matWorld;
-
-	_parent->AddChild(static_pointer_cast<Transform>(shared_from_this()));
 
 	SetLocalMatrix(_matLocal);
 }
