@@ -354,6 +354,8 @@ shared_ptr<GameObject> GameObject::Duplicate()
 		copy->SetPrefabPath(_prefabPath);
 	}
 
+	copy->GetTransform()->SetParent(GetTransform()->GetParent());
+
 	return copy;
 }
 
