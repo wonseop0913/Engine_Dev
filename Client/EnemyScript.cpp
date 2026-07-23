@@ -85,6 +85,7 @@ void EnemyScript::Update()
 			}
 
 			_targetVec = target->GetTransform()->GetPosition() - _transform->GetPosition();
+			_targetVec.y = 0;
 			_targetDistance = _targetVec.Length();
 			if (_targetDistance >= 2.0f && _currentState != EnemyMovementState::WALK) {
 				SetState(EnemyMovementState::WALK);

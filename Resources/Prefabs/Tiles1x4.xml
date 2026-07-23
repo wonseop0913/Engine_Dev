@@ -1,0 +1,6 @@
+<Prefab Name="Tiles1x4" PSO="opaque_solid" Tag="Default">
+    <Components>
+        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Plane.023.bmesh" Material="..\Resources\Materials\Dungeon assets\Floor.xml"/>
+    </Components>
+</Prefab>

@@ -33,6 +33,8 @@ public:
 
 	void SetGravity(bool value) { _isGravity = value; }
 
+	bool IsOnGround();
+
 private:
 	JPH::Ref<JPH::CharacterVirtual> _character;
 	JPH::Ref<JPH::Shape> _shape;
