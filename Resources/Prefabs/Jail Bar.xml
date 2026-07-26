@@ -1,0 +1,6 @@
+<Prefab Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+    <Components>
+        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1.2" ScaleY="0.2" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710677"/>
+        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+    </Components>
+</Prefab>

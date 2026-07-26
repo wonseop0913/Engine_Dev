@@ -222,6 +222,8 @@ public:
 
 	bool IsDestructorRunning() { return _isDestructorRunning; }
 
+	void SetIBLFactor(float value) { _iblFactor = value; }
+
 private:
 	void BuildPSO(string name, D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc);
 	void BuildPSO(string name, D3D12_COMPUTE_PIPELINE_STATE_DESC psoDesc);
@@ -276,6 +278,7 @@ private:
 
 	shared_ptr<Texture> _iblBRDFlutTexture;
 	int _iblBRDFlutTextureIdx;
+	float _iblFactor = 0.3f;
 
 	vector<shared_ptr<Light>> _lights;
 	vector<shared_ptr<Terrain>> _terrains;

@@ -6,6 +6,7 @@
     <Emissive r="0" g="0" b="0" a="1"/>
     <Metallic value="0"/>
     <Roughness value="1"/>
-    <DiffuseTexture>Tex_Default</DiffuseTexture>
-    <NormalTexture></NormalTexture>
+    <DiffuseTexture>..\Resources\Textures\Dungeon\Stone_Light_BaseColor_With_AO.png</DiffuseTexture>
+    <NormalTexture>..\Resources\Textures\Dungeon\Stone_Light_Normal.png</NormalTexture>
+    <RoughnessTexture>..\Resources\Textures\Dungeon\Stone_Light_Roughness.png</RoughnessTexture>
 </Material>

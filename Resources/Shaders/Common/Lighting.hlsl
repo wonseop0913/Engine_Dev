@@ -257,7 +257,7 @@ float4 BRDFLighting(Material mat, float4 albedo, VertexOut pixelIn, float3 V) {
     //float3 specularIBL = prefilteredColor * kS;
 
     float3 ambientIBL = diffuseIBL + specularIBL;
-    color += ambientIBL / acos(-1);
+    color += ambientIBL * IBLFactor;
     //color = color / (color + float3(1.0, 1.0, 1.0));
 
     color = ACESToneMap(color);

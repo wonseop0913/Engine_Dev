@@ -205,7 +205,7 @@ void ParticleEmitter::LoadXML(Bulb::XMLElement compElem)
 		if (_emitDirection.Length() < 0.001f)
 			_emitDirection = { 0.0f, 1.0f, 0.0f };
 
-		_emitDirection = _emitDirection.Normalize();	// È¤½Ã ¸ô¶ó¼­ ³Ö¾îµÒ
+		_emitDirection = _emitDirection.Normalize();	// í˜¹ì‹œ ëª°ë¼ì„œ ë„£ì–´ë‘ 
 	}
 
 	_particleTexture = compElem.Attribute("ParticleTexture");

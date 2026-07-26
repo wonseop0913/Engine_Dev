@@ -6,6 +6,8 @@
     <Emissive r="0" g="0" b="0" a="1"/>
     <Metallic value="0.5"/>
     <Roughness value="0.5"/>
-    <DiffuseTexture>Tex_Default</DiffuseTexture>
-    <NormalTexture></NormalTexture>
+    <DiffuseTexture>..\Resources\Textures\Dungeon\Black_Metal_BaseColor_With_AO.png</DiffuseTexture>
+    <NormalTexture>..\Resources\Textures\Dungeon\Black_Metal_Normal.png</NormalTexture>
+    <RoughnessTexture>..\Resources\Textures\Dungeon\Black_Metal_Roughness.png</RoughnessTexture>
+    <MetallicTexture>..\Resources\Textures\Dungeon\Black_Metal_Metallic.png</MetallicTexture>
 </Material>

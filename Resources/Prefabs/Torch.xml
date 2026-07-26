@@ -8,4 +8,14 @@
             <ConeDirection X="0" Y="0" Z="-1"/>
         </Component>
     </Components>
+    <GameObjects>
+        <GameObject Name="Light" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="-300" ScaleX="999.99994" ScaleY="999.99994" ScaleZ="999.99994" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="-0.70710677"/>
+                <Component ComponentType="PointLight" Intensity="3" FallOffStart="0.5" FallOffEnd="5">
+                    <Diffuse r="1" g="0.2" b="0" a="1"/>
+                </Component>
+            </Components>
+        </GameObject>
+    </GameObjects>
 </Prefab>

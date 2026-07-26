@@ -2816,37 +2816,37 @@
                         </GameObject>
                         <GameObject Name="Ceil" PSO="opaque_solid" Tag="Default">
                             <Components>
-                                <Component ComponentType="Transform" PosX="4" PosY="-4.8000002" PosZ="30" ScaleX="1" ScaleY="1.0000002" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                                <Component ComponentType="Transform" PosX="4" PosY="-4.8000002" PosZ="30" ScaleX="1" ScaleY="1.0000002" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710683"/>
                                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor7.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="Ceil" PSO="opaque_solid" Tag="Default">
                             <Components>
-                                <Component ComponentType="Transform" PosX="4" PosY="-4.8000002" PosZ="26" ScaleX="1" ScaleY="1.0000002" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                                <Component ComponentType="Transform" PosX="4" PosY="-4.8000002" PosZ="26" ScaleX="1" ScaleY="1.0000002" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710683"/>
                                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor7.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="Ceil" PSO="opaque_solid" Tag="Default">
                             <Components>
-                                <Component ComponentType="Transform" PosX="4" PosY="-4.8000002" PosZ="18" ScaleX="1" ScaleY="1.0000002" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                                <Component ComponentType="Transform" PosX="4" PosY="-4.8000002" PosZ="18" ScaleX="1" ScaleY="1.0000002" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710683"/>
                                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor7.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="GameObject" PSO="opaque_solid" Tag="Default">
                             <Components>
-                                <Component ComponentType="Transform" PosX="5" PosY="-4.8000002" PosZ="23" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                                <Component ComponentType="Transform" PosX="5" PosY="-4.8000002" PosZ="23" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710683"/>
                                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor6.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="GameObject" PSO="opaque_solid" Tag="Default">
                             <Components>
-                                <Component ComponentType="Transform" PosX="3" PosY="-4.8000002" PosZ="23" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="-0" QuatW="0.70710677"/>
+                                <Component ComponentType="Transform" PosX="3" PosY="-4.8000002" PosZ="23" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="-0" QuatW="0.70710683"/>
                                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor6.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="GameObject" PSO="opaque_solid" Tag="Default">
                             <Components>
-                                <Component ComponentType="Transform" PosX="3" PosY="-4.8000002" PosZ="21" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="-0" QuatW="0.70710677"/>
+                                <Component ComponentType="Transform" PosX="3" PosY="-4.8000002" PosZ="21" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="-0" QuatW="0.70710683"/>
                                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor6.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                             </Components>
                         </GameObject>
@@ -2870,7 +2870,150 @@
                         <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                     </Components>
                 </GameObject>
+                <GameObject Name="Jail Bars" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                    </Components>
+                    <GameObjects>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="31.5" ScaleX="1.2" ScaleY="0.2" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="31" ScaleX="1.2" ScaleY="0.20000002" ScaleZ="0.2" QuatX="-0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="30.5" ScaleX="1.2" ScaleY="0.20000002" ScaleZ="0.2" QuatX="-0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="30" ScaleX="1.2" ScaleY="0.20000003" ScaleZ="0.2" QuatX="-0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="29.5" ScaleX="1.2" ScaleY="0.20000002" ScaleZ="0.2" QuatX="-0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="29" ScaleX="1.2" ScaleY="0.20000005" ScaleZ="0.2" QuatX="-0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="28.5" ScaleX="1.2" ScaleY="0.20000003" ScaleZ="0.2" QuatX="-0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="27.5" ScaleX="1.2" ScaleY="0.20000005" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="27" ScaleX="1.2" ScaleY="0.20000006" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="26.5" ScaleX="1.2" ScaleY="0.20000006" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="26" ScaleX="1.2" ScaleY="0.20000008" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="25.5" ScaleX="1.2" ScaleY="0.20000008" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="25" ScaleX="1.2" ScaleY="0.20000009" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="24.5" ScaleX="1.2" ScaleY="0.20000009" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="23.5" ScaleX="1.2" ScaleY="0.20000011" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="23" ScaleX="1.2" ScaleY="0.20000012" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="22.5" ScaleX="1.2" ScaleY="0.20000012" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="22" ScaleX="1.2" ScaleY="0.20000014" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="21.5" ScaleX="1.2" ScaleY="0.20000014" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="21" ScaleX="1.2" ScaleY="0.20000015" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Jail Bar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.3" PosY="-6" PosZ="20.5" ScaleX="1.2" ScaleY="0.20000015" ScaleZ="0.2" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar2.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                            </Components>
+                        </GameObject>
+                    </GameObjects>
+                </GameObject>
             </GameObjects>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="28" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.35355338" QuatY="0.61237246" QuatZ="-0.35355341" QuatW="0.6123724"/>
+            </Components>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="24" ScaleX="0.0010000002" ScaleY="0.0010000002" ScaleZ="0.0010000003" QuatX="0.35355341" QuatY="0.61237246" QuatZ="-0.35355341" QuatW="0.61237246"/>
+            </Components>
         </GameObject>
     </GameObjects>
 </Scene>

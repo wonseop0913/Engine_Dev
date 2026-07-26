@@ -62,10 +62,13 @@ void TPVCamera::Init()
 void TPVCamera::Update()
 {
 	// DEBUG
-	if (INPUTM->IsKeyDown(KeyValue::NUM_1))
-	{
+	if (INPUTM->IsKeyDown(KeyValue::NUM_1)) {
 		INPUTM->SetMouseCenterFixMode(!INPUTM->IsMouseCenterFixed());
 		ShowCursor(INPUTM->IsMouseCenterFixed() ? FALSE : TRUE);
+	}
+
+	if (INPUTM->IsKeyDown(KeyValue::NUM_2)) {
+		RENDER->SetIBLFactor(0.05f);
 	}
 
 	if (!isCameraControllOn || cameraTransform == nullptr || onwerTransform == nullptr)
@@ -105,7 +108,7 @@ void TPVCamera::Update()
 	}
 	else if (lockOnTargetTransform != nullptr) {
 		Vector3 targetPosition = lockOnTargetTransform->GetPosition();
-		_transform->LookAtOnlyYaw(targetPosition, pow(rotationSharpness, 2.0f));	// yÃà È¸Àü
+		_transform->LookAtOnlyYaw(targetPosition, pow(rotationSharpness, 2.0f));	// yì¶• íšŒì „
 
 		if (!_lockOnMarker->IsRenderActive())
 			_lockOnMarker->SetRenderActive(true);

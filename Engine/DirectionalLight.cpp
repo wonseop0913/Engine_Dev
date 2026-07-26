@@ -46,11 +46,11 @@ void DirectionalLight::Update()
 		XMMATRIX matView = XMMatrixLookAtLH(eyePos, targetPos, upVec);
 		XMStoreFloat4x4(&_matView, XMMatrixTranspose(matView));
 
-		// projMat °»½Å ºÎºĞ Ãß°¡ÇØ¾ßÇÔ
-		// ¤¤±»ÀÌ °»½Å ÇØ¾ßÇÏ³ª? Àß ¸ğ¸£°ÚÀ½
+		// projMat ê°±ì‹  ë¶€ë¶„ ì¶”ê°€í•´ì•¼í•¨
+		// ã„´êµ³ì´ ê°±ì‹  í•´ì•¼í•˜ë‚˜? ì˜ ëª¨ë¥´ê² ìŒ
 		XMMATRIX matProj = XMMatrixOrthographicLH(
-			100.0f,
-			100.0f,
+			30.0f,
+			30.0f,
 			-100.0f,
 			100.0f
 		);
