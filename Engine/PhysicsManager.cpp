@@ -32,21 +32,21 @@ Bulb::ProcessResult PhysicsManager::Delete()
 
 void PhysicsManager::Init()
 {
-	// 1. Àü¿ª ½Ã½ºÅÛ ÃÊ±âÈ­
+	// 1. ì „ì—­ ì‹œìŠ¤í…œ ì´ˆê¸°í™”
 	JPH::RegisterDefaultAllocator();
 	JPH::Factory::sInstance = new JPH::Factory();
 	JPH::RegisterTypes();
 
-	// 2. ¸Þ¸ð¸® ¹× Àâ ½Ã½ºÅÛ »ý¼º
+	// 2. ë©”ëª¨ë¦¬ ë° ìž¡ ì‹œìŠ¤í…œ ìƒì„±
 	_tempAlloc = new JPH::TempAllocatorImpl(10 * 1024 * 1024); // 10MB
 	_jobSystem = new JPH::JobSystemThreadPool(JPH::cMaxPhysicsJobs, JPH::cMaxPhysicsBarriers, JPH::thread::hardware_concurrency() - 1);
 
-	// 3. ÀÎÅÍÆäÀÌ½º ÇÒ´ç
+	// 3. ì¸í„°íŽ˜ì´ìŠ¤ í• ë‹¹
 	_bpLayerInterface = new BPLayerInterfaceImpl();
 	_objVsBPFilter = new ObjectVsBPFilterImpl();
 	_objLayerFilter = new ObjectLayerPairFilterImpl();
 
-	// 4. ¹°¸® ½Ã½ºÅÛ »ý¼º
+	// 4. ë¬¼ë¦¬ ì‹œìŠ¤í…œ ìƒì„±
 	_physicsSystem = new JPH::PhysicsSystem();
 	const UINT maxBodies = 1024;
 	const UINT numBodyMutexes = 0;
@@ -110,7 +110,7 @@ void PhysicsManager::Update()
 		JPH::Quat rotation;
 		_physicsSystem->GetBodyInterface().GetPositionAndRotation(rigidbody->GetBodyID(), position, rotation);
 
-		// DX12 ¿£ÁøÀÇ Transform ¾÷µ¥ÀÌÆ®
+		// DX12 ì—”ì§„ì˜ Transform ì—…ë°ì´íŠ¸
 		Bulb::Vector3 pos(position.GetX(), position.GetY(), position.GetZ());
 		Bulb::Vector4 rot(rotation.GetX(), rotation.GetY(), rotation.GetZ(), rotation.GetW());
 		pos = pos - XMVector3Rotate(XMLoadFloat3(&rigidbody->GetColliderOffset()), XMLoadFloat4(&rot));
@@ -186,7 +186,7 @@ vector<shared_ptr<GameObject>> PhysicsManager::OverlapSphere(Bulb::Vector3 posit
 	JPH::SphereShape sphere(radius);
 	JPH::Vec3 spherePos(position.x, position.y, position.z);
 
-	// ÇÊ¿äÇÑ °æ¿ì ¼¼ÆÃºÎºÐ Ãß°¡
+	// í•„ìš”í•œ ê²½ìš° ì„¸íŒ…ë¶€ë¶„ ì¶”ê°€
 	JPH::CollideShapeSettings settings;
 
 	JPH::AllHitCollisionCollector<JPH::CollideShapeCollector> collector;
@@ -228,7 +228,10 @@ Bulb::RayCastResult PhysicsManager::RayCast(Bulb::Vector3 origin, Bulb::Vector3 
 	JPH::RayCastResult result;
 	bool isHit = _physicsSystem->GetNarrowPhaseQuery().CastRay(
 		ray,
-		result
+		result,
+		{},
+		{},
+		TriggerBodyFilter()
 	);
 
 	if (isHit) {

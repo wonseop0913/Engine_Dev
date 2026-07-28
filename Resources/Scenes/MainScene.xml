@@ -3289,6 +3289,13 @@
         <GameObject Name="Lever" PSO="opaque_solid" Tag="Default">
             <Components>
                 <Component ComponentType="Transform" PosX="5.8000002" PosY="-1" PosZ="30" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="0.75" y="1" z="0.75"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
             </Components>
             <GameObjects>
                 <GameObject Name="Body" PSO="opaque_solid" Tag="Default">

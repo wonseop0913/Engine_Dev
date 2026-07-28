@@ -1,25 +1,36 @@
 #pragma once
 
-// BroadPhase ·¹ÀÌ¾î Á¤ÀÇ
+// BroadPhase ë ˆì´ì–´ ì •ì˜
 namespace Layers {
 	static constexpr JPH::ObjectLayer NON_MOVING = 0;
 	static constexpr JPH::ObjectLayer MOVING = 1;
 	static constexpr JPH::ObjectLayer NUM_LAYERS = 2;
 }
 
-// °´Ã¼ °£ Ãæµ¹ ¿©ºÎ °áÁ¤
+// ê°ì²´ ê°„ ì¶©ëŒ ì—¬ë¶€ ê²°ì •
 class ObjectLayerPairFilterImpl : public JPH::ObjectLayerPairFilter {
 public:
 	virtual bool ShouldCollide(JPH::ObjectLayer inObject1, JPH::ObjectLayer inObject2) const override {
 		switch (inObject1) {
-		case Layers::NON_MOVING: return inObject2 == Layers::MOVING; // °íÁ¤Ã¼´Â ÀÌµ¿Ã¼¿Í¸¸ Ãæµ¹
-		case Layers::MOVING: return true; // ÀÌµ¿Ã¼´Â ¸ğµÎ¿Í Ãæµ¹
+		case Layers::NON_MOVING: return inObject2 == Layers::MOVING; // ê³ ì •ì²´ëŠ” ì´ë™ì²´ì™€ë§Œ ì¶©ëŒ
+		case Layers::MOVING: return true; // ì´ë™ì²´ëŠ” ëª¨ë‘ì™€ ì¶©ëŒ
 		default: return false;
 		}
 	}
 };
 
-// BroadPhase(°ø°£ ºĞÇÒ) ·¹ÀÌ¾î Á¤ÀÇ
+class TriggerBodyFilter : public JPH::BodyFilter {
+public:
+	virtual bool ShouldCollide(const BodyID& inBodyID) const override {
+		return true;
+	}
+
+	virtual bool ShouldCollideLocked(const Body& inBody) const override {
+		return !inBody.IsSensor();
+	}
+};
+
+// BroadPhase(ê³µê°„ ë¶„í• ) ë ˆì´ì–´ ì •ì˜
 namespace BroadPhaseLayers {
 	static constexpr JPH::BroadPhaseLayer NON_MOVING(0);
 	static constexpr JPH::BroadPhaseLayer MOVING(1);
@@ -65,7 +76,7 @@ namespace Bulb {
 	};
 }
 
-// ÀÌ°Ç ¹»±î
+// ì´ê±´ ë­˜ê¹Œ
 class ObjectVsBPFilterImpl : public JPH::ObjectVsBroadPhaseLayerFilter
 {
 public:
@@ -97,7 +108,7 @@ private:
 	void Update();
 	void LateUpdate();
 
-#pragma region JPH::ContactListener »ó¼Ó °¡»óÇÔ¼ö
+#pragma region JPH::ContactListener Inherit Virtual Functions
 	// Rigidbody vs Rigidbody
 	void OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings) override;
 
