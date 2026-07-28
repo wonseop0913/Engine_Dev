@@ -237,12 +237,12 @@ void AssetLoader::ProcessNodes(aiNode* node, const aiScene* scene, shared_ptr<No
 		if (mesh->HasBones())
 		{
 			meshObj->AddComponent(ComponentFactory::Create("SkinnedMeshRenderer"));
-			meshObj->GetComponent<SkinnedMeshRenderer>()->SetMesh(m);
+			meshObj->GetComponent<SkinnedMeshRenderer>()->SetMeshPlain(m);
 		}
 		else
 		{
 			meshObj->AddComponent(ComponentFactory::Create("MeshRenderer"));
-			meshObj->GetComponent<MeshRenderer>()->SetMesh(m);
+			meshObj->GetComponent<MeshRenderer>()->SetMeshPlain(m);
 		}
 		meshObj->GetTransform()->SetParent(_loadedObject[0]->GetTransform());
 		_meshObjs.push_back(meshObj);
@@ -310,7 +310,7 @@ void AssetLoader::BuildBones()
 	{
 		shared_ptr<GameObject> foundObj = nullptr;
 		shared_ptr<NodeTempData> currentParent = b.node->parent;
-
+		
 		while (true)
 		{
 			if (currentParent == nullptr)

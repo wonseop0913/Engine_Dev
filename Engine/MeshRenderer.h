@@ -45,5 +45,11 @@ public:
 		_material = mat;
 		GetGameObject()->SetFramesDirty();
 	}
+
+	// 메시 설정 후 렌더링 관련 정보들 갱신을 하지 않는 경우 사용
+	// Asset Parser와 같은 특수한 경우에만 사용
+	void SetMeshPlain(shared_ptr<Mesh> mesh);
+
+	void SetMaterialPlain(shared_ptr<Material> mat) { _material = mat; }
 };
 

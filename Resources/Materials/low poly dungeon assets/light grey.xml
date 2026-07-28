@@ -1,0 +1,14 @@
+<Material>
+    <Name>light grey</Name>
+    <Ambient r="0" g="0" b="0" a="1"/>
+    <Diffuse r="0.35640022" g="0.42869064" b="0.57758063" a="1"/>
+    <Specular r="0.35640022" g="0.42869064" b="0.57758063" a="1"/>
+    <Emissive r="0" g="0" b="0" a="1"/>
+    <Metallic value="0"/>
+    <Roughness value="1"/>
+    <DiffuseTexture>Tex_Default</DiffuseTexture>
+    <NormalTexture></NormalTexture>
+    <MetallicTexture></MetallicTexture>
+    <RoughnessTexture></RoughnessTexture>
+    <SpecularTexture></SpecularTexture>
+</Material>

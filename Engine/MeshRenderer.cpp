@@ -165,10 +165,17 @@ void MeshRenderer::SetMesh(shared_ptr<Mesh> mesh)
 	if (_mesh->GetMaterial() != nullptr) _material = _mesh->GetMaterial();
 	else if (_material == nullptr) _material = RESOURCE->Get<Material>(L"Mat_Default");
 
-	// asset parser 임시조치
-	if (GRAPHIC->GetDevice() == nullptr)
-		return;
 	_mesh->CreateBuffer();
 
 	GetGameObject()->SetFramesDirty();
+}
+
+void MeshRenderer::SetMeshPlain(shared_ptr<Mesh> mesh)
+{
+	if (mesh == nullptr)
+		return;
+
+	_mesh = mesh;
+	if (_mesh->GetMaterial() != nullptr) _material = _mesh->GetMaterial();
+	else if (_material == nullptr) _material = RESOURCE->Get<Material>(L"Mat_Default");
 }

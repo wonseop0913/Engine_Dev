@@ -1,0 +1,14 @@
+<Material>
+    <Name>yellow</Name>
+    <Ambient r="0" g="0" b="0" a="1"/>
+    <Diffuse r="1.0000001" g="0.61720675" b="0.046665091" a="1"/>
+    <Specular r="1.0000001" g="0.61720675" b="0.046665091" a="1"/>
+    <Emissive r="0" g="0" b="0" a="1"/>
+    <Metallic value="0"/>
+    <Roughness value="1"/>
+    <DiffuseTexture>Tex_Default</DiffuseTexture>
+    <NormalTexture></NormalTexture>
+    <MetallicTexture></MetallicTexture>
+    <RoughnessTexture></RoughnessTexture>
+    <SpecularTexture></SpecularTexture>
+</Material>

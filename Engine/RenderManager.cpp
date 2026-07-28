@@ -642,6 +642,10 @@ void RenderManager::UpdateMeshInstanceStartIndices()
 	_meshInstanceStartIndex.resize(meshes.size(), 0);
 	for (auto& meshPair : meshes) {
 		shared_ptr<Mesh> mesh = static_pointer_cast<Mesh>(meshPair.second);
+		if (_meshInstanceStartIndex.size() <= mesh->GetID()) {
+			while (_meshInstanceStartIndex.size() <= mesh->GetID())
+				_meshInstanceStartIndex.push_back(0);
+		}
 		_meshInstanceStartIndex[mesh->GetID()] = indexStack;
 		indexStack += mesh->GetInstanceCount();
 	}
