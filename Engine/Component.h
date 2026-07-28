@@ -1,7 +1,7 @@
 #pragma once
 #include "XMLElement.h"
 
-#pragma region Àü¹æ¼±¾ð
+#pragma region ì „ë°©ì„ ì–¸
 class GameObject;
 class Transform;
 class Camera;
@@ -18,11 +18,6 @@ public:
 	virtual void Update() { }
 	virtual void Render(ID3D12GraphicsCommandList* cmdList, UINT renderState) { }
 
-#ifdef BULB_EDITOR
-	// Returns true when component should delete by GUI function.
-	virtual bool ShowComponentEditorGUI() = 0;
-#endif
-
 	virtual void OnDestroy() = 0;
 
 	virtual void OnCollisionEnter(shared_ptr<GameObject> other) { }
@@ -36,6 +31,11 @@ public:
 
 	virtual ComponentSnapshot CaptureSnapshot() = 0;
 	virtual void RestoreSnapshot(ComponentSnapshot snapshot) = 0;
+
+#ifdef BULB_EDITOR
+	// Returns true when component should delete by GUI function.
+	virtual bool ShowComponentEditorGUI() = 0;
+#endif
 
 public:
 	shared_ptr<GameObject> GetGameObject();

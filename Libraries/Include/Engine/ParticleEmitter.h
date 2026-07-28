@@ -45,12 +45,8 @@ public:
 	virtual ~ParticleEmitter();
 
 	void Init() override;
-	void Update(ID3D12GraphicsCommandList* cmdList);	// ÀÏ¹İÀûÀÎ Update¿Í ´Ù¸£°Ô CS¸¦ À§ÇÑ ¸í·É¾î ¸®½ºÆ®¸¦ ÇÊ¿ä·Î ÇÔ. override X
+	void Update(ID3D12GraphicsCommandList* cmdList);	// ì¼ë°˜ì ì¸ Updateì™€ ë‹¤ë¥´ê²Œ CSë¥¼ ìœ„í•œ ëª…ë ¹ì–´ ë¦¬ìŠ¤íŠ¸ë¥¼ í•„ìš”ë¡œ í•¨. override X
 	void Render(ID3D12GraphicsCommandList* cmdList, UINT renderState) override;
-
-#ifdef BULB_EDITOR
-	virtual bool ShowComponentEditorGUI() override;
-#endif
 
 	void OnDestroy() override;
 
@@ -61,6 +57,10 @@ public:
 
 	ComponentSnapshot CaptureSnapshot() override;
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
+
+#ifdef BULB_EDITOR
+	bool ShowComponentEditorGUI() override;
+#endif
 
 public:
 	bool IsPlaying() { return _isPlaying; }

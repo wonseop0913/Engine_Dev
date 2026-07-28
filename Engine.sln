@@ -57,9 +57,10 @@ Global
 		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Client Debug|x86.ActiveCfg = Editor Release|Win32
 		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Client Release|x64.ActiveCfg = Editor Release|x64
 		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Client Release|x86.ActiveCfg = Editor Release|Win32
-		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x64.ActiveCfg = Editor Release|x64
-		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x64.Build.0 = Editor Release|x64
-		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x86.ActiveCfg = Editor Debug|x64
+		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x64.ActiveCfg = Editor Debug|x64
+		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x64.Build.0 = Editor Debug|x64
+		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x86.ActiveCfg = Editor Release|Win32
+		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Debug|x86.Build.0 = Editor Release|Win32
 		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Release|x64.ActiveCfg = Editor Release|x64
 		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Release|x64.Build.0 = Editor Release|x64
 		{28CF1FB7-C625-4124-B3E3-2CC50569EB4E}.Editor Release|x86.ActiveCfg = Editor Release|Win32

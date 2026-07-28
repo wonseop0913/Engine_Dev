@@ -1,0 +1,25 @@
+<Prefab Name="Cage_Ivy" PSO="opaque_solid" Tag="Default">
+    <Components>
+        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+    </Components>
+    <GameObjects>
+        <GameObject Name="Mesh" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Cage_Ivy\Mesh.bmesh" Material=""/>
+            </Components>
+        </GameObject>
+        <GameObject Name="Mesh.001" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Cage_Ivy\Mesh.001.bmesh" Material=""/>
+            </Components>
+        </GameObject>
+        <GameObject Name="IvyLeaf.000" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Cage_Ivy\IvyLeaf.000.bmesh" Material=""/>
+            </Components>
+        </GameObject>
+    </GameObjects>
+</Prefab>

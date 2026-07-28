@@ -14,10 +14,6 @@ public:
 	void Update() override;
 	void Render(ID3D12GraphicsCommandList* cmdList, UINT renderState) override;
 
-#ifdef BULB_EDITOR
-	virtual bool ShowComponentEditorGUI() override;
-#endif
-
 	void OnDestroy() override;
 
 	void BuildBuffer();
@@ -35,6 +31,10 @@ public:
 	ComponentSnapshot CaptureSnapshot() override;
 
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
+
+#ifdef BULB_EDITOR
+	bool ShowComponentEditorGUI() override;
+#endif
 
 	void SetTerrainTexture(shared_ptr<Texture> texture);
 

@@ -1,0 +1,14 @@
+<Material>
+    <Name>DefaultMaterial</Name>
+    <Ambient r="0" g="0" b="0" a="0"/>
+    <Diffuse r="0.80000001" g="0.80000001" b="0.80000001" a="1"/>
+    <Specular r="0.80000001" g="0.80000001" b="0.80000001" a="1"/>
+    <Emissive r="0.80000001" g="0.80000001" b="0.80000001" a="1"/>
+    <Metallic value="0"/>
+    <Roughness value="1"/>
+    <DiffuseTexture>Tex_Default</DiffuseTexture>
+    <NormalTexture></NormalTexture>
+    <MetallicTexture></MetallicTexture>
+    <RoughnessTexture></RoughnessTexture>
+    <SpecularTexture></SpecularTexture>
+</Material>

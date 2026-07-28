@@ -14,6 +14,10 @@ void DirectoryIterator(filesystem::path path, int count);
 
 int main()
 {
+	ComponentFactory::Register<MeshRenderer>("MeshRenderer");
+	ComponentFactory::Register<MeshRenderer>("SkinnedMeshRenderer");
+	ComponentFactory::Register<MeshRenderer>("Animator");
+
 	cout << "Bulb Engine Asset Parser " << CURRENT_VERSION << endl << endl;
 
 	if (!filesystem::exists(settingFileDir)) {
@@ -41,7 +45,7 @@ int main()
 
 	cout << CONSOLESEPARATOR << endl << endl;
 
-	// ¿©±â¼­ºÎÅÍ ÆÄ½Ì ºÎºÐ
+	// ì—¬ê¸°ì„œë¶€í„° íŒŒì‹± ë¶€ë¶„
 	for (int i = 0; i < parsableAssetPaths.size(); i++)
 	{
 		shared_ptr<AssetLoader> loader = make_shared<AssetLoader>();

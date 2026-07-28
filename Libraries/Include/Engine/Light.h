@@ -17,10 +17,6 @@ public:
 	virtual void Init() override = 0;
 	virtual void Update() override = 0;
 
-#ifdef BULB_EDITOR
-	virtual bool ShowComponentEditorGUI() override = 0;
-#endif
-
 	virtual void OnDestroy() override = 0;
 
 	virtual void LoadXML(Bulb::XMLElement compElem) override = 0;
@@ -30,6 +26,10 @@ public:
 
 	virtual ComponentSnapshot CaptureSnapshot() override = 0;
 	virtual void RestoreSnapshot(ComponentSnapshot snapshot) override = 0;
+
+#ifdef BULB_EDITOR
+	virtual bool ShowComponentEditorGUI() override = 0;
+#endif
 
 public:
 	void SetFramesDirty();

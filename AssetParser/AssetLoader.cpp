@@ -109,7 +109,7 @@ void AssetLoader::ImportAssetFile(wstring file)
 		if (_loadedObject.size() > 1)
 		{
 			_loadedObject[0]->SetName(Utils::ToString(_assetNameW));
-			RESOURCE->SavePrefab(_loadedObject[0]);
+			// RESOURCE->SavePrefab(_loadedObject[0]);
 			RESOURCE->SavePrefabXML(_loadedObject[0]);
 			cout << "Prefab parsed" << endl << endl;
 		}
@@ -236,12 +236,12 @@ void AssetLoader::ProcessNodes(aiNode* node, const aiScene* scene, shared_ptr<No
 		meshObj->SetName(Utils::ToString(m->GetNameW()));
 		if (mesh->HasBones())
 		{
-			meshObj->AddComponent(make_shared<SkinnedMeshRenderer>());
+			meshObj->AddComponent(ComponentFactory::Create("SkinnedMeshRenderer"));
 			meshObj->GetComponent<SkinnedMeshRenderer>()->SetMesh(m);
 		}
 		else
 		{
-			meshObj->AddComponent(make_shared<MeshRenderer>());
+			meshObj->AddComponent(ComponentFactory::Create("MeshRenderer"));
 			meshObj->GetComponent<MeshRenderer>()->SetMesh(m);
 		}
 		meshObj->GetTransform()->SetParent(_loadedObject[0]->GetTransform());
@@ -436,7 +436,7 @@ void AssetLoader::ProcessAnimation(const aiScene* scene)
 		return;
 
 	LoadBones();
-	_loadedObject[0]->AddComponent(make_shared<Animator>());
+	_loadedObject[0]->AddComponent(ComponentFactory::Create("Animator"));
 
 	// 애니메이션 갯수만큼
 	for (int i = 0; i < scene->mNumAnimations; i++)

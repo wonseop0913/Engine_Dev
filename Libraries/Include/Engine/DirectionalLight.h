@@ -12,10 +12,6 @@ public:
 	void Init() override;
 	void Update() override;
 
-#ifdef BULB_EDITOR
-	virtual bool ShowComponentEditorGUI() override;
-#endif
-
 	void OnDestroy() override;
 
 	void LoadXML(Bulb::XMLElement compElem) override;
@@ -25,6 +21,10 @@ public:
 
 	ComponentSnapshot CaptureSnapshot() override;
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
+
+#ifdef BULB_EDITOR
+	bool ShowComponentEditorGUI() override;
+#endif
 
 public:
 	LightConstants GetLightConstants() override;

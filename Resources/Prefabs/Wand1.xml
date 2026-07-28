@@ -1,0 +1,13 @@
+<Prefab Name="Wand1" PSO="opaque_solid" Tag="Default">
+    <Components>
+        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+    </Components>
+    <GameObjects>
+        <GameObject Name="Cylinder.004" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Wand1\Cylinder.004.bmesh" Material=""/>
+            </Components>
+        </GameObject>
+    </GameObjects>
+</Prefab>

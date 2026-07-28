@@ -14,10 +14,10 @@ enum BULB_API AnimationEventTypes {
 	BlockTransition
 };
 
-// ÀÏ´ÜÀº ¾Ö´Ï¸ŞÀÌ¼Ç ¼Óµµ Á¶Àı¸¸
-// ÇöÀç´Â ¾Ö´Ï¸ŞÀÌ¼ÇÀ» Àß¶ó¼­ »ç¿ëÇÏ´Â °æ¿ì°¡ ¾ø±â ¶§¹®¿¡ tickÀ» 0ºÎÅÍ ½ÃÀÛÇÑ´Ù°í °¡Á¤
-// ÇÏÁö¸¸ ÃßÈÄ¿¡ ¾Ö´Ï¸ŞÀÌ¼Ç ¾ÕºÎºĞÀ» Àß¶ó¼­ »ç¿ëÇÏ¸é ÀÌº¥Æ® Ã³¸®¿¡ ÇÁ·¹ÀÓ´ç µô·¹ÀÌ°¡ »ı±â´Â ÀáÀçÀûÀÎ ¹®Á¦°¡ ÀÖÀ½
-// Å©·±Ä¡ ÀÌÈÄ¿¡ ¼öÁ¤ÀÌ ¹İµå½Ã ÇÊ¿äÇÔ
+// ì¼ë‹¨ì€ ì• ë‹ˆë©”ì´ì…˜ ì†ë„ ì¡°ì ˆë§Œ
+// í˜„ì¬ëŠ” ì• ë‹ˆë©”ì´ì…˜ì„ ì˜ë¼ì„œ ì‚¬ìš©í•˜ëŠ” ê²½ìš°ê°€ ì—†ê¸° ë•Œë¬¸ì— tickì„ 0ë¶€í„° ì‹œì‘í•œë‹¤ê³  ê°€ì •
+// í•˜ì§€ë§Œ ì¶”í›„ì— ì• ë‹ˆë©”ì´ì…˜ ì•ë¶€ë¶„ì„ ì˜ë¼ì„œ ì‚¬ìš©í•˜ë©´ ì´ë²¤íŠ¸ ì²˜ë¦¬ì— í”„ë ˆì„ë‹¹ ë”œë ˆì´ê°€ ìƒê¸°ëŠ” ì ì¬ì ì¸ ë¬¸ì œê°€ ìˆìŒ
+// í¬ëŸ°ì¹˜ ì´í›„ì— ìˆ˜ì •ì´ ë°˜ë“œì‹œ í•„ìš”í•¨
 struct BULB_API AnimationEvent
 {
 	AnimationEventTypes type;
@@ -35,10 +35,6 @@ public:
 	void Init() override;
 	void Update() override;
 
-#ifdef BULB_EDITOR
-	virtual bool ShowComponentEditorGUI() override;
-#endif
-
 	void OnDestroy() override;
 
 	void LoadXML(Bulb::XMLElement compElem) override;
@@ -48,6 +44,10 @@ public:
 
 	ComponentSnapshot CaptureSnapshot() override;
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
+
+#ifdef BULB_EDITOR
+	bool ShowComponentEditorGUI() override;
+#endif
 
 public:
 	float GetCurrentTick() { return _currentTick; }
@@ -118,7 +118,7 @@ public:
 private:
 	bool _isPlayOnInit;
 	bool _isPlaying;
-	bool _isCurrentAnimationEnd;		// Äİ¹é ¹æ½ÄÀ¸·Î ¹Ù²Ù´Â°Å °í·Á.
+	bool _isCurrentAnimationEnd;		// ì½œë°± ë°©ì‹ìœ¼ë¡œ ë°”ê¾¸ëŠ”ê±° ê³ ë ¤.
 	bool _isLoop;
 	bool _isPreviewMode = false;
 	bool _isTransitionBlocked = false;
@@ -129,7 +129,7 @@ private:
 	float _transitionElapsedTime = 0.0f;
 	bool _isInTransition = false;
 
-	// ÀÌ°Åµµ vector·Î º¯°æ °í·Á
+	// ì´ê±°ë„ vectorë¡œ ë³€ê²½ ê³ ë ¤
 	unordered_map<string, shared_ptr<Animation>> _animations;
 
 	shared_ptr<Transform> _rootBone;
