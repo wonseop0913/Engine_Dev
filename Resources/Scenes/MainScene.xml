@@ -2402,19 +2402,169 @@
                         <GameObject Name="Pillar" PSO="opaque_solid" Tag="Default">
                             <Components>
                                 <Component ComponentType="Transform" PosX="-2" PosY="1.5" PosZ="4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710683"/>
-                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Pillar1.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Pillar1.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
                             <Components>
                                 <Component ComponentType="Transform" PosX="2" PosY="1.5" PosZ="4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
-                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="Mat_Default"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
                             <Components>
                                 <Component ComponentType="Transform" PosX="6" PosY="1.5" PosZ="4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
-                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="Mat_Default"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Pillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-6" PosY="1.5" PosZ="0" ScaleX="1" ScaleY="1.0000002" ScaleZ="1.0000002" QuatX="0.49999997" QuatY="-0.5" QuatZ="0.50000006" QuatW="0.50000006"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Pillar1.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Pillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-2" PosY="1.5" PosZ="-4" ScaleX="1" ScaleY="1.0000002" ScaleZ="1.0000002" QuatX="-0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Pillar1.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="Pillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2" PosY="1.5" PosZ="-4" ScaleX="1" ScaleY="1.0000004" ScaleZ="1.0000004" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="-0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Pillar1.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2" PosY="-1" PosZ="4" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="6" PosY="-1" PosZ="4" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="10" PosY="1.5" PosZ="16" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="10" PosY="-1" PosZ="16" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="10" PosY="1.5" PosZ="20" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="10" PosY="-1" PosZ="20" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="1.5" PosZ="16" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-1" PosZ="16" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-3.5" PosZ="16" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-6" PosZ="16" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="1.5" PosZ="20" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-1" PosZ="20" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-3.5" PosZ="20" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-6" PosZ="20" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2" PosY="1.5" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2" PosY="-1" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2" PosY="-3.5" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2" PosY="-6" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-2" PosY="1.5" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-2" PosY="-1" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-2" PosY="-3.5" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="EnterancePillar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-2" PosY="-6" PosZ="32" ScaleX="1.0000002" ScaleY="1.0000002" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0.70710683" QuatW="0.70710683"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.024.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
                             </Components>
                         </GameObject>
                     </GameObjects>
@@ -2427,7 +2577,7 @@
                         <GameObject Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
                             <Components>
                                 <Component ComponentType="Transform" PosX="4" PosY="2.75" PosZ="4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
-                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="Mat_Default"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
                             </Components>
                         </GameObject>
                         <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
@@ -2440,12 +2590,71 @@
                                 <Component ComponentType="Transform" PosX="-4" PosY="2.75" PosZ="4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                             </Components>
                         </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-4" PosY="2.75" PosZ="-4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="0" PosY="2.75" PosZ="-4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="4" PosY="2.75" PosZ="-4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-6" PosY="2.75" PosZ="2" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-6" PosY="2.75" PosZ="-2" ScaleX="0.99999994" ScaleY="1" ScaleZ="0.99999994" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="6" PosY="2.75" PosZ="2" ScaleX="0.99999994" ScaleY="1" ScaleZ="0.99999994" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="6" PosY="2.75" PosZ="-2" ScaleX="0.99999982" ScaleY="1" ScaleZ="0.99999982" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject PrefabPath="..\Resources\Prefabs\HorizontalBar.xml" Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="22" PosY="-2.25" PosZ="18" ScaleX="0.9999997" ScaleY="1" ScaleZ="0.9999997" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-8" PosY="-2.3" PosZ="20" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-8" PosY="-2.3" PosZ="16" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="0" QuatW="1"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
+                        <GameObject Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="-6" PosY="-2.3" PosZ="14" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                                <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
+                            </Components>
+                        </GameObject>
                     </GameObjects>
                 </GameObject>
                 <GameObject Name="Table" PSO="opaque_solid" Tag="Default">
                     <Components>
                         <Component ComponentType="Transform" PosX="0" PosY="0.60000002" PosZ="3.5" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="0" QuatW="0.70710683"/>
-                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.038.bmesh" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
+                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Cube.038.bmesh" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
                         <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
                             <Collider Shape="Box" Height="0.5" Radius="0.5">
                                 <Extent x="1" y="0.56680709" z="0.50003058"/>
@@ -3014,6 +3223,68 @@
             <Components>
                 <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="24" ScaleX="0.0010000002" ScaleY="0.0010000002" ScaleZ="0.0010000003" QuatX="0.35355341" QuatY="0.61237246" QuatZ="-0.35355341" QuatW="0.61237246"/>
             </Components>
+        </GameObject>
+        <GameObject Name="Block Gate Plain" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="10" PosY="0.25" PosZ="18" ScaleX="4" ScaleY="5" ScaleZ="1" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
+                <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="2" y="2.5" z="0.1"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
+            </Components>
+        </GameObject>
+        <GameObject Name="Boss Room Gate Plain" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="22" PosY="-4.75" PosZ="18" ScaleX="3.9999998" ScaleY="5" ScaleZ="0.99999994" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
+                <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
+                <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="2" y="2.5" z="0.1"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
+            </Components>
+        </GameObject>
+        <GameObject Name="GameObject" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="34" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="2" y="2.5" z="2"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
+            </Components>
+            <GameObjects>
+                <GameObject Name="Table" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="-1.8" PosZ="-1" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="-0" QuatW="0.70710677"/>
+                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\etc1.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone wall.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="GameObject" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="-2.3" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710683" QuatY="0" QuatZ="-0" QuatW="0.70710677"/>
+                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Floor7.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\StoneWall1.xml" Name="StoneWall1" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="-1" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\StoneWall1.xml" Name="StoneWall1" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="1.5" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.70710677" QuatY="0" QuatZ="0" QuatW="0.70710677"/>
+                    </Components>
+                </GameObject>
+            </GameObjects>
         </GameObject>
     </GameObjects>
 </Scene>

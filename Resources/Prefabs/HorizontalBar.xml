@@ -1,6 +1,6 @@
 <Prefab Name="HorizontalBar" PSO="opaque_solid" Tag="Default">
     <Components>
         <Component ComponentType="Transform" PosX="4" PosY="2.75" PosZ="4" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
-        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="Mat_Default"/>
+        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\HorizontalBar4.bmesh" Material="..\Resources\Materials\Dungeon assets\Small brick stone.xml"/>
     </Components>
 </Prefab>
