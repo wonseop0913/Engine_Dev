@@ -21,6 +21,9 @@
     <ClInclude Include="MainSceneScript.h">
       <Filter>Scripts\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="MiddleGateLeverScript.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -42,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="MainSceneScript.cpp">
       <Filter>Scripts\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MiddleGateLeverScript.cpp">
+      <Filter>Scripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

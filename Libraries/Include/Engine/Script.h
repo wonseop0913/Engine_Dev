@@ -25,7 +25,7 @@ public:
 	void RestoreSnapshot(ComponentSnapshot snapshot) override {};
 
 #ifdef BULB_EDITOR
-	bool ShowComponentEditorGUI() override { return false; }
+	bool ShowComponentEditorGUI() override;
 #endif
 };
 

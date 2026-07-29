@@ -162,6 +162,19 @@ void PhysicsManager::OnContactPersisted(const Body& inBody1, const Body& inBody2
 	obj2->OnCollision(obj1);
 }
 
+void PhysicsManager::OnContactPersisted(const CharacterVirtual* inCharacter, const BodyID& inBodyID2, const SubShapeID& inSubShapeID2, RVec3Arg inContactPosition, Vec3Arg inContactNormal, CharacterContactSettings& ioSettings)
+{
+	JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), inBodyID2);
+
+	if (lock.Succeeded()) {
+		auto obj1 = reinterpret_cast<GameObject*>(inCharacter->GetUserData())->shared_from_this();
+		auto obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+
+		obj1->OnCollision(obj2);
+		obj2->OnCollision(obj1);
+	}
+}
+
 void PhysicsManager::OnContactRemoved(const SubShapeIDPair& inSubShapePair)
 {
 

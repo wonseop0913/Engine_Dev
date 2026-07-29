@@ -27,42 +27,6 @@ Transform::~Transform()
 #endif
 }
 
-bool Transform::ShowComponentEditorGUI()
-{
-	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		Bulb::Vector3 pos = GetLocalPosition();
-		Bulb::Vector3 rot = GetLocalRotation();
-		Bulb::Vector3 scale = GetLocalScale();
-
-		ImGui::Text("Depth Level: %d", GetDepthLevel());
-
-		float posInput[3] = { pos.x, pos.y, pos.z };
-		ImGui::SeparatorText("Position");
-		ImGui::InputFloat3("##TransformPosition", posInput);
-		if (ImGui::IsItemDeactivatedAfterEdit()) {
-			SetLocalPosition({ posInput[0], posInput[1], posInput[2] });
-		}
-
-		float rotInput[3] = { rot.x, rot.y, rot.z };
-		ImGui::SeparatorText("Rotation");
-		ImGui::InputFloat3("##TransformRotation", rotInput);
-		if (ImGui::IsItemDeactivatedAfterEdit()) {
-			SetLocalRotation({ rotInput[0], rotInput[1], rotInput[2] });
-		}
-
-
-		float scaleInput[3] = { scale.x, scale.y, scale.z };
-		ImGui::SeparatorText("Scale");
-		ImGui::InputFloat3("##TransformScale", scaleInput);
-		if (ImGui::IsItemDeactivatedAfterEdit()) {
-			SetLocalScale({ scaleInput[0], scaleInput[1], scaleInput[2] });
-		}
-	}
-
-	return false;
-}
-
 void Transform::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG
@@ -165,6 +129,43 @@ void Transform::RestoreSnapshot(ComponentSnapshot snapshot)
 	SetLocalScale({ snapshot.datas[3], snapshot.datas[4], snapshot.datas[5] });
 	SetLocalQuaternion(Bulb::Vector4(snapshot.datas[6], snapshot.datas[7], snapshot.datas[8], snapshot.datas[9]));
 }
+
+#ifdef BULB_EDITOR
+bool Transform::ShowComponentEditorGUI()
+{
+	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
+		Bulb::Vector3 pos = GetLocalPosition();
+		Bulb::Vector3 rot = GetLocalRotation();
+		Bulb::Vector3 scale = GetLocalScale();
+
+		ImGui::Text("Depth Level: %d", GetDepthLevel());
+
+		float posInput[3] = { pos.x, pos.y, pos.z };
+		ImGui::SeparatorText("Position");
+		ImGui::InputFloat3("##TransformPosition", posInput);
+		if (ImGui::IsItemDeactivatedAfterEdit()) {
+			SetLocalPosition({ posInput[0], posInput[1], posInput[2] });
+		}
+
+		float rotInput[3] = { rot.x, rot.y, rot.z };
+		ImGui::SeparatorText("Rotation");
+		ImGui::InputFloat3("##TransformRotation", rotInput);
+		if (ImGui::IsItemDeactivatedAfterEdit()) {
+			SetLocalRotation({ rotInput[0], rotInput[1], rotInput[2] });
+		}
+
+
+		float scaleInput[3] = { scale.x, scale.y, scale.z };
+		ImGui::SeparatorText("Scale");
+		ImGui::InputFloat3("##TransformScale", scaleInput);
+		if (ImGui::IsItemDeactivatedAfterEdit()) {
+			SetLocalScale({ scaleInput[0], scaleInput[1], scaleInput[2] });
+		}
+	}
+
+	return false;
+}
+#endif
 
 void Transform::ForceUpdateTransform()
 {

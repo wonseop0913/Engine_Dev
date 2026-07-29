@@ -3250,10 +3250,10 @@
                 </Component>
             </Components>
         </GameObject>
-        <GameObject Name="GameObject" PSO="opaque_solid" Tag="Default">
+        <GameObject Name="MiddleGate" PSO="opaque_solid" Tag="Default">
             <Components>
                 <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="34" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
-                <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
                         <Extent x="2" y="2.5" z="2"/>
                         <Offset x="0" y="0" z="0"/>
@@ -3289,6 +3289,7 @@
         <GameObject Name="Lever" PSO="opaque_solid" Tag="Default">
             <Components>
                 <Component ComponentType="Transform" PosX="5.8000002" PosY="-1" PosZ="30" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                <Component ComponentType="MiddleGateLeverScript"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
                         <Extent x="0.75" y="1" z="0.75"/>

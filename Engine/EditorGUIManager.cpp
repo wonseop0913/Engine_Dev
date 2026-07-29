@@ -546,6 +546,10 @@ void EditorGUIManager::ToggleWindows()
 	if (INPUTM->IsKeyDown(KeyValue::F6)) {
 		_guiToggleValues[TOGGLEVALUE_GUI_RESOURCEDIR] = !_guiToggleValues[TOGGLEVALUE_GUI_RESOURCEDIR];
 	}
+
+	if (INPUTM->IsKeyDown(KeyValue::F11)) {
+		_guiToggleValues[TOGGLEVALUE_GUI_DEMOWINDOW] = !_guiToggleValues[TOGGLEVALUE_GUI_DEMOWINDOW];
+	}
 }
 
 void EditorGUIManager::ShowConsole()

@@ -48,55 +48,6 @@ void MeshRenderer::Render(ID3D12GraphicsCommandList* cmdList, UINT renderState)
 	cmdList->DrawIndexedInstanced(_mesh->GetIndexCount(), _mesh->GetInstanceCount(), 0, 0, 0);
 }
 
-bool MeshRenderer::ShowComponentEditorGUI()
-{
-	bool deleteFlag = true;
-
-	if (ImGui::CollapsingHeader("MeshRenderer", &deleteFlag, ImGuiTreeNodeFlags_DefaultOpen))
-	{
-		ImGui::SeparatorText("Mesh");
-		{
-			if (ImGui::Button("Set Mesh"))
-				ImGui::OpenPopup("mesh_select_popup");
-
-			if (ImGui::BeginPopup("mesh_select_popup")) {
-				auto meshes = RESOURCE->GetByType<Mesh>();
-				for (auto& mesh : meshes) {
-					if (ImGui::Selectable(Utils::ToChar(mesh.first))) {
-						SetMesh(static_pointer_cast<Mesh>(mesh.second));
-					}
-				}
-
-				ImGui::EndPopup();
-			}
-
-			ImGui::Text(_mesh != nullptr ? Utils::ToChar(_mesh->GetNameW()) : "null");
-		}
-
-		ImGui::SeparatorText("Material");
-		{
-			if (ImGui::Button("Set Material"))
-				ImGui::OpenPopup("material_select_popup");
-
-			if (ImGui::BeginPopup("material_select_popup")) {
-				auto mats = RESOURCE->GetByType<Material>();
-				for (auto& mat : mats) {
-					if (ImGui::Selectable(Utils::ToChar(mat.first))) {
-						SetMaterial(static_pointer_cast<Material>(mat.second));
-					}
-				}
-
-				ImGui::EndPopup();
-			}
-
-			
-			ImGui::Text(_material != nullptr ? Utils::ToChar(_material->GetNameW()) : "null");
-		}
-	}
-
-	return !deleteFlag;
-}
-
 void MeshRenderer::OnDestroy()
 {
 #ifdef PRINT_DEBUG_CONSOLE_LOG
@@ -151,6 +102,57 @@ void MeshRenderer::RestoreSnapshot(ComponentSnapshot snapshot)
 {
 
 }
+
+#ifdef BULB_EDITOR
+bool MeshRenderer::ShowComponentEditorGUI()
+{
+	bool deleteFlag = true;
+
+	if (ImGui::CollapsingHeader("MeshRenderer", &deleteFlag, ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		ImGui::SeparatorText("Mesh");
+		{
+			if (ImGui::Button("Set Mesh"))
+				ImGui::OpenPopup("mesh_select_popup");
+
+			if (ImGui::BeginPopup("mesh_select_popup")) {
+				auto meshes = RESOURCE->GetByType<Mesh>();
+				for (auto& mesh : meshes) {
+					if (ImGui::Selectable(Utils::ToChar(mesh.first))) {
+						SetMesh(static_pointer_cast<Mesh>(mesh.second));
+					}
+				}
+
+				ImGui::EndPopup();
+			}
+
+			ImGui::Text(_mesh != nullptr ? Utils::ToChar(_mesh->GetNameW()) : "null");
+		}
+
+		ImGui::SeparatorText("Material");
+		{
+			if (ImGui::Button("Set Material"))
+				ImGui::OpenPopup("material_select_popup");
+
+			if (ImGui::BeginPopup("material_select_popup")) {
+				auto mats = RESOURCE->GetByType<Material>();
+				for (auto& mat : mats) {
+					if (ImGui::Selectable(Utils::ToChar(mat.first))) {
+						SetMaterial(static_pointer_cast<Material>(mat.second));
+					}
+				}
+
+				ImGui::EndPopup();
+			}
+
+
+			ImGui::Text(_material != nullptr ? Utils::ToChar(_material->GetNameW()) : "null");
+		}
+	}
+
+	return !deleteFlag;
+}
+#endif
 
 void MeshRenderer::SetMesh(shared_ptr<Mesh> mesh)
 {
