@@ -7,18 +7,14 @@ public:
 	Script();
 	virtual ~Script();
 
-#ifdef BULB_EDITOR
-	virtual bool ShowComponentEditorGUI() override { return false; }
-#endif
+	void OnDestroy() override = 0;
 
-	virtual void OnDestroy() override = 0;
-
-	virtual void LoadXML(Bulb::XMLElement compElem) override = 0;
-	virtual void SaveXML(Bulb::XMLElement compElem) override = 0;
+	void LoadXML(Bulb::XMLElement compElem) override = 0;
+	void SaveXML(Bulb::XMLElement compElem) override = 0;
 
 	shared_ptr<Component> Duplicate() override { return nullptr; }
 
-	virtual ComponentSnapshot CaptureSnapshot() override { 
+	ComponentSnapshot CaptureSnapshot() override { 
 		ComponentSnapshot snapshot;
 
 		snapshot.id = _id;
@@ -26,6 +22,10 @@ public:
 
 		return snapshot;
 	};
-	virtual void RestoreSnapshot(ComponentSnapshot snapshot) override { };
+	void RestoreSnapshot(ComponentSnapshot snapshot) override {};
+
+#ifdef BULB_EDITOR
+	bool ShowComponentEditorGUI() override { return false; }
+#endif
 };
 
