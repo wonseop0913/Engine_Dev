@@ -381,7 +381,8 @@ void EditorGUIManager::ShowResourceDirectory()
 
 void EditorGUIManager::HierarchyObjectRecursion(shared_ptr<Transform> transform)
 {
-	if (transform->GetGameObject() == nullptr) return;
+	shared_ptr<GameObject> obj = transform->GetGameObject();
+	if (obj == nullptr) return;
 
 	ImGuiTreeNodeFlags tree_flags = 
 		ImGuiTreeNodeFlags_OpenOnArrow | 
@@ -390,10 +391,14 @@ void EditorGUIManager::HierarchyObjectRecursion(shared_ptr<Transform> transform)
 
 	if (transform->GetChilds().size() == 0)
 		tree_flags |= ImGuiTreeNodeFlags_Leaf;
-	if (_selectedObj == transform->GetGameObject())
+	if (_selectedObj == obj)
 		tree_flags |= ImGuiTreeNodeFlags_Selected;
 
-	bool isNodeOpen = ImGui::TreeNodeEx((transform->GetGameObject()->GetName() + "##" + to_string(transform->GetGameObject()->GetId())).c_str(), tree_flags);
+	bool isActive = obj->IsActive();
+	if (!isActive) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.6f, 0.6f, 0.6f, 1.0f));
+	bool isNodeOpen = ImGui::TreeNodeEx((obj->GetName() + "##" + to_string(obj->GetId())).c_str(), tree_flags);
+	if (!isActive) ImGui::PopStyleColor();
+
 	// left click
 	if (ImGui::IsItemClicked(0)) {
 		if (_isParentSelectMode && _childQueueObj != nullptr) {
@@ -401,7 +406,7 @@ void EditorGUIManager::HierarchyObjectRecursion(shared_ptr<Transform> transform)
 			_isParentSelectMode = false;
 			_childQueueObj = nullptr;
 		}
-		_selectedObj = transform->GetGameObject();
+		_selectedObj = obj;
 		if (ImGui::IsMouseDoubleClicked(0)) {
 			EDITOR->GetEditorCamera()->MoveToTargetObject(_selectedObj->GetTransform());
 		}

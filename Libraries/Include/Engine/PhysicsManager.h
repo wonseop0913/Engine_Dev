@@ -136,6 +136,9 @@ public:
 
 	void AddRigidbody(shared_ptr<Rigidbody> rbd) { _rigidbodies.push_back(rbd); }
 	void DeleteRigidbody(shared_ptr<Rigidbody> rbd);
+	
+	// Regist on queue, remove at LateUpdate
+	void RemoveBody(JPH::BodyID _bodyID) { _removeBodiesQueue.push(_bodyID); }
 
 	vector<shared_ptr<GameObject>> OverlapSphere(Bulb::Vector3 position, float radius, string tag = "");
 
@@ -146,6 +149,7 @@ private:
 	static PhysicsManager* s_instance;
 
 	vector<shared_ptr<Rigidbody>> _rigidbodies;
+	queue<JPH::BodyID> _removeBodiesQueue;
 
 	JPH::PhysicsSystem* _physicsSystem = nullptr;
 	JPH::JobSystem* _jobSystem = nullptr;

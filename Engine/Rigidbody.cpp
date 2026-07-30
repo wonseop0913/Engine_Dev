@@ -364,7 +364,7 @@ void Rigidbody::SetPhysicsActive(bool value)
 	if (_isPhysicsActive)
 		PHYSICS->GetPhysicsSystem()->GetBodyInterface().AddBody(_bodyID, EActivation::Activate);
 	else
-		PHYSICS->GetPhysicsSystem()->GetBodyInterface().RemoveBody(_bodyID);
+		PHYSICS->RemoveBody(_bodyID);
 }
 
 void Rigidbody::CreateShape()

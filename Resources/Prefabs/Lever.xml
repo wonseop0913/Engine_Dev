@@ -11,7 +11,7 @@
         </GameObject>
         <GameObject Name="Stick" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.38268346" QuatY="0" QuatZ="-0" QuatW="0.92387956"/>
                 <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\low poly dungeon assets\Cube.014.bmesh" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
             </Components>
         </GameObject>

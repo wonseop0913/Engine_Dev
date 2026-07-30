@@ -124,6 +124,12 @@ void PhysicsManager::LateUpdate()
 #ifdef BULB_EDITOR
 	if (!EDITOR->IsOnPlay()) return;
 #endif
+
+	while (!_removeBodiesQueue.empty()) {
+		JPH::BodyID bodyID = _removeBodiesQueue.front();
+		_physicsSystem->GetBodyInterface().RemoveBody(bodyID);
+		_removeBodiesQueue.pop();
+	}
 }
 
 void PhysicsManager::OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings)

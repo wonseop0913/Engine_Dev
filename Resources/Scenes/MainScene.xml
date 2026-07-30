@@ -3286,9 +3286,9 @@
                 </GameObject>
             </GameObjects>
         </GameObject>
-        <GameObject Name="Lever" PSO="opaque_solid" Tag="Default">
+        <GameObject PrefabPath="..\Resources\Prefabs\Lever.xml" Name="Lever(MiddleGate)" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="5.8000002" PosY="-1" PosZ="30" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                <Component ComponentType="Transform" PosX="5.8499999" PosY="-1" PosZ="30" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
                 <Component ComponentType="MiddleGateLeverScript"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
@@ -3298,20 +3298,19 @@
                     </Collider>
                 </Component>
             </Components>
-            <GameObjects>
-                <GameObject Name="Body" PSO="opaque_solid" Tag="Default">
-                    <Components>
-                        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
-                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\low poly dungeon assets\Cube.013.bmesh" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
-                    </Components>
-                </GameObject>
-                <GameObject Name="Stick" PSO="opaque_solid" Tag="Default">
-                    <Components>
-                        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.38268346" QuatY="0" QuatZ="-0" QuatW="0.92387956"/>
-                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\low poly dungeon assets\Cube.014.bmesh" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
-                    </Components>
-                </GameObject>
-            </GameObjects>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Lever.xml" Name="Lever(BossRoom)" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="8" PosY="-6" PosZ="35.849998" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                <Component ComponentType="BossRoomGateLeverScript"/>
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
+                    <Collider Shape="Box" Height="0.5" Radius="0.5">
+                        <Extent x="0.75" y="1" z="0.75"/>
+                        <Offset x="0" y="0" z="0"/>
+                        <RotOffset x="0" y="0" z="0"/>
+                    </Collider>
+                </Component>
+            </Components>
         </GameObject>
     </GameObjects>
 </Scene>

@@ -24,7 +24,7 @@ void BossRoomGateLeverScript::OnCollision(shared_ptr<GameObject> other)
 
 	if (other->GetTag() == "Player") {
 		if (INPUTM->IsKeyDown(KeyValue::E)) {
-			_gateObj->SetActive(true);
+			_gateObj->SetActive(false);
 
 			_isGateOpened = true;
 		}
