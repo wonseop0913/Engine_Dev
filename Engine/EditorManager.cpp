@@ -65,6 +65,8 @@ void EditorManager::Render(ID3D12GraphicsCommandList* cmdList)
 
 	shared_ptr<GameObject> seletedObject = EDITORGUI->GetSelectedGameObject();
 	if (seletedObject != nullptr) {
+		if (!seletedObject->IsActive()) return;
+
 		shared_ptr<MeshRenderer> meshRenderer = seletedObject->GetComponent<MeshRenderer>();
 		if (meshRenderer == nullptr) return;
 

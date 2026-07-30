@@ -54,6 +54,8 @@ void FrameResource::UpdateObjectSB()
 	auto objects = RENDER->GetObjects();
 	for (auto& o : objects)
 	{
+		if (!o->IsActive()) continue;
+
 		int instanceIndex = 0;
 
 		shared_ptr<MeshRenderer> meshRenderer = o->GetComponent<MeshRenderer>();
@@ -193,8 +195,6 @@ void FrameResource::BuildMaterialBufferSRV()
 
 void FrameResource::BuildLightBufferSRV()
 {
-	auto lights = RENDER->GetLights();
-
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	srvDesc.Format = DXGI_FORMAT_UNKNOWN;

@@ -33,7 +33,7 @@ void ParticleEmitter::Update(ID3D12GraphicsCommandList* cmdList)
 {
 	_emitMount = 0;
 
-	if (_isPlaying)  {
+	if (_isPlaying && _isActive)  {
 		_instantiateTime += TIME->DeltaTime();
 		if (_instantiateTime >= _emitterSetting.EmitRate) {
 			_instantiateTime = 0.0f;

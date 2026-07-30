@@ -292,6 +292,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseState.h" />
+    <ClInclude Include="BossRoomGateLeverScript.h" />
     <ClInclude Include="EnemyScript.h" />
     <ClInclude Include="MainSceneScript.h" />
     <ClInclude Include="MiddleGateLeverScript.h" />
@@ -303,6 +304,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseState.cpp" />
+    <ClCompile Include="BossRoomGateLeverScript.cpp" />
     <ClCompile Include="EnemyScript.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />
     <ClCompile Include="MiddleGateLeverScript.cpp" />

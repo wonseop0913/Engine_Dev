@@ -22,7 +22,9 @@ public:
 
 	virtual void OnCollisionEnter(shared_ptr<GameObject> other) { }
 	virtual void OnCollision(shared_ptr<GameObject> other) { }
-	virtual void OnCollisionExit(shared_ptr<GameObject> other) { }
+	virtual void OnCollisionExit(shared_ptr<GameObject> other) {}
+
+	virtual void SetActive(bool value) { _isActive = value; }
 
 	virtual void LoadXML(Bulb::XMLElement compElem) = 0;
 	virtual void SaveXML(Bulb::XMLElement compElem) = 0;
@@ -43,7 +45,6 @@ public:
 	UINT GetID() { return _id; }
 
 	bool IsActive() { return _isActive; }
-	void SetActive(bool value) { if (type != ComponentType::Transform) _isActive = value; }
 
 public:
 	ComponentType type;

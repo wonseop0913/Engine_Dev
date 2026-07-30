@@ -10,14 +10,14 @@ MiddleGateLeverScript::~MiddleGateLeverScript()
 
 void MiddleGateLeverScript::Init()
 {
-	_middleGateObj = RENDER->GetObjectW("MiddleGate");
+	_gateObj = RENDER->GetObjectW("MiddleGate");
 }
 
 void MiddleGateLeverScript::Update()
 {
-	if (_middleGateMoveTime > 0.0f) {
-		_middleGateMoveTime -= TIME->DeltaTime();
-		_middleGateObj->GetTransform()->Translate({ 0, 0, TIME->DeltaTime() });
+	if (_gateMoveTime > 0.0f) {
+		_gateMoveTime -= TIME->DeltaTime();
+		_gateObj->GetTransform()->Translate({ 0, 0, TIME->DeltaTime() });
 	}
 }
 
@@ -36,19 +36,14 @@ void MiddleGateLeverScript::SaveXML(Bulb::XMLElement compElem)
 	compElem.SetAttribute("ComponentType", "MiddleGateLeverScript");
 }
 
-void MiddleGateLeverScript::OnCollisionEnter(shared_ptr<GameObject> other)
-{
-
-}
-
 void MiddleGateLeverScript::OnCollision(shared_ptr<GameObject> other)
 {
-	if (_isMiddleGateOpened) return;
+	if (_isGateOpened) return;
 
 	if (other->GetTag() == "Player") {
 		if (INPUTM->IsKeyDown(KeyValue::E)) {
-			_middleGateMoveTime = 2.0f;
-			_isMiddleGateOpened = true;
+			_gateMoveTime = 2.0f;
+			_isGateOpened = true;
 		}
 	}
 }

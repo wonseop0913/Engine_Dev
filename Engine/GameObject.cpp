@@ -308,15 +308,33 @@ void GameObject::SetActive(bool flag)
 	if (_isActive == flag) return;
 
 	_isActive = flag;
+
 	auto& childs = GetTransform()->GetChilds();
-	if (_isActive) {
-		for (auto& t : childs) {
-			--t->GetGameObject()->_parentInactiveStack;
+	for (auto& t : childs)
+		t->GetGameObject()->SetChildInactiveStack(_isActive);
+
+	for (auto& componentVec : _components) {
+		if (componentVec.size() == 0) continue;
+
+		for (auto& c : componentVec) {
+			c->SetActive(_isActive);
 		}
 	}
-	else {
-		for (auto& t : childs) {
-			++t->GetGameObject()->_parentInactiveStack;
+}
+
+void GameObject::SetChildInactiveStack(bool flag)
+{
+	!flag ? --_parentInactiveStack : ++_parentInactiveStack;
+
+	auto& childs = GetTransform()->GetChilds();
+	for (auto& t : childs)
+		t->GetGameObject()->SetChildInactiveStack(_isActive);
+
+	for (auto& componentVec : _components) {
+		if (componentVec.size() == 0) continue;
+
+		for (auto& c : componentVec) {
+			c->SetActive(_parentInactiveStack == 0);
 		}
 	}
 }

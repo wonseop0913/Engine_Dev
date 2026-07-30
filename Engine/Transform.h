@@ -10,6 +10,8 @@ public:
 
 	void OnDestroy() override;
 
+	void SetActive(bool value) override { }
+
 	void LoadXML(Bulb::XMLElement compElem) override;
 	void SaveXML(Bulb::XMLElement compElem) override;
 

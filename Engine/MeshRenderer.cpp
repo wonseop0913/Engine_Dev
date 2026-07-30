@@ -62,6 +62,15 @@ void MeshRenderer::OnDestroy()
 		_material.reset();
 }
 
+void MeshRenderer::SetActive(bool value)
+{
+	if (_isActive != value)
+		value ? _mesh->IncreaseInstanceCount() : _mesh->DecreaseInstanceCount();
+	else return;
+
+	_isActive = value;
+}
+
 void MeshRenderer::LoadXML(Bulb::XMLElement compElem)
 {
 	const char* meshPath = compElem.Attribute("Mesh");

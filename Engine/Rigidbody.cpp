@@ -134,6 +134,16 @@ void Rigidbody::OnDestroy()
 	PHYSICS->DeleteRigidbody(static_pointer_cast<Rigidbody>(shared_from_this()));
 }
 
+void Rigidbody::SetActive(bool value)
+{
+	if (_isActive != value) {
+		SetPhysicsActive(value);
+	}
+	else return;
+
+	_isActive = value;
+}
+
 void Rigidbody::LoadXML(Bulb::XMLElement compElem)
 {
 	SetStatic(compElem.BoolAttribute("Static", false));

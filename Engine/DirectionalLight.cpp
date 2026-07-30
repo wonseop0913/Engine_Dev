@@ -97,6 +97,17 @@ void DirectionalLight::OnDestroy()
 	_transform.reset();
 }
 
+void DirectionalLight::SetActive(bool value)
+{
+	shared_ptr<Light> l = static_pointer_cast<Light>(shared_from_this());
+
+	if (_isActive != value)
+		value ? RENDER->AddLight(l) : RENDER->DeleteLight(l);
+	else return;
+
+	_isActive = value;
+}
+
 void DirectionalLight::LoadXML(Bulb::XMLElement compElem)
 {
 	intensity = compElem.FloatAttribute("Intensity", 1.0f);

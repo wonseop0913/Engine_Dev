@@ -19,6 +19,8 @@ public:
 
 	virtual void OnDestroy() override = 0;
 
+	void SetActive(bool value) override = 0;
+
 	virtual void LoadXML(Bulb::XMLElement compElem) override = 0;
 	virtual void SaveXML(Bulb::XMLElement compElem) override = 0;
 

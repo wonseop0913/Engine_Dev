@@ -96,6 +96,9 @@ public:
 	void RestoreSnapshot(GameObjectSnapshot snapshot);
 	bool IsSnapshotCaptured() { return _isSnapshotCaptured; }
 
+private:
+	void SetChildInactiveStack(bool flag);
+
 public:
 	D3D12_PRIMITIVE_TOPOLOGY primitiveType;
 
@@ -112,6 +115,8 @@ private:
 	string _psoName;
 	string _tag;
 
+	// isActive -> 해당 오브젝트 자체의 활성화 여부
+	// parentInactiveStack -> 부모 오브젝트들의 비활성화 여부, 1 이상이면 isActive = false인 경우라도 비활성화
 	bool _isActive = true;
 	int _parentInactiveStack = 0;
 	bool _isInitialized;
