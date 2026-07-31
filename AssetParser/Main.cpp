@@ -15,8 +15,8 @@ void DirectoryIterator(filesystem::path path, int count);
 int main()
 {
 	ComponentFactory::Register<MeshRenderer>("MeshRenderer");
-	ComponentFactory::Register<MeshRenderer>("SkinnedMeshRenderer");
-	ComponentFactory::Register<MeshRenderer>("Animator");
+	ComponentFactory::Register<SkinnedMeshRenderer>("SkinnedMeshRenderer");
+	ComponentFactory::Register<Animator>("Animator");
 
 	cout << "Bulb Engine Asset Parser " << CURRENT_VERSION << endl << endl;
 
