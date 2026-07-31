@@ -33,20 +33,18 @@ void Animator::Init()
 
 void Animator::Update()
 {
-#ifdef BULB_EDITOR
-	if (!EDITOR->IsOnPlay()) return;
-#endif
-
 	if (_isPreviewMode)
 	{
-		if (_previewAnimation == nullptr || !_isPreviewPlaying)
+		if (_previewAnimation == nullptr)
 			return;
 
 		UpdateBoneTransform();
 		_skeleton->UpdateUploadBuffer();
 
-		float ticksPerSecond = (GetPreviewAnimation()->GetTicksPerSecond() != 0.0f) ? GetPreviewAnimation()->GetTicksPerSecond() : 25.0f;
-		_previewTick += TIME->DeltaTime() * ticksPerSecond;
+		if (_isPreviewPlaying) {
+			float ticksPerSecond = (GetPreviewAnimation()->GetTicksPerSecond() != 0.0f) ? GetPreviewAnimation()->GetTicksPerSecond() : 25.0f;
+			_previewTick += TIME->DeltaTime() * ticksPerSecond;
+		}
 
 		if (_previewTick > GetPreviewAnimation()->GetDuration()) {
 			_previewTick = 0.0f;
@@ -61,6 +59,14 @@ void Animator::Update()
 		UpdateBoneTransform();
 		_skeleton->UpdateUploadBuffer();
 		UpdateAnimationEvent();
+
+#ifdef BULB_EDITOR
+		// if (!EDITOR->IsOnPlay()) return;
+		if (!EDITOR->IsOnPlay()) {
+			_currentTick = 0.0f;
+			return;
+		}
+#endif
 
 		if (_isInTransition) {
 			_transitionElapsedTime += TIME->DeltaTime();
@@ -98,7 +104,7 @@ void Animator::Update()
 			}
 		}
 		else if (_isCurrentAnimationEnd) {
-			// ¿©±â ¹¹ Áý¾î³Ö¾î¾ßµÇ´Âµ¥ ¹¹ ³Ö¾î¾ßµÇÁö
+			// ì—¬ê¸° ë­ ì§‘ì–´ë„£ì–´ì•¼ë˜ëŠ”ë° ë­ ë„£ì–´ì•¼ë˜ì§€
 		}
 		else {
 			_isCurrentAnimationEnd = false;
@@ -330,11 +336,11 @@ void Animator::UpdateBoneTransform(int boneIdx)
 
 	if (_isInTransition && _animations.contains(_nextAnimation))
 	{
-		// ´ÙÀ½ ¾Ö´Ï¸ÞÀÌ¼Ç Å°ÇÁ·¹ÀÓ
+		// ë‹¤ìŒ ì• ë‹ˆë©”ì´ì…˜ í‚¤í”„ë ˆìž„
 		int dummyIdx = 0;
 		Animation::KeyFrame nextFrame = _animations[_nextAnimation]->Interpolate(boneIdx, _transitionTick, dummyIdx);
 
-		// °¡ÁßÄ¡ °è»ê
+		// ê°€ì¤‘ì¹˜ ê³„ì‚°
 		float alpha = _transitionElapsedTime / _transitionTime;
 		alpha = std::clamp(alpha, 0.0f, 1.0f);
 
