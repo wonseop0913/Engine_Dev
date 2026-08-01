@@ -1,7 +1,7 @@
 #pragma once
-#include "Script.h"
+#include "Interactable.h"
 
-class MiddleGateLeverScript : public Script
+class MiddleGateLeverScript : public Interactable
 {
 public:
 	~MiddleGateLeverScript();
@@ -15,6 +15,8 @@ public:
 	void SaveXML(Bulb::XMLElement compElem) override;
 
 	void OnCollision(shared_ptr<GameObject> other) override;
+
+	void Interact() override;
 
 private:
 	shared_ptr<GameObject> _gateObj;

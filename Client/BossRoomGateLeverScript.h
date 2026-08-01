@@ -1,7 +1,7 @@
 #pragma once
-#include "Script.h"
+#include "Interactable.h"
 
-class BossRoomGateLeverScript : public Script
+class BossRoomGateLeverScript : public Interactable
 {
 public:
 	~BossRoomGateLeverScript();
@@ -17,6 +17,8 @@ public:
 	void LoadXML(Bulb::XMLElement compElem) override;
 
 	void SaveXML(Bulb::XMLElement compElem) override;
+
+	void Interact() override;
 
 private:
 	shared_ptr<GameObject> _gateObj;

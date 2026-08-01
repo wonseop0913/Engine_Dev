@@ -84,7 +84,7 @@ void MainSceneScript::FadeOut::StateUpdate(MainSceneScript* owner)
 	_elapsedTime += TIME->DeltaTime();
 	if (_elapsedTime >= owner->_fadeOutTime) {
 		_elapsedTime = 0.0f;
-		// »ç¸Á½Ã FadeOut, ´Ù½Ã ¾ÀÀ» ·ÎµåÇÏ´Â ºÎºÐ ÇÊ¿ä
+		// ì‚¬ë§ì‹œ FadeOut, ë‹¤ì‹œ ì”¬ì„ ë¡œë“œí•˜ëŠ” ë¶€ë¶„ í•„ìš”
 		// owner->SetState(MainSceneState::Common);
 	}
 }

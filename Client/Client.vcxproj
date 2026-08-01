@@ -294,6 +294,7 @@
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BossRoomGateLeverScript.h" />
     <ClInclude Include="EnemyScript.h" />
+    <ClInclude Include="Interactable.h" />
     <ClInclude Include="MainSceneScript.h" />
     <ClInclude Include="MiddleGateLeverScript.h" />
     <ClInclude Include="PlayerScript.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="BossRoomGateLeverScript.cpp" />
     <ClCompile Include="EnemyScript.cpp" />
+    <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />
     <ClCompile Include="MiddleGateLeverScript.cpp" />
     <ClCompile Include="PlayerScript.cpp" />

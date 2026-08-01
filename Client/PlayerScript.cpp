@@ -2,6 +2,7 @@
 #include "PlayerScript.h"
 #include "TPVCamera.h"
 #include "EnemyScript.h"
+#include "Interactable.h"
 
 using namespace Bulb;
 
@@ -80,6 +81,7 @@ void PlayerScript::Init()
 	_states.push_back(new StrafeBackState());
 	_states.push_back(new StrafeRightState());
 	_states.push_back(new StrafeLeftState());
+	_states.push_back(new InteractState());
 }
 
 void PlayerScript::Update()
@@ -92,7 +94,19 @@ void PlayerScript::Update()
 	Roll();
 	Attack();
 
-	if (_playerMovementState == PlayerMovementState::SLASH || _playerMovementState == PlayerMovementState::ROLL)
+	// Interact
+	if (_interactableScripts.size() > 0) {
+		if (INPUTM->IsKeyDown(KeyValue::E) &&
+			!_animator->IsTransitionBlocked()) {
+			SetState(PlayerMovementState::INTERACT);
+			_interactableScripts[0]->Interact();
+		}
+
+	}
+
+	if (_playerMovementState == PlayerMovementState::SLASH || 
+		_playerMovementState == PlayerMovementState::ROLL ||
+		_playerMovementState == PlayerMovementState::INTERACT)
 	{
 		if (_animator->IsCurrentAnimationEnd())
 		{
@@ -118,6 +132,22 @@ void PlayerScript::OnCollisionEnter(shared_ptr<GameObject> other)
 	if (other->GetTag() == "AttackHostile")
 	{
 		DEBUG->Log("Got Attack");
+	}
+
+	if (other->GetTag() == "Interactable") {
+		_interactableScripts.push_back(static_pointer_cast<Interactable>(other->GetComponent<Script>()));
+	}
+}
+
+void PlayerScript::OnCollisionExit(shared_ptr<GameObject> other)
+{
+	if (other->GetTag() == "Interactable") {
+		for (int i = 0; i < _interactableScripts.size(); ++i) {
+			if (other == _interactableScripts[i]->GetGameObject()) {
+				_interactableScripts.erase(_interactableScripts.begin() + i);
+				break;
+			}
+		}
 	}
 }
 
@@ -415,4 +445,15 @@ void PlayerScript::StrafeLeftState::StateUpdate(PlayerScript* owner)
 {
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() * 2 - owner->_lockOnTarget->GetTransform()->GetPosition());
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 0.8f);
+}
+
+void PlayerScript::InteractState::StateStart(PlayerScript* owner)
+{
+	owner->_animator->SetCurrentAnimation("casting_sword");
+	owner->_animator->SetLoop(false);
+}
+
+void PlayerScript::InteractState::StateUpdate(PlayerScript* owner)
+{
+
 }

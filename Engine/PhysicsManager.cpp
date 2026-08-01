@@ -130,6 +130,30 @@ void PhysicsManager::LateUpdate()
 		_physicsSystem->GetBodyInterface().RemoveBody(bodyID);
 		_removeBodiesQueue.pop();
 	}
+
+	while (!_collisionExitQueue.empty()) {
+		pair<JPH::BodyID, JPH::BodyID> bodyIDPair = _collisionExitQueue.front();
+
+		shared_ptr<GameObject> obj1, obj2;
+
+		// obj1
+		{
+			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.first);
+			obj1 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+			lock.ReleaseLock();
+		}
+		// obj2
+		{
+			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.second);
+			obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+			lock.ReleaseLock();
+		}
+
+		obj1->OnCollisionExit(obj2);
+		obj2->OnCollisionExit(obj1);
+
+		_collisionExitQueue.pop();
+	}
 }
 
 void PhysicsManager::OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings)
@@ -183,7 +207,20 @@ void PhysicsManager::OnContactPersisted(const CharacterVirtual* inCharacter, con
 
 void PhysicsManager::OnContactRemoved(const SubShapeIDPair& inSubShapePair)
 {
+	_collisionExitQueue.push({ inSubShapePair.GetBody1ID(), inSubShapePair.GetBody2ID() });
+}
 
+void PhysicsManager::OnContactRemoved(const CharacterVirtual* inCharacter, const BodyID& inBodyID2, const SubShapeID& inSubShapeID2)
+{
+	JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), inBodyID2);
+
+	if (lock.Succeeded()) {
+		auto obj1 = reinterpret_cast<GameObject*>(inCharacter->GetUserData())->shared_from_this();
+		auto obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+
+		obj1->OnCollisionExit(obj2);
+		obj2->OnCollisionExit(obj1);
+	}
 }
 
 void PhysicsManager::DeleteRigidbody(shared_ptr<Rigidbody> rbd)

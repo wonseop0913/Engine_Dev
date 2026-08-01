@@ -122,6 +122,8 @@ private:
 	void OnCharacterContactAdded(const CharacterVirtual* inCharacter, const CharacterVirtual* inOtherCharacter, const SubShapeID& inSubShapeID2, RVec3Arg inContactPosition, Vec3Arg inContactNormal, CharacterContactSettings& ioSettings) override;
 
 	void OnContactPersisted(const CharacterVirtual* inCharacter, const BodyID& inBodyID2, const SubShapeID& inSubShapeID2, RVec3Arg inContactPosition, Vec3Arg inContactNormal, CharacterContactSettings& ioSettings) override;
+
+	void OnContactRemoved(const CharacterVirtual* inCharacter, const BodyID& inBodyID2, const SubShapeID& inSubShapeID2) override;
 #pragma endregion
 
 public:
@@ -149,7 +151,6 @@ private:
 	static PhysicsManager* s_instance;
 
 	vector<shared_ptr<Rigidbody>> _rigidbodies;
-	queue<JPH::BodyID> _removeBodiesQueue;
 
 	JPH::PhysicsSystem* _physicsSystem = nullptr;
 	JPH::JobSystem* _jobSystem = nullptr;
@@ -158,5 +159,8 @@ private:
 	BPLayerInterfaceImpl* _bpLayerInterface = nullptr;
 	ObjectVsBPFilterImpl* _objVsBPFilter = nullptr;
 	ObjectLayerPairFilterImpl* _objLayerFilter = nullptr;
+
+	queue<JPH::BodyID> _removeBodiesQueue;
+	queue<pair<JPH::BodyID, JPH::BodyID>> _collisionExitQueue;
 };
 

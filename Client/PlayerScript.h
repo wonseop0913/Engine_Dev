@@ -3,6 +3,7 @@
 #include "BaseState.h"
 
 class TPVCamera;
+class Interactable;
 
 enum class PlayerMovementState
 {
@@ -14,7 +15,8 @@ enum class PlayerMovementState
 	STRAFE_FORWARD,
 	STRAFE_BACK,
 	STRAFE_RIGHT,
-	STRAFE_LEFT
+	STRAFE_LEFT,
+	INTERACT
 };
 
 class PlayerScript : public Script
@@ -73,6 +75,12 @@ class PlayerScript : public Script
 		void StateStart(PlayerScript* owner) override;
 		void StateUpdate(PlayerScript* owner) override;
 	};
+
+	class InteractState : public BaseState<PlayerScript> {
+	public:
+		void StateStart(PlayerScript* owner) override;
+		void StateUpdate(PlayerScript* owner) override;
+	};
 #pragma endregion
 
 public:
@@ -82,6 +90,8 @@ public:
 	void Update() override;
 
 	void OnCollisionEnter(shared_ptr<GameObject> other) override;
+
+	void OnCollisionExit(shared_ptr<GameObject> other) override;
 
 	void OnDestroy() override;
 
@@ -139,4 +149,5 @@ private:
 	float _recoverySteminaDelayedTime = 0.0f;
 	bool _isRecoveryPossible = true;
 
+	vector<shared_ptr<Interactable>> _interactableScripts;
 };

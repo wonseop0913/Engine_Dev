@@ -11,6 +11,8 @@ MiddleGateLeverScript::~MiddleGateLeverScript()
 void MiddleGateLeverScript::Init()
 {
 	_gateObj = RENDER->GetObjectW("MiddleGate");
+
+	GetGameObject()->SetTag("Interactable");
 }
 
 void MiddleGateLeverScript::Update()
@@ -38,12 +40,20 @@ void MiddleGateLeverScript::SaveXML(Bulb::XMLElement compElem)
 
 void MiddleGateLeverScript::OnCollision(shared_ptr<GameObject> other)
 {
+	//if (_isGateOpened) return;
+
+	//if (other->GetTag() == "Player") {
+	//	if (INPUTM->IsKeyDown(KeyValue::E)) {
+	//		_gateMoveTime = 2.0f;
+	//		_isGateOpened = true;
+	//	}
+	//}
+}
+
+void MiddleGateLeverScript::Interact()
+{
 	if (_isGateOpened) return;
 
-	if (other->GetTag() == "Player") {
-		if (INPUTM->IsKeyDown(KeyValue::E)) {
-			_gateMoveTime = 2.0f;
-			_isGateOpened = true;
-		}
-	}
+	_gateMoveTime = 2.0f;
+	_isGateOpened = true;
 }
