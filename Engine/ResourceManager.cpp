@@ -771,6 +771,9 @@ shared_ptr<GameObject> ResourceManager::LoadPrefabXML(const string& filePath)
 			string componentType = compElem->Attribute("ComponentType");
 			shared_ptr<Component> component = ComponentFactory::Create(componentType);
 
+			// Transform은 인스턴스화된 정보를 항상 따라야함
+			component->_isPrefabOriginated = componentType != "Transform";
+
 			rootObj->AddComponent(component);
 			component->LoadXML(compElem);
 

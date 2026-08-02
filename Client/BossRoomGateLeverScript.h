@@ -10,15 +10,13 @@ public:
 
 	void Update() override;
 
-	void OnCollision(shared_ptr<GameObject> other) override;
-
 	void OnDestroy() override;
 
 	void LoadXML(Bulb::XMLElement compElem) override;
 
 	void SaveXML(Bulb::XMLElement compElem) override;
 
-	void Interact() override;
+	void Interact(shared_ptr<GameObject> opponent) override;
 
 private:
 	shared_ptr<GameObject> _gateObj;

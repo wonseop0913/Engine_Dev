@@ -51,11 +51,11 @@ void PlayerScript::Init()
 
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
 
-	_controller = static_pointer_cast<CharacterController>(ComponentFactory::Create("CharacterController"));
+	// _controller = static_pointer_cast<CharacterController>(ComponentFactory::Create("CharacterController"));
+	_controller = _gameObject->GetComponent<CharacterController>();
 	_controller->SetHalfHeight(0.5f);
 	_controller->SetRadius(0.3f);
 	_controller->SetOffset(Vector3(0.0f, 0.8f, 0.0f));
-	_gameObject->AddComponent(_controller);
 
 	_hpBar = UI->CreateUI<UISlider>();
 	_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
@@ -99,7 +99,7 @@ void PlayerScript::Update()
 		if (INPUTM->IsKeyDown(KeyValue::E) &&
 			!_animator->IsTransitionBlocked()) {
 			SetState(PlayerMovementState::INTERACT);
-			_interactableScripts[0]->Interact();
+			_interactableScripts[0]->Interact(_gameObject);
 		}
 
 	}

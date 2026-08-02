@@ -100,6 +100,38 @@ void PhysicsManager::Update()
 
 	_physicsSystem->Update(TIME->DeltaTime(), 1, _tempAlloc, _jobSystem);
 
+	// Remove Body Queue
+	while (!_removeBodiesQueue.empty()) {
+		JPH::BodyID bodyID = _removeBodiesQueue.front();
+		_physicsSystem->GetBodyInterface().RemoveBody(bodyID);
+		_removeBodiesQueue.pop();
+	}
+
+	// OnCollisionExit
+	while (!_collisionExitQueue.empty()) {
+		pair<JPH::BodyID, JPH::BodyID> bodyIDPair = _collisionExitQueue.front();
+
+		shared_ptr<GameObject> obj1, obj2;
+
+		// obj1
+		{
+			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.first);
+			obj1 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+			lock.ReleaseLock();
+		}
+		// obj2
+		{
+			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.second);
+			obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+			lock.ReleaseLock();
+		}
+
+		obj1->OnCollisionExit(obj2);
+		obj2->OnCollisionExit(obj1);
+
+		_collisionExitQueue.pop();
+	}
+
 	for (auto& rigidbody : _rigidbodies) {
 		if (!_physicsSystem->GetBodyInterface().IsActive(rigidbody->GetBodyID()) || 
 			!rigidbody->IsActive() ||
@@ -124,36 +156,6 @@ void PhysicsManager::LateUpdate()
 #ifdef BULB_EDITOR
 	if (!EDITOR->IsOnPlay()) return;
 #endif
-
-	while (!_removeBodiesQueue.empty()) {
-		JPH::BodyID bodyID = _removeBodiesQueue.front();
-		_physicsSystem->GetBodyInterface().RemoveBody(bodyID);
-		_removeBodiesQueue.pop();
-	}
-
-	while (!_collisionExitQueue.empty()) {
-		pair<JPH::BodyID, JPH::BodyID> bodyIDPair = _collisionExitQueue.front();
-
-		shared_ptr<GameObject> obj1, obj2;
-
-		// obj1
-		{
-			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.first);
-			obj1 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
-			lock.ReleaseLock();
-		}
-		// obj2
-		{
-			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.second);
-			obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
-			lock.ReleaseLock();
-		}
-
-		obj1->OnCollisionExit(obj2);
-		obj2->OnCollisionExit(obj1);
-
-		_collisionExitQueue.pop();
-	}
 }
 
 void PhysicsManager::OnContactAdded(const Body& inBody1, const Body& inBody2, const ContactManifold& inManifold, ContactSettings& ioSettings)

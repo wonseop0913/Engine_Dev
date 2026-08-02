@@ -9,6 +9,7 @@ class Camera;
 
 class BULB_API Component : public enable_shared_from_this<Component>
 {
+	friend class ResourceManager;
 public:
 	Component(ComponentType type);
 	virtual ~Component();
@@ -45,6 +46,8 @@ public:
 	UINT GetID() { return _id; }
 
 	bool IsActive() { return _isActive; }
+	
+	bool IsPrefabOriginated() { return _isPrefabOriginated; }
 
 public:
 	ComponentType type;
@@ -54,6 +57,7 @@ protected:
 	UINT _id;
 	weak_ptr<GameObject> _gameObject;
 	bool _isActive = true;
+	bool _isPrefabOriginated = false;
 
 private:
 	friend class GameObject;

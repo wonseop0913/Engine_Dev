@@ -132,7 +132,7 @@ void SceneManager::LoadScene(string sceneName, bool isFullPath)
 		ReadUIData(uisElem, nullptr);
 	}
 
-	// ÀÌ ºÎºĞÀº ÃßÈÄ¿¡ ¿¡µğÅÍ¿¡¼­¸¸ Àû¿ëµÇµµ·Ï º¯°æÇØ¾ßÇÔ.
+	// ì´ ë¶€ë¶„ì€ ì¶”í›„ì— ì—ë””í„°ì—ì„œë§Œ ì ìš©ë˜ë„ë¡ ë³€ê²½í•´ì•¼í•¨.
 
 #ifdef BULB_EDITOR
 	EDITOR->SetEditorWindowText(_currentSceneName);
@@ -148,7 +148,7 @@ void SceneManager::SaveScene(bool saveAs)
 {
 	if (!saveAs && !_currentScenePath.empty() && filesystem::exists(_currentScenePath)) {
 		filesystem::path p(_currentScenePath);
-		SaveScene(_currentScenePath, p.is_relative());	// ·ÎµåµÈ ¾ÀµéÀº ÀÌ·ĞÀûÀ¸·Î ´Ù »ó´ë°æ·Î±ä ÇÑµ¥ È¤½Ã ¸ô¶ó¼­ °ËÁõºÎºĞ ³Ö¾îµÒ
+		SaveScene(_currentScenePath, p.is_relative());	// ë¡œë“œëœ ì”¬ë“¤ì€ ì´ë¡ ì ìœ¼ë¡œ ë‹¤ ìƒëŒ€ê²½ë¡œê¸´ í•œë° í˜¹ì‹œ ëª°ë¼ì„œ ê²€ì¦ë¶€ë¶„ ë„£ì–´ë‘ 
 		return;
 	}
 
@@ -157,7 +157,7 @@ void SceneManager::SaveScene(bool saveAs)
 	ComPtr<IFileSaveDialog> pFileSave;
 	ThrowIfFailed(CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_ALL, IID_PPV_ARGS(&pFileSave)));
 
-	// Å½»ö±â ¿­ ¶§ º¸ÀÌ´Â ±âº» Æú´õ ¼³Á¤ÇÏ´Â ºÎºĞ ±¸ÇöÇØ¾ßÇÔ.
+	// íƒìƒ‰ê¸° ì—´ ë•Œ ë³´ì´ëŠ” ê¸°ë³¸ í´ë” ì„¤ì •í•˜ëŠ” ë¶€ë¶„ êµ¬í˜„í•´ì•¼í•¨.
 	//pFileSave->SetFolder();
 	pFileSave->SetFileName(Utils::ToWString(_currentSceneName).c_str());
 	pFileSave->SetDefaultExtension(L"xml");
@@ -296,31 +296,31 @@ void SceneManager::WriteGameObjectData(XMLElement* objsElem, shared_ptr<GameObje
 	objElem->SetAttribute("PSO", go->GetPSOName().c_str());
 	objElem->SetAttribute("Tag", go->GetTag().c_str());
 
-	// ÇÁ¸®ÆÕÀÌ ¾Æ´Ñ °æ¿ì -> ¸ğµç ÄÄÆ÷³ÍÆ® Á¤º¸ ÀúÀå
-	// ÇÁ¸®ÆÕÀÎ °æ¿ì -> TransformÀÇ Á¤º¸ º¯È­¸¸ ÀúÀå
+	// í”„ë¦¬íŒ¹ì´ ì•„ë‹Œ ê²½ìš° -> ëª¨ë“  ì»´í¬ë„ŒíŠ¸ ì •ë³´ ì €ì¥
+	// í”„ë¦¬íŒ¹ì¸ ê²½ìš° -> Transformì˜ ì •ë³´ ë³€í™”ë§Œ ì €ì¥
 	XMLElement* compsElem = objElem->InsertNewChildElement("Components");
-	if (!go->IsPrefab()) {
+	if (true) {
 		auto& componentsArr = go->GetAllComponents();
 		for (auto& componentsVec : componentsArr) {
 			for (auto& component : componentsVec) {
+				if (component->IsPrefabOriginated())
+					continue;
+
 				XMLElement* compElem = compsElem->InsertNewChildElement("Component");
 				component->SaveXML(compElem);
 			}
 		}
 
-		shared_ptr<Transform> transform = go->GetTransform();
-		auto& childs = transform->GetChilds();
-		if (childs.size() > 0) {
-			XMLElement* childsElem = objElem->InsertNewChildElement("GameObjects");
-			for (int i = 0; i < childs.size(); ++i) {
-				WriteGameObjectData(childsElem, childs[i]->GetGameObject());
+		if (!go->IsPrefab()) {
+			shared_ptr<Transform> transform = go->GetTransform();
+			auto& childs = transform->GetChilds();
+			if (childs.size() > 0) {
+				XMLElement* childsElem = objElem->InsertNewChildElement("GameObjects");
+				for (int i = 0; i < childs.size(); ++i) {
+					WriteGameObjectData(childsElem, childs[i]->GetGameObject());
+				}
 			}
 		}
-	}
-	else {
-		shared_ptr<Transform> transform = go->GetTransform();
-		XMLElement* compElem = compsElem->InsertNewChildElement("Component");
-		transform->SaveXML(compElem);
 	}
 
 	objsElem->InsertEndChild(objElem);

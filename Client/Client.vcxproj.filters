@@ -21,13 +21,15 @@
     <ClInclude Include="MainSceneScript.h">
       <Filter>Scripts\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="MiddleGateLeverScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="BossRoomGateLeverScript.h">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="Interactable.h" />
+    <ClInclude Include="MiddleGateLeverScript.h">
+      <Filter>Scripts\Interactable</Filter>
+    </ClInclude>
+    <ClInclude Include="Interactable.h">
+      <Filter>Scripts\Interactable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -50,13 +52,15 @@
     <ClCompile Include="MainSceneScript.cpp">
       <Filter>Scripts\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="MiddleGateLeverScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="BossRoomGateLeverScript.cpp">
-      <Filter>Scripts</Filter>
+      <Filter>Scripts\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="Interactable.cpp" />
+    <ClCompile Include="MiddleGateLeverScript.cpp">
+      <Filter>Scripts\Interactable</Filter>
+    </ClCompile>
+    <ClCompile Include="Interactable.cpp">
+      <Filter>Scripts\Interactable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">
@@ -64,6 +68,9 @@
     </Filter>
     <Filter Include="Scripts\Scene">
       <UniqueIdentifier>{ffd435db-4483-4f1a-af7e-fa83775e9bdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Interactable">
+      <UniqueIdentifier>{946d02e9-ded4-425e-a706-dd2c6e66a288}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

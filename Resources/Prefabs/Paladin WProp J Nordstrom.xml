@@ -21,6 +21,7 @@
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\casting_sword.banim"/>
             </Animations>
         </Component>
+        <Component ComponentType="CharacterController"/>
         <Component ComponentType="PlayerScript"/>
     </Components>
     <GameObjects>
