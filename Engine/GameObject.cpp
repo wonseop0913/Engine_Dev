@@ -392,6 +392,7 @@ GameObjectSnapshot GameObject::CaptureSnapshot()
 	snapshot.id = _id;
 	snapshot.name = _name;
 	snapshot.pso = _psoName;
+	snapshot.isActive = _isActive;
 
 	return snapshot;
 }
@@ -401,4 +402,5 @@ void GameObject::RestoreSnapshot(GameObjectSnapshot snapshot)
 	_isSnapshotCaptured = false;
 	SetName(snapshot.name);
 	SetPSOName(snapshot.pso);
+	SetActive(snapshot.isActive);
 }

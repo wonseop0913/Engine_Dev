@@ -149,4 +149,5 @@ struct GameObjectSnapshot {
 	string name;
 	string pso;
 	vector<int> compSnapshotIndices;
+	bool isActive;
 };
