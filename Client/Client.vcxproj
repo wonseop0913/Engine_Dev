@@ -293,6 +293,7 @@
   <ItemGroup>
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BossRoomGateLeverScript.h" />
+    <ClInclude Include="BossRoomVeilScript.h" />
     <ClInclude Include="EnemyScript.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="MainSceneScript.h" />
@@ -306,6 +307,7 @@
   <ItemGroup>
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="BossRoomGateLeverScript.cpp" />
+    <ClCompile Include="BossRoomVeilScript.cpp" />
     <ClCompile Include="EnemyScript.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />

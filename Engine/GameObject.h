@@ -142,9 +142,14 @@ shared_ptr<T> GameObject::GetComponent()
 	int componentTypeIdx = GetComponentTypeIndex(componentType);
 
 	if (componentTypeIdx == -1) return nullptr;
-	if (_components[componentTypeIdx].size() > 0)
-		return static_pointer_cast<T>(_components[componentTypeIdx][0]);
-	else return nullptr;
+	if (_components[componentTypeIdx].size() > 0) {
+		for (int i = 0; i < _components[componentTypeIdx].size(); ++i) {
+			if (dynamic_pointer_cast<T>(_components[componentTypeIdx][i]))
+				return static_pointer_cast<T>(_components[componentTypeIdx][i]);
+		}
+	}
+	else
+		return nullptr;
 }
 
 template<typename T>

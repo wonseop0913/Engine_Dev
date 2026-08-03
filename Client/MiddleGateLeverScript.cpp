@@ -25,7 +25,7 @@ void MiddleGateLeverScript::Update()
 
 void MiddleGateLeverScript::OnDestroy()
 {
-
+	_gateObj.reset();
 }
 
 void MiddleGateLeverScript::LoadXML(Bulb::XMLElement compElem)

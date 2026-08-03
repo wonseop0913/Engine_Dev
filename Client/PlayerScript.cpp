@@ -70,7 +70,7 @@ void PlayerScript::Init()
 	_steminaBar->SetValueMaxLimit(steminaMax);
 	_steminaBar->SetValue(stemina);
 
-	tpvCameraScript = static_pointer_cast<TPVCamera>(RENDER->GetObject("TPVCamera")->GetComponent<Script>());
+	tpvCameraScript = RENDER->GetObject("TPVCamera")->GetComponent<TPVCamera>();
 
 	_states.push_back(new IdleState());
 	_states.push_back(new WalkState());
@@ -135,7 +135,7 @@ void PlayerScript::OnCollisionEnter(shared_ptr<GameObject> other)
 	}
 
 	if (other->GetTag() == "Interactable") {
-		_interactableScripts.push_back(static_pointer_cast<Interactable>(other->GetComponent<Script>()));
+		_interactableScripts.push_back(other->GetComponent<Interactable>());
 	}
 }
 

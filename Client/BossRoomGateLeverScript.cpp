@@ -10,7 +10,7 @@ BossRoomGateLeverScript::~BossRoomGateLeverScript()
 
 void BossRoomGateLeverScript::Init()
 {
-	_gateObj = RENDER->GetObjectW("Boss Room Block Gate Plain");
+	_gateObj = RENDER->GetObjectW("Boss Room Block Gate");
 
 	GetGameObject()->SetTag("Interactable");
 }
@@ -22,7 +22,7 @@ void BossRoomGateLeverScript::Update()
 
 void BossRoomGateLeverScript::OnDestroy()
 {
-
+	_gateObj.reset();
 }
 
 void BossRoomGateLeverScript::LoadXML(Bulb::XMLElement compElem)
