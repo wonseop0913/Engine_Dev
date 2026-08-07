@@ -23,13 +23,12 @@ void EnemyScript::Init()
 	_animator = _gameObject->GetComponent<Animator>();
 	_animator->SetLoop(true);
 
-	_controller = make_shared<CharacterController>();
+	_controller = _gameObject->GetComponent<CharacterController>();
 	_controller->SetHalfHeight(0.6f);
 	_controller->SetRadius(0.3f);
 	_controller->SetOffset(Vector3(0.0f, 0.9f, 0.0f));
-	_gameObject->AddComponent(_controller);
 
-	_hitbox = make_shared<Rigidbody>();
+	_hitbox = _gameObject->GetComponent<Rigidbody>();
 	_hitbox->SetColliderShape(ColliderShape::Capsule);
 	_hitbox->SetColliderHalfHeight(0.6f);
 	_hitbox->SetColliderRadius(0.3f);
@@ -37,10 +36,10 @@ void EnemyScript::Init()
 	_hitbox->SetColliderTrigger(true);
 	_hitbox->SetStatic(true);
 	_hitbox->SetGravity(false);
-	_gameObject->AddComponent(_hitbox);
 
 	_patterns.push_back(new IdleState());
 	_patterns.push_back(new TrackWalkState());
+	_patterns.push_back(new AttackState());
 	_patterns.push_back(new DeathState());
 
 	_enemyStateUI = UI->CreateUI<UIFrame>();
@@ -68,31 +67,42 @@ void EnemyScript::Init()
 	_healthBarUI->SetValue(_health);
 
 	_enemyStateUI->SetRenderActive(false);
+
+	target = RENDER->GetObjectWithTag("Player");
 }
 
 void EnemyScript::Update()
 {
+	if (blockExecute)
+		return;
+
 	UpdateDamageText();
 
-	if (_currentState != EnemyMovementState::DEATH) {
+	_targetVec = target->GetTransform()->GetPosition() - _transform->GetPosition();
+	_targetVec.y = 0;
+
+	if (_currentState != EnemyState::DEATH) {
 		if (_health <= 0) {
-			SetState(EnemyMovementState::DEATH);
+			SetState(EnemyState::DEATH);
 		}
 
-		else {
-			if (target == nullptr) {
-				target = RENDER->GetObjectWithTag("Player");
+		else if (_currentState == EnemyState::IDLE) {
+			int pattern = Utils::Random(0, 9);
+
+			if (/*pattern <= 3*/true) {
+				SetState(EnemyState::WALK);
+			}
+			else {
+				SetState(EnemyState::ATTACK);
 			}
 
-			_targetVec = target->GetTransform()->GetPosition() - _transform->GetPosition();
-			_targetVec.y = 0;
-			_targetDistance = _targetVec.Length();
-			if (_targetDistance >= 2.0f && _currentState != EnemyMovementState::WALK) {
-				SetState(EnemyMovementState::WALK);
-			}
-			else if (_targetDistance < 2.0f && _currentState != EnemyMovementState::IDLE) {
-				SetState(EnemyMovementState::IDLE);
-			}
+			//_targetDistance = _targetVec.Length();
+			//if (_targetDistance >= 2.0f && _currentState != EnemyMovementState::WALK) {
+			//	SetState(EnemyMovementState::WALK);
+			//}
+			//else if (_targetDistance < 2.0f && _currentState != EnemyMovementState::IDLE) {
+			//	SetState(EnemyMovementState::IDLE);
+			//}
 		}
 	}
 
@@ -182,17 +192,59 @@ void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
 
 void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 {
-	owner->_animator->SetCurrentAnimation("walk_forward");
+	patternTime = Utils::Random(1, 3);
+	int direction = Utils::Random(0, 2);
+
+	switch (direction) {
+		case 0: {
+			movingDir = MovingDirection::FRONT;
+			owner->_animator->SetCurrentAnimation("walk_forward");
+			break;
+		}
+		case 1: {
+			movingDir = MovingDirection::LEFT;
+			owner->_animator->SetCurrentAnimation("walk_left");
+			break;
+		}
+		case 2: {
+			movingDir = MovingDirection::RIGHT;
+			owner->_animator->SetCurrentAnimation("walk_right");
+			break;
+		}
+	}
 }
 
 void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
-	owner->_controller->SetVelocity(owner->_targetVec.Normalize() * 1.1f);
+	if (patternTime > 0.0f) {
+		owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
+
+		if (movingDir == MovingDirection::FRONT)
+			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 1.1f);
+		else if (movingDir == MovingDirection::LEFT)
+			owner->_controller->SetVelocity(-owner->_transform->GetLeft() * 1.1f);
+		else if (movingDir == MovingDirection::RIGHT)
+			owner->_controller->SetVelocity(-owner->_transform->GetRight() * 1.1f);
+
+		patternTime -= TIME->DeltaTime();
+	}
+	else {
+		owner->SetState(EnemyState::IDLE);
+	}
 }
 
 void EnemyScript::DeathState::StateStart(EnemyScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("death1");
 	owner->_animator->SetLoop(false);
+}
+
+void EnemyScript::AttackState::StateStart(EnemyScript* owner)
+{
+
+}
+
+void EnemyScript::AttackState::StateUpdate(EnemyScript* owner)
+{
+
 }

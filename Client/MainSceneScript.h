@@ -2,14 +2,16 @@
 #include "Script.h"
 #include "BaseState.h"
 
+enum class MainSceneState {
+	Init = -1,
+	FadeIn,
+	Common,
+	FadeOut,
+	BossFight
+};
+
 class MainSceneScript : public Script
 {
-	enum class MainSceneState {
-		Init = -1,
-		FadeIn,
-		Common,
-		FadeOut
-	};
 
 	class FadeIn : public BaseState<MainSceneScript> {
 		void StateStart(MainSceneScript* owner) override;
@@ -31,6 +33,11 @@ class MainSceneScript : public Script
 		float _elapsedTime = 0.0f;
 	};
 
+	class BossFight : public BaseState<MainSceneScript> {
+		void StateStart(MainSceneScript* owner) override;
+		void StateUpdate(MainSceneScript* owner) override;
+	};
+
 public:
 	~MainSceneScript();
 
@@ -44,9 +51,9 @@ public:
 	void SaveXML(Bulb::XMLElement compElem) override;
 
 	ComponentSnapshot CaptureSnapshot() override;
+
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
 
-private:
 	void SetState(MainSceneState state) {
 		if (_currentState == state) return;
 		_currentState = state;

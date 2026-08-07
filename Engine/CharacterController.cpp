@@ -52,6 +52,8 @@ void CharacterController::PreUpdate()
 	if (!EDITOR->IsOnPlay()) return;
 #endif
 
+	if (!_isPhysicsActive) return;
+
 	Bulb::Vector3 pos = GetTransform()->GetPosition();
 	_character->SetPosition({ pos.x, pos.y, pos.z });
 
@@ -137,6 +139,12 @@ void CharacterController::RestoreSnapshot(ComponentSnapshot snapshot)
 	_currentVelocity = { 0.0f, 0.0f, 0.0f };
 	_desiredVelocity = { 0.0f, 0.0f, 0.0f };
 	_verticalVelocity = 0.0f;
+}
+
+void CharacterController::SetPhysicsActive(bool value)
+{
+	if (value == _isPhysicsActive) return;
+	_isPhysicsActive = value;
 }
 
 bool CharacterController::IsOnGround()

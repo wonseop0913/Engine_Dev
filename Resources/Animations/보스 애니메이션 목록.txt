@@ -3,9 +3,14 @@ Brute\\idle
 
 WALK
 Brute\\walk_forward     // 전진
+Brute\\walk_left
+Brute\\walk_right
 
-RUN
-Brute\\run_forward      // 전진
+ATTACK
+Brute\\axe_attack_downup_1
+Brute\\axe_attack_360_1
+Brute\\axe_attack_360_2
+Brute\\axe_attack_combo_2
 
 DEATH
 Brute\\death1

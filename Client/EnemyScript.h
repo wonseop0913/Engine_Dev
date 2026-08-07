@@ -2,15 +2,22 @@
 #include "Script.h"
 #include "BaseState.h"
 
-enum class EnemyMovementState
+enum class EnemyState
 {
     IDLE,
     WALK,
+	ATTACK,
     DEATH
 };
 
 class EnemyScript : public Script
 {
+	enum class MovingDirection {
+		FRONT,
+		LEFT,
+		RIGHT
+	};
+
 	class IdleState : public BaseState<EnemyScript> {
 	public:
 		void StateStart(EnemyScript* owner) override;
@@ -18,6 +25,15 @@ class EnemyScript : public Script
 	};
 
 	class TrackWalkState : public BaseState<EnemyScript> {
+	public:
+		void StateStart(EnemyScript* owner) override;
+		void StateUpdate(EnemyScript* owner) override;
+	private:
+		float patternTime;
+		MovingDirection movingDir;
+	};
+
+	class AttackState : public BaseState<EnemyScript> {
 	public:
 		void StateStart(EnemyScript* owner) override;
 		void StateUpdate(EnemyScript* owner) override;
@@ -46,7 +62,7 @@ public:
 	shared_ptr<Transform> GetCenterTransform() { return _centerTransform; }
 
 private:
-	void SetState(EnemyMovementState state) {
+	void SetState(EnemyState state) {
 		if (_currentState == state) return;
 		_currentState = state;
 		_isStateChanged = true;
@@ -58,6 +74,8 @@ private:
 public:
 	shared_ptr<GameObject> target;
 
+	bool blockExecute = true;
+
 private:
 	shared_ptr<GameObject> _gameObject;
 	shared_ptr<Transform> _transform;
@@ -67,7 +85,7 @@ private:
 	shared_ptr<Rigidbody> _hitbox;
 
     int _health = 100;
-    EnemyMovementState _currentState = EnemyMovementState::IDLE;
+    EnemyState _currentState = EnemyState::IDLE;
     bool _isStateChanged = false;
 
     vector<BaseState<EnemyScript>*> _patterns;

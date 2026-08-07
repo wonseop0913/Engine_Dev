@@ -6,5 +6,7 @@ public:
 	virtual ~Interactable() = default;
 
 	virtual void Interact(shared_ptr<GameObject> opponent) = 0;
+
+	bool isInteractable = true;
 };
 

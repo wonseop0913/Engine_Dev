@@ -3,6 +3,7 @@
 #include "TPVCamera.h"
 #include "EnemyScript.h"
 #include "Interactable.h"
+#include "MainSceneScript.h"
 
 using namespace Bulb;
 
@@ -82,6 +83,9 @@ void PlayerScript::Init()
 	_states.push_back(new StrafeRightState());
 	_states.push_back(new StrafeLeftState());
 	_states.push_back(new InteractState());
+	_states.push_back(new EnterVeilState());
+
+	SOUND->LoadSound("Sounds/PlayerSword.mp3", false);
 }
 
 void PlayerScript::Update()
@@ -95,18 +99,12 @@ void PlayerScript::Update()
 	Attack();
 
 	// Interact
-	if (_interactableScripts.size() > 0) {
-		if (INPUTM->IsKeyDown(KeyValue::E) &&
-			!_animator->IsTransitionBlocked()) {
-			SetState(PlayerMovementState::INTERACT);
-			_interactableScripts[0]->Interact(_gameObject);
-		}
-
-	}
+	Interact();
 
 	if (_playerMovementState == PlayerMovementState::SLASH || 
 		_playerMovementState == PlayerMovementState::ROLL ||
-		_playerMovementState == PlayerMovementState::INTERACT)
+		_playerMovementState == PlayerMovementState::INTERACT ||
+		_playerMovementState == PlayerMovementState::ENTER_VEIL)
 	{
 		if (_animator->IsCurrentAnimationEnd())
 		{
@@ -290,6 +288,26 @@ void PlayerScript::LockOn()
 	}
 }
 
+void PlayerScript::Interact()
+{
+	// 1. 상호작용 비활성화 객체 삭제
+	// 2. 삭제 후 상호작용 검증
+	// + 따라서 원래 비활성화 상태였던 객체가 활성화 상태로 바뀐 경우 상호작용을 하려면 다시 CollisionEnter가 작동해야함
+	for (int i = 0; i < _interactableScripts.size(); ++i) {
+		if (!_interactableScripts[i]->isInteractable) {
+			_interactableScripts.erase(_interactableScripts.begin() + i);
+			--i;
+		}
+	}
+
+	if (_interactableScripts.size() > 0) {
+		if (INPUTM->IsKeyDown(KeyValue::E) &&
+			!_animator->IsTransitionBlocked()) {
+			_interactableScripts[0]->Interact(_gameObject);
+		}
+	}
+}
+
 void PlayerScript::RecoveryStemina()
 {
 	if (!_isRecoveryPossible)
@@ -325,8 +343,12 @@ void PlayerScript::DecreaseStemina(float value, bool instantChange)
 void PlayerScript::AnimationEventListener(AnimationEvent event)
 {
 	if (event.type == AnimationEventTypes::Attack) {
-		_swordRb->SetPhysicsActive(event.datas[2].x == 1);
+		bool attackFlag = event.datas[2].x == 1;
+
+		_swordRb->SetPhysicsActive(attackFlag);
 		_swordRb->customData = event.datas[0].w;
+		if (attackFlag)
+			SOUND->PlaySound("Sounds/PlayerSword.mp3");
 	}
 }
 
@@ -456,4 +478,28 @@ void PlayerScript::InteractState::StateStart(PlayerScript* owner)
 void PlayerScript::InteractState::StateUpdate(PlayerScript* owner)
 {
 
+}
+
+void PlayerScript::EnterVeilState::StateStart(PlayerScript* owner)
+{
+	owner->_animator->SetCurrentAnimation("walk_sword_forward");
+	owner->_animator->SetLoop(true);
+
+	owner->_controller->SetGravity(false);
+	owner->_controller->SetPhysicsActive(false);
+
+	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - Bulb::Vector3(1.0f, 0.0f, 0.0f));
+}
+
+void PlayerScript::EnterVeilState::StateUpdate(PlayerScript* owner)
+{
+	if (owner->_transform->GetPosition().x < 23.5f) {
+		owner->_transform->Translate(Bulb::Vector3(1.0f, 0.0f, 0.0f) * owner->_speed * 0.8f * TIME->DeltaTime());
+	}
+	else {
+		owner->SetState(PlayerMovementState::IDLE);
+		owner->_controller->SetGravity(true);
+		owner->_controller->SetPhysicsActive(true);
+		RENDER->GetObjectW("SceneScript")->GetComponent<MainSceneScript>()->SetState(MainSceneState::BossFight);
+	}
 }

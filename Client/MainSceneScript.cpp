@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MainSceneScript.h"
+#include "EnemyScript.h"
 
 REGISTER_COMPONENT(MainSceneScript)
 
@@ -13,7 +14,10 @@ void MainSceneScript::Init()
 	_states.push_back(new FadeIn());
 	_states.push_back(new Common());
 	_states.push_back(new FadeOut());
+	_states.push_back(new BossFight());
 	SetState(MainSceneState::FadeIn);
+
+	SOUND->LoadSound("Sounds/Boss.mp3", false);
 }
 
 void MainSceneScript::Update()
@@ -87,4 +91,15 @@ void MainSceneScript::FadeOut::StateUpdate(MainSceneScript* owner)
 		// 사망시 FadeOut, 다시 씬을 로드하는 부분 필요
 		// owner->SetState(MainSceneState::Common);
 	}
+}
+
+void MainSceneScript::BossFight::StateStart(MainSceneScript* owner)
+{
+	RENDER->GetObjectW("Brute")->GetComponent<EnemyScript>()->blockExecute = false;
+	SOUND->PlaySound("Sounds/Boss.mp3", "BGM");
+}
+
+void MainSceneScript::BossFight::StateUpdate(MainSceneScript* owner)
+{
+
 }

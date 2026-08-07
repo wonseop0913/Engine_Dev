@@ -5,10 +5,23 @@
             <Animations>
                 <Animation Path="..\Resources\Animations\Brute\idle.banim"/>
                 <Animation Path="..\Resources\Animations\Brute\walk_forward.banim"/>
-                <Animation Path="..\Resources\Animations\Brute\run_forward.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\walk_left.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\walk_right.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\axe_attack_downup_1.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\axe_attack_360_1.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\axe_attack_360_2.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\axe_attack_combo_2.banim"/>
                 <Animation Path="..\Resources\Animations\Brute\death1.banim"/>
             </Animations>
         </Component>
+        <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
+            <Collider Shape="Capsule" Height="0.60000002" Radius="0.30000001">
+                <Extent x="0.5" y="0.5" z="0.5"/>
+                <Offset x="0" y="0.89999998" z="0"/>
+                <RotOffset x="0" y="0" z="0"/>
+            </Collider>
+        </Component>
+        <Component ComponentType="CharacterController"/>
         <Component ComponentType="EnemyScript"/>
     </Components>
     <GameObjects>

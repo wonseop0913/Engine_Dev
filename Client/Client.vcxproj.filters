@@ -30,7 +30,9 @@
     <ClInclude Include="Interactable.h">
       <Filter>Scripts\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="BossRoomVeilScript.h" />
+    <ClInclude Include="BossRoomVeilScript.h">
+      <Filter>Scripts\Interactable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -62,7 +64,9 @@
     <ClCompile Include="Interactable.cpp">
       <Filter>Scripts\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="BossRoomVeilScript.cpp" />
+    <ClCompile Include="BossRoomVeilScript.cpp">
+      <Filter>Scripts\Interactable</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">

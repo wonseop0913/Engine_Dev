@@ -16,7 +16,8 @@ enum class PlayerMovementState
 	STRAFE_BACK,
 	STRAFE_RIGHT,
 	STRAFE_LEFT,
-	INTERACT
+	INTERACT,
+	ENTER_VEIL
 };
 
 class PlayerScript : public Script
@@ -81,6 +82,12 @@ class PlayerScript : public Script
 		void StateStart(PlayerScript* owner) override;
 		void StateUpdate(PlayerScript* owner) override;
 	};
+
+	class EnterVeilState : public BaseState<PlayerScript> {
+	public:
+		void StateStart(PlayerScript* owner) override;
+		void StateUpdate(PlayerScript* owner) override;
+	};
 #pragma endregion
 
 public:
@@ -104,12 +111,14 @@ public:
 	void Move();
 	void LockOn();
 
-private:
 	void SetState(PlayerMovementState state) {
 		if (_playerMovementState == state) return;
 		_playerMovementState = state;
 		_isStateChanged = true;
 	}
+
+private:
+	void Interact();
 
 	void RecoveryStemina();
 

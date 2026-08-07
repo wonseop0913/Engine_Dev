@@ -3228,7 +3228,7 @@
             <Components>
                 <Component ComponentType="Transform" PosX="10" PosY="0.25" PosZ="18" ScaleX="4" ScaleY="5" ScaleZ="1" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
-                <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
                         <Extent x="2" y="2.5" z="0.1"/>
                         <Offset x="0" y="0" z="0"/>
@@ -3237,18 +3237,33 @@
                 </Component>
             </Components>
         </GameObject>
-        <GameObject Name="Boss Room Veil" PSO="opaque_solid" Tag="Default">
+        <GameObject Name="Boss Room Veil" PSO="opaque_solid" Tag="Interactable">
             <Components>
                 <Component ComponentType="Transform" PosX="22" PosY="-4.75" PosZ="18" ScaleX="3.9999998" ScaleY="5" ScaleZ="0.99999994" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
                 <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
-                <Component ComponentType="Rigidbody" Static="false" Gravity="true" Trigger="false" PhysicsActive="true">
+                <Component ComponentType="BossRoomVeilScript"/>
+                <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">
-                        <Extent x="2" y="2.5" z="0.1"/>
+                        <Extent x="2" y="2.5" z="1.5"/>
                         <Offset x="0" y="0" z="0"/>
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
                 </Component>
             </Components>
+            <GameObjects>
+                <GameObject Name="PhysCollider" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1.0000001" ScaleY="0.19999999" ScaleZ="0.25000003" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+                        <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="false" PhysicsActive="true">
+                            <Collider Shape="Box" Height="0.5" Radius="0.5">
+                                <Extent x="2" y="2.5" z="0.1"/>
+                                <Offset x="0" y="0" z="0"/>
+                                <RotOffset x="0" y="0" z="0"/>
+                            </Collider>
+                        </Component>
+                    </Components>
+                </GameObject>
+            </GameObjects>
         </GameObject>
         <GameObject Name="MiddleGate" PSO="opaque_solid" Tag="Default">
             <Components>
@@ -3310,6 +3325,11 @@
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
                 </Component>
+            </Components>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Brute.xml" Name="Brute" PSO="opaque_solid" Tag="Enemy">
+            <Components>
+                <Component ComponentType="Transform" PosX="38" PosY="-7" PosZ="18" ScaleX="0.0099999998" ScaleY="0.0099999998" ScaleZ="0.0099999998" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
             </Components>
         </GameObject>
     </GameObjects>

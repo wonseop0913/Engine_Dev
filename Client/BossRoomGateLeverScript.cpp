@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "BossRoomGateLeverScript.h"
+#include "PlayerScript.h"
 
 REGISTER_COMPONENT(BossRoomGateLeverScript)
 
@@ -39,6 +40,8 @@ void BossRoomGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 {
 	if (_isGateOpened) return;
 
+	isInteractable = false;
+
 	_gateObj->SetActive(false);
 
 	_isGateOpened = true;
@@ -51,4 +54,5 @@ void BossRoomGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 
 	playerTransform->SetPosition(playerPos);
 	playerTransform->LookAtWithNoRoll(playerPos - (pos - playerPos));
+	opponent->GetComponent<PlayerScript>()->SetState(PlayerMovementState::INTERACT);
 }

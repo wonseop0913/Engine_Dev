@@ -3,6 +3,8 @@
 class BossRoomVeilScript : public Interactable
 {
 public:
+	void Init() override;
+
 	void Interact(shared_ptr<GameObject> opponent) override;
 
 	void OnDestroy() override;

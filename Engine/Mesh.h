@@ -1,7 +1,7 @@
 #pragma once
 #include "Resource.h"
 
-#pragma region Àü¹æ¼±¾ð
+#pragma region ì „ë°©ì„ ì–¸
 struct Vertex;
 #pragma endregion
 

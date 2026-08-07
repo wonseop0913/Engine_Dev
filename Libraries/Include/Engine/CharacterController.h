@@ -31,6 +31,9 @@ public:
 
 	void SetVelocity(Bulb::Vector3 velocity) { _desiredVelocity = velocity; }
 
+	bool IsPhysicsActive() { return _isPhysicsActive; }
+	void SetPhysicsActive(bool value);
+
 	void SetGravity(bool value) { _isGravity = value; }
 
 	bool IsOnGround();
@@ -49,5 +52,7 @@ private:
 	float _verticalVelocity = 0.0f;
 	bool _isGravity = true;
 	float _gravityFactor = 1.0f;
+
+	bool _isPhysicsActive;
 };
 
