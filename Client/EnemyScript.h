@@ -37,6 +37,9 @@ class EnemyScript : public Script
 	public:
 		void StateStart(EnemyScript* owner) override;
 		void StateUpdate(EnemyScript* owner) override;
+	private:
+		int _patternIdx;
+		bool _isAttackStarted;
 	};
 
 	class DeathState : public BaseState<EnemyScript> {
@@ -83,6 +86,7 @@ private:
 	shared_ptr<Animator> _animator;
 	shared_ptr<CharacterController> _controller;
 	shared_ptr<Rigidbody> _hitbox;
+	shared_ptr<Rigidbody> _axeRb;
 
     int _health = 100;
     EnemyState _currentState = EnemyState::IDLE;

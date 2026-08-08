@@ -20,6 +20,19 @@ void EnemyScript::Init()
 	_transform = _gameObject->GetTransform();
 	_centerTransform = _transform->GetChild("mixamorig:Hips");	// Mixamo Default Rig Name
 
+	auto axeObj = _transform->GetChild("mixamorig:Weapon")->GetGameObject();
+	axeObj->SetTag("AttackEnemy");
+	_axeRb = static_pointer_cast<Rigidbody>(ComponentFactory::Create("Rigidbody"));
+	_axeRb->SetStatic(true);
+	_axeRb->SetGravity(false);
+	_axeRb->SetColliderTrigger(true);
+	_axeRb->SetColliderExtents({ 0.25f, 0.05f, 0.35f });
+	_axeRb->SetColliderOffset({ -0.07f, 0.0f, -0.83f });
+	_axeRb->SetColliderRotationOffset({ 3.0f, 0.0f, 0.0f });
+	// _axeRb->SetPhysicsActive(false);
+	axeObj->AddComponent(_axeRb);
+
+
 	_animator = _gameObject->GetComponent<Animator>();
 	_animator->SetLoop(true);
 
@@ -80,6 +93,7 @@ void EnemyScript::Update()
 
 	_targetVec = target->GetTransform()->GetPosition() - _transform->GetPosition();
 	_targetVec.y = 0;
+	_targetDistance = _targetVec.Length();
 
 	if (_currentState != EnemyState::DEATH) {
 		if (_health <= 0) {
@@ -89,7 +103,7 @@ void EnemyScript::Update()
 		else if (_currentState == EnemyState::IDLE) {
 			int pattern = Utils::Random(0, 9);
 
-			if (/*pattern <= 3*/true) {
+			if (pattern <= 3) {
 				SetState(EnemyState::WALK);
 			}
 			else {
@@ -183,6 +197,7 @@ void EnemyScript::UpdateDamageText()
 void EnemyScript::IdleState::StateStart(EnemyScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("idle");
+	owner->_animator->SetLoop(true);
 }
 
 void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
@@ -192,6 +207,8 @@ void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
 
 void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 {
+	owner->_animator->SetLoop(true);
+
 	patternTime = Utils::Random(1, 3);
 	int direction = Utils::Random(0, 2);
 
@@ -241,10 +258,49 @@ void EnemyScript::DeathState::StateStart(EnemyScript* owner)
 
 void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 {
+	_patternIdx = Utils::Random(0, 3);
+	_isAttackStarted = false;
 
+	if (owner->_targetDistance > 2.0f) {
+		owner->_animator->SetLoop(true);
+		owner->_animator->SetCurrentAnimation("walk_forward");
+	}
 }
 
 void EnemyScript::AttackState::StateUpdate(EnemyScript* owner)
 {
+	if (_isAttackStarted && owner->_animator->IsCurrentAnimationEnd()) {
+		_isAttackStarted = false;
+		owner->SetState(EnemyState::IDLE);
+	}
 
+	if (!_isAttackStarted) {
+		if (owner->_targetDistance > 2.0f) {
+			owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
+			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 1.1f);
+		}
+		else {
+			_isAttackStarted = true;
+			owner->_animator->SetLoop(false);
+
+			switch (_patternIdx) {
+				case 0: {
+					owner->_animator->SetCurrentAnimation("axe_attack_downup_1");
+					break;
+				}
+				case 1: {
+					owner->_animator->SetCurrentAnimation("axe_attack_360_1");
+					break;
+				}
+				case 2: {
+					owner->_animator->SetCurrentAnimation("axe_attack_360_2");
+					break;
+				}
+				case 3: {
+					owner->_animator->SetCurrentAnimation("axe_attack_combo_2");
+					break;
+				}
+			}
+		}
+	}
 }

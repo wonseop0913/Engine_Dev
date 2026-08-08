@@ -94,18 +94,18 @@ void PhysicsManager::PreUpdate()
 
 void PhysicsManager::Update()
 {
-#ifdef BULB_EDITOR
-	if (!EDITOR->IsOnPlay()) return;
-#endif
-
-	_physicsSystem->Update(TIME->DeltaTime(), 1, _tempAlloc, _jobSystem);
-
 	// Remove Body Queue
 	while (!_removeBodiesQueue.empty()) {
 		JPH::BodyID bodyID = _removeBodiesQueue.front();
 		_physicsSystem->GetBodyInterface().RemoveBody(bodyID);
 		_removeBodiesQueue.pop();
 	}
+
+#ifdef BULB_EDITOR
+	if (!EDITOR->IsOnPlay()) return;
+#endif
+
+	_physicsSystem->Update(TIME->DeltaTime(), 1, _tempAlloc, _jobSystem);
 
 	// OnCollisionExit
 	while (!_collisionExitQueue.empty()) {

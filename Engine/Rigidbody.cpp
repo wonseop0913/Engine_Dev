@@ -87,21 +87,47 @@ void Rigidbody::Update()
 bool Rigidbody::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Rigidbody", ImGuiTreeNodeFlags_DefaultOpen)) {
+		bool physicsActive = _isPhysicsActive;
+		if (ImGui::Checkbox("##PhysicsActiveCheckbox", &physicsActive)) {
+			SetPhysicsActive(physicsActive);
+		}
+		ImGui::SameLine();
 		if (_isPhysicsActive)
 			ImGui::TextColored({ 0, 1, 0, 1 }, "Physics Active");
 		else
 			ImGui::TextColored({ 1, 0, 0, 1 }, "Physics Inactive");
-		if (ImGui::Checkbox("Static", &_isStatic)) {
+
+		if (ImGui::Checkbox("Static##Rigidbody", &_isStatic)) {
 			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetMotionType(
 				_bodyID,
 				_isStatic ? EMotionType::Static : EMotionType::Dynamic,
 				EActivation::Activate);
 		}
-		if (ImGui::Checkbox("Gravity", &_isGravity)) {
+
+		if (ImGui::Checkbox("Gravity##Rigidbody", &_isGravity)) {
 			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetGravityFactor(_bodyID, _isGravity ? 1.0f : 0.0f);
 		}
-		if (ImGui::Checkbox("Trigger", &_isTrigger)) {
+
+		if (ImGui::Checkbox("Trigger##Rigidbody", &_isTrigger)) {
 			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetIsSensor(_bodyID, _isTrigger);
+		}
+
+		static float posOffsetValues[3];
+		posOffsetValues[0] = _colliderOffset.x;
+		posOffsetValues[1] = _colliderOffset.y;
+		posOffsetValues[2] = _colliderOffset.z;
+		ImGui::SeparatorText("Position Offset##Rigidbody");
+		if (ImGui::InputFloat3("##ColliderPositionOffset", posOffsetValues)) {
+			SetColliderOffset({ posOffsetValues[0], posOffsetValues[1], posOffsetValues[2] });
+		}
+
+		static float rotOffsetValues[3];
+		rotOffsetValues[0] = _colliderRotationOffset.x;
+		rotOffsetValues[1] = _colliderRotationOffset.y;
+		rotOffsetValues[2] = _colliderRotationOffset.z;
+		ImGui::SeparatorText("Rotation Offset##Rigidbody");
+		if (ImGui::InputFloat3("##ColliderRotationOffset", rotOffsetValues)) {
+			SetColliderRotationOffset({ rotOffsetValues[0], rotOffsetValues[1], rotOffsetValues[2] });
 		}
 
 		switch (_colliderShape) {
@@ -110,7 +136,7 @@ bool Rigidbody::ShowComponentEditorGUI()
 			extentsValues[0] = _extents.x;
 			extentsValues[1] = _extents.y;
 			extentsValues[2] = _extents.z;
-			ImGui::SeparatorText("Extents");
+			ImGui::SeparatorText("Extents##Rigidbody");
 			if (ImGui::InputFloat3("##ColliderExtents", extentsValues)) {
 				SetColliderExtents({ extentsValues[0], extentsValues[1], extentsValues[2] });
 			}
@@ -134,6 +160,10 @@ void Rigidbody::OnDestroy()
 	PHYSICS->DeleteRigidbody(static_pointer_cast<Rigidbody>(shared_from_this()));
 }
 
+// !!바꿔야할 문제점 발견!!
+// 만약 오브젝트가 비활성화 되기 전에 물리 활성화 상태가 false라면
+// 다시 오브젝트가 활성화 되도 물리 활성화 상태는 false를 유지해야함.
+// 하지만 현재 구현된 방식은 오브젝트의 바뀐 값을 따라가도록 작성된 상태.
 void Rigidbody::SetActive(bool value)
 {
 	if (_isActive != value) {

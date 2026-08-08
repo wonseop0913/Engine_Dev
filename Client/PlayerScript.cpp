@@ -25,14 +25,14 @@ void PlayerScript::Init()
 
 	auto swordObj = _transform->GetChild("mixamorig:Sword_joint")->GetGameObject();
 	swordObj->SetTag("AttackAlly");
-	_swordRb = make_shared<Rigidbody>();
+	_swordRb = static_pointer_cast<Rigidbody>(ComponentFactory::Create("Rigidbody"));
 	_swordRb->SetStatic(true);
 	_swordRb->SetGravity(false);
 	_swordRb->SetColliderTrigger(true);
 	_swordRb->SetColliderExtents({ 0.035f, 0.02f, 0.37f });
 	_swordRb->SetColliderOffset({ 0.0f, 0.0f, -0.46f });
 	_swordRb->SetColliderRotationOffset({ -4.0f, 15.0f, 0.0f });
-	_swordRb->SetPhysicsActive(false);
+	// _swordRb->SetPhysicsActive(false);
 	swordObj->AddComponent(_swordRb);
 
 	_animator = _gameObject->GetComponent<Animator>();
