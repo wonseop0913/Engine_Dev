@@ -88,10 +88,13 @@ void Animator::Update()
 			}
 		}
 
-		float ticksPerSecond = (GetCurrentAnimation()->GetTicksPerSecond() != 0.0f) ? GetCurrentAnimation()->GetTicksPerSecond() : 25.0f;
-		_currentTick += TIME->DeltaTime() * ticksPerSecond * _currentAnimationSpeed;
+		shared_ptr<Animation> currAnim = GetCurrentAnimation();
 
-		if (_currentTick > GetCurrentAnimation()->GetDuration()) {
+		float ticksPerSecond = (currAnim->GetTicksPerSecond() != 0.0f) ? currAnim->GetTicksPerSecond() : 25.0f;
+		if (!_isCurrentAnimationEnd)
+			_currentTick += TIME->DeltaTime() * ticksPerSecond * _currentAnimationSpeed;
+
+		if (_currentTick > currAnim->GetDuration()) {
 			if (_isLoop)
 			{
 				_currentTick = 0.0f;
@@ -100,11 +103,13 @@ void Animator::Update()
 			else
 			{
 				_isCurrentAnimationEnd = true;
-				_currentTick = GetCurrentAnimation()->GetDuration();
+				DEBUG->Log("Animation End First");
+				_currentTick = currAnim->GetDuration();
 			}
 		}
 		else if (_isCurrentAnimationEnd) {
 			// 여기 뭐 집어넣어야되는데 뭐 넣어야되지
+			DEBUG->Log("Animation End");
 		}
 		else {
 			_isCurrentAnimationEnd = false;
@@ -389,8 +394,17 @@ void Animator::SetCurrentAnimation(const string& animationName, float _transitio
 		_currentAnimation = animationName;
 		_isCurrentAnimationEnd = false;
 		_currentTick = 0.0f;
+
+		_currentAnimationSpeed = 1.0f;
+		_currentAnimationEventIndex = 0;
+		_isTransitionBlocked = false;
 		return;
 	}
+
+	if (_currentAnimation == animationName) {
+		_currentAnimationEventIndex = 0;
+	}
+
 	_nextAnimation = animationName;
 	_transitionElapsedTime = 0.0f;
 	_transitionTick = 0.0f;

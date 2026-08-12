@@ -32,7 +32,7 @@ void PlayerScript::Init()
 	_swordRb->SetColliderExtents({ 0.035f, 0.02f, 0.37f });
 	_swordRb->SetColliderOffset({ 0.0f, 0.0f, -0.46f });
 	_swordRb->SetColliderRotationOffset({ -4.0f, 15.0f, 0.0f });
-	// _swordRb->SetPhysicsActive(false);
+	_swordRb->SetPhysicsActive(false);
 	swordObj->AddComponent(_swordRb);
 
 	_animator = _gameObject->GetComponent<Animator>();
@@ -52,7 +52,6 @@ void PlayerScript::Init()
 
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
 
-	// _controller = static_pointer_cast<CharacterController>(ComponentFactory::Create("CharacterController"));
 	_controller = _gameObject->GetComponent<CharacterController>();
 	_controller->SetHalfHeight(0.5f);
 	_controller->SetRadius(0.3f);
@@ -365,6 +364,7 @@ void PlayerScript::IdleState::StateUpdate(PlayerScript* owner)
 
 void PlayerScript::WalkState::StateStart(PlayerScript* owner)
 {
+	DEBUG->Log("1");
 	owner->_animator->SetCurrentAnimation("walk_sword_forward");
 	owner->_animator->SetLoop(true);
 }
@@ -411,7 +411,8 @@ void PlayerScript::SlashState::StateUpdate(PlayerScript* owner)
 
 void PlayerScript::RollState::StateStart(PlayerScript* owner)
 {
-	owner->_animator->SetCurrentAnimation("roll");
+   	DEBUG->Log("Roll");
+  	owner->_animator->SetCurrentAnimation("roll");
  	owner->_animator->SetLoop(false);
 }
 

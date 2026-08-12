@@ -29,12 +29,15 @@ void EnemyScript::Init()
 	_axeRb->SetColliderExtents({ 0.25f, 0.05f, 0.35f });
 	_axeRb->SetColliderOffset({ -0.07f, 0.0f, -0.83f });
 	_axeRb->SetColliderRotationOffset({ 3.0f, 0.0f, 0.0f });
-	// _axeRb->SetPhysicsActive(false);
+	_axeRb->SetPhysicsActive(false);
 	axeObj->AddComponent(_axeRb);
 
 
 	_animator = _gameObject->GetComponent<Animator>();
-	_animator->SetLoop(true);
+	_animator->LoadAnimationEvents("..\\Resources\\Animations\\Brute\\AnimationEvents.xml");
+	_animator->animationEvent += [this](AnimationEvent e) {
+		this->AnimationEventListener(e);
+	};
 
 	_controller = _gameObject->GetComponent<CharacterController>();
 	_controller->SetHalfHeight(0.6f);
@@ -98,25 +101,6 @@ void EnemyScript::Update()
 	if (_currentState != EnemyState::DEATH) {
 		if (_health <= 0) {
 			SetState(EnemyState::DEATH);
-		}
-
-		else if (_currentState == EnemyState::IDLE) {
-			int pattern = Utils::Random(0, 9);
-
-			if (pattern <= 3) {
-				SetState(EnemyState::WALK);
-			}
-			else {
-				SetState(EnemyState::ATTACK);
-			}
-
-			//_targetDistance = _targetVec.Length();
-			//if (_targetDistance >= 2.0f && _currentState != EnemyMovementState::WALK) {
-			//	SetState(EnemyMovementState::WALK);
-			//}
-			//else if (_targetDistance < 2.0f && _currentState != EnemyMovementState::IDLE) {
-			//	SetState(EnemyMovementState::IDLE);
-			//}
 		}
 	}
 
@@ -194,22 +178,43 @@ void EnemyScript::UpdateDamageText()
 	}
 }
 
+void EnemyScript::AnimationEventListener(AnimationEvent event)
+{
+	if (event.type == AnimationEventTypes::Attack) {
+		bool attackFlag = event.datas[2].x == 1;
+
+		_axeRb->SetPhysicsActive(attackFlag);
+		_axeRb->customData = event.datas[0].w;
+		if (attackFlag)
+			SOUND->PlaySound("Sounds/PlayerSword.mp3");
+	}
+}
+
 void EnemyScript::IdleState::StateStart(EnemyScript* owner)
 {
-	owner->_animator->SetCurrentAnimation("idle");
+	owner->_animator->SetCurrentAnimation("idle", 0.0f);
 	owner->_animator->SetLoop(true);
 }
 
 void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
+	// owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
+
+	int pattern = Utils::Random(4, 9);
+
+	if (pattern <= 3) {
+		owner->SetState(EnemyState::WALK);
+	}
+	else {
+		owner->SetState(EnemyState::ATTACK);
+	}
 }
 
 void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 {
 	owner->_animator->SetLoop(true);
 
-	patternTime = Utils::Random(1, 3);
+	patternTime = Utils::Random(2, 3);
 	int direction = Utils::Random(0, 2);
 
 	switch (direction) {
@@ -233,6 +238,11 @@ void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 
 void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
 {
+	if (owner->_targetDistance <= 2.0f) {
+		owner->SetState(EnemyState::ATTACK);
+		return;
+	}
+
 	if (patternTime > 0.0f) {
 		owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
 
@@ -258,7 +268,8 @@ void EnemyScript::DeathState::StateStart(EnemyScript* owner)
 
 void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 {
-	_patternIdx = Utils::Random(0, 3);
+	//_patternIdx = Utils::Random(0, 3);
+	_patternIdx = 1;
 	_isAttackStarted = false;
 
 	if (owner->_targetDistance > 2.0f) {

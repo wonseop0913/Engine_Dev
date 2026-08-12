@@ -74,6 +74,8 @@ private:
 	void SetDamageText(int damage);
 	void UpdateDamageText();
 
+	void AnimationEventListener(AnimationEvent event);
+
 public:
 	shared_ptr<GameObject> target;
 
