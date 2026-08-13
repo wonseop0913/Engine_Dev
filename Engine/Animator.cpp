@@ -425,24 +425,30 @@ void Animator::UpdateAnimationEvent()
 	// Current Animation Event
 	if (_animationEvents.contains(_currentAnimation))
 	{
-		if (_currentAnimationEventIndex < _animationEvents[_currentAnimation].size()) {
-			AnimationEvent currentEvent = _animationEvents[_currentAnimation][_currentAnimationEventIndex];
-			if (currentEvent.Tick <= _currentTick) {
-				if (currentEvent.type == AnimationEventTypes::Speed) {
-					_currentAnimationSpeed = currentEvent.datas[0].x;
-				}
-				if (currentEvent.type == AnimationEventTypes::Attack) {
-					animationEvent.Execute(currentEvent);
-				}
-				if (currentEvent.type == AnimationEventTypes::End) {
-					_isCurrentAnimationEnd = true;
-				}
-				if (currentEvent.type == AnimationEventTypes::BlockTransition) {
-					_isTransitionBlocked = currentEvent.datas[0].x == 1;
-				}
+		auto& events = _animationEvents[_currentAnimation];
 
-				_currentAnimationEventIndex++;
+		while (_currentAnimationEventIndex < events.size()) {
+			AnimationEvent& currentEvent = events[_currentAnimationEventIndex];
+
+			if (currentEvent.Tick > _currentTick) break;
+
+			if (currentEvent.type == AnimationEventTypes::Speed) {
+				_currentAnimationSpeed = currentEvent.datas[0].x;
 			}
+			if (currentEvent.type == AnimationEventTypes::Attack) {
+				animationEvent.Execute(currentEvent);
+			}
+			if (currentEvent.type == AnimationEventTypes::End) {
+				_isCurrentAnimationEnd = true;
+			}
+			if (currentEvent.type == AnimationEventTypes::BlockTransition) {
+				_isTransitionBlocked = currentEvent.datas[0].x == 1;
+			}
+			if (currentEvent.type == AnimationEventTypes::Step) {
+				animationEvent.Execute(currentEvent);
+			}
+
+			_currentAnimationEventIndex++;
 		}
 	}
 	else
@@ -455,18 +461,31 @@ void Animator::UpdateAnimationEvent()
 	// Next Animation Event (On Transition)
 	if (_animationEvents.contains(_nextAnimation))
 	{
-		if (_nextAnimationEventIndex < _animationEvents[_nextAnimation].size()) {
-			AnimationEvent nextEvent = _animationEvents[_nextAnimation][_nextAnimationEventIndex];
-			if (nextEvent.Tick <= _transitionTick) {
-				if (nextEvent.type == AnimationEventTypes::Speed) {
-					_nextAnimationSpeed = nextEvent.datas[0].x;
-				}
-				if (nextEvent.type == AnimationEventTypes::Attack) {
-					animationEvent.Execute(nextEvent);
-				}
+		auto& events = _animationEvents[_nextAnimation];
 
-				_nextAnimationEventIndex++;
+		while (_nextAnimationEventIndex < events.size()) {
+			AnimationEvent& nextEvent = events[_nextAnimationEventIndex];
+
+			if (nextEvent.Tick > _transitionTick) break;
+
+			if (nextEvent.type == AnimationEventTypes::Speed) {
+				_nextAnimationSpeed = nextEvent.datas[0].x;
 			}
+			if (nextEvent.type == AnimationEventTypes::Attack) {
+				animationEvent.Execute(nextEvent);
+			}
+			if (nextEvent.type == AnimationEventTypes::End) {
+				// 현재 애니메이션이 끝나기 전 다음 애니메이션이 끝난다는 가정을 하지 않음.
+				// 트랜지션 시간을 조절해서 그런 경우를 없애는 것을 권장하도록 유도
+			}
+			if (nextEvent.type == AnimationEventTypes::BlockTransition) {
+				_isTransitionBlocked = nextEvent.datas[0].x == 1;
+			}
+			if (nextEvent.type == AnimationEventTypes::Step) {
+				animationEvent.Execute(nextEvent);
+			}
+
+			_nextAnimationEventIndex++;
 		}
 	}
 	else

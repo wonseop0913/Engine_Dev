@@ -11,7 +11,8 @@ enum BULB_API AnimationEventTypes {
 	Speed,
 	Attack,
 	End,
-	BlockTransition
+	BlockTransition,
+	Step
 };
 
 // 일단은 애니메이션 속도 조절만
