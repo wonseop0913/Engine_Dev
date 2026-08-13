@@ -16,5 +16,10 @@ public:
 	static Bulb::Vector3 DegreeToRadian(const Bulb::Vector3& degree);
 
 	static float CCW(const Bulb::Vector2& va, const Bulb::Vector2& vb);
+
+	static Bulb::Vector3 InterpolateVector(
+		Bulb::Vector3 currentForward,
+		Bulb::Vector3 targetDir,
+		float rotationSpeed);
 };
 

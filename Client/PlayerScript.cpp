@@ -210,6 +210,8 @@ void PlayerScript::Move()
 
 	_movingDirection = (look * moveZ + right * moveX).Normalize();
 
+	_movingDirection = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, 20);
+
 	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerMovementState::RUN) && 
 		stemina > 0.0f)
 		SetState(PlayerMovementState::RUN);

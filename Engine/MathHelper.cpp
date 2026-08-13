@@ -64,3 +64,44 @@ float MathHelper::CCW(const Bulb::Vector2& va, const Bulb::Vector2& vb)
 {
 	return va.x * vb.y - va.y * vb.x;
 }
+
+Bulb::Vector3 MathHelper::InterpolateVector(Bulb::Vector3 currentForward, Bulb::Vector3 targetDir, float rotationSpeed)
+{
+	XMVECTOR current = XMVector3Normalize(XMLoadFloat3(&currentForward));
+	XMVECTOR target = XMVector3Normalize(XMLoadFloat3(&targetDir));
+
+	XMVECTOR dotVec = XMVector3Dot(current, target);
+	float dot = XMMin(1.0f, XMMax(-1.0f, XMVectorGetX(dotVec)));
+
+	if (dot > 0.9999f) return target;
+
+	float angle = acos(dot);
+	XMVECTOR axis = XMVector3Cross(current, target);
+
+	if (XMVectorGetX(XMVector3LengthSq(axis)) < 0.0001f)
+	{
+		axis = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+		XMVECTOR crossUp = XMVector3Cross(current, axis);
+		if (XMVectorGetX(XMVector3LengthSq(crossUp)) < 0.0001f)
+		{
+			axis = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+		}
+	}
+	else
+	{
+		axis = XMVector3Normalize(axis);
+	}
+
+	float maxRotationAngle = rotationSpeed * TIME->DeltaTime();
+
+	if (angle <= maxRotationAngle)
+	{
+		return target;
+	}
+
+	XMMATRIX rotationMatrix = XMMatrixRotationAxis(axis, maxRotationAngle);
+	XMVECTOR rotatedVector = XMVector3TransformNormal(current, rotationMatrix);
+
+	return Bulb::Vector3(XMVector3Normalize(rotatedVector));
+}
