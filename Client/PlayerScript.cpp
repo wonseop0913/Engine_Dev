@@ -84,7 +84,12 @@ void PlayerScript::Init()
 	_states.push_back(new InteractState());
 	_states.push_back(new EnterVeilState());
 
-	SOUND->LoadSound("Sounds/PlayerSword.mp3", false);
+	SOUND->LoadSound("Sounds/PlayerSword1.wav", false);
+	SOUND->LoadSound("Sounds/PlayerStep1.wav", false);
+	SOUND->LoadSound("Sounds/PlayerStep2.wav", false);
+	SOUND->LoadSound("Sounds/PlayerStep3.wav", false);
+	SOUND->LoadSound("Sounds/PlayerStep4.wav", false);
+	SOUND->LoadSound("Sounds/PlayerStep5.wav", false);
 }
 
 void PlayerScript::Update()
@@ -107,6 +112,7 @@ void PlayerScript::Update()
 	{
 		if (_animator->IsCurrentAnimationEnd())
 		{
+			DEBUG->Log("Idle Set");
 			SetState(PlayerMovementState::IDLE);
 		}
 	}
@@ -348,8 +354,26 @@ void PlayerScript::AnimationEventListener(AnimationEvent event)
 
 		_swordRb->SetPhysicsActive(attackFlag);
 		_swordRb->customData = event.datas[0].w;
-		if (attackFlag)
-			SOUND->PlaySound("Sounds/PlayerSword.mp3");
+	}
+
+	if (event.type == AnimationEventTypes::Step) {
+		switch (Utils::Random(0, 4)) {
+		case 0:
+			SOUND->PlaySound("Sounds/PlayerStep1.wav");
+			break;
+		case 1:
+			SOUND->PlaySound("Sounds/PlayerStep2.wav");
+			break;
+		case 2:
+			SOUND->PlaySound("Sounds/PlayerStep3.wav");
+			break;
+		case 3:
+			SOUND->PlaySound("Sounds/PlayerStep4.wav");
+			break;
+		case 4:
+			SOUND->PlaySound("Sounds/PlayerStep5.wav");
+			break;
+		}
 	}
 }
 
@@ -366,7 +390,6 @@ void PlayerScript::IdleState::StateUpdate(PlayerScript* owner)
 
 void PlayerScript::WalkState::StateStart(PlayerScript* owner)
 {
-	DEBUG->Log("1");
 	owner->_animator->SetCurrentAnimation("walk_sword_forward");
 	owner->_animator->SetLoop(true);
 }
@@ -413,7 +436,6 @@ void PlayerScript::SlashState::StateUpdate(PlayerScript* owner)
 
 void PlayerScript::RollState::StateStart(PlayerScript* owner)
 {
-   	DEBUG->Log("Roll");
   	owner->_animator->SetCurrentAnimation("roll");
  	owner->_animator->SetLoop(false);
 }

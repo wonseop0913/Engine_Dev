@@ -1,8 +1,24 @@
 <AnimationEvents>
+    <Animation Name="walk_sword_forward">
+        <Step Tick="7.2"/>
+        <Step Tick="24.7"/>
+    </Animation>
+
+    <Animation Name="walk_sword_back">
+        <Step Tick="6.8"/>
+        <Step Tick="24.6"/>
+    </Animation>
+
+    <Animation Name="run_sword_forward">
+        <Step Tick="5.2"/>
+        <Step Tick="16.2"/>
+    </Animation>
+
     <Animation Name="slash_1">
         <BlockTransition Tick="0.0" Flag="true"/>
         <Speed Tick="0.0" Speed="1.7"/>
         <Speed Tick="10.4" Speed="1.0"/>
+        <Sound Tick="12.5" SoundName="Sounds/PlayerSword1.wav"/>
         <Speed Tick="14.9" Speed="1.9"/>
         <Attack Tick="17.2" Damage="8.0" MeleeWeaponActivation="true"/>
         <Speed Tick="20.7" Speed="1.2"/>

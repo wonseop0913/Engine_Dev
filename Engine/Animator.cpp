@@ -8,6 +8,7 @@ Animator::Animator() : Component(ComponentType::Animator)
 	_isPlayOnInit = true;
 	_isPlaying = true;
 	_isLoop = true;
+	_isLoopNextAnim = false;
 	_isCurrentAnimationEnd = false;
 
 	_currentAnimation = EMPTY_ANIMATION;
@@ -79,7 +80,9 @@ void Animator::Update()
 				_transitionTick = 0.0f;
 				_transitionElapsedTime = 0.0f;
 				_currentAnimationSpeed = _nextAnimationSpeed;
+				_isLoop = _isLoopNextAnim;
 
+				_currentAnimationEventIndex = _nextAnimationEventIndex;
 				_nextAnimationEventIndex = 0;
 			}
 			else {
@@ -103,13 +106,11 @@ void Animator::Update()
 			else
 			{
 				_isCurrentAnimationEnd = true;
-				DEBUG->Log("Animation End First");
 				_currentTick = currAnim->GetDuration();
 			}
 		}
 		else if (_isCurrentAnimationEnd) {
 			// 여기 뭐 집어넣어야되는데 뭐 넣어야되지
-			DEBUG->Log("Animation End");
 		}
 		else {
 			_isCurrentAnimationEnd = false;
@@ -408,6 +409,7 @@ void Animator::SetCurrentAnimation(const string& animationName, float _transitio
 	_nextAnimation = animationName;
 	_transitionElapsedTime = 0.0f;
 	_transitionTick = 0.0f;
+	_nextAnimationEventIndex = 0;
 	_isCurrentAnimationEnd = false;
 	_isInTransition = true;
 }
@@ -447,6 +449,10 @@ void Animator::UpdateAnimationEvent()
 			if (currentEvent.type == AnimationEventTypes::Step) {
 				animationEvent.Execute(currentEvent);
 			}
+			if (currentEvent.type == AnimationEventTypes::Sound) {
+				SOUND->PlaySound(currentEvent.strData);
+				// animationEvent.Execute(currentEvent);
+			}
 
 			_currentAnimationEventIndex++;
 		}
@@ -483,6 +489,10 @@ void Animator::UpdateAnimationEvent()
 			}
 			if (nextEvent.type == AnimationEventTypes::Step) {
 				animationEvent.Execute(nextEvent);
+			}
+			if (nextEvent.type == AnimationEventTypes::Sound) {
+				SOUND->PlaySound(nextEvent.strData);
+				// animationEvent.Execute(nextEvent);
 			}
 
 			_nextAnimationEventIndex++;
@@ -542,6 +552,13 @@ void Animator::LoadAnimationEvents(const string& path)
 			if (eventName == "BlockTransition") {
 				animEvent.type = AnimationEventTypes::BlockTransition;
 				animEvent.datas[0].x = event->BoolAttribute("Flag") ? 1 : 0;
+			}
+			if (eventName == "Step") {
+				animEvent.type = AnimationEventTypes::Step;
+			}
+			if (eventName == "Sound") {
+				animEvent.type = AnimationEventTypes::Sound;
+				animEvent.strData = event->Attribute("SoundName");
 			}
 			_animationEvents[animationName].push_back(animEvent);
 			event = event->NextSiblingElement();

@@ -212,8 +212,6 @@ void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
 
 void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 {
-	owner->_animator->SetLoop(true);
-
 	patternTime = Utils::Random(2, 3);
 	int direction = Utils::Random(0, 2);
 
@@ -234,6 +232,8 @@ void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 			break;
 		}
 	}
+
+	owner->_animator->SetLoop(true);
 }
 
 void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
@@ -273,8 +273,8 @@ void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 	_isAttackStarted = false;
 
 	if (owner->_targetDistance > 2.0f) {
-		owner->_animator->SetLoop(true);
 		owner->_animator->SetCurrentAnimation("walk_forward");
+		owner->_animator->SetLoop(true);
 	}
 }
 

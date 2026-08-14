@@ -12,7 +12,8 @@ enum BULB_API AnimationEventTypes {
 	Attack,
 	End,
 	BlockTransition,
-	Step
+	Step,
+	Sound
 };
 
 // 일단은 애니메이션 속도 조절만
@@ -24,6 +25,7 @@ struct BULB_API AnimationEvent
 	AnimationEventTypes type;
 	float Tick;
 	Bulb::Vector4 datas[3];
+	string strData;
 };
 
 class BULB_API Animator : public Component
@@ -63,7 +65,15 @@ public:
 	bool IsTransitionBlocked() { return _isTransitionBlocked; }
 
 	bool IsLoop() { return _isLoop; }
-	void SetLoop(bool loop) { _isLoop = loop; }
+
+	// If you want to set the loop of the changed animation after the animation transition occurs,
+	// you must do so after executing SetCurrentAnimation().
+	void SetLoop(bool loop) { 
+		if (_isInTransition)
+			_isLoopNextAnim = loop;
+		else
+			_isLoop = loop;
+	}
 
 	void UpdateBoneTransform();
 
@@ -121,6 +131,7 @@ private:
 	bool _isPlaying;
 	bool _isCurrentAnimationEnd;		// 콜백 방식으로 바꾸는거 고려.
 	bool _isLoop;
+	bool _isLoopNextAnim;
 	bool _isPreviewMode = false;
 	bool _isTransitionBlocked = false;
 

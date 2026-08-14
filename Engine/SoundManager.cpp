@@ -68,7 +68,10 @@ void SoundManager::LoadSound(const string& path, bool loop)
 
 void SoundManager::PlaySound(const string& name, const string& group)
 {
-	if (!_sounds.contains(name)) return;
+	if (!_sounds.contains(name)) {
+		DEBUG->ErrorLog("No sound loaded named '" + name +"'");
+		return;
+	}
 
 	_system->playSound(_sounds[name], !_channelGroups.contains(group) ? _masterGroup : _channelGroups[group], false, nullptr);
 }
