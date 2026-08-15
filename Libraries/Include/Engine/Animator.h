@@ -13,7 +13,8 @@ enum BULB_API AnimationEventTypes {
 	End,
 	BlockTransition,
 	Step,
-	Sound
+	Sound,
+	RotateToTarget
 };
 
 // 일단은 애니메이션 속도 조절만
@@ -65,9 +66,6 @@ public:
 	bool IsTransitionBlocked() { return _isTransitionBlocked; }
 
 	bool IsLoop() { return _isLoop; }
-
-	// If you want to set the loop of the changed animation after the animation transition occurs,
-	// you must do so after executing SetCurrentAnimation().
 	void SetLoop(bool loop) { 
 		if (_isInTransition)
 			_isLoopNextAnim = loop;

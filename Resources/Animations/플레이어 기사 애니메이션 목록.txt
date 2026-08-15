@@ -5,9 +5,10 @@ Paladin WProp J Nordstrom\\idle_sword_3
 Paladin WProp J Nordstrom\\idle_sword_4  // 기본 베이스
 
 WALK
-Paladin WProp J Nordstrom\\walk_sword_forward     // 전진
-Paladin WProp J Nordstrom\\walk_sword_back     // 뒷걸음(목표 고정시 사용)
-Paladin WProp J Nordstrom\\strafe_sword_1     // 좌우이동(목표 고정시 사용), 아직 미사용
+Paladin WProp J Nordstrom\\walk_sword_forward       // 전진
+Paladin WProp J Nordstrom\\walk_sword_back          // 뒷걸음(목표 고정시 사용)
+Paladin WProp J Nordstrom\\strafe_sword_left        // 좌측이동 (락온)
+Paladin WProp J Nordstrom\\strafe_sword_right       // 우측이동 (락온)
 
 RUN
 Paladin WProp J Nordstrom\\run_sword_forward      // 전진

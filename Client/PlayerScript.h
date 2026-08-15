@@ -144,6 +144,7 @@ private:
 	shared_ptr<Rigidbody> _swordRb;
 
 	float _speed = 1.55f;
+	float _rotationSpeed = 17.0f;
 
 	PlayerMovementState _playerMovementState = PlayerMovementState::IDLE;
 	bool _isStateChanged = false;

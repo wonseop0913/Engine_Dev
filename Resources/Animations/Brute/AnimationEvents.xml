@@ -2,8 +2,10 @@
     <Animation Name="axe_attack_downup_1">
         <BlockTransition Tick="0.0" Flag="true"/>
         <Speed Tick="0.0" Speed="1.5"/>
+        <RotateToTarget Tick="0.0" Flag="true"/>
         <Speed Tick="20.0" Speed="1.0"/>
         <Speed Tick="23.5" Speed="1.5"/>
+        <RotateToTarget Tick="23.5" Flag="false"/>
         <Speed Tick="27.0" Speed="1.9"/>
         <Attack Tick="27.0" Damage="10.0" MeleeWeaponActivation="true"/>
         <Attack Tick="35.0" MeleeWeaponActivation="false"/>
@@ -14,8 +16,10 @@
     <Animation Name="axe_attack_360_1">
         <BlockTransition Tick="0.0" Flag="true"/>
         <Speed Tick="0.0" Speed="1.5"/>
+        <RotateToTarget Tick="0.0" Flag="true"/>
         <Speed Tick="17.0" Speed="1.0"/>
         <Speed Tick="22.8" Speed="1.5"/>
+        <RotateToTarget Tick="22.8" Flag="false"/>
         <Speed Tick="28.6" Speed="1.9"/>
         <Attack Tick="28.6" Damage="10.0" MeleeWeaponActivation="true"/>
         <Attack Tick="34.4" MeleeWeaponActivation="false"/>

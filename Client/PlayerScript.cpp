@@ -215,12 +215,13 @@ void PlayerScript::Move()
 	right.y = 0.0f;
 
 	_movingDirection = (look * moveZ + right * moveX).Normalize();
+	Bulb::Vector3 interpolatedDir = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, _rotationSpeed);
 
-	_movingDirection = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, 20);
-
-	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerMovementState::RUN) && 
-		stemina > 0.0f)
+	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerMovementState::RUN) &&
+		stemina > 0.0f) {
+		_movingDirection = interpolatedDir;
 		SetState(PlayerMovementState::RUN);
+	}
 	else {
 		if (_lockOnTarget) {
 			if (moveX == 1)
@@ -232,8 +233,10 @@ void PlayerScript::Move()
 			else if (moveZ == -1)
 				SetState(PlayerMovementState::STRAFE_BACK);
 		}
-		else
+		else {
+			_movingDirection = interpolatedDir;
 			SetState(PlayerMovementState::WALK);
+		}
 	}
 }
 
@@ -287,7 +290,6 @@ void PlayerScript::LockOn()
 			DEBUG->ErrorLog("Can't Find TPVCamera Component!");
 		else {
 			tpvCameraScript->isLockOn = true;
-			//tpvCameraScript->lockOnTargetTransform = _lockOnTarget->GetTransform();
 			tpvCameraScript->lockOnTargetTransform = _lockOnTarget->GetComponent<EnemyScript>()->GetCenterTransform();
 		}
 
@@ -385,7 +387,16 @@ void PlayerScript::IdleState::StateStart(PlayerScript* owner)
 
 void PlayerScript::IdleState::StateUpdate(PlayerScript* owner)
 {
-
+	if (owner->_lockOnTarget) {
+		owner->_transform->LookAtWithNoRoll(
+			owner->_transform->GetPosition() -
+			MathHelper::InterpolateVector(
+				owner->_transform->GetBack(),
+				owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+				owner->_rotationSpeed
+			)
+		);
+	}
 }
 
 void PlayerScript::WalkState::StateStart(PlayerScript* owner)
@@ -454,7 +465,14 @@ void PlayerScript::StrafeForwardState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeForwardState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() * 2 - owner->_lockOnTarget->GetTransform()->GetPosition());
+	owner->_transform->LookAtWithNoRoll(
+		owner->_transform->GetPosition() -
+		MathHelper::InterpolateVector(
+			owner->_transform->GetBack(),
+			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			owner->_rotationSpeed
+		)
+	);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed);
 }
 
@@ -466,7 +484,14 @@ void PlayerScript::StrafeBackState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeBackState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() * 2 - owner->_lockOnTarget->GetTransform()->GetPosition());
+	owner->_transform->LookAtWithNoRoll(
+		owner->_transform->GetPosition() -
+		MathHelper::InterpolateVector(
+			owner->_transform->GetBack(),
+			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			owner->_rotationSpeed
+		)
+	);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 0.8f);
 }
 
@@ -478,7 +503,14 @@ void PlayerScript::StrafeRightState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeRightState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() * 2 - owner->_lockOnTarget->GetTransform()->GetPosition());
+	owner->_transform->LookAtWithNoRoll(
+		owner->_transform->GetPosition() -
+		MathHelper::InterpolateVector(
+			owner->_transform->GetBack(),
+			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			owner->_rotationSpeed
+		)
+	);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 0.8f);
 }
 
@@ -490,7 +522,14 @@ void PlayerScript::StrafeLeftState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeLeftState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() * 2 - owner->_lockOnTarget->GetTransform()->GetPosition());
+	owner->_transform->LookAtWithNoRoll(
+		owner->_transform->GetPosition() -
+		MathHelper::InterpolateVector(
+			owner->_transform->GetBack(),
+			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			owner->_rotationSpeed
+		)
+	);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 0.8f);
 }
 

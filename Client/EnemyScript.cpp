@@ -188,6 +188,10 @@ void EnemyScript::AnimationEventListener(AnimationEvent event)
 		if (attackFlag)
 			SOUND->PlaySound("Sounds/PlayerSword.mp3");
 	}
+
+	if (event.type == AnimationEventTypes::RotateToTarget) {
+		_rotateToTarget = event.datas[0].x == 1;
+	}
 }
 
 void EnemyScript::IdleState::StateStart(EnemyScript* owner)
@@ -198,8 +202,6 @@ void EnemyScript::IdleState::StateStart(EnemyScript* owner)
 
 void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
 {
-	// owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
-
 	int pattern = Utils::Random(4, 9);
 
 	if (pattern <= 3) {
@@ -244,7 +246,14 @@ void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
 	}
 
 	if (patternTime > 0.0f) {
-		owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
+		owner->_transform->LookAtWithNoRoll(
+			owner->_transform->GetPosition() -
+			MathHelper::InterpolateVector(
+				owner->_transform->GetBack(),
+				owner->_targetVec,
+				18.0f
+			)
+		);
 
 		if (movingDir == MovingDirection::FRONT)
 			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 1.1f);
@@ -280,20 +289,37 @@ void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 
 void EnemyScript::AttackState::StateUpdate(EnemyScript* owner)
 {
-	if (_isAttackStarted && owner->_animator->IsCurrentAnimationEnd()) {
-		_isAttackStarted = false;
-		owner->SetState(EnemyState::IDLE);
+	if (_isAttackStarted) {
+		if (owner->_animator->IsCurrentAnimationEnd()) {
+			_isAttackStarted = false;
+			owner->SetState(EnemyState::IDLE);
+		}
+		else if (owner->_rotateToTarget) {
+			owner->_transform->LookAtWithNoRoll(
+				owner->_transform->GetPosition() - 
+				MathHelper::InterpolateVector(
+					owner->_transform->GetBack(),
+					owner->_targetVec,
+					18.0f
+				)
+			);
+		}
 	}
 
 	if (!_isAttackStarted) {
 		if (owner->_targetDistance > 2.0f) {
-			owner->_transform->LookAtWithNoRoll(-owner->_targetVec + owner->_transform->GetPosition());
+			owner->_transform->LookAtWithNoRoll(
+				owner->_transform->GetPosition() -
+				MathHelper::InterpolateVector(
+					owner->_transform->GetBack(),
+					owner->_targetVec,
+					18.0f
+				)
+			);
 			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 1.1f);
 		}
 		else {
 			_isAttackStarted = true;
-			owner->_animator->SetLoop(false);
-
 			switch (_patternIdx) {
 				case 0: {
 					owner->_animator->SetCurrentAnimation("axe_attack_downup_1");
@@ -312,6 +338,8 @@ void EnemyScript::AttackState::StateUpdate(EnemyScript* owner)
 					break;
 				}
 			}
+
+			owner->_animator->SetLoop(false);
 		}
 	}
 }

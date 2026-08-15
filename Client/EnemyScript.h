@@ -104,4 +104,6 @@ private:
 	int _cumulativeDamage = 0;
 
     float _targetDistance;
+
+	bool _rotateToTarget = false;
 };

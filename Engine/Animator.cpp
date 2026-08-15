@@ -451,7 +451,9 @@ void Animator::UpdateAnimationEvent()
 			}
 			if (currentEvent.type == AnimationEventTypes::Sound) {
 				SOUND->PlaySound(currentEvent.strData);
-				// animationEvent.Execute(currentEvent);
+			}
+			if (currentEvent.type == AnimationEventTypes::RotateToTarget) {
+				animationEvent.Execute(currentEvent);
 			}
 
 			_currentAnimationEventIndex++;
@@ -492,7 +494,9 @@ void Animator::UpdateAnimationEvent()
 			}
 			if (nextEvent.type == AnimationEventTypes::Sound) {
 				SOUND->PlaySound(nextEvent.strData);
-				// animationEvent.Execute(nextEvent);
+			}
+			if (nextEvent.type == AnimationEventTypes::RotateToTarget) {
+				animationEvent.Execute(nextEvent);
 			}
 
 			_nextAnimationEventIndex++;
@@ -559,6 +563,10 @@ void Animator::LoadAnimationEvents(const string& path)
 			if (eventName == "Sound") {
 				animEvent.type = AnimationEventTypes::Sound;
 				animEvent.strData = event->Attribute("SoundName");
+			}
+			if (eventName == "RotateToTarget") {
+				animEvent.type = AnimationEventTypes::RotateToTarget;
+				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
 			}
 			_animationEvents[animationName].push_back(animEvent);
 			event = event->NextSiblingElement();

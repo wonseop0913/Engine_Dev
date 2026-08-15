@@ -9,6 +9,16 @@
         <Step Tick="24.6"/>
     </Animation>
 
+    <Animation Name="strafe_sword_left">
+        <Step Tick="14.0"/>
+        <Step Tick="35.3"/>
+    </Animation>
+
+    <Animation Name="strafe_sword_right">
+        <Step Tick="15.4"/>
+        <Step Tick="31.5"/>
+    </Animation>
+
     <Animation Name="run_sword_forward">
         <Step Tick="5.2"/>
         <Step Tick="16.2"/>
