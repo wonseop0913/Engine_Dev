@@ -403,14 +403,14 @@ void Animator::SetCurrentAnimation(const string& animationName, float _transitio
 	}
 
 	if (_currentAnimation == animationName) {
-		_currentAnimationEventIndex = 0;
+		// _currentAnimationEventIndex = 0;
 	}
 
 	_nextAnimation = animationName;
 	_transitionElapsedTime = 0.0f;
 	_transitionTick = 0.0f;
 	_nextAnimationEventIndex = 0;
-	_isCurrentAnimationEnd = false;
+	// _isCurrentAnimationEnd = false;
 	_isInTransition = true;
 }
 
@@ -425,7 +425,7 @@ void Animator::AddAnimation(shared_ptr<Animation> animation)
 void Animator::UpdateAnimationEvent()
 {
 	// Current Animation Event
-	if (_animationEvents.contains(_currentAnimation))
+	if (_animationEvents.contains(_currentAnimation) && !_isCurrentAnimationEnd)
 	{
 		auto& events = _animationEvents[_currentAnimation];
 
@@ -467,7 +467,7 @@ void Animator::UpdateAnimationEvent()
 	}
 
 	// Next Animation Event (On Transition)
-	if (_animationEvents.contains(_nextAnimation))
+	if (_animationEvents.contains(_nextAnimation)/* && !_isNextAnimationEnd*/)
 	{
 		auto& events = _animationEvents[_nextAnimation];
 

@@ -202,7 +202,7 @@ void EnemyScript::IdleState::StateStart(EnemyScript* owner)
 
 void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
 {
-	int pattern = Utils::Random(4, 9);
+	int pattern = Utils::Random(0, 9);
 
 	if (pattern <= 3) {
 		owner->SetState(EnemyState::WALK);
@@ -277,8 +277,7 @@ void EnemyScript::DeathState::StateStart(EnemyScript* owner)
 
 void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 {
-	//_patternIdx = Utils::Random(0, 3);
-	_patternIdx = 1;
+	_patternIdx = Utils::Random(0, 3);
 	_isAttackStarted = false;
 
 	if (owner->_targetDistance > 2.0f) {
