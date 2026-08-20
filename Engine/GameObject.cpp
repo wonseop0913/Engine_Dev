@@ -288,6 +288,7 @@ int GameObject::GetComponentTypeIndex(ComponentType type)
 	if (type == ComponentType::ParticleEmitter)		return 8;
 	if (type == ComponentType::CharacterController) return 9;
 	if (type == ComponentType::Terrain)				return 10;
+	if (type == ComponentType::AudioSource)			return 11;
 }
 
 void GameObject::SetPSOName(const string& name)

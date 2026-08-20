@@ -25,6 +25,7 @@ void PlayerScript::Init()
 
 	auto swordObj = _transform->GetChild("mixamorig:Sword_joint")->GetGameObject();
 	swordObj->SetTag("AttackAlly");
+
 	_swordRb = static_pointer_cast<Rigidbody>(ComponentFactory::Create("Rigidbody"));
 	_swordRb->SetStatic(true);
 	_swordRb->SetGravity(false);
@@ -34,6 +35,8 @@ void PlayerScript::Init()
 	_swordRb->SetColliderRotationOffset({ -4.0f, 15.0f, 0.0f });
 	_swordRb->SetPhysicsActive(false);
 	swordObj->AddComponent(_swordRb);
+
+	_swordAs = swordObj->GetComponent<AudioSource>();
 
 	_animator = _gameObject->GetComponent<Animator>();
 	_animator->LoadAnimationEvents("..\\Resources\\Animations\\Paladin WProp J Nordstrom\\AnimationEvents.xml");
@@ -61,7 +64,8 @@ void PlayerScript::Init()
 	_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_hpBar->GetTransform()->SetPosition({ -800.0f, 450.0f, 0.0f });
 	_hpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-	_hpBar->SetValue(10.0f);
+	_hpBar->SetValueMaxLimit(100.0f);
+	_hpBar->SetValue(100.0f);
 
 	_steminaBar = UI->CreateUI<UISlider>();
 	_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
@@ -84,12 +88,13 @@ void PlayerScript::Init()
 	_states.push_back(new InteractState());
 	_states.push_back(new EnterVeilState());
 
-	SOUND->LoadSound("Sounds/PlayerSword1.wav", false);
-	SOUND->LoadSound("Sounds/PlayerStep1.wav", false);
-	SOUND->LoadSound("Sounds/PlayerStep2.wav", false);
-	SOUND->LoadSound("Sounds/PlayerStep3.wav", false);
-	SOUND->LoadSound("Sounds/PlayerStep4.wav", false);
-	SOUND->LoadSound("Sounds/PlayerStep5.wav", false);
+	_playerFootstepSounds[0] = SOUND->LoadSound("Sounds/PlayerStep1.wav", false);
+	_playerFootstepSounds[1] = SOUND->LoadSound("Sounds/PlayerStep2.wav", false);
+	_playerFootstepSounds[2] = SOUND->LoadSound("Sounds/PlayerStep3.wav", false);
+	_playerFootstepSounds[3] = SOUND->LoadSound("Sounds/PlayerStep4.wav", false);
+	_playerFootstepSounds[4] = SOUND->LoadSound("Sounds/PlayerStep5.wav", false);
+
+	_playerFootAs = _gameObject->GetComponent<AudioSource>();
 }
 
 void PlayerScript::Update()
@@ -134,7 +139,9 @@ void PlayerScript::OnCollisionEnter(shared_ptr<GameObject> other)
 {
 	if (other->GetTag() == "AttackHostile")
 	{
-		DEBUG->Log("Got Attack");
+		if (health > 0 && !_isEvading) {
+			TakeDamage(other->GetComponent<Rigidbody>()->customData);
+		}
 	}
 
 	if (other->GetTag() == "Interactable") {
@@ -334,6 +341,13 @@ void PlayerScript::RecoveryStemina()
 	_steminaBar->SetValue(stemina);
 }
 
+void PlayerScript::TakeDamage(int damage)
+{
+	health -= damage;
+	DEBUG->Log("Take" + to_string(damage) + "damage. Remain Health - " + to_string(health));
+	_hpBar->SetValue(health);
+}
+
 void PlayerScript::DecreaseStemina(float value, bool instantChange)
 {
 	if (instantChange) {
@@ -356,26 +370,18 @@ void PlayerScript::AnimationEventListener(AnimationEvent event)
 
 		_swordRb->SetPhysicsActive(attackFlag);
 		_swordRb->customData = event.datas[0].w;
+
+		if (attackFlag)
+			_swordAs->Play();
 	}
 
 	if (event.type == AnimationEventTypes::Step) {
-		switch (Utils::Random(0, 4)) {
-		case 0:
-			SOUND->PlaySound("Sounds/PlayerStep1.wav");
-			break;
-		case 1:
-			SOUND->PlaySound("Sounds/PlayerStep2.wav");
-			break;
-		case 2:
-			SOUND->PlaySound("Sounds/PlayerStep3.wav");
-			break;
-		case 3:
-			SOUND->PlaySound("Sounds/PlayerStep4.wav");
-			break;
-		case 4:
-			SOUND->PlaySound("Sounds/PlayerStep5.wav");
-			break;
-		}
+		_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
+		_playerFootAs->Play();
+	}
+
+	if (event.type == AnimationEventTypes::Evade) {
+		_isEvading = event.datas[0].x == 1;
 	}
 }
 

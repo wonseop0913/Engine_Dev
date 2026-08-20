@@ -29,6 +29,7 @@ private:
 		REGISTER_COMPONENT(ParticleEmitter);
 		REGISTER_COMPONENT(Transform);
 		REGISTER_COMPONENT(Terrain);
+		REGISTER_COMPONENT(AudioSource);
 #ifdef BULB_EDITOR
 		REGISTER_COMPONENT(EditorCamera);
 #endif

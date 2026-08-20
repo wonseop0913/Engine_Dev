@@ -64,4 +64,24 @@
         <Attack         Tick="80.0" MeleeWeaponActivation="false"/>
         <Speed          Tick="90.6" Speed="1.0"/>
     </Animation>
+
+    <Animation Name="walk_forward">
+        <Step Tick="9.4"/>
+        <Step Tick="30.4"/>
+    </Animation>
+
+    <Animation Name="walk_left">
+        <Step Tick="6.4"/>
+        <Step Tick="24.6"/>
+    </Animation>
+
+    <Animation Name="walk_right">
+        <Step Tick="7.9"/>
+        <Step Tick="26.2"/>
+    </Animation>
+
+    <Animation Name="run_forward">
+        <Step Tick="6.4"/>
+        <Step Tick="17.6"/>
+    </Animation>
 </AnimationEvents>

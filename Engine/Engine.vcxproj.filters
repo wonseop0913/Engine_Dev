@@ -233,6 +233,9 @@
     <ClInclude Include="Terrain.h">
       <Filter>02. GameObject\Components\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>02. GameObject\Components\Audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00. Core">
@@ -300,6 +303,9 @@
     </Filter>
     <Filter Include="09. Sub Systems">
       <UniqueIdentifier>{c9399f1b-9425-4da8-8cd7-887a6484f729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Components\Audio">
+      <UniqueIdentifier>{9a8cc58b-d8e4-4fa5-8b3c-db0d89aa68fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -510,6 +516,9 @@
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>02. GameObject\Components\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>02. GameObject\Components\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

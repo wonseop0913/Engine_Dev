@@ -106,4 +106,7 @@ private:
     float _targetDistance;
 
 	bool _rotateToTarget = false;
+
+	FMOD::Sound* _footstepSounds[5];
+	shared_ptr<AudioSource> _footAs;
 };

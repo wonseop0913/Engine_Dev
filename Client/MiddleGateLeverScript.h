@@ -18,6 +18,7 @@ public:
 
 private:
 	shared_ptr<GameObject> _gateObj;
+	shared_ptr<AudioSource> _gateAs;
 	float _gateMoveTime = 0.0f;
 
 	bool _isGateOpened = false;

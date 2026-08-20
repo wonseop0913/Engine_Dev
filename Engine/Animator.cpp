@@ -437,7 +437,10 @@ void Animator::UpdateAnimationEvent()
 			if (currentEvent.type == AnimationEventTypes::Speed) {
 				_currentAnimationSpeed = currentEvent.datas[0].x;
 			}
-			if (currentEvent.type == AnimationEventTypes::Attack) {
+			if (currentEvent.type == AnimationEventTypes::Attack ||
+				currentEvent.type == AnimationEventTypes::Step ||
+				currentEvent.type == AnimationEventTypes::RotateToTarget ||
+				currentEvent.type == AnimationEventTypes::Evade) {
 				animationEvent.Execute(currentEvent);
 			}
 			if (currentEvent.type == AnimationEventTypes::End) {
@@ -446,14 +449,8 @@ void Animator::UpdateAnimationEvent()
 			if (currentEvent.type == AnimationEventTypes::BlockTransition) {
 				_isTransitionBlocked = currentEvent.datas[0].x == 1;
 			}
-			if (currentEvent.type == AnimationEventTypes::Step) {
-				animationEvent.Execute(currentEvent);
-			}
 			if (currentEvent.type == AnimationEventTypes::Sound) {
 				SOUND->PlaySound(currentEvent.strData);
-			}
-			if (currentEvent.type == AnimationEventTypes::RotateToTarget) {
-				animationEvent.Execute(currentEvent);
 			}
 
 			_currentAnimationEventIndex++;
@@ -479,7 +476,10 @@ void Animator::UpdateAnimationEvent()
 			if (nextEvent.type == AnimationEventTypes::Speed) {
 				_nextAnimationSpeed = nextEvent.datas[0].x;
 			}
-			if (nextEvent.type == AnimationEventTypes::Attack) {
+			if (nextEvent.type == AnimationEventTypes::Attack ||
+				nextEvent.type == AnimationEventTypes::Step ||
+				nextEvent.type == AnimationEventTypes::RotateToTarget ||
+				nextEvent.type == AnimationEventTypes::Evade) {
 				animationEvent.Execute(nextEvent);
 			}
 			if (nextEvent.type == AnimationEventTypes::End) {
@@ -489,14 +489,8 @@ void Animator::UpdateAnimationEvent()
 			if (nextEvent.type == AnimationEventTypes::BlockTransition) {
 				_isTransitionBlocked = nextEvent.datas[0].x == 1;
 			}
-			if (nextEvent.type == AnimationEventTypes::Step) {
-				animationEvent.Execute(nextEvent);
-			}
 			if (nextEvent.type == AnimationEventTypes::Sound) {
 				SOUND->PlaySound(nextEvent.strData);
-			}
-			if (nextEvent.type == AnimationEventTypes::RotateToTarget) {
-				animationEvent.Execute(nextEvent);
 			}
 
 			_nextAnimationEventIndex++;
@@ -566,6 +560,10 @@ void Animator::LoadAnimationEvents(const string& path)
 			}
 			if (eventName == "RotateToTarget") {
 				animEvent.type = AnimationEventTypes::RotateToTarget;
+				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
+			}
+			if (eventName == "Evade") {
+				animEvent.type = AnimationEventTypes::Evade;
 				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
 			}
 			_animationEvents[animationName].push_back(animEvent);

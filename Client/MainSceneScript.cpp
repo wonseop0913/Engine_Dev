@@ -17,7 +17,8 @@ void MainSceneScript::Init()
 	_states.push_back(new BossFight());
 	SetState(MainSceneState::FadeIn);
 
-	SOUND->LoadSound("Sounds/Boss.mp3", false);
+	// SOUND->LoadSound("Sounds/Boss.mp3", false);
+	_mainAs = GetGameObject()->GetComponent<AudioSource>();
 }
 
 void MainSceneScript::Update()
@@ -96,7 +97,7 @@ void MainSceneScript::FadeOut::StateUpdate(MainSceneScript* owner)
 void MainSceneScript::BossFight::StateStart(MainSceneScript* owner)
 {
 	RENDER->GetObjectW("Brute")->GetComponent<EnemyScript>()->blockExecute = false;
-	SOUND->PlaySound("Sounds/Boss.mp3", "BGM");
+	owner->_mainAs->Play();
 }
 
 void MainSceneScript::BossFight::StateUpdate(MainSceneScript* owner)

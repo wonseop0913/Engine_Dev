@@ -28,7 +28,7 @@
         <BlockTransition Tick="0.0" Flag="true"/>
         <Speed Tick="0.0" Speed="1.7"/>
         <Speed Tick="10.4" Speed="1.0"/>
-        <Sound Tick="12.5" SoundName="Sounds/PlayerSword1.wav"/>
+        <!--<Sound Tick="12.5" SoundName="Sounds/PlayerSword1.wav"/>-->
         <Speed Tick="14.9" Speed="1.9"/>
         <Attack Tick="17.2" Damage="8.0" MeleeWeaponActivation="true"/>
         <Speed Tick="20.7" Speed="1.2"/>
@@ -40,10 +40,12 @@
 
     <Animation Name="roll">
         <BlockTransition Tick="0.0" Flag="true"/>
+        <Evade Tick="0.0" Flag="true"/>
         <Speed Tick="0.0" Speed="1.6"/>
         <Speed Tick="6.1" Speed="1.8"/>
         <Speed Tick="15.0" Speed="2.4"/>
         <Speed Tick="19.0" Speed="1.5"/>
+        <Evade Tick="20.0" Flag="false"/>
         <Speed Tick="20" Speed="0.7"/>
         <BlockTransition Tick="20" Flag="false"/>
         <End Tick="28.0"/>

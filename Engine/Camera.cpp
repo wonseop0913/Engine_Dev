@@ -52,9 +52,10 @@ void Camera::Update()
 	}
 
 	if (GetGameObject()->GetFramesDirty() > 0) {
-		XMVECTOR eyePos = XMLoadFloat3(&GetTransform()->GetPosition());
-		XMVECTOR targetPos = eyePos + XMLoadFloat3(&GetTransform()->GetLook());
-		XMVECTOR upVec = XMLoadFloat3(&GetTransform()->GetUp());
+		shared_ptr<Transform> transform = GetTransform();
+		XMVECTOR eyePos = XMLoadFloat3(&transform->GetPosition());
+		XMVECTOR targetPos = eyePos + XMLoadFloat3(&transform->GetLook());
+		XMVECTOR upVec = XMLoadFloat3(&transform->GetUp());
 
 		// View
 		XMMATRIX matView = XMMatrixLookAtLH(eyePos, targetPos, upVec);

@@ -23,6 +23,7 @@
         </Component>
         <Component ComponentType="CharacterController"/>
         <Component ComponentType="PlayerScript"/>
+        <Component ComponentType="AudioSource"/>
     </Components>
     <GameObjects>
         <GameObject Name="Paladin_J_Nordstrom_Shield" PSO="opaque_solid" Tag="Default">
@@ -414,6 +415,7 @@
                                                                         <GameObject Name="mixamorig:Sword_joint" PSO="opaque_solid" Tag="Default">
                                                                             <Components>
                                                                                 <Component ComponentType="Transform" PosX="-0.77024013" PosY="7.9599652" PosZ="-2.8208289" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.49999994" QuatY="0.50000012" QuatZ="0.49999967" QuatW="-0.50000036"/>
+                                                                                <Component ComponentType="AudioSource" FilePath="Sounds/PlayerSword1.wav" Loop="false"/>
                                                                             </Components>
                                                                         </GameObject>
                                                                     </GameObjects>

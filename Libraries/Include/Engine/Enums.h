@@ -1,6 +1,6 @@
 #pragma once
 
-#define COUNT_COMPONENTTYPE	11
+#define COUNT_COMPONENTTYPE	12
 enum class BULB_API ComponentType
 {
 	Undefined			 = 0,
@@ -14,7 +14,8 @@ enum class BULB_API ComponentType
 	Script				 = 1 << 7,
 	ParticleEmitter		 = 1 << 8,
 	CharacterController	 = 1 << 9,
-	Terrain				 = 1 << 10
+	Terrain				 = 1 << 10,
+	AudioSource			 = 1 << 11
 };
 
 // For runtime add feature
@@ -29,6 +30,7 @@ enum class BULB_API UsableComponentType {
 	ParticleEmitter,
 	CharacterController,
 	Terrain,
+	AudioSource,
 	Script
 };
 

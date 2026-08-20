@@ -12,6 +12,7 @@
                 <Animation Path="..\Resources\Animations\Brute\axe_attack_360_2.banim"/>
                 <Animation Path="..\Resources\Animations\Brute\axe_attack_combo_2.banim"/>
                 <Animation Path="..\Resources\Animations\Brute\death1.banim"/>
+                <Animation Path="..\Resources\Animations\Brute\run_forward.banim"/>
             </Animations>
         </Component>
         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
@@ -23,6 +24,7 @@
         </Component>
         <Component ComponentType="CharacterController"/>
         <Component ComponentType="EnemyScript"/>
+        <Component ComponentType="AudioSource"/>
     </Components>
     <GameObjects>
         <GameObject Name="BattleAxe_GEO" PSO="opaque_skinned" Tag="Default">

@@ -21,7 +21,7 @@ void EnemyScript::Init()
 	_centerTransform = _transform->GetChild("mixamorig:Hips");	// Mixamo Default Rig Name
 
 	auto axeObj = _transform->GetChild("mixamorig:Weapon")->GetGameObject();
-	axeObj->SetTag("AttackEnemy");
+	axeObj->SetTag("AttackHostile");
 	_axeRb = static_pointer_cast<Rigidbody>(ComponentFactory::Create("Rigidbody"));
 	_axeRb->SetStatic(true);
 	_axeRb->SetGravity(false);
@@ -85,6 +85,14 @@ void EnemyScript::Init()
 	_enemyStateUI->SetRenderActive(false);
 
 	target = RENDER->GetObjectWithTag("Player");
+
+	_footstepSounds[0] = SOUND->LoadSound("Sounds/StoneWalk1.wav", false);
+	_footstepSounds[1] = SOUND->LoadSound("Sounds/StoneWalk2.wav", false);
+	_footstepSounds[2] = SOUND->LoadSound("Sounds/StoneWalk3.wav", false);
+	_footstepSounds[3] = SOUND->LoadSound("Sounds/StoneWalk4.wav", false);
+	_footstepSounds[4] = SOUND->LoadSound("Sounds/StoneWalk5.wav", false);
+
+	_footAs = _gameObject->GetComponent<AudioSource>();
 }
 
 void EnemyScript::Update()
@@ -189,6 +197,11 @@ void EnemyScript::AnimationEventListener(AnimationEvent event)
 			SOUND->PlaySound("Sounds/PlayerSword.mp3");
 	}
 
+	if (event.type == AnimationEventTypes::Step) {
+		_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
+		_footAs->Play();
+	}
+
 	if (event.type == AnimationEventTypes::RotateToTarget) {
 		_rotateToTarget = event.datas[0].x == 1;
 	}
@@ -281,7 +294,7 @@ void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 	_isAttackStarted = false;
 
 	if (owner->_targetDistance > 2.0f) {
-		owner->_animator->SetCurrentAnimation("walk_forward");
+		owner->_animator->SetCurrentAnimation("run_forward");
 		owner->_animator->SetLoop(true);
 	}
 }
@@ -315,7 +328,7 @@ void EnemyScript::AttackState::StateUpdate(EnemyScript* owner)
 					18.0f
 				)
 			);
-			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 1.1f);
+			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 2.5f);
 		}
 		else {
 			_isAttackStarted = true;

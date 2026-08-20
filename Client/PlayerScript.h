@@ -122,6 +122,8 @@ private:
 
 	void RecoveryStemina();
 
+	void TakeDamage(int damage);
+
 	// Decrease stemina per second
 	void DecreaseStemina(float value, bool instantChange = true);
 
@@ -142,6 +144,7 @@ private:
 	shared_ptr<UISlider> _hpBar;
 	shared_ptr<UISlider> _steminaBar;
 	shared_ptr<Rigidbody> _swordRb;
+	shared_ptr<AudioSource> _swordAs;
 
 	float _speed = 1.55f;
 	float _rotationSpeed = 17.0f;
@@ -159,5 +162,10 @@ private:
 	float _recoverySteminaDelayedTime = 0.0f;
 	bool _isRecoveryPossible = true;
 
+	bool _isEvading = false;
+
 	vector<shared_ptr<Interactable>> _interactableScripts;
+
+	FMOD::Sound* _playerFootstepSounds[5];
+	shared_ptr<AudioSource> _playerFootAs;
 };

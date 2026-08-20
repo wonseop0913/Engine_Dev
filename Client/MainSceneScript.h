@@ -67,5 +67,7 @@ private:
 
 	float _fadeInTime = 1.0f;
 	float _fadeOutTime = 1.0f;
+
+	shared_ptr<AudioSource> _mainAs;
 };
 

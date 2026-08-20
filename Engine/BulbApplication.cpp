@@ -106,11 +106,11 @@ bool BulbApplication::Init()
 	THREAD->Init();
 	RENDER->Init();
 	FILEIO->Init();
+	SOUND->Init();
 	UI->Init();
 	PHYSICS->Init();
 	SCENE->Init();
 	INPUTM->Init();
-	SOUND->Init();
 	Utils::Init();
 
 	DEBUG->Init();

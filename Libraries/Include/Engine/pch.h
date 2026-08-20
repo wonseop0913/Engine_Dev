@@ -172,6 +172,7 @@ using namespace JPH::literals;
 #include "ParticleEmitter.h"
 #include "CharacterController.h"
 #include "Terrain.h"
+#include "AudioSource.h"
 
 #include "UploadBuffer.h"
 #include "FrameResource.h"

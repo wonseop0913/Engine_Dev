@@ -14,7 +14,8 @@ enum BULB_API AnimationEventTypes {
 	BlockTransition,
 	Step,
 	Sound,
-	RotateToTarget
+	RotateToTarget,
+	Evade
 };
 
 // 일단은 애니메이션 속도 조절만

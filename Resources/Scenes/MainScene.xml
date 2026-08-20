@@ -5,6 +5,7 @@
             <Components>
                 <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MainSceneScript"/>
+                <Component ComponentType="AudioSource" FilePath="Sounds/Boss.mp3" Loop="true" BGM="true"/>
             </Components>
         </GameObject>
         <GameObject Name="GlobalLight" PSO="opaque_solid" Tag="Default">
@@ -3275,6 +3276,7 @@
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
                 </Component>
+                <Component ComponentType="AudioSource" FilePath="Sounds/MiddleGateOpen.wav" Loop="false"/>
             </Components>
             <GameObjects>
                 <GameObject Name="Table" PSO="opaque_solid" Tag="Default">

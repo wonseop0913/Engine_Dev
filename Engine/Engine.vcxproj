@@ -50,6 +50,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AnimationManager.h" />
     <ClInclude Include="Animator.h" />
+    <ClInclude Include="AudioSource.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="ComponentFactory.h" />
     <ClInclude Include="EditorCamera.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AnimationManager.cpp" />
     <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
     <ClCompile Include="EditorCamera.cpp" />

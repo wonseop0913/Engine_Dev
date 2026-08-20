@@ -13,6 +13,7 @@ class Animator;
 class ParticleEmitter;
 class CharacterController;
 class DirectionalLight;
+class AudioSource;
 #pragma endregion
 
 
@@ -173,6 +174,8 @@ ComponentType GameObject::GetComponentType()
 		return ComponentType::ParticleEmitter;
 	if (is_same_v<CharacterController, T>)
 		return ComponentType::CharacterController;
+	if (is_same_v<AudioSource, T>)
+		return ComponentType::AudioSource;
 
 	return ComponentType::Undefined;
 }
