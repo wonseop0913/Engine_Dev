@@ -450,7 +450,7 @@ void Animator::UpdateAnimationEvent()
 				_isTransitionBlocked = currentEvent.datas[0].x == 1;
 			}
 			if (currentEvent.type == AnimationEventTypes::Sound) {
-				SOUND->PlaySound(currentEvent.strData);
+				animationEvent.Execute(currentEvent);
 			}
 
 			_currentAnimationEventIndex++;

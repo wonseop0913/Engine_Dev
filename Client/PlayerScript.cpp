@@ -365,23 +365,28 @@ void PlayerScript::DecreaseStemina(float value, bool instantChange)
 
 void PlayerScript::AnimationEventListener(AnimationEvent event)
 {
-	if (event.type == AnimationEventTypes::Attack) {
-		bool attackFlag = event.datas[2].x == 1;
+	switch (event.type) {
+		case AnimationEventTypes::Attack: {
+			bool attackFlag = event.datas[2].x == 1;
 
-		_swordRb->SetPhysicsActive(attackFlag);
-		_swordRb->customData = event.datas[0].w;
-
-		if (attackFlag)
-			_swordAs->Play();
-	}
-
-	if (event.type == AnimationEventTypes::Step) {
-		_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
-		_playerFootAs->Play();
-	}
-
-	if (event.type == AnimationEventTypes::Evade) {
-		_isEvading = event.datas[0].x == 1;
+			_swordRb->SetPhysicsActive(attackFlag);
+			_swordRb->customData = event.datas[0].w;
+			break;
+		}
+		case AnimationEventTypes::Sound: {
+			if (event.strData == "PlayerAttack")
+				_swordAs->Play();
+			break;
+		}
+		case AnimationEventTypes::Step: {
+			_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
+			_playerFootAs->Play();
+			break;
+		}
+		case AnimationEventTypes::Evade: {
+			_isEvading = event.datas[0].x == 1;
+			break;
+		}
 	}
 }
 

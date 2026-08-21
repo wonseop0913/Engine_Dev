@@ -109,4 +109,5 @@ private:
 
 	FMOD::Sound* _footstepSounds[5];
 	shared_ptr<AudioSource> _footAs;
+	shared_ptr<AudioSource> _axeAs;
 };

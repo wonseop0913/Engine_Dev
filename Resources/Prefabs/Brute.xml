@@ -467,6 +467,7 @@
                                                                         <GameObject Name="mixamorig:Weapon" PSO="opaque_solid" Tag="Default">
                                                                             <Components>
                                                                                 <Component ComponentType="Transform" PosX="-1.5447209" PosY="11.410011" PosZ="-5.1134481" ScaleX="1" ScaleY="1" ScaleZ="0.99999994" QuatX="0.57212049" QuatY="-0.39188802" QuatZ="-0.43955541" QuatW="0.57087046"/>
+                                                                                <Component ComponentType="AudioSource"/>
                                                                             </Components>
                                                                         </GameObject>
                                                                     </GameObjects>

@@ -22,6 +22,7 @@ void EnemyScript::Init()
 
 	auto axeObj = _transform->GetChild("mixamorig:Weapon")->GetGameObject();
 	axeObj->SetTag("AttackHostile");
+
 	_axeRb = static_pointer_cast<Rigidbody>(ComponentFactory::Create("Rigidbody"));
 	_axeRb->SetStatic(true);
 	_axeRb->SetGravity(false);
@@ -32,6 +33,8 @@ void EnemyScript::Init()
 	_axeRb->SetPhysicsActive(false);
 	axeObj->AddComponent(_axeRb);
 
+	_axeAs = axeObj->GetComponent<AudioSource>();
+	// 사운드 로드 필요함
 
 	_animator = _gameObject->GetComponent<Animator>();
 	_animator->LoadAnimationEvents("..\\Resources\\Animations\\Brute\\AnimationEvents.xml");
@@ -188,22 +191,27 @@ void EnemyScript::UpdateDamageText()
 
 void EnemyScript::AnimationEventListener(AnimationEvent event)
 {
-	if (event.type == AnimationEventTypes::Attack) {
-		bool attackFlag = event.datas[2].x == 1;
+	switch (event.type) {
+		case AnimationEventTypes::Attack: {
+			bool attackFlag = event.datas[2].x == 1;
 
-		_axeRb->SetPhysicsActive(attackFlag);
-		_axeRb->customData = event.datas[0].w;
-		if (attackFlag)
-			SOUND->PlaySound("Sounds/PlayerSword.mp3");
-	}
-
-	if (event.type == AnimationEventTypes::Step) {
-		_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
-		_footAs->Play();
-	}
-
-	if (event.type == AnimationEventTypes::RotateToTarget) {
-		_rotateToTarget = event.datas[0].x == 1;
+			_axeRb->SetPhysicsActive(attackFlag);
+			_axeRb->customData = event.datas[0].w;
+			break;
+		}
+		case AnimationEventTypes::Sound: {
+			_axeAs->Play();
+			break;
+		}
+		case AnimationEventTypes::Step: {
+			_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
+			_footAs->Play();
+			break;
+		}
+		case AnimationEventTypes::RotateToTarget: {
+			_rotateToTarget = event.datas[0].x == 1;
+			break;
+		}
 	}
 }
 
