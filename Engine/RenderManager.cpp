@@ -991,9 +991,9 @@ void RenderManager::BuildPSOs()
 		shadow.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 		shadow.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 		shadow.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-		shadow.RasterizerState.DepthBias = D3D12_DEFAULT_DEPTH_BIAS;
+		shadow.RasterizerState.DepthBias = 1000;
 		shadow.RasterizerState.DepthBiasClamp = D3D12_DEFAULT_DEPTH_BIAS_CLAMP;
-		shadow.RasterizerState.SlopeScaledDepthBias = 0.0f;
+		shadow.RasterizerState.SlopeScaledDepthBias = 1.0f;
 		shadow.SampleDesc.Count = 1;
 		shadow.SampleDesc.Quality = 0;
 	}

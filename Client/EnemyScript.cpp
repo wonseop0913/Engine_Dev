@@ -286,7 +286,32 @@ void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
 		patternTime -= TIME->DeltaTime();
 	}
 	else {
-		owner->SetState(EnemyState::IDLE);
+		int rand = Utils::Random(0, 6);
+		if (rand <= 2) {
+			patternTime = Utils::Random(2, 3);
+			int direction = Utils::Random(0, 2);
+
+			switch (direction) {
+			case 0: {
+				movingDir = MovingDirection::FRONT;
+				owner->_animator->SetCurrentAnimation("walk_forward");
+				break;
+			}
+			case 1: {
+				movingDir = MovingDirection::LEFT;
+				owner->_animator->SetCurrentAnimation("walk_left");
+				break;
+			}
+			case 2: {
+				movingDir = MovingDirection::RIGHT;
+				owner->_animator->SetCurrentAnimation("walk_right");
+				break;
+			}
+			}
+		}
+		else {
+			owner->SetState(EnemyState::ATTACK);
+		}
 	}
 }
 
