@@ -39,21 +39,28 @@ void DirectionalLight::Update()
 	if (_gameObject.lock()->GetFramesDirty() > 0 || Camera::GetCurrentCamera()->GetFramesDirty() > 0) {
 		direction = _transform->GetLook();
 
-		XMVECTOR eyePos = XMLoadFloat3(&Camera::GetCurrentCamera()->GetEyePos());
-		XMVECTOR targetPos = eyePos + XMLoadFloat3(&direction);
+		// 리펙토링, 기능 수정 필요함
+		float radius = 20.0f;
+
+		XMVECTOR cameraPos = XMLoadFloat3(&Camera::GetCurrentCamera()->GetEyePos());
+		XMVECTOR lightPos = cameraPos - radius * XMLoadFloat3(&direction);
 		XMVECTOR upVec = XMLoadFloat3(&_transform->GetUp());
 
-		XMMATRIX matView = XMMatrixLookAtLH(eyePos, targetPos, upVec);
+		XMMATRIX matView = XMMatrixLookAtLH(lightPos, cameraPos, upVec);
 		XMStoreFloat4x4(&_matView, XMMatrixTranspose(matView));
 
-		// projMat 갱신 부분 추가해야함
-		// ㄴ굳이 갱신 해야하나? 잘 모르겠음
-		XMMATRIX matProj = XMMatrixOrthographicLH(
-			30.0f,
-			30.0f,
-			-100.0f,
-			100.0f
+		XMFLOAT3 sphereCenterLS;
+		XMStoreFloat3(&sphereCenterLS, XMVector3TransformCoord(cameraPos, matView));
+
+		XMMATRIX matProj = XMMatrixOrthographicOffCenterLH(
+			sphereCenterLS.x - radius,
+			sphereCenterLS.x + radius,
+			sphereCenterLS.y - radius,
+			sphereCenterLS.y + radius,
+			sphereCenterLS.z - radius,
+			sphereCenterLS.z + radius
 		);
+
 		XMStoreFloat4x4(&_matProj, XMMatrixTranspose(matProj));
 
 		SetFramesDirty();
