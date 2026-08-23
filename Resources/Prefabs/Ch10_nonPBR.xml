@@ -1,0 +1,362 @@
+<Prefab Name="Ch10_nonPBR" PSO="opaque_solid" Tag="Default">
+    <Components>
+        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.01" ScaleY="0.01" ScaleZ="0.01" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+        <Component ComponentType="Animator" Bone="..\Resources\Bones\Ch10_nonPBR.bbone">
+            <Animations>
+                <Animation Path="..\Resources\Animations\Ch10_nonPBR\mixamo.com.banim"/>
+            </Animations>
+        </Component>
+    </Components>
+    <GameObjects>
+        <GameObject Name="Ch10" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="SkinnedMeshRenderer" Mesh="..\Resources\Meshes\Ch10_nonPBR\Ch10.bmesh" Material="..\Resources\Materials\Ch10_nonPBR\Ch10_body.xml" RootBoneName="mixamorig5:Hips"/>
+            </Components>
+        </GameObject>
+        <GameObject Name="Ch101" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="SkinnedMeshRenderer" Mesh="..\Resources\Meshes\Ch10_nonPBR\Ch101.bmesh" Material="..\Resources\Materials\Ch10_nonPBR\Ch10_body1.xml" RootBoneName="mixamorig5:Hips"/>
+            </Components>
+        </GameObject>
+        <GameObject Name="mixamorig5:Hips" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="-0.0029907227" PosY="105.15626" PosZ="-2.3986962" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+            </Components>
+            <GameObjects>
+                <GameObject Name="mixamorig5:Spine" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="8.8360519" PosZ="1.360826" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.076329648" QuatY="0" QuatZ="-0" QuatW="0.99708259"/>
+                    </Components>
+                    <GameObjects>
+                        <GameObject Name="mixamorig5:Spine1" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="0" PosY="10.430254" PosZ="6.3301862e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                            </Components>
+                            <GameObjects>
+                                <GameObject Name="mixamorig5:Spine2" PSO="opaque_solid" Tag="Default">
+                                    <Components>
+                                        <Component ComponentType="Transform" PosX="0" PosY="11.920288" PosZ="2.406523e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                    </Components>
+                                    <GameObjects>
+                                        <GameObject Name="mixamorig5:Neck" PSO="opaque_solid" Tag="Default">
+                                            <Components>
+                                                <Component ComponentType="Transform" PosX="0" PosY="13.410336" PosZ="-2.5943041e-06" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.076329708" QuatY="0" QuatZ="-0" QuatW="0.99708259"/>
+                                            </Components>
+                                            <GameObjects>
+                                                <GameObject Name="mixamorig5:Head" PSO="opaque_solid" Tag="Default">
+                                                    <Components>
+                                                        <Component ComponentType="Transform" PosX="0" PosY="6.3911438" PosZ="-3.2174525" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                                    </Components>
+                                                </GameObject>
+                                            </GameObjects>
+                                        </GameObject>
+                                        <GameObject Name="mixamorig5:LeftShoulder" PSO="opaque_solid" Tag="Default">
+                                            <Components>
+                                                <Component ComponentType="Transform" PosX="6.3223262" PosY="11.894753" PosZ="0.25803843" ScaleX="1" ScaleY="1" ScaleZ="0.99999994" QuatX="0.54607254" QuatY="0.44391274" QuatZ="0.56942278" QuatW="-0.42485762"/>
+                                            </Components>
+                                            <GameObjects>
+                                                <GameObject Name="mixamorig5:LeftArm" PSO="opaque_solid" Tag="Default">
+                                                    <Components>
+                                                        <Component ComponentType="Transform" PosX="-1.1914771e-09" PosY="12.863727" PosZ="9.3137658e-09" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="0.068952896" QuatY="0.00086525286" QuatZ="0.012517607" QuatW="0.99754107"/>
+                                                    </Components>
+                                                    <GameObjects>
+                                                        <GameObject Name="mixamorig5:LeftForeArm" PSO="opaque_solid" Tag="Default">
+                                                            <Components>
+                                                                <Component ComponentType="Transform" PosX="4.7597837e-10" PosY="26.918953" PosZ="1.7974173e-09" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.067483477" QuatY="0.0028929405" QuatZ="0.042731717" QuatW="0.99680066"/>
+                                                            </Components>
+                                                            <GameObjects>
+                                                                <GameObject Name="mixamorig5:LeftHand" PSO="opaque_solid" Tag="Default">
+                                                                    <Components>
+                                                                        <Component ComponentType="Transform" PosX="2.1943869e-09" PosY="24.789511" PosZ="-4.9434533e-08" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.059461325" QuatY="-0.12840126" QuatZ="0.00996029" QuatW="0.98988795"/>
+                                                                    </Components>
+                                                                    <GameObjects>
+                                                                        <GameObject Name="mixamorig5:LeftHandThumb1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="-2.868926" PosY="3.4067554" PosZ="-1.6066139" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.1665661" QuatY="-0.04880245" QuatZ="0.27690381" QuatW="0.94509172"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:LeftHandThumb2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="-0.46146119" PosY="3.7595882" PosZ="-4.779389e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.07122229" QuatY="0" QuatZ="-0" QuatW="0.99746048"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:LeftHandThumb3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="-0.028810417" PosY="3.1414447" PosZ="2.3348238e-07" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.055308513" QuatY="0" QuatZ="-0" QuatW="0.99846935"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:LeftHandIndex1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="-3.5396929" PosY="10.24167" PosZ="0.13483462" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.08891502" QuatY="-0.0054510706" QuatZ="0.060948361" QuatW="0.99415773"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:LeftHandIndex2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="0.0039121262" PosY="3.0230279" PosZ="9.6056766e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.0018996362" QuatY="0" QuatZ="-0" QuatW="0.99999821"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:LeftHandIndex3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="0.0046420675" PosY="2.7880726" PosZ="-6.785362e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.030549437" QuatY="0" QuatZ="-0" QuatW="0.99953324"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:LeftHandMiddle1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="-1.0724826" PosY="10.124888" PosZ="0.16745983" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.025921464" QuatY="0.00075431314" QuatZ="-0.029077848" QuatW="0.99924064"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:LeftHandMiddle2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="0.017970746" PosY="3.39903" PosZ="2.3617076e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.08602985" QuatY="0" QuatZ="-0" QuatW="0.99629253"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:LeftHandMiddle3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="-0.012315288" PosY="3.3011489" PosZ="-8.2511718e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.017330611" QuatY="0" QuatZ="-0" QuatW="0.9998498"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:LeftHandRing1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="1.2615826" PosY="10.227328" PosZ="0.24396153" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.099314578" QuatY="0.0061961608" QuatZ="-0.061959118" QuatW="0.99310589"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:LeftHandRing2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="-0.001278505" PosY="2.9767799" PosZ="7.2169684e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.025306948" QuatY="0" QuatZ="-0" QuatW="0.99967968"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:LeftHandRing3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="-0.0067020655" PosY="2.7034886" PosZ="5.327081e-09" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.072431803" QuatY="0" QuatZ="-0" QuatW="0.99737334"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:LeftHandPinky1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="3.350594" PosY="9.005168" PosZ="0.29136881" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.13183464" QuatY="0.021172471" QuatZ="-0.15714698" QuatW="0.97850716"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:LeftHandPinky2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="0.00089664868" PosY="2.8002796" PosZ="-7.1940207e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.019602371" QuatY="0" QuatZ="-0" QuatW="0.99980783"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:LeftHandPinky3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="-0.0005941636" PosY="2.3067498" PosZ="3.3495269e-09" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="0.073786788" QuatY="0" QuatZ="-0" QuatW="0.99727404"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                    </GameObjects>
+                                                                </GameObject>
+                                                            </GameObjects>
+                                                        </GameObject>
+                                                    </GameObjects>
+                                                </GameObject>
+                                            </GameObjects>
+                                        </GameObject>
+                                        <GameObject Name="mixamorig5:RightShoulder" PSO="opaque_solid" Tag="Default">
+                                            <Components>
+                                                <Component ComponentType="Transform" PosX="-6.3223262" PosY="11.887343" PosZ="0.20992394" ScaleX="0.99999994" ScaleY="0.99999994" ScaleZ="1" QuatX="-0.54850227" QuatY="0.44192246" QuatZ="0.56759042" QuatW="0.42625222"/>
+                                            </Components>
+                                            <GameObjects>
+                                                <GameObject Name="mixamorig5:RightArm" PSO="opaque_solid" Tag="Default">
+                                                    <Components>
+                                                        <Component ComponentType="Transform" PosX="1.7378738e-09" PosY="12.863727" PosZ="9.2274774e-09" ScaleX="0.99999994" ScaleY="1" ScaleZ="1" QuatX="0.06973131" QuatY="-0.00053127407" QuatZ="-0.0076001063" QuatW="0.99753672"/>
+                                                    </Components>
+                                                    <GameObjects>
+                                                        <GameObject Name="mixamorig5:RightForeArm" PSO="opaque_solid" Tag="Default">
+                                                            <Components>
+                                                                <Component ComponentType="Transform" PosX="1.7864995e-08" PosY="26.91906" PosZ="1.189525e-07" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="0.065869868" QuatY="-0.0034763839" QuatZ="-0.052588414" QuatW="0.9964354"/>
+                                                            </Components>
+                                                            <GameObjects>
+                                                                <GameObject Name="mixamorig5:RightHand" PSO="opaque_solid" Tag="Default">
+                                                                    <Components>
+                                                                        <Component ComponentType="Transform" PosX="1.1179129e-07" PosY="24.821201" PosZ="1.4890304e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.059222545" QuatY="0.11353249" QuatZ="0.02489944" QuatW="0.99145508"/>
+                                                                    </Components>
+                                                                    <GameObjects>
+                                                                        <GameObject Name="mixamorig5:RightHandThumb1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="2.6898518" PosY="3.1962445" PosZ="-1.6248502" ScaleX="1" ScaleY="0.99999994" ScaleZ="1" QuatX="-0.17694631" QuatY="0.054778699" QuatZ="-0.29061338" QuatW="0.93874019"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:RightHandThumb2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="0.33076334" PosY="3.570595" PosZ="-3.7787231e-08" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.083051346" QuatY="0" QuatZ="-0" QuatW="0.99654531"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:RightHandThumb3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="-0.088053189" PosY="3.1333685" PosZ="9.8735171e-08" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="0.11046625" QuatY="0" QuatZ="-0" QuatW="0.99387991"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:RightHandIndex1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="3.4656961" PosY="10.104245" PosZ="0.1317044" ScaleX="0.99999994" ScaleY="1" ScaleZ="1" QuatX="-0.089586832" QuatY="0.0076115006" QuatZ="-0.084314406" QuatW="0.9923746"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:RightHandIndex2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="0.000442485" PosY="3.0936396" PosZ="-1.6890186e-07" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.0086861458" QuatY="0" QuatZ="-0" QuatW="0.99996227"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:RightHandIndex3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="0.0025047318" PosY="2.8265285" PosZ="-1.261964e-07" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.023932708" QuatY="0" QuatZ="-0" QuatW="0.9997136"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:RightHandMiddle1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="1.1434262" PosY="10.146461" PosZ="0.30966955" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.055148419" QuatY="-0.0011402916" QuatZ="0.020640885" QuatW="0.99826413"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:RightHandMiddle2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="-0.0015930842" PosY="3.4091396" PosZ="2.7390399e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.039586812" QuatY="0" QuatZ="-0" QuatW="0.99921614"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:RightHandMiddle3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="0.00059145788" PosY="3.2456942" PosZ="8.5356874e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.010352829" QuatY="0" QuatZ="-0" QuatW="0.99994642"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:RightHandRing1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="-1.2470117" PosY="10.300536" PosZ="-0.020169226" ScaleX="0.99999994" ScaleY="1" ScaleZ="1" QuatX="-0.021126334" QuatY="-0.00086788973" QuatZ="0.04103715" QuatW="0.99893391"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:RightHandRing2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="-0.00035699698" PosY="2.8929548" PosZ="2.6520212e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.11440527" QuatY="0" QuatZ="-0" QuatW="0.99343419"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:RightHandRing3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="0.00056245009" PosY="2.7984509" PosZ="8.051029e-08" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="0.10395756" QuatY="0" QuatZ="-0" QuatW="0.9945817"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                        <GameObject Name="mixamorig5:RightHandPinky1" PSO="opaque_solid" Tag="Default">
+                                                                            <Components>
+                                                                                <Component ComponentType="Transform" PosX="-3.3621109" PosY="9.3650188" PosZ="0.16871952" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.069166347" QuatY="-0.01088101" QuatZ="0.15502387" QuatW="0.98542643"/>
+                                                                            </Components>
+                                                                            <GameObjects>
+                                                                                <GameObject Name="mixamorig5:RightHandPinky2" PSO="opaque_solid" Tag="Default">
+                                                                                    <Components>
+                                                                                        <Component ComponentType="Transform" PosX="0.0061030872" PosY="2.7904012" PosZ="6.9900068e-08" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="-0.088254504" QuatY="0" QuatZ="-0" QuatW="0.99609798"/>
+                                                                                    </Components>
+                                                                                    <GameObjects>
+                                                                                        <GameObject Name="mixamorig5:RightHandPinky3" PSO="opaque_solid" Tag="Default">
+                                                                                            <Components>
+                                                                                                <Component ComponentType="Transform" PosX="-0.0087506771" PosY="2.2319787" PosZ="5.9867574e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.065773644" QuatY="0" QuatZ="-0" QuatW="0.99783456"/>
+                                                                                            </Components>
+                                                                                        </GameObject>
+                                                                                    </GameObjects>
+                                                                                </GameObject>
+                                                                            </GameObjects>
+                                                                        </GameObject>
+                                                                    </GameObjects>
+                                                                </GameObject>
+                                                            </GameObjects>
+                                                        </GameObject>
+                                                    </GameObjects>
+                                                </GameObject>
+                                            </GameObjects>
+                                        </GameObject>
+                                    </GameObjects>
+                                </GameObject>
+                            </GameObjects>
+                        </GameObject>
+                    </GameObjects>
+                </GameObject>
+                <GameObject Name="mixamorig5:LeftUpLeg" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="9.3739357" PosY="-4.9106064" PosZ="0.52553046" ScaleX="1" ScaleY="0.99999994" ScaleZ="0.99999994" QuatX="0.00061663811" QuatY="0.016630081" QuatZ="0.99917489" QuatW="-0.037049059"/>
+                    </Components>
+                    <GameObjects>
+                        <GameObject Name="mixamorig5:LeftLeg" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="1.1392183e-07" PosY="43.286911" PosZ="-3.303893e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.0019546172" QuatY="-2.5608151e-05" QuatZ="0.013100216" QuatW="0.99991226"/>
+                            </Components>
+                            <GameObjects>
+                                <GameObject Name="mixamorig5:LeftFoot" PSO="opaque_solid" Tag="Default">
+                                    <Components>
+                                        <Component ComponentType="Transform" PosX="2.0957415e-07" PosY="45.713345" PosZ="-6.3014035e-08" ScaleX="0.99999994" ScaleY="1" ScaleZ="0.99999994" QuatX="-0.44217184" QuatY="0.010003188" QuatZ="0.0049317875" QuatW="0.89686102"/>
+                                    </Components>
+                                    <GameObjects>
+                                        <GameObject Name="mixamorig5:LeftToeBase" PSO="opaque_solid" Tag="Default">
+                                            <Components>
+                                                <Component ComponentType="Transform" PosX="-4.2236259e-09" PosY="18.168739" PosZ="3.2297271e-07" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.31568447" QuatY="0.074728683" QuatZ="0.024948167" QuatW="0.94558793"/>
+                                            </Components>
+                                        </GameObject>
+                                    </GameObjects>
+                                </GameObject>
+                            </GameObjects>
+                        </GameObject>
+                    </GameObjects>
+                </GameObject>
+                <GameObject Name="mixamorig5:RightUpLeg" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="-9.3739357" PosY="-4.9106064" PosZ="0.54134238" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0.00071129395" QuatY="0.019186389" QuatZ="0.9991293" QuatW="0.037040655"/>
+                    </Components>
+                    <GameObjects>
+                        <GameObject Name="mixamorig5:RightLeg" PSO="opaque_solid" Tag="Default">
+                            <Components>
+                                <Component ComponentType="Transform" PosX="2.2282535e-08" PosY="43.294811" PosZ="-1.7970613e-08" ScaleX="0.99999994" ScaleY="0.99999994" ScaleZ="1" QuatX="-0.0041497042" QuatY="5.4396034e-05" QuatZ="-0.013107175" QuatW="0.99990547"/>
+                            </Components>
+                            <GameObjects>
+                                <GameObject Name="mixamorig5:RightFoot" PSO="opaque_solid" Tag="Default">
+                                    <Components>
+                                        <Component ComponentType="Transform" PosX="-1.4077975e-07" PosY="45.71431" PosZ="-1.8684403e-08" ScaleX="0.99999994" ScaleY="1" ScaleZ="0.99999994" QuatX="-0.44579241" QuatY="-0.010084092" QuatZ="-0.0050224387" QuatW="0.89506549"/>
+                                    </Components>
+                                    <GameObjects>
+                                        <GameObject Name="mixamorig5:RightToeBase" PSO="opaque_solid" Tag="Default">
+                                            <Components>
+                                                <Component ComponentType="Transform" PosX="-8.5881858e-08" PosY="18.335022" PosZ="2.165271e-07" ScaleX="0.99999994" ScaleY="1" ScaleZ="1" QuatX="-0.31214327" QuatY="-0.076281264" QuatZ="-0.025153007" QuatW="0.94663358"/>
+                                            </Components>
+                                        </GameObject>
+                                    </GameObjects>
+                                </GameObject>
+                            </GameObjects>
+                        </GameObject>
+                    </GameObjects>
+                </GameObject>
+            </GameObjects>
+        </GameObject>
+    </GameObjects>
+</Prefab>

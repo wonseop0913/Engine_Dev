@@ -122,6 +122,8 @@ void AssetLoader::ImportAssetFile(wstring file)
 
 void AssetLoader::ProcessMaterials(const aiScene* scene)
 {
+	cout << "Load Textures.." << endl;
+
 	// 텍스처 로드 부분
 	for (UINT i = 0; i < scene->mNumTextures; i++)
 	{
@@ -150,8 +152,10 @@ void AssetLoader::ProcessMaterials(const aiScene* scene)
 				continue;
 			}
 
+			cout << textureFullPath << " is on load.. ";
 			stbi_write_png(textureFullPath.c_str(), width, height, 4, decodedData, width * 4);
 			stbi_image_free(decodedData);
+			cout << "Done";
 		}
 
 		// 비압축 raw 데이터의 경우
@@ -223,11 +227,24 @@ void AssetLoader::ProcessNodes(aiNode* node, const aiScene* scene, shared_ptr<No
 	{
 		// 메시 기하정보 로드
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		shared_ptr<Mesh> m = RESOURCE->Get<Mesh>(Utils::ToWString(mesh->mName.C_Str()));
+		int overlapCount = 0;
+		string meshName = mesh->mName.C_Str();
+
+		shared_ptr<Mesh> m = RESOURCE->Get<Mesh>(Utils::ToWString(meshName));
+		while (m != nullptr) {
+			++overlapCount;
+			m = RESOURCE->Get<Mesh>(Utils::ToWString(meshName + to_string(overlapCount)));
+		}
+
+		if (overlapCount > 0) {
+			meshName = meshName + to_string(overlapCount);
+			mesh->mName = meshName;
+		}
+
 		if (m == nullptr)
 		{
 			m = ProcessMesh(mesh, scene);
-			RESOURCE->Add<Mesh>(Utils::ToWString(node->mName.C_Str()), m);
+ 			RESOURCE->Add<Mesh>(Utils::ToWString(meshName), m);
 		}
 		_meshes.push_back(m);
 
