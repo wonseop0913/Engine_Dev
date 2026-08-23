@@ -21,7 +21,9 @@ public:
 
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
 
+#ifdef BULB_EDITOR
 	bool ShowComponentEditorGUI() override;
+#endif
 
 public:
 	void LoadSound(string path);
