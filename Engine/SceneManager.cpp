@@ -132,7 +132,7 @@ void SceneManager::LoadScene(string sceneName, bool isFullPath)
 		ReadUIData(uisElem, nullptr);
 	}
 
-	// 이 부분은 추후에 에디터에서만 적용되도록 변경해야함.
+	TIME->Reset();
 
 #ifdef BULB_EDITOR
 	EDITOR->SetEditorWindowText(_currentSceneName);

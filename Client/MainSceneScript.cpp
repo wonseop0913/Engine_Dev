@@ -17,7 +17,6 @@ void MainSceneScript::Init()
 	_states.push_back(new BossFight());
 	SetState(MainSceneState::FadeIn);
 
-	// SOUND->LoadSound("Sounds/Boss.mp3", false);
 	_mainAs = GetGameObject()->GetComponent<AudioSource>();
 }
 

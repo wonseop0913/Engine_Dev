@@ -57,6 +57,9 @@ void StartMenuSceneScript::Init()
 	_sndBtnHover = SOUND->LoadSound("Sounds/UIButtonHovered.mp3", false);
 	_sndGameStart = SOUND->LoadSound("Sounds/StartGameButton.mp3", false);
 
+	_asMainTheme = GetGameObject()->GetComponent<AudioSource>();
+	_asMainTheme->SetSound(_sndMainTheme);
+
 	SOUND->SetMasterVolume(0.6f);
 
 	SOUND->AddGroup("BGM");
@@ -152,7 +155,8 @@ void StartMenuSceneScript::MenuFadeIn::StateUpdate(StartMenuSceneScript* owner)
 
 void StartMenuSceneScript::Menu::StateStart(StartMenuSceneScript* owner)
 {
-	SOUND->PlaySound(owner->_sndMainTheme, nullptr, "BGM");
+	owner->_asMainTheme->Play();
+	// SOUND->PlaySound(owner->_sndMainTheme, nullptr, "BGM");
 }
 
 void StartMenuSceneScript::MenuFadeOut::StateStart(StartMenuSceneScript* owner)
@@ -165,10 +169,12 @@ void StartMenuSceneScript::MenuFadeOut::StateUpdate(StartMenuSceneScript* owner)
 {
 	_elapsedTime += TIME->DeltaTime();
 	if (_elapsedTime >= owner->_soundFadeOutTime) {
-		SOUND->StopSoundGroup("BGM");
+		// SOUND->StopSoundGroup("BGM");
+		owner->_asMainTheme->Stop();
 		SCENE->LoadSceneOnRender("MainScene.xml");
 	}
 	else {
-		SOUND->SetVolume(1.0f - _elapsedTime / owner->_soundFadeOutTime, "BGM");
+		// SOUND->SetVolume(1.0f - _elapsedTime / owner->_soundFadeOutTime, "BGM");
+		owner->_asMainTheme->SetVolume(1.0f - _elapsedTime / owner->_soundFadeOutTime);
 	}
 }
