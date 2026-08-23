@@ -166,6 +166,6 @@ private:
 
 	vector<shared_ptr<Interactable>> _interactableScripts;
 
-	FMOD::Sound* _playerFootstepSounds[5];
+	AudioClip _playerFootstepSounds[5];
 	shared_ptr<AudioSource> _playerFootAs;
 };

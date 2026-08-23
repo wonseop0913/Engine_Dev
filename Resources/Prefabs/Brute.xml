@@ -23,7 +23,7 @@
             </Collider>
         </Component>
         <Component ComponentType="CharacterController"/>
-        <Component ComponentType="EnemyScript"/>
+        <Component ComponentType="BossScript"/>
         <Component ComponentType="AudioSource"/>
     </Components>
     <GameObjects>
@@ -94,6 +94,7 @@
                         <GameObject Name="mixamorig:Spine1" PSO="opaque_solid" Tag="Default">
                             <Components>
                                 <Component ComponentType="Transform" PosX="-6.4916605e-18" PosY="14.033484" PosZ="-2.3623276e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                <Component ComponentType="AudioSource"/>
                             </Components>
                             <GameObjects>
                                 <GameObject Name="mixamorig:Spine2" PSO="opaque_solid" Tag="Default">

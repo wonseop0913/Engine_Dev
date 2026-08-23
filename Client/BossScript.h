@@ -2,7 +2,7 @@
 #include "Script.h"
 #include "BaseState.h"
 
-enum class EnemyState
+enum class BossState
 {
     IDLE,
     WALK,
@@ -10,7 +10,7 @@ enum class EnemyState
     DEATH
 };
 
-class EnemyScript : public Script
+class BossScript : public Script
 {
 	enum class MovingDirection {
 		FRONT,
@@ -18,37 +18,37 @@ class EnemyScript : public Script
 		RIGHT
 	};
 
-	class IdleState : public BaseState<EnemyScript> {
+	class IdleState : public BaseState<BossScript> {
 	public:
-		void StateStart(EnemyScript* owner) override;
-		void StateUpdate(EnemyScript* owner) override;
+		void StateStart(BossScript* owner) override;
+		void StateUpdate(BossScript* owner) override;
 	};
 
-	class TrackWalkState : public BaseState<EnemyScript> {
+	class TrackWalkState : public BaseState<BossScript> {
 	public:
-		void StateStart(EnemyScript* owner) override;
-		void StateUpdate(EnemyScript* owner) override;
+		void StateStart(BossScript* owner) override;
+		void StateUpdate(BossScript* owner) override;
 	private:
 		float patternTime;
 		MovingDirection movingDir;
 	};
 
-	class AttackState : public BaseState<EnemyScript> {
+	class AttackState : public BaseState<BossScript> {
 	public:
-		void StateStart(EnemyScript* owner) override;
-		void StateUpdate(EnemyScript* owner) override;
+		void StateStart(BossScript* owner) override;
+		void StateUpdate(BossScript* owner) override;
 	private:
 		int _patternIdx;
 		bool _isAttackStarted;
 	};
 
-	class DeathState : public BaseState<EnemyScript> {
+	class DeathState : public BaseState<BossScript> {
 	public:
-		void StateStart(EnemyScript* owner) override;
+		void StateStart(BossScript* owner) override;
 	};
 
 public:
-	~EnemyScript();
+	~BossScript();
 
     void Init() override;
 	void Update() override;
@@ -65,7 +65,7 @@ public:
 	shared_ptr<Transform> GetCenterTransform() { return _centerTransform; }
 
 private:
-	void SetState(EnemyState state) {
+	void SetState(BossState state) {
 		if (_currentState == state) return;
 		_currentState = state;
 		_isStateChanged = true;
@@ -91,10 +91,10 @@ private:
 	shared_ptr<Rigidbody> _axeRb;
 
     int _health = 100;
-    EnemyState _currentState = EnemyState::IDLE;
+    BossState _currentState = BossState::IDLE;
     bool _isStateChanged = false;
 
-    vector<BaseState<EnemyScript>*> _patterns;
+    vector<BaseState<BossScript>*> _patterns;
 	Bulb::Vector3 _targetVec;
 
 	shared_ptr<UIElement> _enemyStateUI;
@@ -107,7 +107,9 @@ private:
 
 	bool _rotateToTarget = false;
 
-	FMOD::Sound* _footstepSounds[5];
+	AudioClip _footstepSounds[5];
+	AudioClip _hitSound;
 	shared_ptr<AudioSource> _footAs;
+	shared_ptr<AudioSource> _bodyAs;
 	shared_ptr<AudioSource> _axeAs;
 };

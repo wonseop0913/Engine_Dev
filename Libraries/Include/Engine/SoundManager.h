@@ -23,11 +23,11 @@ public:
 
 	void StopSoundGroup(const string& group);
 
-	FMOD::Sound* LoadSound(const string& path, bool loop);
+	AudioClip LoadSound(const string& path, bool loop);
 
-	void PlaySound(const string& name, const string& group = "");
+	void PlaySound(AudioClip sound, FMOD::Channel** channel = nullptr);
 
-	void PlaySound(FMOD::Sound* sound, FMOD::Channel** channel);
+	void PlaySound(AudioClip sound, FMOD::Channel** channel, const string& group);
 
 	void AddGroup(const string& name, const string& parentGroup = "");
 
@@ -39,8 +39,6 @@ private:
 	static SoundManager* s_instance;
 
 	FMOD::System* _system = nullptr;
-	// <Path, Sound>
-	unordered_map<string, FMOD::Sound*> _sounds;
 
 	FMOD::ChannelGroup* _masterGroup = nullptr;
 

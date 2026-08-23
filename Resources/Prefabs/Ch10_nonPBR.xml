@@ -1,4 +1,4 @@
-<Prefab Name="Ch10_nonPBR" PSO="opaque_solid" Tag="Default">
+<Prefab Name="Zombie" PSO="opaque_solid" Tag="Default">
     <Components>
         <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.01" ScaleY="0.01" ScaleZ="0.01" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
         <Component ComponentType="Animator" Bone="..\Resources\Bones\Ch10_nonPBR.bbone">
@@ -6,6 +6,9 @@
                 <Animation Path="..\Resources\Animations\Ch10_nonPBR\mixamo.com.banim"/>
             </Animations>
         </Component>
+        <Component ComponentType="CharacterController"/>
+        <Component ComponentType="ZombieScript"/>
+        <Component ComponentType="AudioSource"/>
     </Components>
     <GameObjects>
         <GameObject Name="Ch10" PSO="opaque_solid" Tag="Default">

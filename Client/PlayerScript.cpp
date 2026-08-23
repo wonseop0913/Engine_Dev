@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "PlayerScript.h"
 #include "TPVCamera.h"
-#include "EnemyScript.h"
+#include "BossScript.h"
 #include "Interactable.h"
 #include "MainSceneScript.h"
 
@@ -297,7 +297,7 @@ void PlayerScript::LockOn()
 			DEBUG->ErrorLog("Can't Find TPVCamera Component!");
 		else {
 			tpvCameraScript->isLockOn = true;
-			tpvCameraScript->lockOnTargetTransform = _lockOnTarget->GetComponent<EnemyScript>()->GetCenterTransform();
+			tpvCameraScript->lockOnTargetTransform = _lockOnTarget->GetComponent<BossScript>()->GetCenterTransform();
 		}
 
 		DEBUG->Log("Locked On - " + _lockOnTarget->GetName());

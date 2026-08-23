@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Main.h"
-#include "EnemyScript.h"
+#include "BossScript.h"
 #include "PlayerScript.h"
 #include "TPVCamera.h"
 #include "StartMenuSceneScript.h"

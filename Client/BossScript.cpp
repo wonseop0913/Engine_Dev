@@ -1,24 +1,24 @@
 #include "pch.h"
-#include "EnemyScript.h"
+#include "BossScript.h"
 
 using namespace Bulb;
 
-REGISTER_COMPONENT(EnemyScript)
+REGISTER_COMPONENT(BossScript)
 
-EnemyScript::~EnemyScript()
+BossScript::~BossScript()
 {
 	for (auto pattern : _patterns) {
 		delete pattern;
 	}
 }
 
-void EnemyScript::Init()
+void BossScript::Init()
 {
 	_gameObject = GetGameObject();
 	_gameObject->SetTag("Enemy");
 
 	_transform = _gameObject->GetTransform();
-	_centerTransform = _transform->GetChild("mixamorig:Hips");	// Mixamo Default Rig Name
+	_centerTransform = _transform->GetChild("mixamorig:Spine1");	// Mixamo Default Rig Name
 
 	auto axeObj = _transform->GetChild("mixamorig:Weapon")->GetGameObject();
 	axeObj->SetTag("AttackHostile");
@@ -32,9 +32,6 @@ void EnemyScript::Init()
 	_axeRb->SetColliderRotationOffset({ 3.0f, 0.0f, 0.0f });
 	_axeRb->SetPhysicsActive(false);
 	axeObj->AddComponent(_axeRb);
-
-	_axeAs = axeObj->GetComponent<AudioSource>();
-	// 사운드 로드 필요함
 
 	_animator = _gameObject->GetComponent<Animator>();
 	_animator->LoadAnimationEvents("..\\Resources\\Animations\\Brute\\AnimationEvents.xml");
@@ -89,16 +86,23 @@ void EnemyScript::Init()
 
 	target = RENDER->GetObjectWithTag("Player");
 
-	_footstepSounds[0] = SOUND->LoadSound("Sounds/StoneWalk1.wav", false);
-	_footstepSounds[1] = SOUND->LoadSound("Sounds/StoneWalk2.wav", false);
-	_footstepSounds[2] = SOUND->LoadSound("Sounds/StoneWalk3.wav", false);
-	_footstepSounds[3] = SOUND->LoadSound("Sounds/StoneWalk4.wav", false);
-	_footstepSounds[4] = SOUND->LoadSound("Sounds/StoneWalk5.wav", false);
-
+	// Sound Settings
 	_footAs = _gameObject->GetComponent<AudioSource>();
+	_bodyAs = _centerTransform->GetGameObject()->GetComponent<AudioSource>();
+	_axeAs = axeObj->GetComponent<AudioSource>();
+
+	_footstepSounds[0] = SOUND->LoadSound("Sounds/DirtWalk1.wav", false);
+	_footstepSounds[1] = SOUND->LoadSound("Sounds/DirtWalk2.wav", false);
+	_footstepSounds[2] = SOUND->LoadSound("Sounds/DirtWalk3.wav", false);
+	_footstepSounds[3] = SOUND->LoadSound("Sounds/DirtWalk4.wav", false);
+	_footstepSounds[4] = SOUND->LoadSound("Sounds/DirtWalk5.wav", false);
+
+	_hitSound = SOUND->LoadSound("Sounds/SwordHit1.wav", false);
+
+	_bodyAs->SetSound(_hitSound);
 }
 
-void EnemyScript::Update()
+void BossScript::Update()
 {
 	if (blockExecute)
 		return;
@@ -109,9 +113,9 @@ void EnemyScript::Update()
 	_targetVec.y = 0;
 	_targetDistance = _targetVec.Length();
 
-	if (_currentState != EnemyState::DEATH) {
+	if (_currentState != BossState::DEATH) {
 		if (_health <= 0) {
-			SetState(EnemyState::DEATH);
+			SetState(BossState::DEATH);
 		}
 	}
 
@@ -126,7 +130,7 @@ void EnemyScript::Update()
 	_enemyStateUI->GetTransform()->SetPosition({ pos.x, pos.y + 2.2f, pos.z });
 }
 
-void EnemyScript::OnCollisionEnter(shared_ptr<GameObject> other)
+void BossScript::OnCollisionEnter(shared_ptr<GameObject> other)
 {
 	if (other->GetTag() == "AttackAlly") {
 		if (_health > 0) {
@@ -135,7 +139,7 @@ void EnemyScript::OnCollisionEnter(shared_ptr<GameObject> other)
 	}
 }
 
-void EnemyScript::OnDestroy()
+void BossScript::OnDestroy()
 {
 	cout << "OnDestroy - EnemyScript:" << _id << "\n";
 
@@ -148,25 +152,26 @@ void EnemyScript::OnDestroy()
 	_damageText.reset();
 }
 
-void EnemyScript::LoadXML(Bulb::XMLElement compElem)
+void BossScript::LoadXML(Bulb::XMLElement compElem)
 {
 
 }
 
-void EnemyScript::SaveXML(Bulb::XMLElement compElem)
+void BossScript::SaveXML(Bulb::XMLElement compElem)
 {
 	compElem.SetAttribute("ComponentType", "EnemyScript");
 }
 
-void EnemyScript::TakeDamage(int damage)
+void BossScript::TakeDamage(int damage)
 {
 	_health -= damage;
 	DEBUG->Log("Take" + to_string(damage) + "damage. Remain Health - " + to_string(_health));
 	SetDamageText(damage);
 	_healthBarUI->SetValue(_health);
+	_bodyAs->Play();
 }
 
-void EnemyScript::SetDamageText(int damage)
+void BossScript::SetDamageText(int damage)
 {
 	_damageTextTime = 2.0f;
 	_cumulativeDamage += damage;
@@ -176,7 +181,7 @@ void EnemyScript::SetDamageText(int damage)
 		_enemyStateUI->SetRenderActive(true);
 }
 
-void EnemyScript::UpdateDamageText()
+void BossScript::UpdateDamageText()
 {
 	if (_damageTextTime > 0.0f) {
 		_damageTextTime -= TIME->DeltaTime();
@@ -189,7 +194,7 @@ void EnemyScript::UpdateDamageText()
 	}
 }
 
-void EnemyScript::AnimationEventListener(AnimationEvent event)
+void BossScript::AnimationEventListener(AnimationEvent event)
 {
 	switch (event.type) {
 		case AnimationEventTypes::Attack: {
@@ -215,25 +220,25 @@ void EnemyScript::AnimationEventListener(AnimationEvent event)
 	}
 }
 
-void EnemyScript::IdleState::StateStart(EnemyScript* owner)
+void BossScript::IdleState::StateStart(BossScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("idle", 0.0f);
 	owner->_animator->SetLoop(true);
 }
 
-void EnemyScript::IdleState::StateUpdate(EnemyScript* owner)
+void BossScript::IdleState::StateUpdate(BossScript* owner)
 {
 	int pattern = Utils::Random(0, 9);
 
 	if (pattern <= 3) {
-		owner->SetState(EnemyState::WALK);
+		owner->SetState(BossState::WALK);
 	}
 	else {
-		owner->SetState(EnemyState::ATTACK);
+		owner->SetState(BossState::ATTACK);
 	}
 }
 
-void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
+void BossScript::TrackWalkState::StateStart(BossScript* owner)
 {
 	patternTime = Utils::Random(2, 3);
 	int direction = Utils::Random(0, 2);
@@ -259,10 +264,10 @@ void EnemyScript::TrackWalkState::StateStart(EnemyScript* owner)
 	owner->_animator->SetLoop(true);
 }
 
-void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
+void BossScript::TrackWalkState::StateUpdate(BossScript* owner)
 {
 	if (owner->_targetDistance <= 2.0f) {
-		owner->SetState(EnemyState::ATTACK);
+		owner->SetState(BossState::ATTACK);
 		return;
 	}
 
@@ -310,18 +315,18 @@ void EnemyScript::TrackWalkState::StateUpdate(EnemyScript* owner)
 			}
 		}
 		else {
-			owner->SetState(EnemyState::ATTACK);
+			owner->SetState(BossState::ATTACK);
 		}
 	}
 }
 
-void EnemyScript::DeathState::StateStart(EnemyScript* owner)
+void BossScript::DeathState::StateStart(BossScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("death1");
 	owner->_animator->SetLoop(false);
 }
 
-void EnemyScript::AttackState::StateStart(EnemyScript* owner)
+void BossScript::AttackState::StateStart(BossScript* owner)
 {
 	_patternIdx = Utils::Random(0, 3);
 	_isAttackStarted = false;
@@ -332,12 +337,12 @@ void EnemyScript::AttackState::StateStart(EnemyScript* owner)
 	}
 }
 
-void EnemyScript::AttackState::StateUpdate(EnemyScript* owner)
+void BossScript::AttackState::StateUpdate(BossScript* owner)
 {
 	if (_isAttackStarted) {
 		if (owner->_animator->IsCurrentAnimationEnd()) {
 			_isAttackStarted = false;
-			owner->SetState(EnemyState::IDLE);
+			owner->SetState(BossState::IDLE);
 		}
 		else if (owner->_rotateToTarget) {
 			owner->_transform->LookAtWithNoRoll(

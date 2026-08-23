@@ -53,13 +53,13 @@ void StartMenuSceneScript::Init()
 	mainTitlePanel->GetTransform()->SetSize({ 1500.0f, 468.75f });
 	mainTitlePanel->GetTransform()->SetPosition({ 0.0f, 150.0f, 0.0f });
 
-	SOUND->SetMasterVolume(0.3f);
+	_sndMainTheme = SOUND->LoadSound("Sounds/MainMenu.mp3", true);
+	_sndBtnHover = SOUND->LoadSound("Sounds/UIButtonHovered.mp3", false);
+	_sndGameStart = SOUND->LoadSound("Sounds/StartGameButton.mp3", false);
+
+	SOUND->SetMasterVolume(0.6f);
 
 	SOUND->AddGroup("BGM");
-
-	SOUND->LoadSound("Sounds/MainMenu.mp3", true);
-	SOUND->LoadSound("Sounds/UIButtonHovered.mp3", false);
-	SOUND->LoadSound("Sounds/StartGameButton.mp3", false);
 }
 
 void StartMenuSceneScript::Update()
@@ -81,6 +81,10 @@ void StartMenuSceneScript::OnDestroy()
 	_startButton.reset();
 	_exitButton.reset();
 	_settingButton.reset();
+
+	_sndMainTheme->release();
+	_sndBtnHover->release();
+	_sndGameStart->release();
 }
 
 void StartMenuSceneScript::LoadXML(Bulb::XMLElement compElem)
@@ -110,23 +114,23 @@ void StartMenuSceneScript::RestoreSnapshot(ComponentSnapshot snapshot)
 
 void StartMenuSceneScript::OnMouseEnterButton()
 {
-	SOUND->PlaySound("Sounds/UIButtonHovered.mp3");
+	SOUND->PlaySound(_sndBtnHover);
 }
 
 void StartMenuSceneScript::OnClickedStartButton()
 {
-	SOUND->PlaySound("Sounds/StartGameButton.mp3");
+	SOUND->PlaySound(_sndGameStart);
 	SetState(StartMenuSceneState::MenuFadeOut);
 }
 
 void StartMenuSceneScript::OnClickedSettingsButton()
 {
-	SOUND->PlaySound("Sounds/UIButtonHovered.mp3");
+	SOUND->PlaySound(_sndBtnHover);
 }
 
 void StartMenuSceneScript::OnClickedExitButton()
 {
-	SOUND->PlaySound("Sounds/UIButtonHovered.mp3");
+	SOUND->PlaySound(_sndBtnHover);
 	APP->QuitApplication();
 }
 
@@ -148,7 +152,7 @@ void StartMenuSceneScript::MenuFadeIn::StateUpdate(StartMenuSceneScript* owner)
 
 void StartMenuSceneScript::Menu::StateStart(StartMenuSceneScript* owner)
 {
-	SOUND->PlaySound("Sounds/MainMenu.mp3", "BGM");
+	SOUND->PlaySound(owner->_sndMainTheme, nullptr, "BGM");
 }
 
 void StartMenuSceneScript::MenuFadeOut::StateStart(StartMenuSceneScript* owner)

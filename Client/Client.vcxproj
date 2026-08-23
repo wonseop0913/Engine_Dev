@@ -294,7 +294,7 @@
     <ClInclude Include="BaseState.h" />
     <ClInclude Include="BossRoomGateLeverScript.h" />
     <ClInclude Include="BossRoomVeilScript.h" />
-    <ClInclude Include="EnemyScript.h" />
+    <ClInclude Include="BossScript.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="MainSceneScript.h" />
     <ClInclude Include="MiddleGateLeverScript.h" />
@@ -303,12 +303,13 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="StartMenuSceneScript.h" />
     <ClInclude Include="TPVCamera.h" />
+    <ClInclude Include="ZombieScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseState.cpp" />
     <ClCompile Include="BossRoomGateLeverScript.cpp" />
     <ClCompile Include="BossRoomVeilScript.cpp" />
-    <ClCompile Include="EnemyScript.cpp" />
+    <ClCompile Include="BossScript.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />
     <ClCompile Include="MiddleGateLeverScript.cpp" />
@@ -324,6 +325,7 @@
     </ClCompile>
     <ClCompile Include="StartMenuSceneScript.cpp" />
     <ClCompile Include="TPVCamera.cpp" />
+    <ClCompile Include="ZombieScript.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

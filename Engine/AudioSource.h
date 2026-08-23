@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 
+#define AudioClip	FMOD::Sound*
+
 class BULB_API AudioSource : public Component
 {
 public:
@@ -46,7 +48,7 @@ public:
 
 private:
 	FMOD::Channel* _channel = nullptr;
-	FMOD::Sound* _sound = nullptr;
+	AudioClip _sound = nullptr;
 	string _soundPath;
 	FMOD_VECTOR _fPos;
 	FMOD_VECTOR _fVelocity;

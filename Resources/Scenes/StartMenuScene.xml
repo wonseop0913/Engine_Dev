@@ -9,6 +9,7 @@
         <GameObject Name="SceneScript">
             <Components>
                 <Component ComponentType="StartMenuSceneScript"/>
+                <Component ComponentType="AudioSource"/>
             </Components>
         </GameObject>
     </GameObjects>

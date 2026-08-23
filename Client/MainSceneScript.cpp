@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "MainSceneScript.h"
-#include "EnemyScript.h"
+#include "BossScript.h"
 
 REGISTER_COMPONENT(MainSceneScript)
 
@@ -96,7 +96,7 @@ void MainSceneScript::FadeOut::StateUpdate(MainSceneScript* owner)
 
 void MainSceneScript::BossFight::StateStart(MainSceneScript* owner)
 {
-	RENDER->GetObjectW("Brute")->GetComponent<EnemyScript>()->blockExecute = false;
+	RENDER->GetObjectW("Brute")->GetComponent<BossScript>()->blockExecute = false;
 	owner->_mainAs->Play();
 }
 
