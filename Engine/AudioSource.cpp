@@ -48,7 +48,7 @@ void AudioSource::LoadXML(Bulb::XMLElement compElem)
 
 void AudioSource::SaveXML(Bulb::XMLElement compElem)
 {
-	compElem.SetAttribute("ComponentType", "Animator");
+	compElem.SetAttribute("ComponentType", "AudioSource");
 
 	compElem.SetAttribute("FilePath", _soundPath.c_str());
 	compElem.SetAttribute("Loop", _isLoop);
