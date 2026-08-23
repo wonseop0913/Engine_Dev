@@ -18,8 +18,12 @@ public:
 
 private:
 	shared_ptr<GameObject> _gateObj;
+	shared_ptr<Transform> _stickTransform;
+	shared_ptr<AudioSource> _leverAs;
 	shared_ptr<AudioSource> _gateAs;
+
 	float _gateMoveTime = 0.0f;
+	bool _stickRotate = false;
 
 	bool _isGateOpened = false;
 };

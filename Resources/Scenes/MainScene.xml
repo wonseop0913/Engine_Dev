@@ -1,4 +1,4 @@
-<Scene Name="MainScene">
+<Scene Name="MainScene" IBLFactor="0.050000001">
     <Skybox Texture="..\Resources\Textures\Skybox\CloudySkybox.dds"/>
     <GameObjects>
         <GameObject Name="SceneScript" PSO="opaque_solid" Tag="Default">
@@ -10,7 +10,7 @@
         </GameObject>
         <GameObject Name="GlobalLight" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="-8.5003252" PosY="17.225557" PosZ="-4.1900539" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.35355338" QuatY="-0.61237246" QuatZ="0.35355341" QuatW="0.6123724"/>
+                <Component ComponentType="Transform" PosX="-8.5003252" PosY="17.225557" PosZ="-4.1900539" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0.38302225" QuatY="-0.55667037" QuatZ="0.32139379" QuatW="0.663414"/>
                 <Component ComponentType="DirectionalLight" Intensity="2">
                     <Diffuse r="1" g="0.75" b="0.60000002" a="1"/>
                 </Component>
@@ -3383,7 +3383,7 @@
                 </GameObject>
                 <GameObject Name="Box" PSO="opaque_solid" Tag="Default">
                     <Components>
-                        <Component ComponentType="Transform" PosX="14" PosY="0.25" PosZ="8" ScaleX="16" ScaleY="5" ScaleZ="8" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="Transform" PosX="14" PosY="0.25" PosZ="4" ScaleX="16" ScaleY="5" ScaleZ="16" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
                         <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
                     </Components>
                 </GameObject>
@@ -3393,7 +3393,64 @@
                         <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicBox" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
                     </Components>
                 </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="10" PosY="-4.75" PosZ="18" ScaleX="4" ScaleY="5" ScaleZ="1" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="-4.75" PosZ="14" ScaleX="20" ScaleY="5" ScaleZ="0.99999988" QuatX="0" QuatY="1" QuatZ="0" QuatW="-1.192093e-07"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="-8" PosY="0.25" PosZ="14" ScaleX="4" ScaleY="5" ScaleZ="0.99999988" QuatX="0" QuatY="1" QuatZ="0" QuatW="-1.192093e-07"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="22" PosY="0.25" PosZ="18" ScaleX="4" ScaleY="5" ScaleZ="0.99999988" QuatX="7.1054291e-15" QuatY="-0.70710677" QuatZ="-1.6858742e-07" QuatW="-0.70710683"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="42" PosY="-2.25" PosZ="18" ScaleX="16" ScaleY="10" ScaleZ="1" QuatX="-1.0048591e-14" QuatY="0.70710683" QuatZ="1.6858742e-07" QuatW="0.70710671"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="32" PosY="-2.25" PosZ="26" ScaleX="20" ScaleY="10" ScaleZ="0.99999988" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
+                <GameObject Name="Quad" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="32" PosY="-2.25" PosZ="10" ScaleX="20" ScaleY="10" ScaleZ="0.99999988" QuatX="0" QuatY="1" QuatZ="0" QuatW="-1.192093e-07"/>
+                        <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Dungeon assets\Black metal.xml"/>
+                    </Components>
+                </GameObject>
             </GameObjects>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="2.3" PosY="0" PosZ="10" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.59636784" QuatY="0.37992814" QuatZ="-0.5963679" QuatW="0.37992811"/>
+            </Components>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="2.3" PosY="0" PosZ="6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="-0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="-0.37992811"/>
+            </Components>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="9.3999996" PosY="0" PosZ="16" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="0.37992811"/>
+            </Components>
         </GameObject>
     </GameObjects>
 </Scene>

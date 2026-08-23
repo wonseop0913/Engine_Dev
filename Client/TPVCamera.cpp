@@ -67,10 +67,6 @@ void TPVCamera::Update()
 		ShowCursor(INPUTM->IsMouseCenterFixed() ? FALSE : TRUE);
 	}
 
-	if (INPUTM->IsKeyDown(KeyValue::NUM_2)) {
-		RENDER->SetIBLFactor(0.05f);
-	}
-
 	if (!isCameraControllOn || cameraTransform == nullptr || onwerTransform == nullptr)
 		return;
 

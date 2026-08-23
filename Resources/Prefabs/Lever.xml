@@ -1,6 +1,10 @@
 <Prefab Name="Lever" PSO="opaque_solid" Tag="Default">
     <Components>
         <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.5" ScaleY="0.5" ScaleZ="0.5" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+        <Component ComponentType="PointLight" Intensity="1" FallOffStart="0.5" FallOffEnd="1.5">
+            <Diffuse r="1" g="1" b="1" a="1"/>
+        </Component>
+        <Component ComponentType="AudioSource" FilePath="Sounds/LeverSound.wav" Loop="false" BGM="false"/>
     </Components>
     <GameObjects>
         <GameObject Name="Body" PSO="opaque_solid" Tag="Default">

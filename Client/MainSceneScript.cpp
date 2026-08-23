@@ -11,6 +11,11 @@ MainSceneScript::~MainSceneScript()
 
 void MainSceneScript::Init()
 {
+#ifndef BULB_EDITOR
+	INPUTM->SetMouseCenterFixMode(true);
+	ShowCursor(FALSE);
+#endif
+
 	_states.push_back(new FadeIn());
 	_states.push_back(new Common());
 	_states.push_back(new FadeOut());

@@ -222,6 +222,7 @@ public:
 
 	bool IsDestructorRunning() { return _isDestructorRunning; }
 
+	float GetIBLFactor() { return _iblFactor; }
 	void SetIBLFactor(float value) { _iblFactor = value; }
 
 private:

@@ -12,13 +12,23 @@ BossRoomGateLeverScript::~BossRoomGateLeverScript()
 void BossRoomGateLeverScript::Init()
 {
 	_gateObj = RENDER->GetObjectW("Boss Room Block Gate");
+	_stickTransform = GetTransform()->GetChild("Stick");
+	_leverAs = GetGameObject()->GetComponent<AudioSource>();
 
 	GetGameObject()->SetTag("Interactable");
 }
 
 void BossRoomGateLeverScript::Update()
 {
-
+	if (_stickRotate) {
+		if (_stickTransform->GetLocalRotation().x <= -45.0f) {
+			_stickTransform->SetLocalRotation({ -45.0f, 0.0f, 0.0f });
+			_stickRotate = false;
+		}
+		else {
+			_stickTransform->Rotate(Bulb::Vector3(-TIME->DeltaTime() * 3.0f, 0.0f, 0.0f));
+		}
+	}
 }
 
 void BossRoomGateLeverScript::OnDestroy()
@@ -43,6 +53,7 @@ void BossRoomGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 	isInteractable = false;
 
 	_gateObj->SetActive(false);
+	_stickRotate = true;
 
 	_isGateOpened = true;
 
@@ -55,4 +66,6 @@ void BossRoomGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 	playerTransform->SetPosition(playerPos);
 	playerTransform->LookAtWithNoRoll(playerPos - (pos - playerPos));
 	opponent->GetComponent<PlayerScript>()->SetState(PlayerMovementState::INTERACT);
+
+	_leverAs->Play();
 }

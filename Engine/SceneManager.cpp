@@ -108,7 +108,8 @@ void SceneManager::LoadScene(string sceneName, bool isFullPath)
 
 	UI->Initialize();
 
-	XMLNode* node = doc.FirstChild();
+	XMLElement* node = doc.FirstChildElement();
+	RENDER->SetIBLFactor(node->FloatAttribute("IBLFactor", 0.3f));
 
 	XMLElement* skyboxElem = node->FirstChildElement("Skybox");
 	if (skyboxElem) {
@@ -203,6 +204,8 @@ void SceneManager::SaveScene(string scenePath, bool isFullPath)
 	XMLElement* sceneElem = doc.NewElement("Scene");
 	sceneElem->SetAttribute("Name", _currentSceneName.c_str());
 	doc.InsertFirstChild(sceneElem);
+	
+	sceneElem->SetAttribute("IBLFactor", RENDER->GetIBLFactor());
 
 	XMLElement* skyboxElem = sceneElem->InsertNewChildElement("Skybox");
 	shared_ptr<Texture> skyboxTex = RENDER->GetSkyboxTexture();

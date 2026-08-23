@@ -12,11 +12,12 @@ MiddleGateLeverScript::~MiddleGateLeverScript()
 void MiddleGateLeverScript::Init()
 {
 	_gateObj = RENDER->GetObjectW("MiddleGate");
+	_stickTransform = GetTransform()->GetChild("Stick");
 	_gateAs = _gateObj->GetComponent<AudioSource>();
 
 	GetGameObject()->SetTag("Interactable");
 
-	// SOUND->LoadSound("Sounds/MiddleGateOpen.wav", false);
+	_leverAs = GetGameObject()->GetComponent<AudioSource>();
 }
 
 void MiddleGateLeverScript::Update()
@@ -24,6 +25,16 @@ void MiddleGateLeverScript::Update()
 	if (_gateMoveTime > 0.0f) {
 		_gateMoveTime -= TIME->DeltaTime();
 		_gateObj->GetTransform()->Translate({ 0, 0, TIME->DeltaTime() / 5.0f });
+	}
+
+	if (_stickRotate) {
+		if (_stickTransform->GetLocalRotation().x <= -45.0f) {
+			_stickTransform->SetLocalRotation({ -45.0f, 0.0f, 0.0f });
+			_stickRotate = false;
+		}
+		else {
+			_stickTransform->Rotate(Bulb::Vector3(-TIME->DeltaTime() * 3.0f, 0.0f, 0.0f));
+		}
 	}
 }
 
@@ -49,6 +60,7 @@ void MiddleGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 	isInteractable = false;
 
 	_gateMoveTime = 10.0f;
+	_stickRotate = true;
 	_isGateOpened = true;
 
 	shared_ptr<Transform> playerTransform = opponent->GetTransform();
@@ -61,5 +73,6 @@ void MiddleGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 	playerTransform->LookAtWithNoRoll(playerPos - (pos - playerPos));
 	opponent->GetComponent<PlayerScript>()->SetState(PlayerMovementState::INTERACT);
 
+	_leverAs->Play();
 	_gateAs->Play();
 }
