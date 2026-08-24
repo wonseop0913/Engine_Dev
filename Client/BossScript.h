@@ -1,6 +1,7 @@
 #pragma once
 #include "Script.h"
 #include "BaseState.h"
+#include "CommonStructs.h"
 
 enum class BossState
 {
@@ -64,6 +65,8 @@ public:
     void TakeDamage(int damage);
 	shared_ptr<Transform> GetCenterTransform() { return _centerTransform; }
 
+	void HitDelay();
+
 private:
 	void SetState(BossState state) {
 		if (_currentState == state) return;
@@ -103,12 +106,19 @@ private:
 	float _damageTextTime = 0.0f;
 	int _cumulativeDamage = 0;
 
+	AttackInfo _attackInfo;
+
+	bool _isOnHitDelay = false;
+	float _hitDelayTime = 0.0f;
+
     float _targetDistance;
 
 	bool _rotateToTarget = false;
 
 	AudioClip _footstepSounds[5];
 	AudioClip _hitSound;
+	AudioClip _axeSound;
+
 	shared_ptr<AudioSource> _footAs;
 	shared_ptr<AudioSource> _bodyAs;
 	shared_ptr<AudioSource> _axeAs;

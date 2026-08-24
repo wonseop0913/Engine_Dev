@@ -68,6 +68,11 @@ private:
 	float _fadeInTime = 1.0f;
 	float _fadeOutTime = 1.0f;
 
+	AudioClip _sndBoss;
+	AudioClip _sndBossLoop;
+
 	shared_ptr<AudioSource> _mainAs;
+
+	bool _isBgmOnLoop = false;
 };
 

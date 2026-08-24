@@ -23,7 +23,9 @@ public:
 
 	void RestoreSnapshot(ComponentSnapshot snapshot) override;
 
+#ifdef BULB_EDITOR
 	bool ShowComponentEditorGUI() override;
+#endif
 
 public:
 	void LoadSound(string path);
@@ -33,6 +35,8 @@ public:
 	void Play();
 
 	void Stop();
+
+	bool IsPlaying();
 
 	void SetVolume(float value);
 

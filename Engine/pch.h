@@ -3,10 +3,6 @@
 // Debuging Console
 // #define PRINT_DEBUG_CONSOLE_LOG
 
-#ifdef PRINT_DEBUG_CONSOLE_LOG
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")	// Not Working Now!!!!
-#endif
-
 #ifdef BULB_ENGINEAPI_EXPORTS
 #define BULB_API __declspec(dllexport)
 #else

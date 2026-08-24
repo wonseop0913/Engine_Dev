@@ -80,7 +80,7 @@ private:
 	JPH::ShapeSettings::ShapeResult FitOnMesh();
 
 public:
-	float customData;
+	void* customData;
 
 private:
 	bool _isGravity = true;				// 중력 여부

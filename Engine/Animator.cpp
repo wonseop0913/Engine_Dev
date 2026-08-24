@@ -298,7 +298,7 @@ void Animator::PlayAnimation()
 	}
 
 	_isPlaying = true;
-	_isCurrentAnimationEnd = false;
+	// _isCurrentAnimationEnd = false;
 }
 
 void Animator::PauseAnimation()

@@ -36,6 +36,7 @@
     <ClInclude Include="ZombieScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
+    <ClInclude Include="CommonStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -73,6 +74,7 @@
     <ClCompile Include="ZombieScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
+    <ClCompile Include="CommonStructs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">

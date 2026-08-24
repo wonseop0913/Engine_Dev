@@ -112,6 +112,15 @@ void AudioSource::Stop()
 	_channel->stop();
 }
 
+bool AudioSource::IsPlaying()
+{
+	if (_channel == nullptr) false;
+
+	bool flag;
+	_channel->isPlaying(&flag);
+	return flag;
+}
+
 void AudioSource::SetVolume(float value)
 {
 	_channel->setVolume(value);

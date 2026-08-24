@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "BossScript.h"
+#include "PlayerScript.h"
+#include "CommonStructs.h"
 
 using namespace Bulb;
 
@@ -99,13 +101,25 @@ void BossScript::Init()
 
 	_hitSound = SOUND->LoadSound("Sounds/SwordHit1.wav", false);
 
+	_axeSound = SOUND->LoadSound("Sounds/Axe.wav", false);
+
 	_bodyAs->SetSound(_hitSound);
+	_axeAs->SetSound(_axeSound);
 }
 
 void BossScript::Update()
 {
 	if (blockExecute)
 		return;
+
+	if (_isOnHitDelay) {
+		_hitDelayTime -= TIME->DeltaTime();
+		if (_hitDelayTime <= 0.0f) {
+			_hitDelayTime = 0.0f;
+			_animator->PlayAnimation();
+			_isOnHitDelay = false;
+		}
+	}
 
 	UpdateDamageText();
 
@@ -134,7 +148,9 @@ void BossScript::OnCollisionEnter(shared_ptr<GameObject> other)
 {
 	if (other->GetTag() == "AttackAlly") {
 		if (_health > 0) {
-			TakeDamage(other->GetComponent<Rigidbody>()->customData);
+			AttackInfo* attackInfo = (AttackInfo*)(other->GetComponent<Rigidbody>()->customData);
+			TakeDamage(attackInfo->damage);
+			target->GetComponent<PlayerScript>()->HitDelay();
 		}
 	}
 }
@@ -171,6 +187,13 @@ void BossScript::TakeDamage(int damage)
 	_bodyAs->Play();
 }
 
+void BossScript::HitDelay()
+{
+	_isOnHitDelay = true;
+	_hitDelayTime = 0.08f;
+	_animator->PauseAnimation();
+}
+
 void BossScript::SetDamageText(int damage)
 {
 	_damageTextTime = 2.0f;
@@ -201,11 +224,19 @@ void BossScript::AnimationEventListener(AnimationEvent event)
 			bool attackFlag = event.datas[2].x == 1;
 
 			_axeRb->SetPhysicsActive(attackFlag);
-			_axeRb->customData = event.datas[0].w;
+
+			if (attackFlag) {
+				//AttackInfo attackInfo;
+				_attackInfo.attakee = _gameObject;
+				_attackInfo.damage = event.datas[0].w;
+				_axeRb->customData = &_attackInfo;
+			}
+
 			break;
 		}
 		case AnimationEventTypes::Sound: {
-			_axeAs->Play();
+			if (event.strData == "EnemyAttack")
+				_axeAs->Play();
 			break;
 		}
 		case AnimationEventTypes::Step: {
