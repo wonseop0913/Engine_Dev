@@ -169,7 +169,7 @@ shared_ptr<Camera> Camera::GetCurrentCamera()
 #endif
 }
 
-XMFLOAT3& Camera::GetEyePos()
+XMFLOAT3 Camera::GetEyePos()
 {
 #ifdef BULB_EDITOR
 	if (EDITOR->IsOnPlay())
@@ -180,7 +180,7 @@ XMFLOAT3& Camera::GetEyePos()
 	return _currentCamera->GetTransform()->GetPosition();
 }
 
-XMFLOAT4X4& Camera::GetViewMatrix()
+XMFLOAT4X4 Camera::GetViewMatrix()
 {
 #ifdef BULB_EDITOR
 	if (EDITOR->IsOnPlay())
@@ -191,7 +191,7 @@ XMFLOAT4X4& Camera::GetViewMatrix()
 	return _currentCamera->_matView;
 }
 
-XMFLOAT4X4& Camera::GetProjMatrix()
+XMFLOAT4X4 Camera::GetProjMatrix()
 {
 #ifdef BULB_EDITOR
 	if (EDITOR->IsOnPlay())
@@ -202,7 +202,7 @@ XMFLOAT4X4& Camera::GetProjMatrix()
 	return _currentCamera->_matProj;
 }
 
-XMFLOAT4X4& Camera::GetViewProjMatrix()
+XMFLOAT4X4 Camera::GetViewProjMatrix()
 {
 #ifdef BULB_EDITOR
 	if (EDITOR->IsOnPlay())
@@ -213,7 +213,7 @@ XMFLOAT4X4& Camera::GetViewProjMatrix()
 	return _currentCamera->_matViewProj;
 }
 
-XMFLOAT4X4& Camera::GetOrthoMatrix()
+XMFLOAT4X4 Camera::GetOrthoMatrix()
 {
 #ifdef BULB_EDITOR
 	if (EDITOR->IsOnPlay())
