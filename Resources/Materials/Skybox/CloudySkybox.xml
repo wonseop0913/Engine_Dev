@@ -6,6 +6,6 @@
     <Emissive r="1" g="1" b="1" a="1"/>
     <Metallic value="0"/>
     <Roughness value="1"/>
-    <DiffuseTexture>..Resources\Textures\Skybox\CloudySkybox.dds</DiffuseTexture>
+    <DiffuseTexture>..\Resources\Textures\Skybox\CloudySkybox.dds</DiffuseTexture>
     <NormalTexture></NormalTexture>
 </Material>

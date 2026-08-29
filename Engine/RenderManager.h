@@ -126,6 +126,8 @@
 
 #define		MAX_HIERARCHY_DEPTH		32
 
+#define		TEX_PATH_IBLBRDFLUT		L"..\\Resources\\Textures\\EngineDefault\\ibl_brdf_lut.png"
+
 class BULB_API RenderManager
 {
 	friend class BulbApplication;

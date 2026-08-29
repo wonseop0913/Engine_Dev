@@ -211,7 +211,21 @@ void ParticleEmitter::LoadXML(Bulb::XMLElement compElem)
 	}
 
 	_particleTexture = compElem.Attribute("ParticleTexture");
-	_emitterSetting.TextureIdx = RESOURCE->Get<Texture>(Utils::ToWString(_particleTexture))->GetSRVHeapIndex();
+	shared_ptr<Texture> particleTex = RESOURCE->Get<Texture>(Utils::ToWString(_particleTexture));
+	if (particleTex == nullptr) {
+		particleTex = make_shared<Texture>(Utils::ToWString(_particleTexture));
+		if (particleTex) {
+			particleTex->SetName(_particleTexture);
+			RESOURCE->Add<Texture>(Utils::ToWString(particleTex->GetPath()), particleTex);
+			_emitterSetting.TextureIdx = RESOURCE->Get<Texture>(Utils::ToWString(_particleTexture))->GetSRVHeapIndex();
+		}
+		else {
+			DEBUG->ErrorLog("[ParticleEmitter] No texture found from " + _particleTexture);
+		}
+	}
+	else {
+		_emitterSetting.TextureIdx = RESOURCE->Get<Texture>(Utils::ToWString(_particleTexture))->GetSRVHeapIndex();
+	}
 }
 
 void ParticleEmitter::SaveXML(Bulb::XMLElement compElem)

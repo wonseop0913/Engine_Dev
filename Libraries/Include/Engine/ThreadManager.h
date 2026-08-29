@@ -50,7 +50,7 @@ auto ThreadManager::EnqueueJob(F&& f, Args&&... args) -> future<typename invoke_
 	{
 		unique_lock<mutex> lock(_queueMutex);
 		if (_stop)
-			return future<return_type>(); // È¤Àº ¿¹¿Ü Ã³¸®
+			return future<return_type>(); // È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 
 		_jobs.emplace([task]() { (*task)(); });
 	}

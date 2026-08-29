@@ -96,6 +96,10 @@ void RenderManager::Init()
 	_skyboxObject->AddComponent(skyboxRenderer);
 	skyboxRenderer->SetMesh(RESOURCE->Get<Mesh>(DEFAULT_MESH_SKYBOX));
 
+	_iblBRDFlutTexture = make_shared<Texture>(TEX_PATH_IBLBRDFLUT);
+	_iblBRDFlutTextureIdx = _iblBRDFlutTexture->GetSRVHeapIndex();
+	RESOURCE->Add(TEX_PATH_IBLBRDFLUT, _iblBRDFlutTexture);
+
 	for (auto& o : _objects)
 		o->Init();
 }

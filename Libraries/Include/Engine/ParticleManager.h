@@ -26,7 +26,7 @@ public:
 private:
 	static ParticleManager* s_instance;
 
-	// mapÀ» »ç¿ëÇÏ´Â°Ô ÃÖ¼±ÀÎÁö °í¹Î
+	// mapï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	unordered_map<int, shared_ptr<ParticleEmitter>> _particleEmitters;
 };
 

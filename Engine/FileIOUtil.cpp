@@ -22,7 +22,12 @@ Bulb::ProcessResult FileIOUtil::Delete()
 
 void FileIOUtil::Init()
 {
+	//std::future<void> tex, mat;
+	//tex = THREAD->EnqueueJob([this] { LoadTextures(); });
+	//mat = THREAD->EnqueueJob([this] { LoadMaterials(); });
+#ifdef BULB_EDITOR
 	LoadTextures();
+#endif
 	LoadMaterials();
 }
 
@@ -223,14 +228,28 @@ void FileIOUtil::LoadMaterials()
 		const char* text = element->GetText();
 		if (text) {
 			textureName = string(text);
-			mat->SetDiffuse(RESOURCE->Get<Texture>(Utils::ToWString(textureName)));
+
+			shared_ptr<Texture> tex = RESOURCE->Get<Texture>(Utils::ToWString(textureName));
+			if (tex == nullptr) {
+				tex = make_shared<Texture>(Utils::ToWString(textureName));
+				tex->SetName(textureName);
+				RESOURCE->Add<Texture>(Utils::ToWString(tex->GetPath()), tex);
+			}
+			mat->SetDiffuse(tex);
 		}
 
 		element = node->FirstChildElement("NormalTexture");
 		text = element->GetText();
 		if (text) {
 			textureName = string(text);
-			mat->SetNormal(RESOURCE->Get<Texture>(Utils::ToWString(textureName)));
+
+			shared_ptr<Texture> tex = RESOURCE->Get<Texture>(Utils::ToWString(textureName));
+			if (tex == nullptr) {
+				tex = make_shared<Texture>(Utils::ToWString(textureName));
+				tex->SetName(textureName);
+				RESOURCE->Add<Texture>(Utils::ToWString(tex->GetPath()), tex);
+			}
+			mat->SetNormal(tex);
 		}
 
 		element = node->FirstChildElement("MetallicTexture");
@@ -238,7 +257,14 @@ void FileIOUtil::LoadMaterials()
 			text = element->GetText();
 			if (text) {
 				textureName = string(text);
-				mat->SetMetallicMap(RESOURCE->Get<Texture>(Utils::ToWString(textureName)));
+
+				shared_ptr<Texture> tex = RESOURCE->Get<Texture>(Utils::ToWString(textureName));
+				if (tex == nullptr) {
+					tex = make_shared<Texture>(Utils::ToWString(textureName));
+					tex->SetName(textureName);
+					RESOURCE->Add<Texture>(Utils::ToWString(tex->GetPath()), tex);
+				}
+				mat->SetMetallicMap(tex);
 			}
 		}
 
@@ -247,7 +273,14 @@ void FileIOUtil::LoadMaterials()
 			text = element->GetText();
 			if (text) {
 				textureName = string(text);
-				mat->SetRoughnessMap(RESOURCE->Get<Texture>(Utils::ToWString(textureName)));
+
+				shared_ptr<Texture> tex = RESOURCE->Get<Texture>(Utils::ToWString(textureName));
+				if (tex == nullptr) {
+					tex = make_shared<Texture>(Utils::ToWString(textureName));
+					tex->SetName(textureName);
+					RESOURCE->Add<Texture>(Utils::ToWString(tex->GetPath()), tex);
+				}
+				mat->SetRoughnessMap(tex);
 			}
 		}
 
@@ -256,12 +289,21 @@ void FileIOUtil::LoadMaterials()
 			text = element->GetText();
 			if (text) {
 				textureName = string(text);
-				mat->SetSpecularMap(RESOURCE->Get<Texture>(Utils::ToWString(textureName)));
+
+				shared_ptr<Texture> tex = RESOURCE->Get<Texture>(Utils::ToWString(textureName));
+				if (tex == nullptr) {
+					tex = make_shared<Texture>(Utils::ToWString(textureName));
+					tex->SetName(textureName);
+					RESOURCE->Add<Texture>(Utils::ToWString(tex->GetPath()), tex);
+				}
+				mat->SetSpecularMap(tex);
 			}
 		}
 
 		RESOURCE->Add<Material>(i->path(), mat);
 	}
+
+	auto mats = RESOURCE->GetByType<Material>();
 }
 
 HANDLE FileIOUtil::CreateFileHandle(string fileName, string ext)

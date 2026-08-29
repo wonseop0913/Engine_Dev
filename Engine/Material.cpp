@@ -64,7 +64,7 @@ void Material::SetDiffuse(shared_ptr<Texture> texture)
 
 void Material::SetDiffuse(wstring textureName)
 {
-	// ÅØ½ºÃÄ ÀÌ¸§¸¸ ¼³Á¤ÇÏ°í, ½ÇÁ¦ ÅØ½ºÃÄ´Â ±âº» ÅØ½ºÃÄ·Î
+	// ï¿½Ø½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½ï¿½Ä´ï¿½ ï¿½âº» ï¿½Ø½ï¿½ï¿½Ä·ï¿½
 	diffuseSrvHeapIndex = 0;
 	diffuseTextureName = Utils::ToString(textureName);
 }
@@ -73,7 +73,7 @@ void Material::SetNormal(shared_ptr<Texture> texture)
 {
 	if (texture == nullptr)
 	{
-		SetDiffuse(L"Tex_Default");
+		SetNormal(L"Tex_Default");
 		return;
 	}
 
@@ -91,7 +91,7 @@ void Material::SetMetallicMap(shared_ptr<Texture> texture)
 {
 	if (texture == nullptr)
 	{
-		SetDiffuse(L"Tex_Default");
+		SetMetallicMap(L"Tex_Default");
 		return;
 	}
 
@@ -109,7 +109,7 @@ void Material::SetRoughnessMap(shared_ptr<Texture> texture)
 {
 	if (texture == nullptr)
 	{
-		SetDiffuse(L"Tex_Default");
+		SetRoughnessMap(L"Tex_Default");
 		return;
 	}
 
@@ -127,7 +127,7 @@ void Material::SetSpecularMap(shared_ptr<Texture> texture)
 {
 	if (texture == nullptr)
 	{
-		SetDiffuse(L"Tex_Default");
+		SetSpecularMap(L"Tex_Default");
 		return;
 	}
 
