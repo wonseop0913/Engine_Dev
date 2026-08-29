@@ -79,6 +79,7 @@ void Camera::Update()
 	}
 }
 
+#ifdef BULB_EDITOR
 bool Camera::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
@@ -105,6 +106,7 @@ bool Camera::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void Camera::OnDestroy()
 {

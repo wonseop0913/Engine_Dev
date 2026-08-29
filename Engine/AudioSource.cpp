@@ -77,6 +77,7 @@ void AudioSource::RestoreSnapshot(ComponentSnapshot snapshot)
 
 }
 
+#ifdef BULB_EDITOR
 bool AudioSource::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("AudioSource", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -85,6 +86,7 @@ bool AudioSource::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void AudioSource::LoadSound(string path)
 {

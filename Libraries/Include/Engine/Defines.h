@@ -5,12 +5,7 @@
 #ifndef ReleaseCom
 #define ReleaseCom(x) { if (x) { x->Release(); x = 0; } }
 #endif
-
-#ifdef BULB_EDITOR
-#define EDITOR		GET_SINGLE(EditorManager)
-#define EDITORGUI	GET_SINGLE(EditorGUIManager)
 #define DEBUG		GET_SINGLE(DebugManager)
-#endif
 #define APP			GET_SINGLE(BulbApplication)
 #define GRAPHIC		GET_SINGLE(Graphic)
 #define TIME		GET_SINGLE(GameTimer)
@@ -28,6 +23,11 @@
 #define SOUND		GET_SINGLE(SoundManager)
 
 #define FILEIO		GET_SINGLE(FileIOUtil)
+
+#ifdef BULB_EDITOR
+#define EDITOR		GET_SINGLE(EditorManager)
+#define EDITORGUI	GET_SINGLE(EditorGUIManager)
+#endif
 
 
 /**************/

@@ -137,7 +137,7 @@ void Transform::RestoreSnapshot(ComponentSnapshot snapshot)
 bool Transform::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
-		Bulb::Vector3 pos = GetPosition();
+		Bulb::Vector3 pos = GetLocalPosition();
 		Bulb::Vector3 rot = GetLocalRotation();
 		Bulb::Vector3 scale = GetLocalScale();
 

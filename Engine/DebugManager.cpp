@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "DebugManager.h"
 
+#ifdef BULB_EDITOR
 bool DebugRenderBodyFilter::ShouldDraw(const Body& inBody) const
 {
 	if (DEBUG->IsPhysicsDebugRenderEnabled()) return true;
 
 	return EDITORGUI->GetSelectedGameObject() == reinterpret_cast<GameObject*>(inBody.GetUserData())->shared_from_this();
 }
+#endif
 
 DebugManager* DebugManager::s_instance = nullptr;
 
@@ -56,32 +58,41 @@ void DebugManager::Init()
 
 	Initialize();
 
+#ifdef BULB_EDITOR
 	_debugRenderBodyFilter = new DebugRenderBodyFilter();
+#endif
 }
 
 void DebugManager::PreUpdate()
 {
+#ifdef BULB_EDITOR
 	_vertices.clear();
 	_indices.clear();
+#endif
 }
 
 void DebugManager::Update()
 {
+#ifdef BULB_EDITOR
 	JPH::BodyManager::DrawSettings drawSettings;
 	drawSettings.mDrawShapeWireframe = true;
 	PHYSICS->GetPhysicsSystem()->DrawBodies(drawSettings, this, _debugRenderBodyFilter);
+//	PHYSICS->GetPhysicsSystem()->DrawBodies(drawSettings, this);
 
 	_vertexUploadBuffer->CopyData(_vertices.data(), _vertices.size());
 	_indexUploadBuffer->CopyData(_indices.data(), _indices.size());
+#endif
 }
 
 void DebugManager::Render(ID3D12GraphicsCommandList* cmdList)
 {
+#ifdef BULB_EDITOR
 	cmdList->IASetVertexBuffers(0, 1, &_vertexBufferView);
 	cmdList->IASetIndexBuffer(&_indexBufferView);
 	cmdList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
 	cmdList->DrawIndexedInstanced(_indices.size(), 1, 0, 0, 0);
+#endif
 }
 
 void DebugManager::DrawLine(RVec3Arg inFrom, RVec3Arg inTo, ColorArg inColor)

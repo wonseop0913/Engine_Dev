@@ -11,6 +11,7 @@ Script::~Script()
 	cout << "Released - Script:" << _id << "\n";
 }
 
+#ifdef BULB_EDITOR
 bool Script::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Script", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -24,3 +25,4 @@ bool Script::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif

@@ -96,6 +96,7 @@ void Terrain::Render(ID3D12GraphicsCommandList* cmdList, UINT renderState)
 	cmdList->DrawIndexedInstanced(_terrainMesh->GetIndexCount(), 1, 0, 0, 0);
 }
 
+#ifdef BULB_EDITOR
 bool Terrain::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Terrain", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -104,6 +105,7 @@ bool Terrain::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void Terrain::OnDestroy()
 {

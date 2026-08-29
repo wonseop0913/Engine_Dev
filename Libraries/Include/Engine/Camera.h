@@ -29,15 +29,15 @@ public:
 public:
 	static shared_ptr<Camera> GetCurrentCamera();
 
-	static XMFLOAT3& GetEyePos();
+	static XMFLOAT3 GetEyePos();
 
-	static XMFLOAT4X4& GetViewMatrix();
+	static XMFLOAT4X4 GetViewMatrix();
 
-	static XMFLOAT4X4& GetProjMatrix();
+	static XMFLOAT4X4 GetProjMatrix();
 
-	static XMFLOAT4X4& GetViewProjMatrix();
+	static XMFLOAT4X4 GetViewProjMatrix();
 
-	static XMFLOAT4X4& GetOrthoMatrix();
+	static XMFLOAT4X4 GetOrthoMatrix();
 
 	float GetNearZ() { return _nearZ; }
 	void SetNearZ(float value) { _nearZ = value; }

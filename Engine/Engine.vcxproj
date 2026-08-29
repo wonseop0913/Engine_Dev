@@ -53,8 +53,14 @@
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="CharacterController.h" />
     <ClInclude Include="ComponentFactory.h" />
-    <ClInclude Include="EditorCamera.h" />
-    <ClInclude Include="EditorManager.h" />
+    <ClInclude Include="EditorCamera.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="Event.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="SceneManager.h" />
@@ -68,7 +74,10 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DXUtil.h" />
-    <ClInclude Include="EditorGUIManager.h" />
+    <ClInclude Include="EditorGUIManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="EngineStatusManager.h" />
     <ClInclude Include="FrameResource.h" />
     <ClInclude Include="BulbApplication.h" />
@@ -176,8 +185,14 @@
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="CharacterController.cpp" />
     <ClCompile Include="ComponentFactory.cpp" />
-    <ClCompile Include="EditorCamera.cpp" />
-    <ClCompile Include="EditorManager.cpp" />
+    <ClCompile Include="EditorCamera.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -189,7 +204,10 @@
     <ClCompile Include="FileIOUtil.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="DXUtil.cpp" />
-    <ClCompile Include="EditorGUIManager.cpp" />
+    <ClCompile Include="EditorGUIManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="EngineStatusManager.cpp" />
     <ClCompile Include="FrameResource.cpp" />
     <ClCompile Include="BulbApplication.cpp" />

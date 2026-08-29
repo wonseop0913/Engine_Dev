@@ -118,6 +118,7 @@ void Animator::Update()
 	}
 }
 
+#ifdef BULB_EDITOR
 bool Animator::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Animator", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -193,6 +194,7 @@ bool Animator::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void Animator::OnDestroy()
 {

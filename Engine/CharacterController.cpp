@@ -87,6 +87,7 @@ void CharacterController::PreUpdate()
 	_desiredVelocity = { 0.0f, 0.0f, 0.0f };
 }
 
+#ifdef BULB_EDITOR
 bool CharacterController::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("CharacterController", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -95,6 +96,7 @@ bool CharacterController::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void CharacterController::OnDestroy()
 {

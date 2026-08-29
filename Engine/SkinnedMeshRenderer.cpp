@@ -56,6 +56,7 @@ void SkinnedMeshRenderer::Render(ID3D12GraphicsCommandList* cmdList, UINT render
 	cmdList->DrawIndexedInstanced(_mesh->GetIndexCount(), 1, 0, 0, 0);
 }
 
+#ifdef BULB_EDITOR
 bool SkinnedMeshRenderer::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("SkinnedMeshRenderer", ImGuiTreeNodeFlags_DefaultOpen))
@@ -72,6 +73,7 @@ bool SkinnedMeshRenderer::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void SkinnedMeshRenderer::OnDestroy()
 {
