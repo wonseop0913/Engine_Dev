@@ -53,6 +53,6 @@ private:
 	bool _isGravity = true;
 	float _gravityFactor = 1.0f;
 
-	bool _isPhysicsActive;
+	bool _isPhysicsActive = true;
 };
 

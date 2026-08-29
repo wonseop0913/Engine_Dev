@@ -71,6 +71,7 @@ void ParticleEmitter::Render(ID3D12GraphicsCommandList* cmdList, UINT renderStat
 	cmdList->DrawInstanced(MAX_PARTICLE_MOUNT, 1, 0, 0);
 }
 
+#ifdef BULB_EDITOR
 bool ParticleEmitter::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("ParticleEmitter", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -163,6 +164,7 @@ bool ParticleEmitter::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void ParticleEmitter::OnDestroy()
 {

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "EditorCamera.h"
 
+#ifdef BULB_EDITOR
+
 // REGISTER_COMPONENT(EditorCamera)
 
 EditorCamera::~EditorCamera()
@@ -94,3 +96,5 @@ void EditorCamera::MoveToTargetObject(shared_ptr<Transform> target)
 	Bulb::Vector3 targetPosDir = -transform->GetLook();
 	transform->SetPosition(target->GetPosition() + targetPosDir * 5.0f);
 }
+
+#endif

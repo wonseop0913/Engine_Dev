@@ -3,10 +3,6 @@
 // Debuging Console
 // #define PRINT_DEBUG_CONSOLE_LOG
 
-#ifdef PRINT_DEBUG_CONSOLE_LOG
-#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")	// Not Working Now!!!!
-#endif
-
 #ifdef BULB_ENGINEAPI_EXPORTS
 #define BULB_API __declspec(dllexport)
 #else
@@ -189,7 +185,12 @@ using namespace JPH::literals;
 #include "UIButton.h"
 
 
+/*****************/
+/* Editor Script */
+/*****************/
+#ifdef BULB_EDITOR
 #include "EditorCamera.h"
+#endif
 
 /*******/
 /* ETC */
@@ -202,13 +203,14 @@ using namespace JPH::literals;
 /************/
 /* Managers */
 /************/
+#ifdef BULB_EDITOR
+#include "EditorGUIManager.h"
+#include "EditorManager.h"
+#endif
 #include "ResourceManager.h"
 #include "RenderManager.h"
 #include "InputManager.h"
 #include "FileIOUtil.h"
-#ifdef BULB_EDITOR
-#include "EditorGUIManager.h"
-#endif
 #include "EngineStatusManager.h"
 #include "DebugManager.h"
 #include "PhysicsManager.h"
@@ -218,7 +220,6 @@ using namespace JPH::literals;
 #include "AnimationManager.h"
 #include "UIManager.h"
 #include "SceneManager.h"
-#include "EditorManager.h"
 #include "SoundManager.h"
 
 #include "GameTimer.h"

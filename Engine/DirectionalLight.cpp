@@ -67,6 +67,7 @@ void DirectionalLight::Update()
 	}
 }
 
+#ifdef BULB_EDITOR
 bool DirectionalLight::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
@@ -92,6 +93,7 @@ bool DirectionalLight::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void DirectionalLight::OnDestroy()
 {

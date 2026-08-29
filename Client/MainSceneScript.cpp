@@ -22,7 +22,14 @@ void MainSceneScript::Init()
 	_states.push_back(new BossFight());
 	SetState(MainSceneState::FadeIn);
 
+	_sndBoss = SOUND->LoadSound("Sounds/Boss.mp3", false);
+	_sndBossLoop = SOUND->LoadSound("Sounds/BossLoop.mp3", true);
+
 	_mainAs = GetGameObject()->GetComponent<AudioSource>();
+
+	_mainAs->SetSound(_sndBoss);
+	_mainAs->SetLoop(true);
+	_mainAs->SetAsBGM(true);
 }
 
 void MainSceneScript::Update()
@@ -106,5 +113,12 @@ void MainSceneScript::BossFight::StateStart(MainSceneScript* owner)
 
 void MainSceneScript::BossFight::StateUpdate(MainSceneScript* owner)
 {
-
+	//if (!owner->_isBgmOnLoop) {
+	//	if (!owner->_mainAs->IsPlaying()) {
+	//		owner->_isBgmOnLoop = true;
+	//		owner->_mainAs->SetSound(owner->_sndBossLoop);
+	//		owner->_mainAs->SetLoop(true);
+	//		owner->_mainAs->SetAsBGM(true);
+	//	}
+	//}
 }

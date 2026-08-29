@@ -118,6 +118,7 @@ void Animator::Update()
 	}
 }
 
+#ifdef BULB_EDITOR
 bool Animator::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Animator", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -193,6 +194,7 @@ bool Animator::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void Animator::OnDestroy()
 {
@@ -298,7 +300,7 @@ void Animator::PlayAnimation()
 	}
 
 	_isPlaying = true;
-	_isCurrentAnimationEnd = false;
+	// _isCurrentAnimationEnd = false;
 }
 
 void Animator::PauseAnimation()

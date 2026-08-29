@@ -1,6 +1,7 @@
 #pragma once
 #include "Script.h"
 #include "BaseState.h"
+#include "CommonStructs.h"
 
 class TPVCamera;
 class Interactable;
@@ -117,6 +118,8 @@ public:
 		_isStateChanged = true;
 	}
 
+	void HitDelay();
+
 private:
 	void Interact();
 
@@ -164,8 +167,16 @@ private:
 
 	bool _isEvading = false;
 
+	AttackInfo _attackInfo;
+
+	bool _isOnHitDelay = false;
+	float _hitDelayTime = 0.0f;
+
 	vector<shared_ptr<Interactable>> _interactableScripts;
 
 	AudioClip _playerFootstepSounds[5];
+	AudioClip _hitSound;
+
 	shared_ptr<AudioSource> _playerFootAs;
+	shared_ptr<AudioSource> _hitAs;
 };

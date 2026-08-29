@@ -4,6 +4,7 @@
 #include "BossScript.h"
 #include "Interactable.h"
 #include "MainSceneScript.h"
+#include "CommonStructs.h"
 
 using namespace Bulb;
 
@@ -94,7 +95,12 @@ void PlayerScript::Init()
 	_playerFootstepSounds[3] = SOUND->LoadSound("Sounds/PlayerStep4.wav", false);
 	_playerFootstepSounds[4] = SOUND->LoadSound("Sounds/PlayerStep5.wav", false);
 
+	_hitSound = SOUND->LoadSound("Sounds/AxeHit.wav", false);
+
 	_playerFootAs = _gameObject->GetComponent<AudioSource>();
+	_hitAs = _transform->GetChild("mixamorig:Hips")->GetGameObject()->GetComponent<AudioSource>();
+
+	_hitAs->SetSound(_hitSound);
 }
 
 void PlayerScript::Update()
@@ -103,6 +109,15 @@ void PlayerScript::Update()
 		LockOn();
 
 	RecoveryStemina();
+
+	if (_isOnHitDelay) {
+		_hitDelayTime -= TIME->DeltaTime();
+		if (_hitDelayTime <= 0.0f) {
+			_hitDelayTime = 0.0f;
+			_animator->PlayAnimation();
+			_isOnHitDelay = false;
+		}
+	}
 
 	Roll();
 	Attack();
@@ -140,7 +155,10 @@ void PlayerScript::OnCollisionEnter(shared_ptr<GameObject> other)
 	if (other->GetTag() == "AttackHostile")
 	{
 		if (health > 0 && !_isEvading) {
-			TakeDamage(other->GetComponent<Rigidbody>()->customData);
+			AttackInfo* attackInfo = (AttackInfo*)(other->GetComponent<Rigidbody>()->customData);
+			TakeDamage(attackInfo->damage);
+			_hitAs->Play();
+			attackInfo->attakee->GetComponent<BossScript>()->HitDelay();
 		}
 	}
 
@@ -304,6 +322,13 @@ void PlayerScript::LockOn()
 	}
 }
 
+void PlayerScript::HitDelay()
+{
+	_isOnHitDelay = true;
+	_hitDelayTime = 0.08f;
+	_animator->PauseAnimation();
+}
+
 void PlayerScript::Interact()
 {
 	// 1. 상호작용 비활성화 객체 삭제
@@ -370,7 +395,12 @@ void PlayerScript::AnimationEventListener(AnimationEvent event)
 			bool attackFlag = event.datas[2].x == 1;
 
 			_swordRb->SetPhysicsActive(attackFlag);
-			_swordRb->customData = event.datas[0].w;
+			if (attackFlag) {
+				// AttackInfo attackInfo;
+				_attackInfo.attakee = _gameObject;
+				_attackInfo.damage = event.datas[0].w;
+				_swordRb->customData = &_attackInfo;
+			}
 			break;
 		}
 		case AnimationEventTypes::Sound: {

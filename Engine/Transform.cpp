@@ -8,6 +8,9 @@ Transform::Transform() : Super(ComponentType::Transform)
 	_localPosition = { 0.0f, 0.0f, 0.0f };
 	_localRotation = { 0.0f, 0.0f, 0.0f };
 	_localScale = { 1.0f, 1.0f, 1.0f };
+	_position = { 0.0f, 0.0f, 0.0f };
+	_rotation = { 0.0f, 0.0f, 0.0f };
+	_scale = { 1.0f, 1.0f, 1.0f };
 
 	_localQuaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
 	_quaternion = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -134,7 +137,7 @@ void Transform::RestoreSnapshot(ComponentSnapshot snapshot)
 bool Transform::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen)) {
-		Bulb::Vector3 pos = GetPosition();
+		Bulb::Vector3 pos = GetLocalPosition();
 		Bulb::Vector3 rot = GetLocalRotation();
 		Bulb::Vector3 scale = GetLocalScale();
 

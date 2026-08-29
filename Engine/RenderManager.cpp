@@ -331,7 +331,9 @@ void RenderManager::Render()
 		_cmdLists[2]->SetGraphicsRootSignature(_rootSignaturePostProcessing.Get());
 
 		_cmdLists[2]->SetGraphicsRootDescriptorTable(ROOT_PARAM_MAINPASS_SR, GRAPHIC->GetMainSRVHandle());
+#ifdef BULB_EDITOR
 		_cmdLists[2]->SetGraphicsRootDescriptorTable(ROOT_PARAM_OUTLINEPASS_SR, EDITOR->GetSRV());
+#endif
 
 		auto quad = RESOURCE->Get<Mesh>(DEFAULT_MESH_QUAD);
 		_cmdLists[2]->IASetVertexBuffers(0, 1, &quad->vertexBufferView);

@@ -38,6 +38,7 @@ void PointLight::Update()
 	}
 }
 
+#ifdef BULB_EDITOR
 bool PointLight::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
@@ -71,6 +72,7 @@ bool PointLight::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void PointLight::OnDestroy()
 {

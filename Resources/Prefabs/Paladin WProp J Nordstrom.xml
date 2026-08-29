@@ -53,6 +53,7 @@
         <GameObject Name="mixamorig:Hips" PSO="opaque_solid" Tag="Default">
             <Components>
                 <Component ComponentType="Transform" PosX="0.034279261" PosY="95.579468" PosZ="-0.46594837" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                <Component ComponentType="AudioSource"/>
             </Components>
             <GameObjects>
                 <GameObject Name="mixamorig:Spine" PSO="opaque_solid" Tag="Default">
@@ -83,6 +84,9 @@
                                                         <GameObject Name="mixamorig:HeadTop_End" PSO="opaque_solid" Tag="Default">
                                                             <Components>
                                                                 <Component ComponentType="Transform" PosX="-7.5069755e-09" PosY="18.311884" PosZ="-3.0869107" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                                                <Component ComponentType="PointLight" Intensity="0.2" FallOffStart="0.0" FallOffEnd="3.0">
+                                                                    <Diffuse r="1.0" g="0.8" b="0.8" a="0"/>
+                                                                </Component>
                                                             </Components>
                                                         </GameObject>
                                                         <GameObject Name="mixamorig:LeftEye" PSO="opaque_solid" Tag="Default">

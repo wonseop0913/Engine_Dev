@@ -84,6 +84,7 @@ void Rigidbody::Update()
 
 }
 
+#ifdef BULB_EDITOR
 bool Rigidbody::ShowComponentEditorGUI()
 {
 	if (ImGui::CollapsingHeader("Rigidbody", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -147,6 +148,7 @@ bool Rigidbody::ShowComponentEditorGUI()
 
 	return false;
 }
+#endif
 
 void Rigidbody::OnDestroy()
 {

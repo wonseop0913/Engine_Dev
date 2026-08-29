@@ -1,3 +1,4 @@
+#ifdef BULB_EDITOR
 #pragma once
 
 class BULB_API EditorCamera : public Script
@@ -22,3 +23,4 @@ public:
 	float shiftSpeed = 2.5f;
 };
 
+#endif
