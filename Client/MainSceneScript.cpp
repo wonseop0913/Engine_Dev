@@ -22,6 +22,20 @@ void MainSceneScript::Init()
 	_states.push_back(new BossFight());
 	SetState(MainSceneState::FadeIn);
 
+	_infoPanel = UI->CreateUI<UIPanel>();
+	_infoPanel->GetTransform()->SetPivot({ 0.5f, 0.5f });
+	_infoPanel->GetTransform()->SetPosition({ 0.0f, -200.0f, 0.0f });
+	_infoPanel->GetTransform()->SetSize({ 800.0f, 250.0f });
+	_infoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.3f });
+	_infoPanel->SetRenderActive(false);
+
+	_infoText = UI->CreateUI<UIText>();
+	_infoText->GetTransform()->SetSize({ 480.0f, 280.0f });
+	_infoText->SetFont(L"KoPubBatang");
+	_infoText->SetFontSize(32);
+	_infoText->SetRenderActive(false);
+	_infoText->GetTransform()->SetParent(_infoPanel->GetTransform());
+
 	_sndBoss = SOUND->LoadSound("Sounds/Boss.mp3", false);
 	_sndBossLoop = SOUND->LoadSound("Sounds/BossLoop.mp3", true);
 
@@ -40,6 +54,11 @@ void MainSceneScript::Update()
 	}
 
 	_states[static_cast<int>(_currentState)]->StateUpdate(this);
+
+	if (INPUTM->IsKeyDown(KeyValue::E) && _isInfoPanelActive) {
+		_infoPanel->SetRenderActive(false);
+		_isInfoPanelActive = false;
+	}
 }
 
 void MainSceneScript::OnDestroy()
@@ -71,6 +90,13 @@ ComponentSnapshot MainSceneScript::CaptureSnapshot()
 void MainSceneScript::RestoreSnapshot(ComponentSnapshot snapshot)
 {
 	SetState(MainSceneState::FadeIn);
+}
+
+void MainSceneScript::SetInfoPanel(wstring content)
+{
+	_infoText->SetText(content);
+	_infoPanel->SetRenderActive(true);
+	_isInfoPanelActive = true;
 }
 
 void MainSceneScript::FadeIn::StateStart(MainSceneScript* owner)

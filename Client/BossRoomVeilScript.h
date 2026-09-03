@@ -12,5 +12,9 @@ public:
 	void LoadXML(Bulb::XMLElement compElem) override;
 
 	void SaveXML(Bulb::XMLElement compElem) override;
+
+private:
+	AudioClip _veilEnterSnd;
+	shared_ptr<AudioSource> _veilAs;
 };
 

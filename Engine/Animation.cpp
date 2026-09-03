@@ -17,7 +17,7 @@ void Animation::AddAnimationData(const AnimationData animation)
 {
 	if (animation.boneName == "") return;
 
-	// Ãß°¡ÇÏ·Á´Â µ¥ÀÌÅÍº¸´Ù ¹è¿­ÀÌ ÀÛÀº °æ¿ì Ãß°¡ °ø°£ ÇÒ´ç
+	// ï¿½ß°ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½
 	int animationDataAssignSize = animation.boneId - _animationDatas.size() + 1;
 	for (; animationDataAssignSize > 0; animationDataAssignSize--) {
 		_animationDatas.push_back(AnimationData());
@@ -38,7 +38,7 @@ Animation::KeyFrame Animation::Interpolate(int boneIdx, float tick, int& lastIdx
 	if (_animationDatas[boneIdx].keyFrames.size() == 1)
 		return _animationDatas[boneIdx].keyFrames[0];
 
-	// ÀÌÀü Å°ÇÁ·¹ÀÓ ÀÎµ¦½º¸¦ ±×´ë·Î »ç¿ë °¡´ÉÇÏ¸é »ç¿ë.
+	// ï¿½ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½.
 	const AnimationData& animationData = _animationDatas[boneIdx];
 	KeyFrame prevFrame, nextFrame;
 	bool foundFlag = false;
@@ -53,10 +53,10 @@ Animation::KeyFrame Animation::Interpolate(int boneIdx, float tick, int& lastIdx
 		}
 	}
 
-	// ÀÌÀü Å°ÇÁ·¹ÀÓ ½èÀ¸¸é Åë°ú
+	// ï¿½ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if (!foundFlag)
 	{
-		// ÀÌÁø Å½»ö ¾Ë°í¸®Áò Ã¤ÅÃ
+		// ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½
 		int left = 0, right = animationData.keyFrames.size() - 2;
 		int mid;
 		while (left <= right)
@@ -82,7 +82,7 @@ Animation::KeyFrame Animation::Interpolate(int boneIdx, float tick, int& lastIdx
 		lastIdx = foundFlag ? mid : animationData.keyFrames.size() - 1;
 	}
 
-	// Å½»ö ÈÄ¿¡µµ ¸øÃ£¾ÒÀ¸¸é ¸¶Áö¸· Å°ÇÁ·¹ÀÓ ¼³Á¤
+	// Å½ï¿½ï¿½ ï¿½Ä¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (!foundFlag)
 	{
 		prevFrame = animationData.keyFrames[lastIdx];

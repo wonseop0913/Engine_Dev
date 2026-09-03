@@ -144,10 +144,13 @@ private:
 	shared_ptr<Transform> _transform;
 	shared_ptr<Animator> _animator;
 	shared_ptr<CharacterController> _controller;
-	shared_ptr<UISlider> _hpBar;
-	shared_ptr<UISlider> _steminaBar;
 	shared_ptr<Rigidbody> _swordRb;
 	shared_ptr<AudioSource> _swordAs;
+
+	shared_ptr<UISlider> _hpBar;
+	shared_ptr<UISlider> _steminaBar;
+	shared_ptr<UIPanel> _interactInfoPanel;
+	shared_ptr<UIText> _interactInfoText;
 
 	float _speed = 1.55f;
 	float _rotationSpeed = 17.0f;
@@ -175,6 +178,8 @@ private:
 	vector<shared_ptr<Interactable>> _interactableScripts;
 
 	AudioClip _playerFootstepSounds[5];
+	AudioClip _playerGetHitSound[2];
+	AudioClip _playerGetHitMassiveSound;
 	AudioClip _hitSound;
 
 	shared_ptr<AudioSource> _playerFootAs;

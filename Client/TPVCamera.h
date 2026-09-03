@@ -25,10 +25,10 @@ public:
 	Bulb::Vector3 offset = { 0.0f, 0.0f, 0.0f };
 	float sensitivity = 1.0f;
 	Bulb::Vector2 pitchLimit = { 80.0f, -80.0f };
-	float rotationSharpness = 0.3f;			// range : 0.1f ~ 1.0f, »ç¿ë½Ã Á¦°öÇØ¼­ »ç¿ëÇØ¾ßÇÔ.
+	float rotationSharpness = 0.3f;			// range : 0.1f ~ 1.0f, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½.
 	float pivotMovementSharpness = 6.0f;	// range : 1.0f ~ 10.0f
 
-	// Ä«¸Þ¶ó ¿òÁ÷ÀÓ Á¦¾î ¿©ºÎ
+	// Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	bool isCameraControllOn = true;
 	bool isLockOn = false;
 

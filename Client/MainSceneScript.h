@@ -60,6 +60,10 @@ public:
 		_isStateChanged = true;
 	}
 
+	void SetInfoPanel(wstring content);
+
+	bool IsInfoPanelActive() { return _isInfoPanelActive; }
+
 private:
 	vector<BaseState<MainSceneScript>*> _states;
 	MainSceneState _currentState = MainSceneState::Init;
@@ -67,6 +71,11 @@ private:
 
 	float _fadeInTime = 1.0f;
 	float _fadeOutTime = 1.0f;
+
+	shared_ptr<UIPanel> _infoPanel;
+	shared_ptr<UIText> _infoText;
+
+	bool _isInfoPanelActive = false;
 
 	AudioClip _sndBoss;
 	AudioClip _sndBossLoop;

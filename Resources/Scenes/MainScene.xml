@@ -5,7 +5,7 @@
             <Components>
                 <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MainSceneScript"/>
-                <Component ComponentType="AudioSource" FilePath="Boss.mp3" Loop="true" BGM="true"/>
+                <Component ComponentType="AudioSource"/>
             </Components>
         </GameObject>
         <GameObject Name="GlobalLight" PSO="opaque_solid" Tag="Default">
@@ -3250,6 +3250,7 @@
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
                 </Component>
+                <Component ComponentType="AudioSource"/>
             </Components>
             <GameObjects>
                 <GameObject Name="PhysCollider" PSO="opaque_solid" Tag="Default">

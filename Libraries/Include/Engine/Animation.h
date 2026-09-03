@@ -6,7 +6,7 @@ class BULB_API Animation : public Resource
 public:
 	struct KeyFrame
 	{
-		// ÃÊ±â°ª -1.0À¸·Î null Ã¼Å©
+		// ï¿½Ê±â°ª -1.0ï¿½ï¿½ï¿½ï¿½ null Ã¼Å©
 		KeyFrame() : tick(-1.0) {}
 
 		double tick;

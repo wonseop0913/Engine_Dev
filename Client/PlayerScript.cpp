@@ -45,6 +45,8 @@ void PlayerScript::Init()
 		this->AnimationEventListener(e);
 	};
 
+	_animator->SetInPlace(true);
+
 	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\walk_sword_back"));
 	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\strafe_sword_left"));
 	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\strafe_sword_left_run"));
@@ -75,6 +77,21 @@ void PlayerScript::Init()
 	_steminaBar->SetValueMaxLimit(steminaMax);
 	_steminaBar->SetValue(stemina);
 
+	_interactInfoPanel = UI->CreateUI<UIPanel>();
+	_interactInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
+	_interactInfoPanel->GetTransform()->SetPosition({0.0f, -400.0f, 0.0f});
+	_interactInfoPanel->GetTransform()->SetSize({ 500.0f, 50.0f });
+	_interactInfoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.1f });
+	_interactInfoPanel->SetRenderActive(false);
+
+	_interactInfoText = UI->CreateUI<UIText>();
+	_interactInfoText->GetTransform()->SetSize({ 500.0f, 50.0f });
+	_interactInfoText->SetFont(L"KoPubBatang");
+	_interactInfoText->SetText(L"E키를 눌러 상호작용");
+	_interactInfoText->SetFontSize(22);
+	_interactInfoText->SetRenderActive(false);
+	_interactInfoText->GetTransform()->SetParent(_interactInfoPanel->GetTransform());
+
 	tpvCameraScript = RENDER->GetObject("TPVCamera")->GetComponent<TPVCamera>();
 
 	_states.push_back(new IdleState());
@@ -95,12 +112,17 @@ void PlayerScript::Init()
 	_playerFootstepSounds[3] = SOUND->LoadSound("Sounds/PlayerStep4.wav", false);
 	_playerFootstepSounds[4] = SOUND->LoadSound("Sounds/PlayerStep5.wav", false);
 
+	_playerGetHitSound[0] = SOUND->LoadSound("Sounds/PlayerGetHit1.wav", false);
+	_playerGetHitSound[1] = SOUND->LoadSound("Sounds/PlayerGetHit2.wav", false);
+
+	_playerGetHitMassiveSound = SOUND->LoadSound("Sounds/PlayerGetHitMassive1.wav", false);
+
 	_hitSound = SOUND->LoadSound("Sounds/AxeHit.wav", false);
 
 	_playerFootAs = _gameObject->GetComponent<AudioSource>();
 	_hitAs = _transform->GetChild("mixamorig:Hips")->GetGameObject()->GetComponent<AudioSource>();
 
-	_hitAs->SetSound(_hitSound);
+	_hitAs->SetSound(_playerGetHitSound[0]);
 }
 
 void PlayerScript::Update()
@@ -342,10 +364,16 @@ void PlayerScript::Interact()
 	}
 
 	if (_interactableScripts.size() > 0) {
+		if (!_interactInfoPanel->IsRenderActive())
+			_interactInfoPanel->SetRenderActive(true);
 		if (INPUTM->IsKeyDown(KeyValue::E) &&
 			!_animator->IsTransitionBlocked()) {
 			_interactableScripts[0]->Interact(_gameObject);
 		}
+	}
+	else {
+		if (_interactInfoPanel->IsRenderActive())
+			_interactInfoPanel->SetRenderActive(false);
 	}
 }
 

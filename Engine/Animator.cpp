@@ -353,7 +353,13 @@ void Animator::UpdateBoneTransform(int boneIdx)
 		alpha = std::clamp(alpha, 0.0f, 1.0f);
 
 		// Lerp / Slerp
-		Bulb::Vector3 pos = currKeyFrame.position.Lerp(nextFrame.position, alpha);
+		Bulb::Vector3 pos;
+		if (_isInPlace && boneIdx == 0) {
+			pos = _rootBone->GetLocalPosition();
+		}
+		else {
+			pos = currKeyFrame.position.Lerp(nextFrame.position, alpha);
+		}
 		Bulb::Vector3 scale = currKeyFrame.scale.Lerp(nextFrame.scale, alpha);
 		Bulb::Vector4 rot;
 		XMStoreFloat4(&rot, XMQuaternionSlerp(XMLoadFloat4(&currKeyFrame.rotation), XMLoadFloat4(&nextFrame.rotation), alpha));
@@ -368,7 +374,14 @@ void Animator::UpdateBoneTransform(int boneIdx)
 	{
 		XMMATRIX matScale = XMMatrixScaling(currKeyFrame.scale.x, currKeyFrame.scale.y, currKeyFrame.scale.z);
 		XMMATRIX matRotation = XMMatrixRotationQuaternion(XMLoadFloat4(&currKeyFrame.rotation));
-		XMMATRIX matTranslation = XMMatrixTranslation(currKeyFrame.position.x, currKeyFrame.position.y, currKeyFrame.position.z);
+		XMMATRIX matTranslation;
+		if (_isInPlace && boneIdx == 0) {
+			Bulb::Vector3 pos = _rootBone->GetLocalPosition();
+			matTranslation = XMMatrixTranslation(pos.x, pos.y, pos.z);
+		}
+		else {
+			matTranslation = XMMatrixTranslation(currKeyFrame.position.x, currKeyFrame.position.y, currKeyFrame.position.z);
+		}
 
 		_skeleton->UpdateBoneTransform(boneIdx, matScale * matRotation * matTranslation);
 	}

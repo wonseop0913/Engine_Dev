@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BossRoomGateLeverScript.h"
 #include "PlayerScript.h"
+#include "MainSceneScript.h"
 
 REGISTER_COMPONENT(BossRoomGateLeverScript)
 
@@ -68,4 +69,6 @@ void BossRoomGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 	opponent->GetComponent<PlayerScript>()->SetState(PlayerMovementState::INTERACT);
 
 	_leverAs->Play();
+
+	RENDER->GetObjectW("SceneScript")->GetComponent<MainSceneScript>()->SetInfoPanel(L"어딘가의 통로가 개방됐다.");
 }

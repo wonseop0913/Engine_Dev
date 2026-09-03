@@ -112,6 +112,9 @@ public:
 		UpdateBoneTransform();
 	}
 
+	bool IsInPlace() { return _isInPlace; }
+	void SetInPlace(bool value) { _isInPlace = value; }
+
 	// Recently Optimized
 	void SetBone(string boneFileName);
 	void UpdateBoneInstances();
@@ -133,6 +136,7 @@ private:
 	bool _isLoopNextAnim;
 	bool _isPreviewMode = false;
 	bool _isTransitionBlocked = false;
+	bool _isInPlace = false;
 
 	float _currentTick = 0.0f;
 	float _transitionTick = 0.0f;

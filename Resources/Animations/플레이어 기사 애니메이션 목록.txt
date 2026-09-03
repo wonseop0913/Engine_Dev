@@ -15,6 +15,7 @@ Paladin WProp J Nordstrom\\run_sword_forward      // 전진
 
 ATTACK
 Paladin WProp J Nordstrom\\slash_1
+Paladin WProp J Nordstrom\\roll
 
 ROLL
 Paladin WProp J Nordstrom\\roll
