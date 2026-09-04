@@ -123,6 +123,10 @@ void PlayerScript::Init()
 
 void PlayerScript::Update()
 {
+	if (_animEventVel.Length() > 0.0f) {
+		_transform->Translate(_animEventVel * TIME->DeltaTime());
+	}
+
 	if (INPUTM->IsKeyDown(KeyValue::Q))
 		LockOn();
 
@@ -442,6 +446,11 @@ void PlayerScript::AnimationEventListener(AnimationEvent event)
 			_isEvading = event.datas[0].x == 1;
 			break;
 		}
+		case AnimationEventTypes::Velocity: {
+			// _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
+			_animEventVel = _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
+			break;
+		}
 	}
 }
 
@@ -515,6 +524,7 @@ void PlayerScript::AttackCombo1State::StateUpdate(PlayerScript* owner)
 
 	if (owner->_animator->IsCurrentAnimationEnd()) {
 		owner->SetState(PlayerState::IDLE);
+		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
 	}
 }
 
@@ -533,6 +543,7 @@ void PlayerScript::AttackCombo2State::StateUpdate(PlayerScript* owner)
 
 	if (owner->_animator->IsCurrentAnimationEnd()) {
 		owner->SetState(PlayerState::IDLE);
+		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
 	}
 }
 
@@ -547,6 +558,7 @@ void PlayerScript::AttackCombo3State::StateUpdate(PlayerScript* owner)
 {
 	if (owner->_animator->IsCurrentAnimationEnd()) {
 		owner->SetState(PlayerState::IDLE);
+		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
 	}
 }
 

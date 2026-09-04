@@ -473,7 +473,8 @@ void Animator::UpdateAnimationEvent()
 				currentEvent.type == AnimationEventTypes::Step ||
 				currentEvent.type == AnimationEventTypes::RotateToTarget ||
 				currentEvent.type == AnimationEventTypes::Evade ||
-				currentEvent.type == AnimationEventTypes::Sound) {
+				currentEvent.type == AnimationEventTypes::Sound ||
+				currentEvent.type == AnimationEventTypes::Velocity) {
 				animationEvent.Execute(currentEvent);
 			}
 			if (currentEvent.type == AnimationEventTypes::End) {
@@ -481,9 +482,6 @@ void Animator::UpdateAnimationEvent()
 			}
 			if (currentEvent.type == AnimationEventTypes::BlockTransition) {
 				_isTransitionBlocked = currentEvent.datas[0].x == 1;
-			}
-			if (currentEvent.type == AnimationEventTypes::InPlace) {
-				_isInPlace = currentEvent.datas[0].x == 1;
 			}
 
 			_currentAnimationEventIndex++;
@@ -513,7 +511,8 @@ void Animator::UpdateAnimationEvent()
 				nextEvent.type == AnimationEventTypes::Step ||
 				nextEvent.type == AnimationEventTypes::RotateToTarget ||
 				nextEvent.type == AnimationEventTypes::Evade ||
-				nextEvent.type == AnimationEventTypes::Sound) {
+				nextEvent.type == AnimationEventTypes::Sound ||
+				nextEvent.type == AnimationEventTypes::Velocity) {
 				animationEvent.Execute(nextEvent);
 			}
 			if (nextEvent.type == AnimationEventTypes::End) {
@@ -522,9 +521,6 @@ void Animator::UpdateAnimationEvent()
 			}
 			if (nextEvent.type == AnimationEventTypes::BlockTransition) {
 				_isTransitionBlocked = nextEvent.datas[0].x == 1;
-			}
-			if (nextEvent.type == AnimationEventTypes::InPlace) {
-				_isInPlace = nextEvent.datas[0].x == 1;
 			}
 
 			_nextAnimationEventIndex++;
@@ -608,10 +604,12 @@ void Animator::LoadAnimationEvents(const string& path)
 
 				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
 			}
-			if (eventName == "InPlace") {
-				animEvent.type = AnimationEventTypes::InPlace;
+			if (eventName == "Velocity") {
+				animEvent.type = AnimationEventTypes::Velocity;
 
-				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
+				animEvent.datas[0].x = event->FloatAttribute("X");
+				animEvent.datas[0].y = event->FloatAttribute("Y");
+				animEvent.datas[0].z = event->FloatAttribute("Z");
 			}
 			_animationEvents[animationName].second.push_back(animEvent);
 			event = event->NextSiblingElement();

@@ -16,7 +16,7 @@ enum BULB_API AnimationEventTypes {
 	Sound,
 	RotateToTarget,
 	Evade,
-	InPlace
+	Velocity
 };
 
 // 일단은 애니메이션 속도 조절만

@@ -168,6 +168,7 @@ private:
 
 	float _speed = 1.55f;
 	float _rotationSpeed = 17.0f;
+	Bulb::Vector3 _animEventVel = { 0.0f, 0.0f, 0.0f };
 
 	PlayerState _playerMovementState = PlayerState::IDLE;
 	bool _isStateChanged = false;

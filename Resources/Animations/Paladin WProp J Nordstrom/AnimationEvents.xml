@@ -40,39 +40,52 @@
 
     <Animation Name="sword_combo1" InPlace="true">
         <BlockTransition Tick="0.0" Flag="true"/>
+        <Velocity Tick="0.0" X="0.1"/>
         <Speed Tick="0.0" Speed="2.5"/>
         <Speed Tick="20.3" Speed="1.5"/>
         <Sound Tick="27.2" SoundName="PlayerAttack"/>
         <Attack Tick="30.2" Damage="8.0" MeleeWeaponActivation="true"/>
         <Speed Tick="30.2" Speed="2.2"/>
+        <Velocity Tick="30.2" X="1.5"/>
+        <Velocity Tick="35.2" X="0.3"/>
         <Attack Tick="35.2" MeleeWeaponActivation="false"/>
         <BlockTransition Tick="36.3" Flag="false"/>
         <Speed Tick="36.3" Speed="0.3"/>
+        <Velocity Tick="36.3" X="0.1"/>
     </Animation>
 
     <Animation Name="sword_combo2" InPlace="true">
         <BlockTransition Tick="0.0" Flag="true"/>
+        <Velocity Tick="0.0" X="1.8"/>
         <Speed Tick="0.0" Speed="1.7"/>
         <Speed Tick="9.9" Speed="1.4"/>
+        <Velocity Tick="12.0" X="0.3"/>
         <Sound Tick="14.0" SoundName="PlayerAttack"/>
         <Attack Tick="16.0" Damage="8.0" MeleeWeaponActivation="true"/>
         <Speed Tick="16.0" Speed="1.9"/>
+        <Velocity Tick="18.1" X="0.7"/>
         <Attack Tick="21" MeleeWeaponActivation="false"/>
         <BlockTransition Tick="23.0" Flag="false"/>
         <Speed Tick="23.0" Speed="0.3"/>
+        <Velocity Tick="23.0" X="0.1"/>
     </Animation>
 
     <Animation Name="sword_combo3" InPlace="true">
         <BlockTransition Tick="0.0" Flag="true"/>
+        <Velocity Tick="0.0" X="2.1"/>
         <Speed Tick="0.0" Speed="1.7"/>
         <Speed Tick="9.9" Speed="1.4"/>
+        <Velocity Tick="15.7" X="0.3"/>
         <Sound Tick="16.3" SoundName="PlayerAttack"/>
         <Attack Tick="18.3" Damage="8.0" MeleeWeaponActivation="true"/>
         <Speed Tick="18.3" Speed="1.9"/>
         <Attack Tick="23.3" MeleeWeaponActivation="false"/>
+        <Velocity Tick="26.3" X="0"/>
         <BlockTransition Tick="27.4" Flag="false"/>
         <Speed Tick="27.4" Speed="1.0"/>
         <Speed Tick="37.3" Speed="1.5"/>
+        <Velocity Tick="37.3" X="-0.4"/>
+        <Velocity Tick="42" X="0"/>
     </Animation>
 
     <Animation Name="roll">
