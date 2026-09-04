@@ -13,6 +13,8 @@ Animator::Animator() : Component(ComponentType::Animator)
 
 	_currentAnimation = EMPTY_ANIMATION;
 	_nextAnimation = EMPTY_ANIMATION;
+
+	_animationEventPath = "none";
 }
 
 Animator::~Animator()
@@ -156,6 +158,12 @@ bool Animator::ShowComponentEditorGUI()
 		}
 		else
 		{
+			ImGui::SeparatorText("Animation Event");
+			ImGui::Text(("Event Script Path: " + _animationEventPath).c_str());
+			if (ImGui::Button("Refresh Event Script")) {
+				RefreshEventScript();
+			}
+
 			ImGui::SeparatorText("Current Animation");
 			ImGui::Text(_animations[_currentAnimation] != nullptr ? _animations[_currentAnimation]->GetName().c_str() : "None");
 			ImGui::SeparatorText("Animation Tick");
@@ -403,6 +411,13 @@ void Animator::UpdateBoneTransformPreviewMode(int boneIdx)
 	_skeleton->UpdateBoneTransform(boneIdx, matScale * matRotation * matTranslation);
 }
 
+void Animator::RefreshEventScript()
+{
+	_animationEvents.clear();
+	LoadAnimationEvents(_animationEventPath);
+	DEBUG->Log("[Animator] Animation event script hot reloaded");
+}
+
 void Animator::SetCurrentAnimation(const string& animationName, float _transitionTime)
 {
 	if (_currentAnimation == EMPTY_ANIMATION || _transitionTime == 0.0f)
@@ -518,7 +533,8 @@ void Animator::LoadAnimationEvents(const string& path)
 {
 	tinyxml2::XMLDocument doc;
 
-	doc.LoadFile(path.c_str());
+	_animationEventPath = path;
+	doc.LoadFile(_animationEventPath.c_str());
 
 	XMLNode* node = doc.FirstChild();
 	XMLElement* animation = node->FirstChildElement();

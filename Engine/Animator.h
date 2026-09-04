@@ -123,6 +123,8 @@ private:
 	void UpdateBoneTransform(int boneIdx);
 	void UpdateBoneTransformPreviewMode(int boneIdx);
 
+	void RefreshEventScript();
+
 	void Attack(Bulb::Vector3 offset, Bulb::Vector3 scale, float damage, bool isHostile);
 
 public:
@@ -154,6 +156,7 @@ private:
 	string _currentAnimation;
 	string _nextAnimation;
 
+	string _animationEventPath;
 	unordered_map<string, vector<AnimationEvent>> _animationEvents;
 	float _currentAnimationSpeed = 1.0f;
 	float _nextAnimationSpeed = 1.0f;

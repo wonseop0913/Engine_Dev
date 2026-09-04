@@ -154,7 +154,6 @@ void PlayerScript::Update()
 	{
 		if (_animator->IsCurrentAnimationEnd())
 		{
-			DEBUG->Log("Idle Set");
 			SetState(PlayerMovementState::IDLE);
 		}
 	}
@@ -299,7 +298,6 @@ void PlayerScript::LockOn()
 			tpvCameraScript->isLockOn = false;
 			tpvCameraScript->lockOnTargetTransform = nullptr;
 		}
-		DEBUG->Log("Locked On Target Released");
 		return;
 	}
 
@@ -339,8 +337,6 @@ void PlayerScript::LockOn()
 			tpvCameraScript->isLockOn = true;
 			tpvCameraScript->lockOnTargetTransform = _lockOnTarget->GetComponent<BossScript>()->GetCenterTransform();
 		}
-
-		DEBUG->Log("Locked On - " + _lockOnTarget->GetName());
 	}
 }
 
@@ -397,7 +393,6 @@ void PlayerScript::RecoveryStemina()
 void PlayerScript::TakeDamage(int damage)
 {
 	health -= damage;
-	DEBUG->Log("Take" + to_string(damage) + "damage. Remain Health - " + to_string(health));
 	_hpBar->SetValue(health);
 }
 
@@ -505,7 +500,7 @@ void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 
 void PlayerScript::SlashState::StateStart(PlayerScript* owner)
 {
-	owner->_animator->SetCurrentAnimation("slash_1");
+	owner->_animator->SetCurrentAnimation("sword_combo");
 	owner->_animator->SetLoop(false);
 }
 
