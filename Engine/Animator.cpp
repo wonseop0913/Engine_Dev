@@ -457,7 +457,9 @@ void Animator::UpdateAnimationEvent()
 	// Current Animation Event
 	if (_animationEvents.contains(_currentAnimation) && !_isCurrentAnimationEnd)
 	{
-		auto& events = _animationEvents[_currentAnimation];
+		auto& eventPair = _animationEvents[_currentAnimation];
+		auto& events = eventPair.second;
+		_isInPlace = eventPair.first;
 
 		while (_currentAnimationEventIndex < events.size()) {
 			AnimationEvent& currentEvent = events[_currentAnimationEventIndex];
@@ -480,6 +482,9 @@ void Animator::UpdateAnimationEvent()
 			if (currentEvent.type == AnimationEventTypes::BlockTransition) {
 				_isTransitionBlocked = currentEvent.datas[0].x == 1;
 			}
+			if (currentEvent.type == AnimationEventTypes::InPlace) {
+				_isInPlace = currentEvent.datas[0].x == 1;
+			}
 
 			_currentAnimationEventIndex++;
 		}
@@ -488,13 +493,13 @@ void Animator::UpdateAnimationEvent()
 	{
 		_currentAnimationSpeed = 1.0f;
 		_currentAnimationEventIndex = 0;
-		_isTransitionBlocked = false;
+		//_isTransitionBlocked = false;
 	}
 
 	// Next Animation Event (On Transition)
 	if (_animationEvents.contains(_nextAnimation)/* && !_isNextAnimationEnd*/)
 	{
-		auto& events = _animationEvents[_nextAnimation];
+		auto& events = _animationEvents[_nextAnimation].second;
 
 		while (_nextAnimationEventIndex < events.size()) {
 			AnimationEvent& nextEvent = events[_nextAnimationEventIndex];
@@ -517,6 +522,9 @@ void Animator::UpdateAnimationEvent()
 			}
 			if (nextEvent.type == AnimationEventTypes::BlockTransition) {
 				_isTransitionBlocked = nextEvent.datas[0].x == 1;
+			}
+			if (nextEvent.type == AnimationEventTypes::InPlace) {
+				_isInPlace = nextEvent.datas[0].x == 1;
 			}
 
 			_nextAnimationEventIndex++;
@@ -543,6 +551,7 @@ void Animator::LoadAnimationEvents(const string& path)
 		if (animation == nullptr)
 			break;
 		string animationName = animation->Attribute("Name");
+		_animationEvents[animationName].first = animation->BoolAttribute("InPlace");
 		XMLElement* event = animation->FirstChildElement();
 		while (true)
 		{
@@ -599,7 +608,12 @@ void Animator::LoadAnimationEvents(const string& path)
 
 				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
 			}
-			_animationEvents[animationName].push_back(animEvent);
+			if (eventName == "InPlace") {
+				animEvent.type = AnimationEventTypes::InPlace;
+
+				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
+			}
+			_animationEvents[animationName].second.push_back(animEvent);
 			event = event->NextSiblingElement();
 		}
 

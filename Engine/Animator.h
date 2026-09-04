@@ -15,7 +15,8 @@ enum BULB_API AnimationEventTypes {
 	Step,
 	Sound,
 	RotateToTarget,
-	Evade
+	Evade,
+	InPlace
 };
 
 // 일단은 애니메이션 속도 조절만
@@ -65,6 +66,7 @@ public:
 	void PauseAnimation();
 	bool IsCurrentAnimationEnd() { return _isCurrentAnimationEnd; }
 	bool IsTransitionBlocked() { return _isTransitionBlocked; }
+	void SetTransitionBlock(bool value) { _isTransitionBlocked = value; }
 
 	bool IsLoop() { return _isLoop; }
 	void SetLoop(bool loop) { 
@@ -157,7 +159,8 @@ private:
 	string _nextAnimation;
 
 	string _animationEventPath;
-	unordered_map<string, vector<AnimationEvent>> _animationEvents;
+	// <AnimationName, <InPlace(bool), Events>>
+	unordered_map<string, pair<bool, vector<AnimationEvent>>> _animationEvents;
 	float _currentAnimationSpeed = 1.0f;
 	float _nextAnimationSpeed = 1.0f;
 	int _currentAnimationEventIndex = 0;

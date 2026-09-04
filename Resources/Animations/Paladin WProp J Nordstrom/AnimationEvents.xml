@@ -38,22 +38,41 @@
         <Speed Tick="30.0" Speed="1.3"/>
     </Animation>
 
-    <Animation Name="sword_combo">
+    <Animation Name="sword_combo1" InPlace="true">
         <BlockTransition Tick="0.0" Flag="true"/>
         <Speed Tick="0.0" Speed="2.5"/>
         <Speed Tick="20.3" Speed="1.5"/>
+        <Sound Tick="27.2" SoundName="PlayerAttack"/>
+        <Attack Tick="30.2" Damage="8.0" MeleeWeaponActivation="true"/>
         <Speed Tick="30.2" Speed="2.2"/>
-        <Speed Tick="36.3" Speed="1.0"/>
-        <Speed Tick="40.1" Speed="1.7"/>
-        <Speed Tick="50.0" Speed="1.4"/>
-        <Speed Tick="56.1" Speed="1.9"/>
-        <Speed Tick="63.7" Speed="1.0"/>
-        <End Tick="69.0"/>
-        <Speed Tick="69.0" Speed="1.7"/>
-        <Speed Tick="78.9" Speed="1.4"/>
-        <Speed Tick="87.3" Speed="1.9"/>
-        <Speed Tick="96.4" Speed="1.0"/>
-        <Speed Tick="106.3" Speed="1.5"/>
+        <Attack Tick="35.2" MeleeWeaponActivation="false"/>
+        <BlockTransition Tick="36.3" Flag="false"/>
+        <Speed Tick="36.3" Speed="0.3"/>
+    </Animation>
+
+    <Animation Name="sword_combo2" InPlace="true">
+        <BlockTransition Tick="0.0" Flag="true"/>
+        <Speed Tick="0.0" Speed="1.7"/>
+        <Speed Tick="9.9" Speed="1.4"/>
+        <Sound Tick="14.0" SoundName="PlayerAttack"/>
+        <Attack Tick="16.0" Damage="8.0" MeleeWeaponActivation="true"/>
+        <Speed Tick="16.0" Speed="1.9"/>
+        <Attack Tick="21" MeleeWeaponActivation="false"/>
+        <BlockTransition Tick="23.0" Flag="false"/>
+        <Speed Tick="23.0" Speed="0.3"/>
+    </Animation>
+
+    <Animation Name="sword_combo3" InPlace="true">
+        <BlockTransition Tick="0.0" Flag="true"/>
+        <Speed Tick="0.0" Speed="1.7"/>
+        <Speed Tick="9.9" Speed="1.4"/>
+        <Sound Tick="16.3" SoundName="PlayerAttack"/>
+        <Attack Tick="18.3" Damage="8.0" MeleeWeaponActivation="true"/>
+        <Speed Tick="18.3" Speed="1.9"/>
+        <Attack Tick="23.3" MeleeWeaponActivation="false"/>
+        <BlockTransition Tick="27.4" Flag="false"/>
+        <Speed Tick="27.4" Speed="1.0"/>
+        <Speed Tick="37.3" Speed="1.5"/>
     </Animation>
 
     <Animation Name="roll">

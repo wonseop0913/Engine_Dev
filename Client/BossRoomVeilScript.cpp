@@ -19,7 +19,7 @@ void BossRoomVeilScript::Interact(shared_ptr<GameObject> opponent)
 {
 	isInteractable = false;
 
-	opponent->GetComponent<PlayerScript>()->SetState(PlayerMovementState::ENTER_VEIL);
+	opponent->GetComponent<PlayerScript>()->SetState(PlayerState::ENTER_VEIL);
 	_veilAs->Play();
 }
 

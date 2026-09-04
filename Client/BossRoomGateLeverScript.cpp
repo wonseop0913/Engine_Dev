@@ -66,7 +66,7 @@ void BossRoomGateLeverScript::Interact(shared_ptr<GameObject> opponent)
 
 	playerTransform->SetPosition(playerPos);
 	playerTransform->LookAtWithNoRoll(playerPos - (pos - playerPos));
-	opponent->GetComponent<PlayerScript>()->SetState(PlayerMovementState::INTERACT);
+	opponent->GetComponent<PlayerScript>()->SetState(PlayerState::INTERACT);
 
 	_leverAs->Play();
 

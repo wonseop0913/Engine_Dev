@@ -6,12 +6,14 @@
 class TPVCamera;
 class Interactable;
 
-enum class PlayerMovementState
+enum class PlayerState
 {
 	IDLE,
 	WALK,
 	RUN,
-	SLASH,
+	ATTACKCOMBO1,
+	ATTACKCOMBO2,
+	ATTACKCOMBO3,
 	ROLL,
 	STRAFE_FORWARD,
 	STRAFE_BACK,
@@ -42,7 +44,19 @@ class PlayerScript : public Script
 		void StateUpdate(PlayerScript* owner) override;
 	};
 
-	class SlashState : public BaseState<PlayerScript> {
+	class AttackCombo1State : public BaseState<PlayerScript> {
+	public:
+		void StateStart(PlayerScript* owner) override;
+		void StateUpdate(PlayerScript* owner) override;
+	};
+
+	class AttackCombo2State : public BaseState<PlayerScript> {
+	public:
+		void StateStart(PlayerScript* owner) override;
+		void StateUpdate(PlayerScript* owner) override;
+	};
+
+	class AttackCombo3State : public BaseState<PlayerScript> {
 	public:
 		void StateStart(PlayerScript* owner) override;
 		void StateUpdate(PlayerScript* owner) override;
@@ -112,7 +126,7 @@ public:
 	void Move();
 	void LockOn();
 
-	void SetState(PlayerMovementState state) {
+	void SetState(PlayerState state) {
 		if (_playerMovementState == state) return;
 		_playerMovementState = state;
 		_isStateChanged = true;
@@ -155,7 +169,7 @@ private:
 	float _speed = 1.55f;
 	float _rotationSpeed = 17.0f;
 
-	PlayerMovementState _playerMovementState = PlayerMovementState::IDLE;
+	PlayerState _playerMovementState = PlayerState::IDLE;
 	bool _isStateChanged = false;
 
 	shared_ptr<GameObject> _lockOnTarget;

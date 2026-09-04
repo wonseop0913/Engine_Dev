@@ -45,15 +45,9 @@ void PlayerScript::Init()
 		this->AnimationEventListener(e);
 	};
 
-	_animator->SetInPlace(true);
+	// _animator->SetInPlace(true);
 
-	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\walk_sword_back"));
-	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\strafe_sword_left"));
-	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\strafe_sword_left_run"));
-	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\strafe_sword_right"));
-	_animator->AddAnimation(RESOURCE->LoadAnimation("Paladin WProp J Nordstrom\\strafe_sword_right_run"));
-
-	_playerMovementState = PlayerMovementState::IDLE;
+	_playerMovementState = PlayerState::IDLE;
 	_isStateChanged = true;
 
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
@@ -97,7 +91,9 @@ void PlayerScript::Init()
 	_states.push_back(new IdleState());
 	_states.push_back(new WalkState());
 	_states.push_back(new RunState());
-	_states.push_back(new SlashState());
+	_states.push_back(new AttackCombo1State());
+	_states.push_back(new AttackCombo2State());
+	_states.push_back(new AttackCombo3State());
 	_states.push_back(new RollState());
 	_states.push_back(new StrafeForwardState());
 	_states.push_back(new StrafeBackState());
@@ -147,17 +143,19 @@ void PlayerScript::Update()
 	// Interact
 	Interact();
 
-	if (_playerMovementState == PlayerMovementState::SLASH || 
-		_playerMovementState == PlayerMovementState::ROLL ||
-		_playerMovementState == PlayerMovementState::INTERACT ||
-		_playerMovementState == PlayerMovementState::ENTER_VEIL)
+	if (_playerMovementState == PlayerState::ATTACKCOMBO1 ||
+		_playerMovementState == PlayerState::ATTACKCOMBO2 ||
+		_playerMovementState == PlayerState::ATTACKCOMBO3 ||
+		_playerMovementState == PlayerState::ROLL ||
+		_playerMovementState == PlayerState::INTERACT ||
+		_playerMovementState == PlayerState::ENTER_VEIL)
 	{
-		if (_animator->IsCurrentAnimationEnd())
-		{
-			SetState(PlayerMovementState::IDLE);
-		}
+		//if (_animator->IsCurrentAnimationEnd())
+		//{
+		//	SetState(PlayerMovementState::IDLE);
+		//}
 	}
-	else if (_playerMovementState != PlayerMovementState::ROLL)
+	else if (_playerMovementState != PlayerState::ROLL)
 	{
 		Move();
 	}
@@ -228,17 +226,21 @@ void PlayerScript::Roll()
 {
 	if (INPUTM->IsKeyDown(KeyValue::SPACE) && 
 		!_animator->IsTransitionBlocked() && 
-		_playerMovementState != PlayerMovementState::IDLE) {
-		SetState(PlayerMovementState::ROLL);
+		_playerMovementState != PlayerState::IDLE) {
+		SetState(PlayerState::ROLL);
 	}
 }
 
 void PlayerScript::Attack()
 {
 	if (INPUTM->IsMouseLeftButtonDown() && 
-		!_animator->IsTransitionBlocked() && 
-		_playerMovementState != PlayerMovementState::SLASH) {
-		SetState(PlayerMovementState::SLASH);
+		_playerMovementState != PlayerState::ROLL &&
+		_playerMovementState != PlayerState::INTERACT &&
+		_playerMovementState != PlayerState::ENTER_VEIL &&
+		_playerMovementState != PlayerState::ATTACKCOMBO1 &&
+		_playerMovementState != PlayerState::ATTACKCOMBO2 &&
+		_playerMovementState != PlayerState::ATTACKCOMBO3) {
+		SetState(PlayerState::ATTACKCOMBO1);
 	}
 }
 
@@ -250,7 +252,7 @@ void PlayerScript::Move()
 	int moveX = (INPUTM->IsKeyPress(KeyValue::D) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::A) ? 1 : 0);
 
 	if (moveZ == 0 && moveX == 0) {
-		SetState(PlayerMovementState::IDLE);
+		SetState(PlayerState::IDLE);
 		return;
 	}
 
@@ -263,25 +265,25 @@ void PlayerScript::Move()
 	_movingDirection = (look * moveZ + right * moveX).Normalize();
 	Bulb::Vector3 interpolatedDir = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, _rotationSpeed);
 
-	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerMovementState::RUN) &&
+	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerState::RUN) &&
 		stemina > 0.0f) {
 		_movingDirection = interpolatedDir;
-		SetState(PlayerMovementState::RUN);
+		SetState(PlayerState::RUN);
 	}
 	else {
 		if (_lockOnTarget) {
 			if (moveX == 1)
-				SetState(PlayerMovementState::STRAFE_RIGHT);
+				SetState(PlayerState::STRAFE_RIGHT);
 			else if (moveX == -1)
-				SetState(PlayerMovementState::STRAFE_LEFT);
+				SetState(PlayerState::STRAFE_LEFT);
 			else if (moveZ == 1)
-				SetState(PlayerMovementState::STRAFE_FORWARD);
+				SetState(PlayerState::STRAFE_FORWARD);
 			else if (moveZ == -1)
-				SetState(PlayerMovementState::STRAFE_BACK);
+				SetState(PlayerState::STRAFE_BACK);
 		}
 		else {
 			_movingDirection = interpolatedDir;
-			SetState(PlayerMovementState::WALK);
+			SetState(PlayerState::WALK);
 		}
 	}
 }
@@ -472,7 +474,7 @@ void PlayerScript::WalkState::StateStart(PlayerScript* owner)
 void PlayerScript::WalkState::StateUpdate(PlayerScript* owner)
 {
 	if (!owner->_controller->IsOnGround()) {
-		owner->SetState(PlayerMovementState::IDLE);
+		owner->SetState(PlayerState::IDLE);
 		return;
 	}
 
@@ -489,7 +491,7 @@ void PlayerScript::RunState::StateStart(PlayerScript* owner)
 void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 {
 	if (!owner->_controller->IsOnGround()) {
-		owner->SetState(PlayerMovementState::IDLE);
+		owner->SetState(PlayerState::IDLE);
 		return;
 	}
 
@@ -498,15 +500,54 @@ void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 	owner->DecreaseStemina(10.0f, false);
 }
 
-void PlayerScript::SlashState::StateStart(PlayerScript* owner)
+void PlayerScript::AttackCombo1State::StateStart(PlayerScript* owner)
 {
-	owner->_animator->SetCurrentAnimation("sword_combo");
+	owner->_animator->SetCurrentAnimation("sword_combo1");
 	owner->_animator->SetLoop(false);
+	owner->_animator->SetTransitionBlock(true);
 }
 
-void PlayerScript::SlashState::StateUpdate(PlayerScript* owner)
+void PlayerScript::AttackCombo1State::StateUpdate(PlayerScript* owner)
 {
+	if (INPUTM->IsMouseLeftButtonDown() && !owner->_animator->IsTransitionBlocked()) {
+		owner->SetState(PlayerState::ATTACKCOMBO2);
+	}
 
+	if (owner->_animator->IsCurrentAnimationEnd()) {
+		owner->SetState(PlayerState::IDLE);
+	}
+}
+
+void PlayerScript::AttackCombo2State::StateStart(PlayerScript* owner)
+{
+	owner->_animator->SetCurrentAnimation("sword_combo2");
+	owner->_animator->SetLoop(false);
+	owner->_animator->SetTransitionBlock(true);
+}
+
+void PlayerScript::AttackCombo2State::StateUpdate(PlayerScript* owner)
+{
+	if (INPUTM->IsMouseLeftButtonDown() && !owner->_animator->IsTransitionBlocked()) {
+		owner->SetState(PlayerState::ATTACKCOMBO3);
+	}
+
+	if (owner->_animator->IsCurrentAnimationEnd()) {
+		owner->SetState(PlayerState::IDLE);
+	}
+}
+
+void PlayerScript::AttackCombo3State::StateStart(PlayerScript* owner)
+{
+	owner->_animator->SetCurrentAnimation("sword_combo3");
+	owner->_animator->SetLoop(false);
+	owner->_animator->SetTransitionBlock(true);
+}
+
+void PlayerScript::AttackCombo3State::StateUpdate(PlayerScript* owner)
+{
+	if (owner->_animator->IsCurrentAnimationEnd()) {
+		owner->SetState(PlayerState::IDLE);
+	}
 }
 
 void PlayerScript::RollState::StateStart(PlayerScript* owner)
@@ -519,6 +560,10 @@ void PlayerScript::RollState::StateUpdate(PlayerScript* owner)
 {
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 4.0f);
+
+	if (owner->_animator->IsCurrentAnimationEnd()) {
+		owner->SetState(PlayerState::IDLE);
+	}
 }
 
 void PlayerScript::StrafeForwardState::StateStart(PlayerScript* owner)
@@ -605,7 +650,9 @@ void PlayerScript::InteractState::StateStart(PlayerScript* owner)
 
 void PlayerScript::InteractState::StateUpdate(PlayerScript* owner)
 {
-
+	if (owner->_animator->IsCurrentAnimationEnd()) {
+		owner->SetState(PlayerState::IDLE);
+	}
 }
 
 void PlayerScript::EnterVeilState::StateStart(PlayerScript* owner)
@@ -625,7 +672,7 @@ void PlayerScript::EnterVeilState::StateUpdate(PlayerScript* owner)
 		owner->_transform->Translate(Bulb::Vector3(1.0f, 0.0f, 0.0f) * owner->_speed * 0.8f * TIME->DeltaTime());
 	}
 	else {
-		owner->SetState(PlayerMovementState::IDLE);
+		owner->SetState(PlayerState::IDLE);
 		owner->_controller->SetGravity(true);
 		owner->_controller->SetPhysicsActive(true);
 		RENDER->GetObjectW("SceneScript")->GetComponent<MainSceneScript>()->SetState(MainSceneState::BossFight);

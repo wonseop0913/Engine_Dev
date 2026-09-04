@@ -19,7 +19,9 @@
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\walk_sword_back.banim"/>
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\walk_sword_forward.banim"/>
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\casting_sword.banim"/>
-                <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\sword_combo.banim"/>
+                <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\sword_combo1.banim"/>
+                <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\sword_combo2.banim"/>
+                <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\sword_combo3.banim"/>
             </Animations>
         </Component>
         <Component ComponentType="CharacterController"/>
