@@ -35,6 +35,8 @@ void BossRoomGateLeverScript::Update()
 void BossRoomGateLeverScript::OnDestroy()
 {
 	_gateObj.reset();
+	_stickTransform.reset();
+	_leverAs.reset();
 }
 
 void BossRoomGateLeverScript::LoadXML(Bulb::XMLElement compElem)

@@ -41,6 +41,9 @@ void MiddleGateLeverScript::Update()
 void MiddleGateLeverScript::OnDestroy()
 {
 	_gateObj.reset();
+	_stickTransform.reset();
+	_leverAs.reset();
+	_gateAs.reset();
 }
 
 void MiddleGateLeverScript::LoadXML(Bulb::XMLElement compElem)

@@ -9,9 +9,7 @@ REGISTER_COMPONENT(BossScript)
 
 BossScript::~BossScript()
 {
-	for (auto pattern : _patterns) {
-		delete pattern;
-	}
+
 }
 
 void BossScript::Init()
@@ -160,12 +158,32 @@ void BossScript::OnDestroy()
 	cout << "OnDestroy - EnemyScript:" << _id << "\n";
 
 	target.reset();
+
 	_gameObject.reset();
 	_transform.reset();
+	_centerTransform.reset();
 	_animator.reset();
 	_controller.reset();
 	_hitbox.reset();
+	_axeRb.reset();
+
+	for (auto& pattern : _patterns) {
+		delete pattern;
+	}
+
+	_enemyStateUI.reset();
 	_damageText.reset();
+	_healthBarUI.reset();
+
+	_footAs.reset();
+	_bodyAs.reset();
+	_axeAs.reset();
+
+	for (auto& footstepSnd : _footstepSounds) {
+		footstepSnd->release();
+	}
+	_hitSound->release();
+	_axeSound->release();
 }
 
 void BossScript::LoadXML(Bulb::XMLElement compElem)

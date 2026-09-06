@@ -30,6 +30,15 @@ Bulb::ProcessResult PhysicsManager::Delete()
 	return Bulb::ProcessResult::FAILED_INSTANCE_NOT_FOUND;
 }
 
+void PhysicsManager::Initialize()
+{
+	while (!_removeBodiesQueue.empty())
+		_removeBodiesQueue.pop();
+
+	while (!_collisionExitQueue.empty())
+		_collisionExitQueue.pop();
+}
+
 void PhysicsManager::Init()
 {
 	// 1. 전역 시스템 초기화
@@ -116,18 +125,24 @@ void PhysicsManager::Update()
 		// obj1
 		{
 			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.first);
-			obj1 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
-			lock.ReleaseLock();
+			if (lock.Succeeded()) {
+				obj1 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+				lock.ReleaseLock();
+			}
 		}
 		// obj2
 		{
 			JPH::BodyLockRead lock(_physicsSystem->GetBodyLockInterface(), bodyIDPair.second);
-			obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
-			lock.ReleaseLock();
+			if (lock.Succeeded()) {
+				obj2 = reinterpret_cast<GameObject*>(lock.GetBody().GetUserData())->shared_from_this();
+				lock.ReleaseLock();
+			}
 		}
 
-		obj1->OnCollisionExit(obj2);
-		obj2->OnCollisionExit(obj1);
+		if (obj1 != nullptr && obj2 != nullptr) {
+			obj1->OnCollisionExit(obj2);
+			obj2->OnCollisionExit(obj1);
+		}
 
 		_collisionExitQueue.pop();
 	}

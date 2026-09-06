@@ -92,6 +92,14 @@ void MainSceneScript::Update()
 
 void MainSceneScript::OnDestroy()
 {
+	_infoPanel.reset();
+	_infoText.reset();
+	_bossInfoPanel.reset();
+	_bossHpBar.reset();
+	_bossNameText.reset();
+
+	_mainAs.reset();
+
 	for (int i = 0; i < _states.size(); ++i) {
 		delete _states[i];
 	}

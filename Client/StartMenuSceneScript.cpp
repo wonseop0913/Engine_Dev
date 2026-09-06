@@ -85,6 +85,8 @@ void StartMenuSceneScript::OnDestroy()
 	_exitButton.reset();
 	_settingButton.reset();
 
+	_asMainTheme.reset();
+
 	_sndMainTheme->release();
 	_sndBtnHover->release();
 	_sndGameStart->release();

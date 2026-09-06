@@ -25,7 +25,9 @@ void BossRoomVeilScript::Interact(shared_ptr<GameObject> opponent)
 
 void BossRoomVeilScript::OnDestroy()
 {
+	_veilAs.reset();
 
+	_veilEnterSnd->release();
 }
 
 void BossRoomVeilScript::LoadXML(Bulb::XMLElement compElem)

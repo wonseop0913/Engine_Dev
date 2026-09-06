@@ -106,6 +106,7 @@ void SceneManager::LoadScene(string sceneName, bool isFullPath)
 	if (e != XML_SUCCESS)
 		return;
 
+	PHYSICS->Initialize();
 	UI->Initialize();
 
 	XMLElement* node = doc.FirstChildElement();

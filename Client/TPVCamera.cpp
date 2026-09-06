@@ -127,6 +127,11 @@ void TPVCamera::OnDestroy()
 {
 	cout << "OnDestroy - TPVCamera:" << _id << "\n";
 
+	armTransform.reset();
+	cameraTransform.reset();
+	onwerTransform.reset();
+	lockOnTargetTransform.reset();
+
 	_transform.reset();
 	_lockOnMarker.reset();
 }

@@ -72,9 +72,9 @@ private:
 	float _fadeInTime = 1.0f;
 	float _soundFadeOutTime = 2.0f;
 
+	shared_ptr<AudioSource> _asMainTheme;
+
 	AudioClip _sndMainTheme;
 	AudioClip _sndBtnHover;
 	AudioClip _sndGameStart;
-
-	shared_ptr<AudioSource> _asMainTheme;
 };

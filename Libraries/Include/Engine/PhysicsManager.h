@@ -133,6 +133,10 @@ public:
 	static PhysicsManager* GetInstance();
 	static Bulb::ProcessResult Delete();
 
+	// Init과는 다른 역할. 런타임중 씬 이동과 같은 경우 이전에 사용하던 리소스를 비워줘야할 때 사용.
+	// 나중에 리팩토링할 때 UIManager의 같은 함수도 이름 변경하는 것 고려.
+	void Initialize();
+
 	JPH::PhysicsSystem* GetPhysicsSystem() { return _physicsSystem; }
 	JPH::TempAllocator* GetTempAllocator() { return _tempAlloc; }
 
