@@ -65,6 +65,7 @@ public:
 	void PlayAnimation();
 	void PauseAnimation();
 	bool IsCurrentAnimationEnd() { return _isCurrentAnimationEnd; }
+	bool IsInTransition() { return _isInTransition; }
 	bool IsTransitionBlocked() { return _isTransitionBlocked; }
 	void SetTransitionBlock(bool value) { _isTransitionBlocked = value; }
 

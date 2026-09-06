@@ -175,6 +175,7 @@ private:
 
 	shared_ptr<GameObject> _lockOnTarget;
 	bool _isLockOn = false;
+	float _targetDistance = 0.0f;
 
 	Bulb::Vector3 _movingDirection;
 

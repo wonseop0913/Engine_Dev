@@ -123,8 +123,14 @@ void PlayerScript::Init()
 
 void PlayerScript::Update()
 {
+	_targetDistance = 
+		_lockOnTarget != nullptr ?
+		(_transform->GetPosition() - _lockOnTarget->GetTransform()->GetPosition()).Length() :
+		FLT_MAX;
+
 	if (_animEventVel.Length() > 0.0f) {
-		_transform->Translate(_animEventVel * TIME->DeltaTime());
+		if (_targetDistance > 1.3f)
+			_transform->Translate(_animEventVel * TIME->DeltaTime());
 	}
 
 	if (INPUTM->IsKeyDown(KeyValue::Q))
@@ -573,8 +579,12 @@ void PlayerScript::RollState::StateUpdate(PlayerScript* owner)
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 4.0f);
 
-	if (owner->_animator->IsCurrentAnimationEnd()) {
-		owner->SetState(PlayerState::IDLE);
+	// 다른 애니메이션의 종말점 근처에서 구르기를 사용하는 경우
+	// Evade 이벤트가 true로 호출되고 완전히 전환되기 전에 현재 애니메이션이 끝나면
+	// 구르기 애니메이션도 같이 끝나서 false값의 Evade 이벤트가 호출되지 않음.
+	// 엔진 단에서 해결해야될수도
+	if (!owner->_animator->IsInTransition() && owner->_animator->IsCurrentAnimationEnd()) {
+ 		owner->SetState(PlayerState::IDLE);
 	}
 }
 

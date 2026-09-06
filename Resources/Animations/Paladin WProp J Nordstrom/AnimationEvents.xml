@@ -97,7 +97,7 @@
         <Speed Tick="19.0" Speed="1.5"/>
         <Evade Tick="20.0" Flag="false"/>
         <Speed Tick="20" Speed="0.7"/>
-        <BlockTransition Tick="20" Flag="false"/>
+        <BlockTransition Tick="21" Flag="false"/>
         <End Tick="28.0"/>
     </Animation>
 </AnimationEvents>
