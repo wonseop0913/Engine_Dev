@@ -12,10 +12,7 @@ REGISTER_COMPONENT(PlayerScript)
 
 PlayerScript::~PlayerScript()
 {
-	cout << "p";
 
-	for (auto state : _states)
-		delete state;
 }
 
 void PlayerScript::Init()
@@ -213,13 +210,31 @@ void PlayerScript::OnDestroy()
 	cout << "OnDestroy - PlayerScript:" << _id << "\n";
 
 	tpvCameraScript.reset();
+
 	_gameObject.reset();
 	_transform.reset();
 	_animator.reset();
 	_controller.reset();
+	_swordRb.reset();
+	_swordAs.reset();
+
 	_hpBar.reset();
 	_steminaBar.reset();
+	_interactInfoPanel.reset();
+	_interactInfoText.reset();
+
 	_lockOnTarget.reset();
+
+	for (auto& state : _states) {
+		delete state;
+	}
+
+	for (auto& interactableScript : _interactableScripts) {
+		interactableScript.reset();
+	}
+
+	_playerFootAs.reset();
+	_hitAs.reset();
 }
 
 void PlayerScript::LoadXML(Bulb::XMLElement compElem)

@@ -18,6 +18,7 @@ public:
 		_transform->SetSize(size);
 		_transformBg->SetSize(size);
 		_transformFill->SetSize(size);
+		_transformFill->SetLocalPosition({ -size.x / 2.0f, 0.0f, 0.0f });
 	}
 
 	void SetValue(float value) {

@@ -1,6 +1,7 @@
 #pragma once
 #include "Script.h"
 #include "BaseState.h"
+#include "BossScript.h"
 
 enum class MainSceneState {
 	Init = -1,
@@ -36,6 +37,9 @@ class MainSceneScript : public Script
 	class BossFight : public BaseState<MainSceneScript> {
 		void StateStart(MainSceneScript* owner) override;
 		void StateUpdate(MainSceneScript* owner) override;
+
+	private:
+		shared_ptr<BossScript> _boss;
 	};
 
 public:
@@ -72,8 +76,11 @@ private:
 	float _fadeInTime = 1.0f;
 	float _fadeOutTime = 1.0f;
 
-	shared_ptr<UIPanel> _infoPanel;
-	shared_ptr<UIText> _infoText;
+	shared_ptr<UIPanel>		_infoPanel;
+	shared_ptr<UIText>		_infoText;
+	shared_ptr<UIPanel>		_bossInfoPanel;
+	shared_ptr<UISlider>	_bossHpBar;
+	shared_ptr<UIText>		_bossNameText;
 
 	bool _isInfoPanelActive = false;
 

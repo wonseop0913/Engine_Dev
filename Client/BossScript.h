@@ -67,6 +67,8 @@ public:
 
 	void HitDelay();
 
+	int GetCurrentHealth() { return _health; }
+
 private:
 	void SetState(BossState state) {
 		if (_currentState == state) return;

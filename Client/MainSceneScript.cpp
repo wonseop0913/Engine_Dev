@@ -36,6 +36,35 @@ void MainSceneScript::Init()
 	_infoText->SetRenderActive(false);
 	_infoText->GetTransform()->SetParent(_infoPanel->GetTransform());
 
+	// Boss info ui(hp bar, boss name text)
+	_bossInfoPanel = UI->CreateUI<UIPanel>();
+	_bossInfoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.0f });
+	_bossInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
+	_bossInfoPanel->GetTransform()->SetPosition({ 0.0f, -400.0f, 0.0f });
+	_bossInfoPanel->GetTransform()->SetSize({ 800.0f, 40.0f });
+	_bossInfoPanel->SetRenderActive(false);
+
+	_bossHpBar = UI->CreateUI<UISlider>();
+	_bossHpBar->GetTransform()->SetParent(_bossInfoPanel->GetTransform());
+	_bossHpBar->SetEntireSize({ 800.0f, 10.0f });
+	_bossHpBar->GetTransform()->SetPivot({ 0.5f, 0.0f });
+	_bossHpBar->GetTransform()->SetLocalPosition({ 0.0f, -20.0f, 0.0f });
+	_bossHpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+	_bossHpBar->SetValueMaxLimit(100.0f);
+	_bossHpBar->SetValue(100.0f);
+	_bossHpBar->SetRenderActive(false);
+
+	_bossNameText = UI->CreateUI<UIText>();
+	_bossNameText->GetTransform()->SetParent(_bossInfoPanel->GetTransform());
+	_bossNameText->GetTransform()->SetPivot({ 0.0f, 1.0f });
+	_bossNameText->GetTransform()->SetLocalPosition({ -400.0f, 20.0f, 0.0f });
+	_bossNameText->SetSize({ 800.0f, 30.0f });
+	_bossNameText->SetFont(L"KoPubBatang");
+	_bossNameText->SetFontSize(24);
+	_bossNameText->SetText(L"옛 왕");
+	_bossNameText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+	_bossNameText->SetRenderActive(false);
+
 	_sndBoss = SOUND->LoadSound("Sounds/Boss.mp3", false);
 	_sndBossLoop = SOUND->LoadSound("Sounds/BossLoop.mp3", true);
 
@@ -133,18 +162,19 @@ void MainSceneScript::FadeOut::StateUpdate(MainSceneScript* owner)
 
 void MainSceneScript::BossFight::StateStart(MainSceneScript* owner)
 {
-	RENDER->GetObjectW("Brute")->GetComponent<BossScript>()->blockExecute = false;
+	_boss = RENDER->GetObjectW("Brute")->GetComponent<BossScript>();
+	_boss->blockExecute = false;
+	owner->_bossHpBar->SetValueMaxLimit(_boss->GetCurrentHealth());
+	owner->_bossInfoPanel->SetRenderActive(true);
 	owner->_mainAs->Play();
 }
 
 void MainSceneScript::BossFight::StateUpdate(MainSceneScript* owner)
 {
-	//if (!owner->_isBgmOnLoop) {
-	//	if (!owner->_mainAs->IsPlaying()) {
-	//		owner->_isBgmOnLoop = true;
-	//		owner->_mainAs->SetSound(owner->_sndBossLoop);
-	//		owner->_mainAs->SetLoop(true);
-	//		owner->_mainAs->SetAsBGM(true);
-	//	}
-	//}
+	if (_boss != nullptr) {
+		int h = _boss->GetCurrentHealth();
+		owner->_bossHpBar->SetValue(h);
+		if (h <= 0)
+			_boss.reset();
+	}
 }
