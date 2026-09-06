@@ -1,5 +1,7 @@
 <AnimationEvents>
     <Animation Name="idle">
+        <Step Tick="33.3"/>
+        <Step Tick="60.5"/>
         <End Tick="97.5"/>
     </Animation>
 
@@ -9,7 +11,10 @@
     </Animation>
 
     <Animation Name="attack1">
+        <RotateToTarget Tick="0.0" Flag="true"/>
         <Step Tick="18.6"/>
+        <Sound Tick="35.2" SoundName="ZombieAttackNoise"/>
+        <RotateToTarget Tick="37.2" Flag="false"/>
         <Sound Tick="37.2" SoundName="ZombieAttack"/>
         <Attack Tick="37.8" Damage="5.0" MeleeWeaponActivation="true"/>
         <Attack Tick="41.0" MeleeWeaponActivation="false"/>
@@ -18,12 +23,19 @@
     </Animation>
 
     <Animation Name="reaction_hit" Start="8.0">
-        <Speed Tick="0.0" Speed="1.8"/>
+        <Speed Tick="8.0" Speed="1.8"/>
     </Animation>
 
     <Animation Name="scream">
         <RotateToTarget Tick="0.0" Flag="true"/>
         <RotateToTarget Tick="27.7" Flag="false"/>
         <Sound Tick="27.7" SoundName="ZombieScream"/>
+    </Animation>
+
+    <Animation Name="death">
+        <Sound Tick="0.0" SoundName="ZombieDeath"/>
+        <Step Tick="32.1"/>
+        <Step Tick="66.7"/>
+        <Sound Tick="66.7" SoundName="ZombieDeathEnd"/>
     </Animation>
 </AnimationEvents>

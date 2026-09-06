@@ -8,7 +8,8 @@ enum class ZombieState {
 	Scream,
 	Walk,
 	Attack,
-	ReactionHit
+	ReactionHit,
+	Death
 };
 
 class ZombieScript : public Script
@@ -42,6 +43,11 @@ class ZombieScript : public Script
 	public:
 		void StateStart(ZombieScript* owner) override;
 		void StateUpdate(ZombieScript* owner) override;
+	};
+
+	class DeathState : public BaseState<ZombieScript> {
+	public:
+		void StateStart(ZombieScript* owner) override;
 	};
 #pragma endregion
 
@@ -105,5 +111,18 @@ private:
 	AttackInfo _attackInfo;
 
 	bool _rotateToTarget = false;
+
+	shared_ptr<AudioSource> _headAs;
+	shared_ptr<AudioSource> _bodyAs;
+	shared_ptr<AudioSource> _footAs;
+
+	AudioClip _footstepSounds[5];
+	AudioClip _screamSound;
+	AudioClip _attackSound;
+	AudioClip _attackNoiseSound;
+	AudioClip _reactionHitSound;
+	AudioClip _hitSound;
+	AudioClip _deathSound;
+	AudioClip _deathEndSound;
 };
 

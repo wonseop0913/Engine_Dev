@@ -29,6 +29,7 @@ void ZombieScript::Init()
 	_patterns.push_back(new WalkState());
 	_patterns.push_back(new AttackState());
 	_patterns.push_back(new ReactionHitState());
+	_patterns.push_back(new DeathState());
 
 	_isStateChanged = true;
 
@@ -59,6 +60,24 @@ void ZombieScript::Init()
 	_enemyStateUI->SetRenderActive(false);
 
 	target = RENDER->GetObjectWithTag("Player");
+
+	_headAs = _transform->GetChild("mixamorig5:Head")->GetGameObject()->GetComponent<AudioSource>();
+	_bodyAs = _centerTransform->GetGameObject()->GetComponent<AudioSource>();
+	_footAs = _transform->GetGameObject()->GetComponent<AudioSource>();
+
+	_footstepSounds[0] = SOUND->LoadSound("Sounds/DirtWalk1.wav", false);
+	_footstepSounds[1] = SOUND->LoadSound("Sounds/DirtWalk2.wav", false);
+	_footstepSounds[2] = SOUND->LoadSound("Sounds/DirtWalk3.wav", false);
+	_footstepSounds[3] = SOUND->LoadSound("Sounds/DirtWalk4.wav", false);
+	_footstepSounds[4] = SOUND->LoadSound("Sounds/DirtWalk5.wav", false);
+
+	_screamSound = SOUND->LoadSound("Sounds/ZombieScream.wav", false);
+	_attackSound = SOUND->LoadSound("Sounds/Axe.wav", false);
+	_attackNoiseSound = SOUND->LoadSound("Sounds/ZombieAttackNoise.wav", false);
+	_reactionHitSound = SOUND->LoadSound("Sounds/ZombieReactionHit.wav", false);
+	_hitSound = SOUND->LoadSound("Sounds/SwordHit1.wav", false);
+	_deathSound = SOUND->LoadSound("Sounds/ZombieDeath.wav", false);
+	_deathEndSound = SOUND->LoadSound("Sounds/ZombieDeathEnd.wav", false);
 }
 
 void ZombieScript::Update()
@@ -112,8 +131,18 @@ void ZombieScript::OnCollisionEnter(shared_ptr<GameObject> other)
 			AttackInfo* attackInfo = (AttackInfo*)(other->GetComponent<Rigidbody>()->customData);
 			TakeDamage(attackInfo->damage);
 			target->GetComponent<PlayerScript>()->HitDelay();
-			_isStateChanged = true;
-			SetState(ZombieState::ReactionHit);
+
+			_headAs->SetSound(_reactionHitSound);
+			_headAs->Play();
+			_bodyAs->SetSound(_hitSound);
+			_bodyAs->Play();
+			if (_health > 0) {
+				_isStateChanged = true;
+				SetState(ZombieState::ReactionHit);
+			}
+			else {
+				SetState(ZombieState::Death);
+			}
 		}
 	}
 }
@@ -134,7 +163,7 @@ void ZombieScript::TakeDamage(int damage)
 	DEBUG->Log("Take" + to_string(damage) + "damage. Remain Health - " + to_string(_health));
 	SetDamageText(damage);
 	_healthBarUI->SetValue(_health);
-	// _bodyAs->Play();
+	_bodyAs->Play();
 }
 
 void ZombieScript::SetDamageText(int damage)
@@ -162,7 +191,40 @@ void ZombieScript::UpdateDamageText()
 
 void ZombieScript::AnimationEventListener(AnimationEvent event)
 {
-
+	switch (event.type) {
+	case AnimationEventTypes::Sound: {
+		if (event.strData == "ZombieScream") {
+			_headAs->SetSound(_screamSound);
+			_headAs->Play();
+		}
+		if (event.strData == "ZombieAttack") {
+			_bodyAs->SetSound(_attackSound);
+			_bodyAs->Play();
+		}
+		if (event.strData == "ZombieAttack") {
+			_headAs->SetSound(_attackNoiseSound);
+			_headAs->Play();
+		}
+		if (event.strData == "ZombieDeath") {
+			_headAs->SetSound(_deathSound);
+			_headAs->Play();
+		}
+		if (event.strData == "ZombieDeathEnd") {
+			_headAs->SetSound(_deathEndSound);
+			_headAs->Play();
+		}
+		break;
+	}
+	case AnimationEventTypes::Step: {
+		_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
+		_footAs->Play();
+		break;
+	}
+	case AnimationEventTypes::RotateToTarget: {
+		_rotateToTarget = event.datas[0].x == 1;
+		break;
+	}
+	}
 }
 
 void ZombieScript::IdleState::StateStart(ZombieScript* owner)
@@ -231,6 +293,17 @@ void ZombieScript::AttackState::StateUpdate(ZombieScript* owner)
 	if (!owner->_animator->IsInTransition() && owner->_animator->IsCurrentAnimationEnd()) {
 		owner->SetState(ZombieState::Walk);
 	}
+
+	if (owner->_rotateToTarget) {
+		owner->_transform->LookAtWithNoRoll(
+			owner->_transform->GetPosition() -
+			MathHelper::InterpolateVector(
+				owner->_transform->GetBack(),
+				owner->_targetVec,
+				5.0f
+			)
+		);
+	}
 }
 
 void ZombieScript::ReactionHitState::StateStart(ZombieScript* owner)
@@ -244,4 +317,12 @@ void ZombieScript::ReactionHitState::StateUpdate(ZombieScript* owner)
 	if (owner->_animator->IsCurrentAnimationEnd()) {
 		owner->SetState(ZombieState::Walk);
 	}
+}
+
+void ZombieScript::DeathState::StateStart(ZombieScript* owner)
+{
+	owner->_animator->SetCurrentAnimation("death");
+	owner->_animator->SetLoop(false);
+	owner->_gameObject->SetTag("EnemyDeath");
+	owner->_hitbox->SetPhysicsActive(false);
 }

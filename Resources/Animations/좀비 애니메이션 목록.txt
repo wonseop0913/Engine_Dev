@@ -12,4 +12,4 @@ zombie\\scream
 zombie\\reaction_hit
 
 DEATH
-zombie\\death1
+zombie\\death

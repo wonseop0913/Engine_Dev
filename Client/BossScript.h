@@ -116,11 +116,11 @@ private:
 
 	bool _rotateToTarget = false;
 
-	AudioClip _footstepSounds[5];
-	AudioClip _hitSound;
-	AudioClip _axeSound;
-
 	shared_ptr<AudioSource> _footAs;
 	shared_ptr<AudioSource> _bodyAs;
 	shared_ptr<AudioSource> _axeAs;
+
+	AudioClip _footstepSounds[5];
+	AudioClip _hitSound;
+	AudioClip _axeSound;
 };
