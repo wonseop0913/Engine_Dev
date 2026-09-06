@@ -5,7 +5,7 @@
             <Components>
                 <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
                 <Component ComponentType="MainSceneScript"/>
-                <Component ComponentType="AudioSource"/>
+                <Component ComponentType="AudioSource" FilePath="Boss.mp3" Loop="true" BGM="true"/>
             </Components>
         </GameObject>
         <GameObject Name="GlobalLight" PSO="opaque_solid" Tag="Default">
@@ -3250,7 +3250,7 @@
                         <RotOffset x="0" y="0" z="0"/>
                     </Collider>
                 </Component>
-                <Component ComponentType="AudioSource"/>
+                <Component ComponentType="AudioSource" FilePath="VeilEnter.wav" Loop="false" BGM="true"/>
             </Components>
             <GameObjects>
                 <GameObject Name="PhysCollider" PSO="opaque_solid" Tag="Default">
@@ -3338,6 +3338,11 @@
         <GameObject PrefabPath="..\Resources\Prefabs\Brute.xml" Name="Brute" PSO="opaque_solid" Tag="Enemy">
             <Components>
                 <Component ComponentType="Transform" PosX="38" PosY="-7" PosZ="18" ScaleX="0.0099999998" ScaleY="0.0099999998" ScaleZ="0.0099999998" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
+            </Components>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Zombie.xml" Name="Zombie" PSO="opaque_solid" Tag="Enemy">
+            <Components>
+                <Component ComponentType="Transform" PosX="-4" PosY="-2.25" PosZ="14.5" ScaleX="0.0099999998" ScaleY="0.0099999998" ScaleZ="0.0099999998" QuatX="0" QuatY="-0.70710683" QuatZ="0" QuatW="0.70710677"/>
             </Components>
         </GameObject>
         <GameObject Name="SkyboxBlockQuads" PSO="opaque_solid" Tag="Default">

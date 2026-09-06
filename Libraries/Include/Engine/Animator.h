@@ -8,6 +8,7 @@ class Animation;
 class Skeleton;
 
 enum BULB_API AnimationEventTypes {
+	Start,
 	Speed,
 	Attack,
 	End,
@@ -19,16 +20,18 @@ enum BULB_API AnimationEventTypes {
 	Velocity
 };
 
-// 일단은 애니메이션 속도 조절만
-// 현재는 애니메이션을 잘라서 사용하는 경우가 없기 때문에 tick을 0부터 시작한다고 가정
-// 하지만 추후에 애니메이션 앞부분을 잘라서 사용하면 이벤트 처리에 프레임당 딜레이가 생기는 잠재적인 문제가 있음
-// 크런치 이후에 수정이 반드시 필요함
 struct BULB_API AnimationEvent
 {
 	AnimationEventTypes type;
 	float Tick;
 	Bulb::Vector4 datas[3];
 	string strData;
+};
+
+struct BULB_API AnimationEventScriptData {
+	float startTick = 0.0f;
+	bool isInPlace;
+	vector<AnimationEvent> events;
 };
 
 class BULB_API Animator : public Component
@@ -160,8 +163,7 @@ private:
 	string _nextAnimation;
 
 	string _animationEventPath;
-	// <AnimationName, <InPlace(bool), Events>>
-	unordered_map<string, pair<bool, vector<AnimationEvent>>> _animationEvents;
+	unordered_map<string, AnimationEventScriptData> _animationEventScriptData;
 	float _currentAnimationSpeed = 1.0f;
 	float _nextAnimationSpeed = 1.0f;
 	int _currentAnimationEventIndex = 0;

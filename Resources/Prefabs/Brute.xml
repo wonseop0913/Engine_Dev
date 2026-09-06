@@ -1,4 +1,4 @@
-<Prefab Name="Brute" PSO="opaque_solid" Tag="Default">
+<Prefab Name="Brute" PSO="opaque_solid" Tag="Enemy">
     <Components>
         <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.01" ScaleY="0.01" ScaleZ="0.01" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
         <Component ComponentType="Animator" Bone="..\Resources\Bones\Brute.bbone">

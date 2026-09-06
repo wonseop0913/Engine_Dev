@@ -6,8 +6,7 @@
 class TPVCamera;
 class Interactable;
 
-enum class PlayerState
-{
+enum class PlayerState {
 	IDLE,
 	WALK,
 	RUN,

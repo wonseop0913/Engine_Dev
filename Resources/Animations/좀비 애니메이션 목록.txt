@@ -1,0 +1,15 @@
+IDLE
+zombie\\idle
+
+WALK
+zombie\\walk_forward     // 전진
+
+ATTACK
+zombie\\attack1
+
+REACTION
+zombie\\scream
+zombie\\reaction_hit
+
+DEATH
+zombie\\death1

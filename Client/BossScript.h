@@ -101,6 +101,7 @@ private:
 
     vector<BaseState<BossScript>*> _patterns;
 	Bulb::Vector3 _targetVec;
+	float _targetDistance;
 
 	shared_ptr<UIElement> _enemyStateUI;
 	shared_ptr<UIText> _damageText;
@@ -112,8 +113,6 @@ private:
 
 	bool _isOnHitDelay = false;
 	float _hitDelayTime = 0.0f;
-
-    float _targetDistance;
 
 	bool _rotateToTarget = false;
 

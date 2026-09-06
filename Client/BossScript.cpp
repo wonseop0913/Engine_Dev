@@ -45,13 +45,6 @@ void BossScript::Init()
 	_controller->SetOffset(Vector3(0.0f, 0.9f, 0.0f));
 
 	_hitbox = _gameObject->GetComponent<Rigidbody>();
-	_hitbox->SetColliderShape(ColliderShape::Capsule);
-	_hitbox->SetColliderHalfHeight(0.6f);
-	_hitbox->SetColliderRadius(0.3f);
-	_hitbox->SetColliderOffset(Vector3(0.0f, 0.9f, 0.0f));
-	_hitbox->SetColliderTrigger(true);
-	_hitbox->SetStatic(true);
-	_hitbox->SetGravity(false);
 
 	_patterns.push_back(new IdleState());
 	_patterns.push_back(new TrackWalkState());
@@ -78,7 +71,7 @@ void BossScript::Init()
 	_healthBarUI->GetTransform()->SetPivot({ 0.5f, 1.0f });
 	_healthBarUI->GetTransform()->SetLocalPosition({ 0.0f, -5.0f, 0.0f });
 	_healthBarUI->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-	_healthBarUI->SetValueMaxLimit(100.0f);
+	_healthBarUI->SetValueMaxLimit(_health);
 	_healthBarUI->SetValueMinLimit(0.0f);
 	_healthBarUI->SetValue(_health);
 
@@ -155,8 +148,6 @@ void BossScript::OnCollisionEnter(shared_ptr<GameObject> other)
 
 void BossScript::OnDestroy()
 {
-	cout << "OnDestroy - EnemyScript:" << _id << "\n";
-
 	target.reset();
 
 	_gameObject.reset();

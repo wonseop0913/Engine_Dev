@@ -2,6 +2,7 @@
 #include "PlayerScript.h"
 #include "TPVCamera.h"
 #include "BossScript.h"
+#include "ZombieScript.h"
 #include "Interactable.h"
 #include "MainSceneScript.h"
 #include "CommonStructs.h"
@@ -362,7 +363,11 @@ void PlayerScript::LockOn()
 			DEBUG->ErrorLog("Can't Find TPVCamera Component!");
 		else {
 			tpvCameraScript->isLockOn = true;
-			tpvCameraScript->lockOnTargetTransform = _lockOnTarget->GetComponent<BossScript>()->GetCenterTransform();
+			shared_ptr<Script> enemyScript = _lockOnTarget->GetComponent<Script>();
+			if (dynamic_pointer_cast<BossScript>(enemyScript))
+				tpvCameraScript->lockOnTargetTransform = static_pointer_cast<BossScript>(enemyScript)->GetCenterTransform();
+			else
+				tpvCameraScript->lockOnTargetTransform = static_pointer_cast<ZombieScript>(enemyScript)->GetCenterTransform();
 		}
 	}
 }

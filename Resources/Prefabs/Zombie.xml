@@ -1,10 +1,21 @@
-<Prefab Name="Zombie" PSO="opaque_solid" Tag="Default">
+<Prefab Name="Zombie" PSO="opaque_solid" Tag="Enemy">
     <Components>
         <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.01" ScaleY="0.01" ScaleZ="0.01" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
         <Component ComponentType="Animator" Bone="..\Resources\Bones\Ch10_nonPBR.bbone">
             <Animations>
-                <Animation Path="..\Resources\Animations\Ch10_nonPBR\mixamo.com.banim"/>
+                <Animation Path="..\Resources\Animations\zombie\idle.banim"/>
+                <Animation Path="..\Resources\Animations\zombie\walk_forward.banim"/>
+                <Animation Path="..\Resources\Animations\zombie\attack1.banim"/>
+                <Animation Path="..\Resources\Animations\zombie\reaction_hit.banim"/>
+                <Animation Path="..\Resources\Animations\zombie\scream.banim"/>
             </Animations>
+        </Component>
+        <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
+            <Collider Shape="Capsule" Height="0.60000002" Radius="0.30000001">
+                <Extent x="0.5" y="0.5" z="0.5"/>
+                <Offset x="0" y="0.89999998" z="0"/>
+                <RotOffset x="0" y="0" z="0"/>
+            </Collider>
         </Component>
         <Component ComponentType="CharacterController"/>
         <Component ComponentType="ZombieScript"/>

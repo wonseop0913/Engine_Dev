@@ -59,9 +59,9 @@ void Animator::Update()
 		if (_currentAnimation == EMPTY_ANIMATION || !_isPlaying)
 			return;
 
+		UpdateAnimationEvent();
 		UpdateBoneTransform();
 		_skeleton->UpdateUploadBuffer();
-		UpdateAnimationEvent();
 
 #ifdef BULB_EDITOR
 		// if (!EDITOR->IsOnPlay()) return;
@@ -413,7 +413,7 @@ void Animator::UpdateBoneTransformPreviewMode(int boneIdx)
 
 void Animator::RefreshEventScript()
 {
-	_animationEvents.clear();
+	_animationEventScriptData.clear();
 	LoadAnimationEvents(_animationEventPath);
 	DEBUG->Log("[Animator] Animation event script hot reloaded");
 }
@@ -424,7 +424,10 @@ void Animator::SetCurrentAnimation(const string& animationName, float _transitio
 	{
 		_currentAnimation = animationName;
 		_isCurrentAnimationEnd = false;
-		_currentTick = 0.0f;
+		_currentTick =
+			_animationEventScriptData.contains(animationName) ?
+			_animationEventScriptData[animationName].startTick :
+			0.0f;
 
 		_currentAnimationSpeed = 1.0f;
 		_currentAnimationEventIndex = 0;
@@ -438,7 +441,10 @@ void Animator::SetCurrentAnimation(const string& animationName, float _transitio
 
 	_nextAnimation = animationName;
 	_transitionElapsedTime = 0.0f;
-	_transitionTick = 0.0f;
+	_transitionTick = 
+		_animationEventScriptData.contains(animationName) ? 
+		_animationEventScriptData[animationName].startTick : 
+		0.0f;
 	_nextAnimationEventIndex = 0;
 	// _isCurrentAnimationEnd = false;
 	_isInTransition = true;
@@ -455,36 +461,43 @@ void Animator::AddAnimation(shared_ptr<Animation> animation)
 void Animator::UpdateAnimationEvent()
 {
 	// Current Animation Event
-	if (_animationEvents.contains(_currentAnimation) && !_isCurrentAnimationEnd)
+	if (_animationEventScriptData.contains(_currentAnimation) && !_isCurrentAnimationEnd)
 	{
-		auto& eventPair = _animationEvents[_currentAnimation];
-		auto& events = eventPair.second;
-		_isInPlace = eventPair.first;
+		auto& eventPair = _animationEventScriptData[_currentAnimation];
+		auto& events = eventPair.events;
+		_isInPlace = eventPair.isInPlace;
 
 		while (_currentAnimationEventIndex < events.size()) {
 			AnimationEvent& currentEvent = events[_currentAnimationEventIndex];
 
+			//if (currentEvent.type == AnimationEventTypes::Start) {
+			//	_currentTick = currentEvent.Tick;
+			//	++_currentAnimationEventIndex;
+			//	continue;
+			//}
+
 			if (currentEvent.Tick > _currentTick) break;
 
-			if (currentEvent.type == AnimationEventTypes::Speed) {
-				_currentAnimationSpeed = currentEvent.datas[0].x;
-			}
-			if (currentEvent.type == AnimationEventTypes::Attack ||
-				currentEvent.type == AnimationEventTypes::Step ||
-				currentEvent.type == AnimationEventTypes::RotateToTarget ||
-				currentEvent.type == AnimationEventTypes::Evade ||
-				currentEvent.type == AnimationEventTypes::Sound ||
-				currentEvent.type == AnimationEventTypes::Velocity) {
-				animationEvent.Execute(currentEvent);
-			}
-			if (currentEvent.type == AnimationEventTypes::End) {
-				_isCurrentAnimationEnd = true;
-			}
-			if (currentEvent.type == AnimationEventTypes::BlockTransition) {
-				_isTransitionBlocked = currentEvent.datas[0].x == 1;
+			switch (currentEvent.type) {
+				case AnimationEventTypes::Speed: {
+					_currentAnimationSpeed = currentEvent.datas[0].x;
+					break;
+				}
+				case AnimationEventTypes::BlockTransition: {
+					_isTransitionBlocked = currentEvent.datas[0].x == 1;
+					break;
+				}
+				case AnimationEventTypes::End: {
+					_isCurrentAnimationEnd = true;
+					break;
+				}
+				default: {
+					animationEvent.Execute(currentEvent);
+					break;
+				}
 			}
 
-			_currentAnimationEventIndex++;
+			++_currentAnimationEventIndex;
 		}
 	}
 	else
@@ -495,35 +508,42 @@ void Animator::UpdateAnimationEvent()
 	}
 
 	// Next Animation Event (On Transition)
-	if (_animationEvents.contains(_nextAnimation)/* && !_isNextAnimationEnd*/)
+	if (_animationEventScriptData.contains(_nextAnimation)/* && !_isNextAnimationEnd*/)
 	{
-		auto& events = _animationEvents[_nextAnimation].second;
+		auto& events = _animationEventScriptData[_nextAnimation].events;
 
 		while (_nextAnimationEventIndex < events.size()) {
 			AnimationEvent& nextEvent = events[_nextAnimationEventIndex];
 
+			//if (nextEvent.type == AnimationEventTypes::Start) {
+			//	_transitionTick = nextEvent.Tick;
+			//	++_nextAnimationEventIndex;
+			//	continue;
+			//}
+
 			if (nextEvent.Tick > _transitionTick) break;
 
-			if (nextEvent.type == AnimationEventTypes::Speed) {
-				_nextAnimationSpeed = nextEvent.datas[0].x;
-			}
-			if (nextEvent.type == AnimationEventTypes::Attack ||
-				nextEvent.type == AnimationEventTypes::Step ||
-				nextEvent.type == AnimationEventTypes::RotateToTarget ||
-				nextEvent.type == AnimationEventTypes::Evade ||
-				nextEvent.type == AnimationEventTypes::Sound ||
-				nextEvent.type == AnimationEventTypes::Velocity) {
-				animationEvent.Execute(nextEvent);
-			}
-			if (nextEvent.type == AnimationEventTypes::End) {
-				// 현재 애니메이션이 끝나기 전 다음 애니메이션이 끝난다는 가정을 하지 않음.
-				// 트랜지션 시간을 조절해서 그런 경우를 없애는 것을 권장하도록 유도
-			}
-			if (nextEvent.type == AnimationEventTypes::BlockTransition) {
-				_isTransitionBlocked = nextEvent.datas[0].x == 1;
+			switch (nextEvent.type) {
+				case AnimationEventTypes::Speed: {
+					_nextAnimationSpeed = nextEvent.datas[0].x;
+					break;
+				}
+				case AnimationEventTypes::BlockTransition: {
+					_isTransitionBlocked = nextEvent.datas[0].x == 1;
+					break;
+				}
+				case AnimationEventTypes::End: {
+					// 현재 애니메이션이 끝나기 전 다음 애니메이션이 끝난다는 가정을 하지 않음.
+					// 트랜지션 시간을 조절해서 그런 경우를 없애는 것을 권장하도록 유도
+					break;
+				}
+				default: {
+					animationEvent.Execute(nextEvent);
+					break;
+				}
 			}
 
-			_nextAnimationEventIndex++;
+			++_nextAnimationEventIndex;
 		}
 	}
 	else
@@ -547,7 +567,11 @@ void Animator::LoadAnimationEvents(const string& path)
 		if (animation == nullptr)
 			break;
 		string animationName = animation->Attribute("Name");
-		_animationEvents[animationName].first = animation->BoolAttribute("InPlace");
+		_animationEventScriptData[animationName].isInPlace = animation->BoolAttribute("InPlace");
+		float startTick = animation->FloatAttribute("Start");
+		if (startTick > 0.0f) {
+			_animationEventScriptData[animationName].startTick = startTick;
+		}
 		XMLElement* event = animation->FirstChildElement();
 		while (true)
 		{
@@ -611,7 +635,7 @@ void Animator::LoadAnimationEvents(const string& path)
 				animEvent.datas[0].y = event->FloatAttribute("Y");
 				animEvent.datas[0].z = event->FloatAttribute("Z");
 			}
-			_animationEvents[animationName].second.push_back(animEvent);
+			_animationEventScriptData[animationName].events.push_back(animEvent);
 			event = event->NextSiblingElement();
 		}
 
