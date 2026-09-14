@@ -70,7 +70,14 @@ void UIPanel::SetTexture(shared_ptr<Texture> texture)
 void UIPanel::SetTexture(wstring textureName)
 {
 	auto texture = RESOURCE->Get<Texture>(textureName);
-	if (texture == nullptr) texture = RESOURCE->Get<Texture>(L"Tex_Default");
+	if (texture == nullptr) {
+		if (filesystem::exists(textureName)) {
+			texture = make_shared<Texture>(textureName);
+			RESOURCE->Add(textureName, texture);
+		}
+		else
+			texture = RESOURCE->Get<Texture>(L"Tex_Default");
+	}
 
 	_textureSrvHeapIndex = texture->GetSRVHeapIndex();
 	_textureName = Utils::ToString(textureName);

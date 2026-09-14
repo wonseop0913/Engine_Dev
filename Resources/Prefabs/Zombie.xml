@@ -8,6 +8,7 @@
                 <Animation Path="..\Resources\Animations\zombie\attack1.banim"/>
                 <Animation Path="..\Resources\Animations\zombie\reaction_hit.banim"/>
                 <Animation Path="..\Resources\Animations\zombie\scream.banim"/>
+                <Animation Path="..\Resources\Animations\zombie\death.banim"/>
             </Animations>
         </Component>
         <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
@@ -47,6 +48,7 @@
                         <GameObject Name="mixamorig5:Spine1" PSO="opaque_solid" Tag="Default">
                             <Components>
                                 <Component ComponentType="Transform" PosX="0" PosY="10.430254" PosZ="6.3301862e-08" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                <Component ComponentType="AudioSource"/>
                             </Components>
                             <GameObjects>
                                 <GameObject Name="mixamorig5:Spine2" PSO="opaque_solid" Tag="Default">
@@ -62,6 +64,7 @@
                                                 <GameObject Name="mixamorig5:Head" PSO="opaque_solid" Tag="Default">
                                                     <Components>
                                                         <Component ComponentType="Transform" PosX="0" PosY="6.3911438" PosZ="-3.2174525" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="-0" QuatY="0" QuatZ="-0" QuatW="1"/>
+                                                        <Component ComponentType="AudioSource"/>
                                                     </Components>
                                                 </GameObject>
                                             </GameObjects>

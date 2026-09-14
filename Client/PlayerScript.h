@@ -124,6 +124,7 @@ public:
 	void Attack();
 	void Move();
 	void LockOn();
+	void LockRelease();
 
 	void SetState(PlayerState state) {
 		if (_playerMovementState == state) return;

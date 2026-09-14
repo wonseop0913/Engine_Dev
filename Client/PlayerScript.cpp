@@ -121,10 +121,14 @@ void PlayerScript::Init()
 
 void PlayerScript::Update()
 {
-	_targetDistance = 
-		_lockOnTarget != nullptr ?
-		(_transform->GetPosition() - _lockOnTarget->GetTransform()->GetPosition()).Length() :
-		FLT_MAX;
+	if (_lockOnTarget != nullptr) {
+		if (_lockOnTarget->GetTag() == "EnemyDeath")
+			LockRelease();
+		else
+			_targetDistance = (_transform->GetPosition() - _lockOnTarget->GetTransform()->GetPosition()).Length();
+	}
+	else
+		_targetDistance = FLT_MAX;
 
 	if (_animEventVel.Length() > 0.0f) {
 		if (_targetDistance > 1.3f)
@@ -317,15 +321,7 @@ void PlayerScript::Move()
 void PlayerScript::LockOn()
 {
 	if (_isLockOn) {
-		_isLockOn = false;
-		_lockOnTarget = nullptr;
-
-		if (tpvCameraScript == nullptr)
-			DEBUG->ErrorLog("Can't Find TPVCamera Component!");
-		else {
-			tpvCameraScript->isLockOn = false;
-			tpvCameraScript->lockOnTargetTransform = nullptr;
-		}
+		LockRelease();
 		return;
 	}
 
@@ -369,6 +365,19 @@ void PlayerScript::LockOn()
 			else
 				tpvCameraScript->lockOnTargetTransform = static_pointer_cast<ZombieScript>(enemyScript)->GetCenterTransform();
 		}
+	}
+}
+
+void PlayerScript::LockRelease()
+{
+	_isLockOn = false;
+	_lockOnTarget = nullptr;
+
+	if (tpvCameraScript == nullptr)
+		DEBUG->ErrorLog("Can't Find TPVCamera Component!");
+	else {
+		tpvCameraScript->isLockOn = false;
+		tpvCameraScript->lockOnTargetTransform = nullptr;
 	}
 }
 

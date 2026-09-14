@@ -118,12 +118,6 @@ void BossScript::Update()
 	_targetVec.y = 0;
 	_targetDistance = _targetVec.Length();
 
-	if (_currentState != BossState::DEATH) {
-		if (_health <= 0) {
-			SetState(BossState::DEATH);
-		}
-	}
-
 	if (_isStateChanged) {
 		_patterns[static_cast<int>(_currentState)]->StateStart(this);
 		_isStateChanged = false;
@@ -141,6 +135,10 @@ void BossScript::OnCollisionEnter(shared_ptr<GameObject> other)
 		if (_health > 0) {
 			AttackInfo* attackInfo = (AttackInfo*)(other->GetComponent<Rigidbody>()->customData);
 			TakeDamage(attackInfo->damage);
+
+			if (_health <= 0)
+				SetState(BossState::DEATH);
+
 			target->GetComponent<PlayerScript>()->HitDelay();
 		}
 	}
@@ -364,6 +362,8 @@ void BossScript::DeathState::StateStart(BossScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("death1");
 	owner->_animator->SetLoop(false);
+	owner->_gameObject->SetTag("EnemyDeath");
+	owner->_hitbox->SetPhysicsActive(false);
 }
 
 void BossScript::AttackState::StateStart(BossScript* owner)
@@ -390,7 +390,7 @@ void BossScript::AttackState::StateUpdate(BossScript* owner)
 				MathHelper::InterpolateVector(
 					owner->_transform->GetBack(),
 					owner->_targetVec,
-					18.0f
+					8.0f
 				)
 			);
 		}
@@ -403,7 +403,7 @@ void BossScript::AttackState::StateUpdate(BossScript* owner)
 				MathHelper::InterpolateVector(
 					owner->_transform->GetBack(),
 					owner->_targetVec,
-					18.0f
+					8.0f
 				)
 			);
 			owner->_controller->SetVelocity(-owner->_transform->GetLook() * 2.5f);
