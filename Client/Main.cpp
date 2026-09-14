@@ -12,8 +12,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR cmdLine, i
 	desc.mainWndCaption = L"Bulb Engine";
 	desc._4xMsaaState = true;
 	desc._4xMsaaQuality = 1;
-	desc.clientWidth = 1600;
-	desc.clientHeight = 900;
+	desc.clientWidth = 1920;
+	desc.clientHeight = 1080;
 
 	string startSceneName = FILEIO->ReadINI("Common", "StartScene", "./ClientSetting.ini");
 	//string startSceneName = "none";

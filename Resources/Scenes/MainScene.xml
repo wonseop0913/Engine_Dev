@@ -2674,19 +2674,19 @@
                 <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
                     <Components>
                         <Component ComponentType="Transform" PosX="-7.5" PosY="-1.75" PosZ="22" ScaleX="1.0000005" ScaleY="0.9000001" ScaleZ="1.0000002" QuatX="-8.4293724e-08" QuatY="0.70710683" QuatZ="-0.70710683" QuatW="-8.4293717e-08"/>
-                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="Mat_Default"/>
+                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                     </Components>
                 </GameObject>
                 <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
                     <Components>
                         <Component ComponentType="Transform" PosX="-7.5" PosY="-4.25" PosZ="26" ScaleX="1.0000006" ScaleY="0.9000001" ScaleZ="1.0000002" QuatX="-8.4293745e-08" QuatY="0.70710683" QuatZ="-0.70710683" QuatW="-8.4293717e-08"/>
-                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="Mat_Default"/>
+                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                     </Components>
                 </GameObject>
                 <GameObject Name="Stair" PSO="opaque_solid" Tag="Default">
                     <Components>
                         <Component ComponentType="Transform" PosX="-7.5" PosY="-6.75" PosZ="30" ScaleX="1.0000007" ScaleY="0.90000033" ScaleZ="1.0000002" QuatX="-8.4293745e-08" QuatY="0.70710683" QuatZ="-0.70710683" QuatW="-8.4293717e-08"/>
-                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="Mat_Default"/>
+                        <Component ComponentType="MeshRenderer" Mesh="..\Resources\Meshes\Dungeon assets\Stair.bmesh" Material="..\Resources\Materials\Dungeon assets\Stone slab floor.xml"/>
                     </Components>
                 </GameObject>
                 <GameObject Name="Ceils" PSO="opaque_solid" Tag="Default">
@@ -3215,16 +3215,6 @@
                 </GameObject>
             </GameObjects>
         </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="28" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.35355338" QuatY="0.61237246" QuatZ="-0.35355341" QuatW="0.6123724"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="24" ScaleX="0.0010000002" ScaleY="0.0010000002" ScaleZ="0.0010000003" QuatX="0.35355341" QuatY="0.61237246" QuatZ="-0.35355341" QuatW="0.61237246"/>
-            </Components>
-        </GameObject>
         <GameObject Name="Boss Room Block Gate" PSO="opaque_solid" Tag="Default">
             <Components>
                 <Component ComponentType="Transform" PosX="10" PosY="0.25" PosZ="18" ScaleX="4" ScaleY="5" ScaleZ="1" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710677"/>
@@ -3448,59 +3438,111 @@
                 </GameObject>
             </GameObjects>
         </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+        <GameObject PrefabPath="..\Resources\Prefabs\Zombie.xml" Name="Zombie" PSO="opaque_solid" Tag="Enemy">
             <Components>
-                <Component ComponentType="Transform" PosX="2.3" PosY="0" PosZ="10" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.59636784" QuatY="0.37992814" QuatZ="-0.5963679" QuatW="0.37992811"/>
+                <Component ComponentType="Transform" PosX="9" PosY="-2.25" PosZ="23" ScaleX="0.0099999998" ScaleY="0.0099999998" ScaleZ="0.0099999998" QuatX="0" QuatY="0.38268346" QuatZ="0" QuatW="0.92387956"/>
             </Components>
+        </GameObject>
+        <GameObject PrefabPath="..\Resources\Prefabs\Zombie.xml" Name="Zombie" PSO="opaque_solid" Tag="Enemy">
+            <Components>
+                <Component ComponentType="Transform" PosX="-4" PosY="-2.25" PosZ="31" ScaleX="0.0099999998" ScaleY="0.0099999998" ScaleZ="0.0099999998" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+            </Components>
+        </GameObject>
+        <GameObject Name="Torchs" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
+            </Components>
+            <GameObjects>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="28" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.0010000002" QuatX="0.35355338" QuatY="0.6123724" QuatZ="-0.35355338" QuatW="0.6123724"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="24" ScaleX="0.0010000003" ScaleY="0.0010000002" ScaleZ="0.0010000004" QuatX="0.35355341" QuatY="0.6123724" QuatZ="-0.35355338" QuatW="0.6123724"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="2.3" PosY="0" PosZ="10" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="-0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="-0.37992811"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="2.3" PosY="0" PosZ="6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="-0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="-0.37992811"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="9.3999996" PosY="0" PosZ="16" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="0.37992811"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="23.6" ScaleX="0.001" ScaleY="0.0010000002" ScaleZ="0.0010000002" QuatX="0.60876137" QuatY="0" QuatZ="-0" QuatW="0.79335338"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="-2" PosY="-5.5" PosZ="31.4" ScaleX="0.001" ScaleY="0.0010000002" ScaleZ="0.0010000002" QuatX="0.60876137" QuatY="0" QuatZ="-0" QuatW="0.79335338"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="20" ScaleX="0.0010000005" ScaleY="0.0010000002" ScaleZ="0.0010000006" QuatX="0.35355347" QuatY="0.6123724" QuatZ="-0.35355338" QuatW="0.61237234"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="9.3999996" PosY="0" PosZ="20" ScaleX="0.0010000002" ScaleY="0.0010000002" ScaleZ="0.0010000002" QuatX="0.37992823" QuatY="0.59636784" QuatZ="-0.37992823" QuatW="0.59636772"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="14" PosY="-2.25" PosZ="19.6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.53729963" QuatY="0" QuatZ="-0" QuatW="0.84339142"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="18" PosY="-4.5" PosZ="19.6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.53729963" QuatY="0" QuatZ="-0" QuatW="0.84339142"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="41.700001" PosY="-5" PosZ="16" ScaleX="0.0010000002" ScaleY="0.0010000002" ScaleZ="0.0010000002" QuatX="0.37992823" QuatY="0.59636784" QuatZ="-0.37992823" QuatW="0.59636772"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="41.700001" PosY="-5" PosZ="20" ScaleX="0.0010000002" ScaleY="0.0010000002" ScaleZ="0.0010000002" QuatX="0.37992823" QuatY="0.59636784" QuatZ="-0.37992823" QuatW="0.59636772"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="-5.8000002" PosY="0" PosZ="14" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.0010000002" QuatX="-0.35355338" QuatY="0.6123724" QuatZ="-0.35355338" QuatW="-0.6123724"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="-9.8000002" PosY="1.5" PosZ="18" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.0010000002" QuatX="-0.35355338" QuatY="0.6123724" QuatZ="-0.35355338" QuatW="-0.6123724"/>
+                    </Components>
+                </GameObject>
+                <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+                    <Components>
+                        <Component ComponentType="Transform" PosX="-4" PosY="0" PosZ="31.700001" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.5" QuatY="0" QuatZ="-0" QuatW="0.86602545"/>
+                    </Components>
+                </GameObject>
+            </GameObjects>
         </GameObject>
         <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
             <Components>
-                <Component ComponentType="Transform" PosX="2.3" PosY="0" PosZ="6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="-0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="-0.37992811"/>
+                <Component ComponentType="Transform" PosX="4" PosY="0" PosZ="31.700001" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.5" QuatY="0" QuatZ="0" QuatW="0.86602539"/>
             </Components>
         </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
+        <GameObject PrefabPath="..\Resources\Prefabs\Zombie.xml" Name="Zombie" PSO="opaque_solid" Tag="Enemy">
             <Components>
-                <Component ComponentType="Transform" PosX="9.3999996" PosY="0" PosZ="16" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.59636784" QuatY="-0.37992814" QuatZ="0.5963679" QuatW="0.37992811"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="23.6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.60876143" QuatY="0" QuatZ="0" QuatW="0.79335338"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="-2" PosY="-5.5" PosZ="31.4" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.60876143" QuatY="0" QuatZ="0" QuatW="0.79335338"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="1.8" PosY="-5.5" PosZ="20" ScaleX="0.0010000004" ScaleY="0.0010000002" ScaleZ="0.0010000005" QuatX="0.35355347" QuatY="0.61237246" QuatZ="-0.35355341" QuatW="0.61237246"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="9.3999996" PosY="0" PosZ="20" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.37992823" QuatY="0.59636784" QuatZ="-0.37992826" QuatW="0.59636778"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="14" PosY="-2.25" PosZ="19.6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.53729963" QuatY="0" QuatZ="0" QuatW="0.84339142"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="18" PosY="-4.5" PosZ="19.6" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.53729963" QuatY="0" QuatZ="0" QuatW="0.84339142"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="41.700001" PosY="-5" PosZ="16" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.37992823" QuatY="0.59636784" QuatZ="-0.37992826" QuatW="0.59636778"/>
-            </Components>
-        </GameObject>
-        <GameObject PrefabPath="..\Resources\Prefabs\Torch.xml" Name="Torch" PSO="opaque_solid" Tag="Default">
-            <Components>
-                <Component ComponentType="Transform" PosX="41.700001" PosY="-5" PosZ="20" ScaleX="0.001" ScaleY="0.001" ScaleZ="0.001" QuatX="0.37992823" QuatY="0.59636784" QuatZ="-0.37992826" QuatW="0.59636778"/>
+                <Component ComponentType="Transform" PosX="-3" PosY="-7.25" PosZ="20" ScaleX="0.0099999998" ScaleY="0.0099999998" ScaleZ="0.0099999998" QuatX="0" QuatY="1" QuatZ="-0" QuatW="-1.192093e-07"/>
             </Components>
         </GameObject>
     </GameObjects>

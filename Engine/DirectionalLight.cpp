@@ -40,7 +40,7 @@ void DirectionalLight::Update()
 		direction = _transform->GetLook();
 
 		// 리펙토링, 기능 수정 필요함
-		float radius = 24.0f;
+		float radius = 27.0f;
 
 		XMVECTOR cameraPos = XMLoadFloat3(&Camera::GetCurrentCamera()->GetEyePos());
 		XMVECTOR lightPos = cameraPos - radius * XMLoadFloat3(&direction);

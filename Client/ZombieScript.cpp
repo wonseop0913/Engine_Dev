@@ -229,8 +229,9 @@ void ZombieScript::AnimationEventListener(AnimationEvent event)
 
 void ZombieScript::IdleState::StateStart(ZombieScript* owner)
 {
-	owner->_animator->SetCurrentAnimation("idle");
+	owner->_animator->SetCurrentAnimation("idle", 0.0f);
 	owner->_animator->SetLoop(false);
+	// owner->_animator->Update();
 	owner->_animator->PauseAnimation();
 }
 
