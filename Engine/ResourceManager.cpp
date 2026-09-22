@@ -132,6 +132,11 @@ void ResourceManager::Init()
 	quadMesh->SetName(DEFAULT_MESH_QUAD);
 	Add<Mesh>(DEFAULT_MESH_QUAD, quadMesh);
 
+	shared_ptr<Mesh> quadTwoSidedMesh = make_shared<Mesh>(GeometryGenerator::CreateQuadTwoSided());
+	quadTwoSidedMesh->SetPath(DEFAULT_MESH_QUAD_TWOSIDED);
+	quadTwoSidedMesh->SetName(DEFAULT_MESH_QUAD_TWOSIDED);
+	Add<Mesh>(DEFAULT_MESH_QUAD_TWOSIDED, quadTwoSidedMesh);
+
 	shared_ptr<Mesh> skyboxSphereMesh = make_shared<Mesh>(GeometryGenerator::CreateGeosphere(0.5f, 1));
 	skyboxSphereMesh->SetPath(DEFAULT_MESH_SKYBOX);
 	skyboxSphereMesh->SetName(DEFAULT_MESH_SKYBOX);

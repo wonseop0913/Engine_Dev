@@ -5,6 +5,7 @@
 #define DEFAULT_MESH_BOX				L"Mesh_BasicBox"
 #define DEFAULT_MESH_SPHERE				L"Mesh_BasicSphere"
 #define DEFAULT_MESH_QUAD				L"Mesh_BasicQuad"
+#define DEFAULT_MESH_QUAD_TWOSIDED		L"Mesh_BasicQuadTwoSided"
 
 #define SHADER_VERTEX_DEFAULT			L"defaultVS"
 #define SHADER_VERTEX_SKINNED			L"skinnedVS"

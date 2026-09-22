@@ -181,6 +181,30 @@ shared_ptr<Geometry> GeometryGenerator::CreateQuad()
 	return geometry;
 }
 
+std::shared_ptr<Geometry> GeometryGenerator::CreateQuadTwoSided()
+{
+	shared_ptr<Geometry> geometry = make_shared<Geometry>();
+
+	Vertex v[4];
+	v[0] = Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	v[1] = Vertex(-0.5f, +0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	v[2] = Vertex(+0.5f, +0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	v[3] = Vertex(+0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f);
+
+	geometry->GetVertices().assign(&v[0], &v[4]);
+
+	UINT32 i[12];
+
+	i[0] = 0; i[1] = 1; i[2] = 2;
+	i[3] = 0; i[4] = 2; i[5] = 3;
+	i[6] = 0; i[7] = 2; i[8] = 1;
+	i[9] = 0; i[10] = 3; i[11] = 2;
+
+	geometry->GetIndices().assign(&i[0], &i[12]);
+
+	return geometry;
+}
+
 shared_ptr<Geometry> GeometryGenerator::CreateTerrain(UINT oneSideSampleCount)
 {
 	shared_ptr<Geometry> geometry = make_shared<Geometry>();
