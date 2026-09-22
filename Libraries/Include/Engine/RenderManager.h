@@ -24,21 +24,23 @@
 #define		PSO_IDX_OPAQUE_SKINNED		1
 #define		PSO_IDX_TRANS_SOLID			2
 #define		PSO_IDX_TRANS_SKINNED		3
-#define		PSO_IDX_SHADOWMAP			4
-#define		PSO_IDX_SHADOWMAP_SKINNED	5
-#define		PSO_IDX_SHADOWMAP_TERRAIN	6
-#define		PSO_IDX_WIREFRAME			7
-#define		PSO_IDX_DEBUG_PHYSICS		8
-#define		PSO_IDX_DEBUG_SHADOW		9
-#define		PSO_IDX_TERRAIN				10
-#define		PSO_IDX_PARTICLE_UPDATE		11
-#define		PSO_IDX_PARTICLE_RENDER		12
-#define		PSO_IDX_UI					13
-#define		PSO_IDX_OUTLINE_SKINNED		14
-#define		PSO_IDX_OUTLINE_SKINNED		15
-#define		PSO_IDX_OUTLINE_TERRAIN		16
+#define		PSO_IDX_SKYBOX				4
+#define		PSO_IDX_SHADOWMAP			5
+#define		PSO_IDX_SHADOWMAP_SKINNED	6
+#define		PSO_IDX_SHADOWMAP_TERRAIN	7
+#define		PSO_IDX_WIREFRAME			8
+#define		PSO_IDX_DEBUG_PHYSICS		9
+#define		PSO_IDX_DEBUG_SHADOW		10
+#define		PSO_IDX_TERRAIN				11
+#define		PSO_IDX_PARTICLE_UPDATE		12
+#define		PSO_IDX_PARTICLE_RENDER		13
+#define		PSO_IDX_UI					14
+#define		PSO_IDX_OUTLINE_SOLID		15
+#define		PSO_IDX_OUTLINE_SKINNED		16
+#define		PSO_IDX_OUTLINE_TERRAIN		17
+#define		PSO_IDX_POSTPROCESSING		18
 
-#define		PSO_COUNT					18		// Except Skybox
+#define		PSO_COUNT					19		// Except Skybox
 
 #define		RENDERSTATE_MAIN		0
 #define		RENDERSTATE_SHADOWMAP	1
@@ -167,7 +169,7 @@ public:
 	void SetCurrPSO(string name);
 	void SetDefaultPSO();
 	void UpdateObjectPSO(shared_ptr<GameObject> obj, string targetPSO);
-	UINT Temp_GetPSOIndex(string name);
+	UINT GetPSOIndex(string name);
 
 	void BuildFrameResources();
 	int GetNumFrameResources() { return _numFrameResources; }

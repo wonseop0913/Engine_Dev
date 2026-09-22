@@ -542,8 +542,8 @@ void RenderManager::SetDefaultPSO()
 
 void RenderManager::UpdateObjectPSO(shared_ptr<GameObject> obj, string targetPSO)
 {
-	int objPsoIdx = Temp_GetPSOIndex(obj->GetPSOName());
-	int targetPsoIdx = Temp_GetPSOIndex(targetPSO);
+	int objPsoIdx = GetPSOIndex(obj->GetPSOName());
+	int targetPsoIdx = GetPSOIndex(targetPSO);
 	for (int i = 0; i < _objectsSortedPSO[objPsoIdx].size(); i++)
 	{
 		if (_objectsSortedPSO[objPsoIdx][i] == obj)
@@ -555,20 +555,27 @@ void RenderManager::UpdateObjectPSO(shared_ptr<GameObject> obj, string targetPSO
 	}
 }
 
-UINT RenderManager::Temp_GetPSOIndex(string name)
+UINT RenderManager::GetPSOIndex(string name)
 {
-	if (name == PSO_OPAQUE_SOLID)		return 0;
-	if (name == PSO_OPAQUE_SKINNED)		return 1;
-	if (name == PSO_TRANS_SOLID)		return 2;
-	if (name == PSO_TRANS_SKINNED)		return 3;
-	if (name == PSO_SKYBOX)				return 4;
-	if (name == PSO_SHADOWMAP)			return 5;
-	if (name == PSO_SHADOWMAP_SKINNED)	return 6;
-	if (name == PSO_WIREFRAME)			return 7;
-	if (name == PSO_DEBUG_PHYSICS)		return 8;
-	if (name == PSO_DEBUG_SHADOW)		return 9;
-	if (name == PSO_PARTICLE_UPDATE)	return 10;
-	if (name == PSO_PARTICLE_RENDER)	return 11;
+	if (name == PSO_OPAQUE_SOLID)		return PSO_IDX_OPAQUE_SOLID;
+	if (name == PSO_OPAQUE_SKINNED)		return PSO_IDX_OPAQUE_SKINNED;
+	if (name == PSO_TRANS_SOLID)		return PSO_IDX_TRANS_SOLID;
+	if (name == PSO_TRANS_SKINNED)		return PSO_IDX_TRANS_SKINNED;
+	if (name == PSO_SKYBOX)				return PSO_IDX_SKYBOX;
+	if (name == PSO_SHADOWMAP)			return PSO_IDX_SHADOWMAP;
+	if (name == PSO_SHADOWMAP_SKINNED)	return PSO_IDX_SHADOWMAP_SKINNED;
+	if (name == PSO_SHADOWMAP_TERRAIN)	return PSO_IDX_SHADOWMAP_TERRAIN;
+	if (name == PSO_WIREFRAME)			return PSO_IDX_WIREFRAME;
+	if (name == PSO_DEBUG_PHYSICS)		return PSO_IDX_DEBUG_PHYSICS;
+	if (name == PSO_DEBUG_SHADOW)		return PSO_IDX_DEBUG_SHADOW;
+	if (name == PSO_TERRAIN)			return PSO_IDX_TERRAIN;
+	if (name == PSO_PARTICLE_UPDATE)	return PSO_IDX_PARTICLE_UPDATE;
+	if (name == PSO_PARTICLE_RENDER)	return PSO_IDX_PARTICLE_RENDER;
+	if (name == PSO_UI)					return PSO_IDX_UI;
+	if (name == PSO_OUTLINE_SOLID)		return PSO_IDX_OUTLINE_SOLID;
+	if (name == PSO_OUTLINE_SKINNED)	return PSO_IDX_OUTLINE_SKINNED;
+	if (name == PSO_OUTLINE_TERRAIN)	return PSO_IDX_OUTLINE_TERRAIN;
+	if (name == PSO_POSTPROCESSING)		return PSO_IDX_POSTPROCESSING;
 }
 
 void RenderManager::BuildFrameResources()
@@ -586,7 +593,7 @@ shared_ptr<GameObject> RenderManager::AddGameObject(shared_ptr<GameObject> obj)
 	}
 	obj->primitiveType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-	_objectsSortedPSO[Temp_GetPSOIndex(obj->GetPSOName())].push_back(obj);
+	_objectsSortedPSO[GetPSOIndex(obj->GetPSOName())].push_back(obj);
 	_objects.push_back(move(obj));
 	return _objects[_objects.size() - 1];
 }
@@ -612,7 +619,7 @@ void RenderManager::DeleteGameobject(shared_ptr<GameObject> obj)
 			}
 		}
 
-		int objPsoIdx = Temp_GetPSOIndex(o->GetPSOName());
+		int objPsoIdx = GetPSOIndex(o->GetPSOName());
 		for (int i = 0; i < _objectsSortedPSO[objPsoIdx].size(); i++) {
 			if (o == _objectsSortedPSO[objPsoIdx][i]) {
 				_objectsSortedPSO[objPsoIdx].erase(_objectsSortedPSO[objPsoIdx].begin() + i);
