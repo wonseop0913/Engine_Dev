@@ -175,6 +175,7 @@ void Graphic::OnResize()
 	_center = { _appDesc.clientWidth / 2.0f, _appDesc.clientHeight / 2.0f };
 
 	ENGINESTAT->ResetValues();
+	UI->OnResolutionUpdate();
 }
 
 

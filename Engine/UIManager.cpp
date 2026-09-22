@@ -44,6 +44,13 @@ void UIManager::Initialize()
 	_panels.clear();
 }
 
+void UIManager::OnResolutionUpdate()
+{
+	for (auto& ui : _elements) {
+		ui->GetTransform()->OnResolutionUpdate();
+	}
+}
+
 void UIManager::Init()
 {
 	_quadMesh = RESOURCE->Get<Mesh>(DEFAULT_MESH_QUAD);

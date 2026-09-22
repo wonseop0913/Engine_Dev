@@ -11,6 +11,7 @@ public:
 
 public:
 	void UpdateTransform();
+	void OnResolutionUpdate();
 
 	void SetPivot(const Bulb::Vector2& pivot);
 	void SetPosition(const Bulb::Vector3& position);

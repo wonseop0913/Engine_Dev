@@ -23,6 +23,7 @@ public:
 	static Bulb::ProcessResult Delete();
 
 	void Initialize();
+	void OnResolutionUpdate();
 
 	template<typename T>
 	shared_ptr<T> CreateUI(string name = "");
