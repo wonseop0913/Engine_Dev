@@ -2,6 +2,18 @@
 
 class UIElement;
 
+//enum class BULB_API UIPositionMode {
+//	Absolute,
+//	Relative,
+//	Dynamic
+//};
+
+enum class BULB_API UIAnchorMode {
+	LeftTop, CenterTop,	RightTop,
+	LeftMid, CenterMid, RightMid,
+	LeftBot, CenterBot, RightBot
+};
+
 class BULB_API UITransform : public enable_shared_from_this<UITransform>
 {
 	friend class UITransform;
@@ -14,6 +26,7 @@ public:
 	void OnResolutionUpdate();
 
 	void SetPivot(const Bulb::Vector2& pivot);
+	void SetAnchor(UIAnchorMode anchorMode);
 	void SetPosition(const Bulb::Vector3& position);
 	void SetLocalPosition(const Bulb::Vector3& position);
 	void SetStretchSize(bool value) { _stretchByParent = value; }
@@ -56,12 +69,16 @@ public:
 
 private:
 	void SetDirtyFlag();
+	void CalcAnchoredPosition();
+	void CalcAnchoredLocalPosition();
 
 private:
 	bool _isDirty = true;
 
 	Bulb::Vector2 _pivot = { 0.5f, 0.5f };
+	UIAnchorMode _anchor = UIAnchorMode::CenterMid;
 
+	// UIPositionMode _positionMode = UIPositionMode::Absolute;
 	bool _isDynamicPosition = false;
 	Bulb::Vector3 _position = { 0.0f, 0.0f, 0.0f };
 	Bulb::Vector3 _localPosition = { 0.0f, 0.0f, 0.0f };

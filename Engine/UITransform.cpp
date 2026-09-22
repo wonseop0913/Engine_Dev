@@ -15,12 +15,14 @@ void UITransform::UpdateTransform()
 {
 	if (!_isDirty) return;
 
-	if (_parent != nullptr) {
-		_position = _parent->GetPosition() + _localPosition;
-	}
-	else {
-		_position = _localPosition;
-	}
+	CalcAnchoredLocalPosition();
+
+	//if (_parent != nullptr) {
+	//	_position = _parent->GetPosition() + _localPosition;
+	//}
+	//else {
+	//	_position = _localPosition;
+	//}
 
 	_isDirty = false;
 	for (auto& child : _childs) {
@@ -32,6 +34,8 @@ void UITransform::OnResolutionUpdate()
 {
 	if (_stretchByParent)
 		SetSize(_size);
+
+	_isDirty = true;
 }
 
 void UITransform::SetPivot(const Bulb::Vector2& pivot)
@@ -45,11 +49,20 @@ void UITransform::SetPivot(const Bulb::Vector2& pivot)
 	_localPosition.y = _localPosition.y + height;
 }
 
+void UITransform::SetAnchor(UIAnchorMode anchorMode)
+{
+	if (anchorMode == _anchor) return;
+	_anchor = anchorMode;
+
+	CalcAnchoredPosition();
+}
+
 void UITransform::SetPosition(const Bulb::Vector3& position)
 {
 	_position = position;
 	if (_parent != nullptr) {
-		_localPosition = _position - _parent->GetPosition();
+		CalcAnchoredPosition();
+		// _localPosition = _position - _parent->GetPosition();
 	}
 	else {
 		_localPosition = _position;
@@ -62,12 +75,14 @@ void UITransform::SetLocalPosition(const Bulb::Vector3& position)
 {
 	_localPosition = position;
 
-	if (_parent != nullptr) {
-		_position = _parent->GetPosition() + _localPosition;
-	}
-	else {
-		_position = _localPosition;
-	}
+	CalcAnchoredLocalPosition();
+	//if (_parent != nullptr) {
+	//	CalcAnchoredLocalPosition();
+	//	// _position = _parent->GetPosition() + _localPosition;
+	//}
+	//else {
+	//	_position = _localPosition;
+	//}
 
 	SetDirtyFlag();
 }
@@ -147,4 +162,113 @@ void UITransform::SetDirtyFlag()
 	for (auto& child : _childs) {
 		child->SetDirtyFlag();
 	}
+}
+
+void UITransform::CalcAnchoredPosition()
+{
+	Bulb::Vector3 parentPos = _parent ? _parent->GetPosition() : Bulb::Vector3();
+	Bulb::Vector2 parentHalfSize = (_parent ? _parent->GetSize() : Bulb::Vector2{ GRAPHIC->GetViewport().Width, GRAPHIC->GetViewport().Height }) / 2.0f;
+	Bulb::Vector2 localPositionOffset(parentPos.x, parentPos.y);
+
+	switch (_anchor) {
+	case UIAnchorMode::LeftTop: {
+		localPositionOffset.x -= parentHalfSize.x;
+		localPositionOffset.y += parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::CenterTop: {
+		localPositionOffset.y += parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::RightTop: {
+		localPositionOffset.x += parentHalfSize.x;
+		localPositionOffset.y += parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::LeftMid: {
+		localPositionOffset.x -= parentHalfSize.x;
+		break;
+	}
+	case UIAnchorMode::CenterMid: {
+		// Nothing to calc
+		break;
+	}
+	case UIAnchorMode::RightMid: {
+		localPositionOffset.x += parentHalfSize.x;
+		break;
+	}
+	case UIAnchorMode::LeftBot: {
+		localPositionOffset.x -= parentHalfSize.x;
+		localPositionOffset.y -= parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::CenterBot: {
+		localPositionOffset.y -= parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::RightBot: {
+		localPositionOffset.x += parentHalfSize.x;
+		localPositionOffset.y -= parentHalfSize.y;
+		break;
+	}
+	}
+
+	_localPosition.x = _position.x - localPositionOffset.x;
+	_localPosition.y = _position.y - localPositionOffset.y;
+	_localPosition.z = _position.z - parentPos.z;
+}
+
+void UITransform::CalcAnchoredLocalPosition()
+{
+	Bulb::Vector3 parentPos = _parent ? _parent->GetPosition() : Bulb::Vector3();
+	Bulb::Vector2 parentHalfSize = (_parent ? _parent->GetSize() : Bulb::Vector2{ GRAPHIC->GetViewport().Width, GRAPHIC->GetViewport().Height }) / 2.0f;
+	Bulb::Vector2 localPositionOffset(parentPos.x, parentPos.y);
+
+	switch (_anchor) {
+	case UIAnchorMode::LeftTop: {
+		localPositionOffset.x -= parentHalfSize.x;
+		localPositionOffset.y += parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::CenterTop: {
+		localPositionOffset.y += parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::RightTop: {
+		localPositionOffset.x += parentHalfSize.x;
+		localPositionOffset.y += parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::LeftMid: {
+		localPositionOffset.x -= parentHalfSize.x;
+		break;
+	}
+	case UIAnchorMode::CenterMid: {
+		// Nothing to calc
+		break;
+	}
+	case UIAnchorMode::RightMid: {
+		localPositionOffset.x += parentHalfSize.x;
+		break;
+	}
+	case UIAnchorMode::LeftBot: {
+		localPositionOffset.x -= parentHalfSize.x;
+		localPositionOffset.y -= parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::CenterBot: {
+		localPositionOffset.y -= parentHalfSize.y;
+		break;
+	}
+	case UIAnchorMode::RightBot: {
+		localPositionOffset.x += parentHalfSize.x;
+		localPositionOffset.y -= parentHalfSize.y;
+		break;
+	}
+	}
+
+	_position = Bulb::Vector3(
+		localPositionOffset.x + _localPosition.x,
+		localPositionOffset.y + _localPosition.y,
+		parentPos.z + _localPosition.z);
 }
