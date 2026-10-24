@@ -1,5 +1,5 @@
 #pragma once
-#include "Script.h"
+#include "EntityBase.h"
 #include "BaseState.h"
 #include "CommonStructs.h"
 
@@ -22,7 +22,7 @@ enum class PlayerState {
 	ENTER_VEIL
 };
 
-class PlayerScript : public Script
+class PlayerScript : public EntityBase
 {
 #pragma region Player State Class
 	class IdleState : public BaseState<PlayerScript> {
@@ -132,7 +132,7 @@ public:
 		_isStateChanged = true;
 	}
 
-	void HitDelay();
+	void HitDelay() override;
 
 private:
 	void Interact();
@@ -144,20 +144,15 @@ private:
 	// Decrease stemina per second
 	void DecreaseStemina(float value, bool instantChange = true);
 
-	void AnimationEventListener(AnimationEvent event);
+	void AnimationEventListener(AnimationEvent event) override;
 
 public:
 	shared_ptr<TPVCamera> tpvCameraScript;
 
-	float health = 100.0f;
 	float steminaMax = 6000.0f;
 	float stemina = 6000.0f;
 
 private:
-	shared_ptr<GameObject> _gameObject;
-	shared_ptr<Transform> _transform;
-	shared_ptr<Animator> _animator;
-	shared_ptr<CharacterController> _controller;
 	shared_ptr<Rigidbody> _swordRb;
 	shared_ptr<AudioSource> _swordAs;
 
@@ -185,11 +180,6 @@ private:
 	bool _isRecoveryPossible = true;
 
 	bool _isEvading = false;
-
-	AttackInfo _attackInfo;
-
-	bool _isOnHitDelay = false;
-	float _hitDelayTime = 0.0f;
 
 	vector<shared_ptr<Interactable>> _interactableScripts;
 

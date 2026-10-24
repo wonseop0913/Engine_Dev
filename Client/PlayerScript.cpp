@@ -21,6 +21,7 @@ void PlayerScript::Init()
 	_gameObject = GetGameObject();
 
 	_transform = _gameObject->GetTransform();
+	_centerTransform = _transform->GetChild("mixamorig:Spine1");
 
 	auto swordObj = _transform->GetChild("mixamorig:Sword_joint")->GetGameObject();
 	swordObj->SetTag("AttackAlly");
@@ -57,14 +58,18 @@ void PlayerScript::Init()
 
 	_hpBar = UI->CreateUI<UISlider>();
 	_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
-	_hpBar->GetTransform()->SetPosition({ -800.0f, 450.0f, 0.0f });
+	_hpBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+	_hpBar->GetTransform()->SetLocalPosition({ 15.0f, -15.0f, 0.0f });
+	_hpBar->SetEntireSize({ _health * 5.0f, 15.0f });
 	_hpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
 	_hpBar->SetValueMaxLimit(100.0f);
 	_hpBar->SetValue(100.0f);
 
 	_steminaBar = UI->CreateUI<UISlider>();
 	_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
-	_steminaBar->GetTransform()->SetPosition({ -800.0f, 420.0f, 0.0f });
+	_steminaBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+	_steminaBar->GetTransform()->SetLocalPosition({ 15.0f, -35.0f, 0.0f });
+	_steminaBar->SetEntireSize({ 200.0f, 15.0f });
 	_steminaBar->SetFillColor({ 0.0f, 1.0f, 0.0f, 1.0f });
 	_steminaBar->SetValueMaxLimit(steminaMax);
 	_steminaBar->SetValue(stemina);
@@ -185,7 +190,7 @@ void PlayerScript::OnCollisionEnter(shared_ptr<GameObject> other)
 {
 	if (other->GetTag() == "AttackHostile")
 	{
-		if (health > 0 && !_isEvading) {
+		if (_health > 0 && !_isEvading) {
 			AttackInfo* attackInfo = (AttackInfo*)(other->GetComponent<Rigidbody>()->customData);
 			TakeDamage(attackInfo->damage);
 			_hitAs->Play();
@@ -332,16 +337,18 @@ void PlayerScript::LockOn()
 	Vector3 camLook = Camera::GetCurrentCamera()->GetTransform()->GetLook();
 
 	for (auto& enemy : enemies) {
-		Vector3 enemyPos = enemy->GetTransform()->GetPosition();
+		Vector3 enemyPos = enemy->GetComponent<EntityBase>()->GetCenterTransform()->GetPosition();
 		Vector3 dirToEnemy = (enemyPos - camPos).Normalize();
+		float distance = (enemyPos - camPos).Length();
 
 		// 시야각 체크 (내적)
 		float dot = camLook.Dot(dirToEnemy);
 		if (dot < 0.5f) continue; // 실제 사용중인 pov값 받아오도록 바꿔야함.
 
 		// 레이캐스트 장애물 체크
-		//RaycastHit hit;
-		//if (PHYSICS->Raycast(camPos, dirToEnemy, 15.0f, Layer::Wall)) continue;
+		Bulb::RayCastResult hitResult = PHYSICS->RayCast(camPos, dirToEnemy, distance);
+		if (hitResult.HitFlag)
+			continue;
 
 		// 가장 가까운 거리 비교
 		float dist = (_transform->GetPosition() - enemyPos).Length();
@@ -433,8 +440,8 @@ void PlayerScript::RecoveryStemina()
 
 void PlayerScript::TakeDamage(int damage)
 {
-	health -= damage;
-	_hpBar->SetValue(health);
+	_health -= damage;
+	_hpBar->SetValue(_health);
 }
 
 void PlayerScript::DecreaseStemina(float value, bool instantChange)
@@ -448,7 +455,7 @@ void PlayerScript::DecreaseStemina(float value, bool instantChange)
 
 	if (stemina < 0.0f) stemina = 0.0f;
 
-	_recoverySteminaDelayedTime = 2.0f;
+	_recoverySteminaDelayedTime = 1.0f;
 	_isRecoveryPossible = false;
 }
 
@@ -460,7 +467,6 @@ void PlayerScript::AnimationEventListener(AnimationEvent event)
 
 			_swordRb->SetPhysicsActive(attackFlag);
 			if (attackFlag) {
-				// AttackInfo attackInfo;
 				_attackInfo.attakee = _gameObject;
 				_attackInfo.damage = event.datas[0].w;
 				_swordRb->customData = &_attackInfo;
@@ -557,7 +563,7 @@ void PlayerScript::AttackCombo1State::StateUpdate(PlayerScript* owner)
 		owner->SetState(PlayerState::ATTACKCOMBO2);
 	}
 
-	if (owner->_animator->IsCurrentAnimationEnd()) {
+	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
 		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
 	}
@@ -577,6 +583,10 @@ void PlayerScript::AttackCombo2State::StateUpdate(PlayerScript* owner)
 	}
 
 	if (owner->_animator->IsCurrentAnimationEnd()) {
+	}
+
+	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
+		owner->SetState(PlayerState::ATTACKCOMBO3);
 		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
 	}
@@ -591,7 +601,7 @@ void PlayerScript::AttackCombo3State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo3State::StateUpdate(PlayerScript* owner)
 {
-	if (owner->_animator->IsCurrentAnimationEnd()) {
+	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
 		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
 	}
@@ -625,11 +635,15 @@ void PlayerScript::StrafeForwardState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeForwardState::StateUpdate(PlayerScript* owner)
 {
+	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
+	Vector3 playerPos = owner->_transform->GetPosition();
+	targetPos.y = playerPos.y;
+
 	owner->_transform->LookAtWithNoRoll(
-		owner->_transform->GetPosition() -
+		playerPos -
 		MathHelper::InterpolateVector(
 			owner->_transform->GetBack(),
-			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			targetPos - playerPos,
 			owner->_rotationSpeed
 		)
 	);
@@ -644,11 +658,15 @@ void PlayerScript::StrafeBackState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeBackState::StateUpdate(PlayerScript* owner)
 {
+	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
+	Vector3 playerPos = owner->_transform->GetPosition();
+	targetPos.y = playerPos.y;
+
 	owner->_transform->LookAtWithNoRoll(
-		owner->_transform->GetPosition() -
+		playerPos -
 		MathHelper::InterpolateVector(
 			owner->_transform->GetBack(),
-			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			targetPos - playerPos,
 			owner->_rotationSpeed
 		)
 	);
@@ -663,11 +681,15 @@ void PlayerScript::StrafeRightState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeRightState::StateUpdate(PlayerScript* owner)
 {
+	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
+	Vector3 playerPos = owner->_transform->GetPosition();
+	targetPos.y = playerPos.y;
+
 	owner->_transform->LookAtWithNoRoll(
-		owner->_transform->GetPosition() -
+		playerPos -
 		MathHelper::InterpolateVector(
 			owner->_transform->GetBack(),
-			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			targetPos - playerPos,
 			owner->_rotationSpeed
 		)
 	);
@@ -682,11 +704,15 @@ void PlayerScript::StrafeLeftState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeLeftState::StateUpdate(PlayerScript* owner)
 {
+	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
+	Vector3 playerPos = owner->_transform->GetPosition();
+	targetPos.y = playerPos.y;
+
 	owner->_transform->LookAtWithNoRoll(
-		owner->_transform->GetPosition() -
+		playerPos -
 		MathHelper::InterpolateVector(
 			owner->_transform->GetBack(),
-			owner->_lockOnTarget->GetTransform()->GetPosition() - owner->_transform->GetPosition(),
+			targetPos - playerPos,
 			owner->_rotationSpeed
 		)
 	);

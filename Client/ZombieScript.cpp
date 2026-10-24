@@ -11,6 +11,7 @@ void ZombieScript::Init()
 	_gameObject = GetGameObject();
 	_transform = GetTransform();
 	_centerTransform = _transform->GetChild("mixamorig5:Spine1");
+	_headTransform = _transform->GetChild("mixamorig5:Head");
 	_animator = _gameObject->GetComponent<Animator>();
 	_controller = _gameObject->GetComponent<CharacterController>();
 	_hitbox = _gameObject->GetComponent<Rigidbody>();
@@ -19,6 +20,8 @@ void ZombieScript::Init()
 	_animator->animationEvent += [this](AnimationEvent e) {
 		this->AnimationEventListener(e);
 	};
+
+	_health = 30;
 
 	_controller->SetHalfHeight(0.6f);
 	_controller->SetRadius(0.3f);
@@ -59,9 +62,10 @@ void ZombieScript::Init()
 
 	_enemyStateUI->SetRenderActive(false);
 
-	target = RENDER->GetObjectWithTag("Player");
+	targetObj = RENDER->GetObjectWithTag("Player");
+	targetTransform = targetObj->GetComponent<EntityBase>()->GetCenterTransform();
 
-	_headAs = _transform->GetChild("mixamorig5:Head")->GetGameObject()->GetComponent<AudioSource>();
+	_headAs = _headTransform->GetGameObject()->GetComponent<AudioSource>();
 	_bodyAs = _centerTransform->GetGameObject()->GetComponent<AudioSource>();
 	_footAs = _transform->GetGameObject()->GetComponent<AudioSource>();
 
@@ -84,15 +88,9 @@ void ZombieScript::Update()
 {
 	UpdateDamageText();
 
-	_targetVec = target->GetTransform()->GetPosition() - _transform->GetPosition();
+	_targetVec = targetTransform->GetPosition() - _transform->GetPosition();
 	_targetVec.y = 0;
 	_targetDistance = _targetVec.Length();
-
-	//if (_currentState != ZombieState::DEATH) {
-	//	if (_health <= 0) {
-	//		SetState(ZombieState::DEATH);
-	//	}
-	//}
 
 	if (_isStateChanged) {
 		_patterns[static_cast<int>(_currentState)]->StateStart(this);
@@ -107,7 +105,7 @@ void ZombieScript::Update()
 
 void ZombieScript::OnDestroy()
 {
-	target.reset();
+	targetObj.reset();
 
 	_gameObject.reset();
 	_transform.reset();
@@ -130,8 +128,9 @@ void ZombieScript::OnCollisionEnter(shared_ptr<GameObject> other)
 		if (_health > 0) {
 			AttackInfo* attackInfo = (AttackInfo*)(other->GetComponent<Rigidbody>()->customData);
 			TakeDamage(attackInfo->damage);
-			target->GetComponent<PlayerScript>()->HitDelay();
+			targetObj->GetComponent<PlayerScript>()->HitDelay();
 
+			_headAs->Stop();
 			_headAs->SetSound(_reactionHitSound);
 			_headAs->Play();
 			_bodyAs->SetSound(_hitSound);
@@ -164,6 +163,11 @@ void ZombieScript::TakeDamage(int damage)
 	SetDamageText(damage);
 	_healthBarUI->SetValue(_health);
 	_bodyAs->Play();
+}
+
+void ZombieScript::HitDelay()
+{
+
 }
 
 void ZombieScript::SetDamageText(int damage)
@@ -201,7 +205,7 @@ void ZombieScript::AnimationEventListener(AnimationEvent event)
 			_bodyAs->SetSound(_attackSound);
 			_bodyAs->Play();
 		}
-		if (event.strData == "ZombieAttack") {
+		if (event.strData == "ZombieAttackNoise") {
 			_headAs->SetSound(_attackNoiseSound);
 			_headAs->Play();
 		}
@@ -231,13 +235,21 @@ void ZombieScript::IdleState::StateStart(ZombieScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("idle", 0.0f);
 	owner->_animator->SetLoop(false);
-	// owner->_animator->Update();
 	owner->_animator->PauseAnimation();
 }
 
 void ZombieScript::IdleState::StateUpdate(ZombieScript* owner)
 {
-	if (owner->_currentState == ZombieState::Idle && owner->_targetDistance <= 5.0f) {
+	Bulb::Vector3 ownerPos = owner->_headTransform->GetPosition();
+	Bulb::Vector3 rayDir = owner->targetTransform->GetPosition() - ownerPos;
+	Bulb::RayCastResult rayCastResult = PHYSICS->RayCast(
+		ownerPos,
+		rayDir,
+		rayDir.Length());
+
+	if (owner->_currentState == ZombieState::Idle && 
+		owner->_targetDistance <= 5.0f &&
+		!rayCastResult.HitFlag) {
 		owner->_animator->PlayAnimation();
 		owner->_isTargetLockedOn = true;
 	}

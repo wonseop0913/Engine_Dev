@@ -2,7 +2,7 @@
     <Components>
         <Component ComponentType="Transform"/>
         <Component ComponentType="TPVCamera" Arm="CameraArm" Camera="Camera" InitTargetTag="Player">
-            <Offset PosY="1.5"/>
+            <Offset PosY="1.8"/>
         </Component>
     </Components>
     <GameObjects>

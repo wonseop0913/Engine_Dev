@@ -104,7 +104,21 @@ void TPVCamera::Update()
 	}
 	else if (lockOnTargetTransform != nullptr) {
 		Vector3 targetPosition = lockOnTargetTransform->GetPosition();
-		_transform->LookAtOnlyYaw(targetPosition, pow(rotationSharpness, 2.0f));	// y축 회전
+		Vector3 vecToTarget = targetPosition - cameraTransform->GetPosition();
+		vecToTarget.y = 0;
+		Vector3 lookVec = cameraTransform->GetLook();
+		lookVec.y = 0;
+
+		// y축 회전
+		float cosTarget = vecToTarget.Normalize().Dot(lookVec.Normalize());
+		if (cosTarget < cos(deadZoneHalfAngleHorizontal * MathHelper::Pi / 180.0f)) {
+			float targetAngle = acos(cosTarget) * 180.0f / MathHelper::Pi - 10.0f;
+			if (targetAngle > 0.001f) {
+				if (lookVec.Cross(vecToTarget).y < 0.0) targetAngle = -targetAngle;
+
+				_transform->Rotate(Vector3(0.0f, targetAngle * rotationSharpness * TIME->DeltaTime(), 0.0f));
+			}
+		}
 
 		if (!_lockOnMarker->IsRenderActive())
 			_lockOnMarker->SetRenderActive(true);
@@ -113,10 +127,17 @@ void TPVCamera::Update()
 
 		Vector3 relTargetPos = targetPosition - _pivotPosition;
 		float horizontalDist = Vector2(relTargetPos.x, relTargetPos.z).Length();
-		float targetPitch = -atan2(relTargetPos.y, horizontalDist) * (180.0f / MathHelper::Pi);
-		if (targetPitch > 0.0f) {
-			_pitch = lerp(_pitch, clamp(targetPitch, pitchLimit.y, pitchLimit.x), pow(rotationSharpness, 2.0f));
-			armTransform->SetLocalRotation(Vector3(_pitch, 0.0f, 0.0f));
+		float currentPitchToTarget = -atan2(relTargetPos.y, horizontalDist) * (180.0f / MathHelper::Pi);
+		currentPitchToTarget = clamp(currentPitchToTarget, pitchLimit.y, pitchLimit.x);
+		if (currentPitchToTarget > 0.0f) {
+			float pitchDiff = currentPitchToTarget - armTransform->GetLocalRotation().x;
+			if (abs(pitchDiff) - deadZoneHalfAngleVertical > 0.001f) {
+				// _pitch = lerp(_pitch, clamp(targetPitch, pitchLimit.y, pitchLimit.x), pow(rotationSharpness, 2.0f));
+				float targetPitch = (abs(pitchDiff) - deadZoneHalfAngleVertical) * (pitchDiff < 0 ? -1.0f : 1.0f);
+				armTransform->Rotate(Vector3(targetPitch * rotationSharpness * TIME->DeltaTime(), 0.0f, 0.0f));
+				_pitch = armTransform->GetLocalRotation().x;
+				// armTransform->SetLocalRotation(Vector3(_pitch, 0.0f, 0.0f));
+			}
 		}
 		
 		cameraTransform->LookAtWithNoRoll(_pivotPosition);

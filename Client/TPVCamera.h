@@ -27,6 +27,8 @@ public:
 	Bulb::Vector2 pitchLimit = { 80.0f, -80.0f };
 	float rotationSharpness = 0.3f;			// range : 0.1f ~ 1.0f, ���� �����ؼ� ����ؾ���.
 	float pivotMovementSharpness = 6.0f;	// range : 1.0f ~ 10.0f
+	float deadZoneHalfAngleHorizontal = 3.0f;
+	float deadZoneHalfAngleVertical = 2.0f;
 
 	// ī�޶� ������ ���� ����
 	bool isCameraControllOn = true;

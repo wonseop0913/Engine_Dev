@@ -1,17 +1,17 @@
 #pragma once
-#include "Script.h"
+#include "EntityBase.h"
 #include "BaseState.h"
 #include "CommonStructs.h"
 
 enum class BossState
 {
-    IDLE,
-    WALK,
+	IDLE,
+	WALK,
 	ATTACK,
-    DEATH
+	DEATH
 };
 
-class BossScript : public Script
+class BossScript : public EntityBase
 {
 	enum class MovingDirection {
 		FRONT,
@@ -51,7 +51,7 @@ class BossScript : public Script
 public:
 	~BossScript();
 
-    void Init() override;
+	void Init() override;
 	void Update() override;
 
 	void OnCollisionEnter(shared_ptr<GameObject> other) override;
@@ -62,10 +62,9 @@ public:
 	void SaveXML(Bulb::XMLElement compElem) override;
 
 public:
-    void TakeDamage(int damage);
-	shared_ptr<Transform> GetCenterTransform() { return _centerTransform; }
+	void TakeDamage(int damage) override;
 
-	void HitDelay();
+	void HitDelay() override;
 
 	int GetCurrentHealth() { return _health; }
 
@@ -79,27 +78,19 @@ private:
 	void SetDamageText(int damage);
 	void UpdateDamageText();
 
-	void AnimationEventListener(AnimationEvent event);
+	void AnimationEventListener(AnimationEvent event) override;
 
 public:
-	shared_ptr<GameObject> target;
-
 	bool blockExecute = true;
 
 private:
-	shared_ptr<GameObject> _gameObject;
-	shared_ptr<Transform> _transform;
-	shared_ptr<Transform> _centerTransform;
-	shared_ptr<Animator> _animator;
-	shared_ptr<CharacterController> _controller;
 	shared_ptr<Rigidbody> _hitbox;
 	shared_ptr<Rigidbody> _axeRb;
 
-    int _health = 100;
-    BossState _currentState = BossState::IDLE;
-    bool _isStateChanged = false;
+	BossState _currentState = BossState::IDLE;
+	bool _isStateChanged = false;
 
-    vector<BaseState<BossScript>*> _patterns;
+	vector<BaseState<BossScript>*> _patterns;
 	Bulb::Vector3 _targetVec;
 	float _targetDistance;
 
@@ -108,11 +99,6 @@ private:
 	shared_ptr<UISlider> _healthBarUI;
 	float _damageTextTime = 0.0f;
 	int _cumulativeDamage = 0;
-
-	AttackInfo _attackInfo;
-
-	bool _isOnHitDelay = false;
-	float _hitDelayTime = 0.0f;
 
 	bool _rotateToTarget = false;
 

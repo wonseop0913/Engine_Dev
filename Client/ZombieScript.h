@@ -1,5 +1,5 @@
 #pragma once
-#include "Script.h"
+#include "EntityBase.h"
 #include "BaseState.h"
 #include "CommonStructs.h"
 
@@ -12,7 +12,7 @@ enum class ZombieState {
 	Death
 };
 
-class ZombieScript : public Script
+class ZombieScript : public EntityBase
 {
 #pragma region Player State Class
 	class IdleState : public BaseState<ZombieScript> {
@@ -65,10 +65,11 @@ public:
 	void SaveXML(Bulb::XMLElement compElem) override;
 
 public:
-	void TakeDamage(int damage);
-	shared_ptr<Transform> GetCenterTransform() { return _centerTransform; }
+	void TakeDamage(int damage) override;
 
 	int GetCurrentHealth() { return _health; }
+
+	void HitDelay() override;
 
 private:
 	void SetState(ZombieState state) {
@@ -80,20 +81,11 @@ private:
 	void SetDamageText(int damage);
 	void UpdateDamageText();
 
-	void AnimationEventListener(AnimationEvent event);
-
-public:
-	shared_ptr<GameObject> target;
+	void AnimationEventListener(AnimationEvent event) override;
 
 private:
-	shared_ptr<GameObject> _gameObject;
-	shared_ptr<Transform> _transform;
-	shared_ptr<Transform> _centerTransform;
-	shared_ptr<Animator> _animator;
-	shared_ptr<CharacterController> _controller;
 	shared_ptr<Rigidbody> _hitbox;
 
-	int _health = 30;
 	ZombieState _currentState = ZombieState::Idle;
 	bool _isStateChanged = false;
 
@@ -107,8 +99,6 @@ private:
 	shared_ptr<UISlider> _healthBarUI;
 	float _damageTextTime = 0.0f;
 	int _cumulativeDamage = 0;
-
-	AttackInfo _attackInfo;
 
 	bool _rotateToTarget = false;
 

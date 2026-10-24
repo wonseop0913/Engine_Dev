@@ -231,6 +231,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -297,6 +298,7 @@
     <ClInclude Include="BossRoomVeilScript.h" />
     <ClInclude Include="BossScript.h" />
     <ClInclude Include="CommonStructs.h" />
+    <ClInclude Include="EntityBase.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="MainSceneScript.h" />
     <ClInclude Include="MiddleGateLeverScript.h" />
@@ -313,6 +315,7 @@
     <ClCompile Include="BossRoomVeilScript.cpp" />
     <ClCompile Include="BossScript.cpp" />
     <ClCompile Include="CommonStructs.cpp" />
+    <ClCompile Include="EntityBase.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />
     <ClCompile Include="MiddleGateLeverScript.cpp" />

@@ -19,6 +19,7 @@ void BossScript::Init()
 
 	_transform = _gameObject->GetTransform();
 	_centerTransform = _transform->GetChild("mixamorig:Spine1");	// Mixamo Default Rig Name
+	_headTransform = _transform->GetChild("mixamorig:Head");
 
 	auto axeObj = _transform->GetChild("mixamorig:Weapon")->GetGameObject();
 	axeObj->SetTag("AttackHostile");
@@ -77,7 +78,8 @@ void BossScript::Init()
 
 	_enemyStateUI->SetRenderActive(false);
 
-	target = RENDER->GetObjectWithTag("Player");
+	targetObj = RENDER->GetObjectWithTag("Player");
+	targetTransform = targetObj->GetComponent<EntityBase>()->GetCenterTransform();
 
 	// Sound Settings
 	_footAs = _gameObject->GetComponent<AudioSource>();
@@ -114,7 +116,7 @@ void BossScript::Update()
 
 	UpdateDamageText();
 
-	_targetVec = target->GetTransform()->GetPosition() - _transform->GetPosition();
+	_targetVec = targetTransform->GetPosition() - _transform->GetPosition();
 	_targetVec.y = 0;
 	_targetDistance = _targetVec.Length();
 
@@ -139,20 +141,22 @@ void BossScript::OnCollisionEnter(shared_ptr<GameObject> other)
 			if (_health <= 0)
 				SetState(BossState::DEATH);
 
-			target->GetComponent<PlayerScript>()->HitDelay();
+			targetObj->GetComponent<EntityBase>()->HitDelay();
 		}
 	}
 }
 
 void BossScript::OnDestroy()
 {
-	target.reset();
+	targetObj.reset();
+	targetTransform.reset();
 
 	_gameObject.reset();
 	_transform.reset();
 	_centerTransform.reset();
 	_animator.reset();
 	_controller.reset();
+
 	_hitbox.reset();
 	_axeRb.reset();
 

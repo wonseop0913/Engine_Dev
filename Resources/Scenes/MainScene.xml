@@ -3231,7 +3231,7 @@
         <GameObject Name="Boss Room Veil" PSO="opaque_solid" Tag="Interactable">
             <Components>
                 <Component ComponentType="Transform" PosX="22" PosY="-4.75" PosZ="18" ScaleX="3.9999998" ScaleY="5" ScaleZ="0.99999994" QuatX="0" QuatY="0.70710683" QuatZ="0" QuatW="0.70710671"/>
-                <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuad" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
+                <Component ComponentType="MeshRenderer" Mesh="Mesh_BasicQuadTwoSided" Material="..\Resources\Materials\Prototype\PrototypeGrey1_1_1.xml"/>
                 <Component ComponentType="BossRoomVeilScript"/>
                 <Component ComponentType="Rigidbody" Static="true" Gravity="false" Trigger="true" PhysicsActive="true">
                     <Collider Shape="Box" Height="0.5" Radius="0.5">

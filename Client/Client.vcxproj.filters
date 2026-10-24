@@ -3,16 +3,10 @@
   <ItemGroup>
     <ClInclude Include="Main.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="BossScript.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerScript.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="TPVCamera.h">
-      <Filter>Scripts</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseState.h">
       <Filter>Scripts</Filter>
     </ClInclude>
     <ClInclude Include="StartMenuSceneScript.h">
@@ -33,24 +27,29 @@
     <ClInclude Include="BossRoomVeilScript.h">
       <Filter>Scripts\Interactable</Filter>
     </ClInclude>
-    <ClInclude Include="ZombieScript.h">
-      <Filter>Scripts</Filter>
+    <ClInclude Include="EntityBase.h">
+      <Filter>Scripts\Abstract</Filter>
     </ClInclude>
-    <ClInclude Include="CommonStructs.h" />
+    <ClInclude Include="CommonStructs.h">
+      <Filter>Scripts\Defines</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScript.h">
+      <Filter>Scripts\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="ZombieScript.h">
+      <Filter>Scripts\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseState.h">
+      <Filter>Scripts\Abstract</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="BossScript.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerScript.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="TPVCamera.cpp">
-      <Filter>Scripts</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseState.cpp">
       <Filter>Scripts</Filter>
     </ClCompile>
     <ClCompile Include="StartMenuSceneScript.cpp">
@@ -71,10 +70,21 @@
     <ClCompile Include="BossRoomVeilScript.cpp">
       <Filter>Scripts\Interactable</Filter>
     </ClCompile>
-    <ClCompile Include="ZombieScript.cpp">
-      <Filter>Scripts</Filter>
+    <ClCompile Include="EntityBase.cpp">
+      <Filter>Scripts\Abstract</Filter>
     </ClCompile>
-    <ClCompile Include="CommonStructs.cpp" />
+    <ClCompile Include="CommonStructs.cpp">
+      <Filter>Scripts\Defines</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScript.cpp">
+      <Filter>Scripts\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="ZombieScript.cpp">
+      <Filter>Scripts\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseState.cpp">
+      <Filter>Scripts\Abstract</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">
@@ -85,6 +95,15 @@
     </Filter>
     <Filter Include="Scripts\Interactable">
       <UniqueIdentifier>{946d02e9-ded4-425e-a706-dd2c6e66a288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Abstract">
+      <UniqueIdentifier>{13f4c4e9-b9f6-415f-8817-af1547187cc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Defines">
+      <UniqueIdentifier>{d7df46fc-22f6-411a-99e6-9ab72e31de93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Entities">
+      <UniqueIdentifier>{fc002a37-f23e-462a-b094-fb31d0ee81bc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
