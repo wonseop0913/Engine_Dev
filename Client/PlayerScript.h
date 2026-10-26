@@ -149,9 +149,6 @@ private:
 public:
 	shared_ptr<TPVCamera> tpvCameraScript;
 
-	float steminaMax = 6000.0f;
-	float stemina = 6000.0f;
-
 private:
 	shared_ptr<Rigidbody> _swordRb;
 	shared_ptr<AudioSource> _swordAs;
@@ -160,6 +157,14 @@ private:
 	shared_ptr<UISlider> _steminaBar;
 	shared_ptr<UIPanel> _interactInfoPanel;
 	shared_ptr<UIText> _interactInfoText;
+
+	float _steminaMax = 60.0f;
+	float _stemina = 60.0f;
+	float _steminaRecoveryValue = 10.0f;
+
+	float _runSteminaValue = 5.0f;		// Per Tick
+	float _evadeSteminaValue = 10.0f;
+	float _attackSteminaValue = 8.0f;
 
 	float _speed = 1.55f;
 	float _rotationSpeed = 17.0f;

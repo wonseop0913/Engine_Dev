@@ -69,10 +69,10 @@ void PlayerScript::Init()
 	_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_steminaBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_steminaBar->GetTransform()->SetLocalPosition({ 15.0f, -35.0f, 0.0f });
-	_steminaBar->SetEntireSize({ 200.0f, 15.0f });
+	_steminaBar->SetEntireSize({ _steminaMax * 5.0f, 15.0f });
 	_steminaBar->SetFillColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-	_steminaBar->SetValueMaxLimit(steminaMax);
-	_steminaBar->SetValue(stemina);
+	_steminaBar->SetValueMaxLimit(_steminaMax);
+	_steminaBar->SetValue(_stemina);
 
 	_interactInfoPanel = UI->CreateUI<UIPanel>();
 	_interactInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
@@ -301,7 +301,7 @@ void PlayerScript::Move()
 	Bulb::Vector3 interpolatedDir = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, _rotationSpeed);
 
 	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerState::RUN) &&
-		stemina > 0.0f) {
+		_stemina > 0.0f) {
 		_movingDirection = interpolatedDir;
 		SetState(PlayerState::RUN);
 	}
@@ -425,9 +425,9 @@ void PlayerScript::RecoveryStemina()
 {
 	if (!_isRecoveryPossible)
 		_recoverySteminaDelayedTime -= TIME->DeltaTime();
-	else if (stemina < steminaMax) {
-		stemina += 10.0f * TIME->DeltaTime();
-		if (stemina > steminaMax) stemina = steminaMax;
+	else if (_stemina < _steminaMax) {
+		_stemina += _steminaRecoveryValue * TIME->DeltaTime();
+		if (_stemina > _steminaMax) _stemina = _steminaMax;
 	}
 
 	if (_recoverySteminaDelayedTime < 0.0f) {
@@ -435,7 +435,7 @@ void PlayerScript::RecoveryStemina()
 		_isRecoveryPossible = true;
 	}
 
-	_steminaBar->SetValue(stemina);
+	_steminaBar->SetValue(_stemina);
 }
 
 void PlayerScript::TakeDamage(int damage)
@@ -447,13 +447,13 @@ void PlayerScript::TakeDamage(int damage)
 void PlayerScript::DecreaseStemina(float value, bool instantChange)
 {
 	if (instantChange) {
-		stemina -= value;
+		_stemina -= value;
 	}
 	else {
-		stemina -= value * TIME->DeltaTime();
+		_stemina -= value * TIME->DeltaTime();
 	}
 
-	if (stemina < 0.0f) stemina = 0.0f;
+	if (_stemina < 0.0f) _stemina = 0.0f;
 
 	_recoverySteminaDelayedTime = 1.0f;
 	_isRecoveryPossible = false;
@@ -547,7 +547,8 @@ void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 3.0f);
-	owner->DecreaseStemina(10.0f, false);
+
+	owner->DecreaseStemina(owner->_runSteminaValue, false);
 }
 
 void PlayerScript::AttackCombo1State::StateStart(PlayerScript* owner)
@@ -611,6 +612,8 @@ void PlayerScript::RollState::StateStart(PlayerScript* owner)
 {
   	owner->_animator->SetCurrentAnimation("roll");
  	owner->_animator->SetLoop(false);
+
+	owner->DecreaseStemina(owner->_evadeSteminaValue, true);
 }
 
 void PlayerScript::RollState::StateUpdate(PlayerScript* owner)

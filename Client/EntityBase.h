@@ -30,6 +30,7 @@ protected:
 	shared_ptr<Animator> _animator;
 	shared_ptr<CharacterController> _controller;
 
+	int _healthMax = 100;
 	int _health = 100;
 
 	AttackInfo _attackInfo;
