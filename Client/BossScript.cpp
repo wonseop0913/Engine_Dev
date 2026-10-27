@@ -230,35 +230,27 @@ void BossScript::UpdateDamageText()
 
 void BossScript::AnimationEventListener(AnimationEvent event)
 {
-	switch (event.type) {
-		case AnimationEventTypes::Attack: {
-			bool attackFlag = event.datas[2].x == 1;
+	if (event.customEventName == "Attack") {
+		bool attackFlag = event.datas[2].x == 1;
 
-			_axeRb->SetPhysicsActive(attackFlag);
+		_axeRb->SetPhysicsActive(attackFlag);
 
-			if (attackFlag) {
-				//AttackInfo attackInfo;
-				_attackInfo.attakee = _gameObject;
-				_attackInfo.damage = event.datas[0].w;
-				_axeRb->customData = &_attackInfo;
-			}
-
-			break;
+		if (attackFlag) {
+			_attackInfo.attakee = _gameObject;
+			_attackInfo.damage = event.datas[0].w;
+			_axeRb->customData = &_attackInfo;
 		}
-		case AnimationEventTypes::Sound: {
-			if (event.strData == "EnemyAttack")
-				_axeAs->Play();
-			break;
-		}
-		case AnimationEventTypes::Step: {
-			_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
-			_footAs->Play();
-			break;
-		}
-		case AnimationEventTypes::RotateToTarget: {
-			_rotateToTarget = event.datas[0].x == 1;
-			break;
-		}
+	}
+	else if (event.customEventName == "Sound") {
+		if (event.strData == "EnemyAttack")
+			_axeAs->Play();
+	}
+	else if (event.customEventName == "Step") {
+		_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
+		_footAs->Play();
+	}
+	else if (event.customEventName == "RotateToTarget") {
+		_rotateToTarget = event.datas[0].x == 1;
 	}
 }
 

@@ -10,14 +10,9 @@ class Skeleton;
 enum BULB_API AnimationEventTypes {
 	Start,
 	Speed,
-	Attack,
-	End,
 	BlockTransition,
-	Step,
-	Sound,
-	RotateToTarget,
-	Evade,
-	Velocity
+	End,
+	Custom
 };
 
 struct BULB_API AnimationEvent
@@ -26,6 +21,7 @@ struct BULB_API AnimationEvent
 	float Tick;
 	Bulb::Vector4 datas[3];
 	string strData;
+	string customEventName;
 };
 
 struct BULB_API AnimationEventScriptData {

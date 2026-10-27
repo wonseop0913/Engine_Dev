@@ -461,37 +461,31 @@ void PlayerScript::DecreaseStemina(float value, bool instantChange)
 
 void PlayerScript::AnimationEventListener(AnimationEvent event)
 {
-	switch (event.type) {
-		case AnimationEventTypes::Attack: {
-			bool attackFlag = event.datas[2].x == 1;
+	if (event.customEventName == "Attack") {
+		bool attackFlag = event.datas[2].x == 1;
 
-			_swordRb->SetPhysicsActive(attackFlag);
-			if (attackFlag) {
-				_attackInfo.attakee = _gameObject;
-				_attackInfo.damage = event.datas[0].w;
-				_swordRb->customData = &_attackInfo;
-			}
-			break;
+		_swordRb->SetPhysicsActive(attackFlag);
+		if (attackFlag) {
+			_attackInfo.attakee = _gameObject;
+			_attackInfo.damage = event.datas[0].w;
+			_swordRb->customData = &_attackInfo;
+			DecreaseStemina(_attackSteminaValue, true);
 		}
-		case AnimationEventTypes::Sound: {
-			if (event.strData == "PlayerAttack")
-				_swordAs->Play();
-			break;
-		}
-		case AnimationEventTypes::Step: {
-			_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
-			_playerFootAs->Play();
-			break;
-		}
-		case AnimationEventTypes::Evade: {
-			_isEvading = event.datas[0].x == 1;
-			break;
-		}
-		case AnimationEventTypes::Velocity: {
-			// _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
-			_animEventVel = _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
-			break;
-		}
+	}
+	else if (event.customEventName == "Sound") {
+		if (event.strData == "PlayerAttack")
+			_swordAs->Play();
+	}
+	else if (event.customEventName == "Step") {
+		_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
+		_playerFootAs->Play();
+	}
+	else if (event.customEventName == "Evade") {
+		_isEvading = event.datas[0].x == 1;
+	}
+	else if (event.customEventName == "Velocity") {
+		// _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
+		_animEventVel = _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
 	}
 }
 

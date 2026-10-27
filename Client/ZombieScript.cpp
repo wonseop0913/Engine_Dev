@@ -195,8 +195,7 @@ void ZombieScript::UpdateDamageText()
 
 void ZombieScript::AnimationEventListener(AnimationEvent event)
 {
-	switch (event.type) {
-	case AnimationEventTypes::Sound: {
+	if (event.customEventName == "Sound") {
 		if (event.strData == "ZombieScream") {
 			_headAs->SetSound(_screamSound);
 			_headAs->Play();
@@ -217,17 +216,13 @@ void ZombieScript::AnimationEventListener(AnimationEvent event)
 			_headAs->SetSound(_deathEndSound);
 			_headAs->Play();
 		}
-		break;
 	}
-	case AnimationEventTypes::Step: {
+	else if (event.customEventName == "Step") {
 		_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
 		_footAs->Play();
-		break;
 	}
-	case AnimationEventTypes::RotateToTarget: {
+	else if (event.customEventName == "RotateToTarget") {
 		_rotateToTarget = event.datas[0].x == 1;
-		break;
-	}
 	}
 }
 
