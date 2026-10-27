@@ -154,28 +154,8 @@ void PlayerScript::Update()
 		}
 	}
 
-	Roll();
-	Attack();
-
 	// Interact
 	Interact();
-
-	if (_playerMovementState == PlayerState::ATTACKCOMBO1 ||
-		_playerMovementState == PlayerState::ATTACKCOMBO2 ||
-		_playerMovementState == PlayerState::ATTACKCOMBO3 ||
-		_playerMovementState == PlayerState::ROLL ||
-		_playerMovementState == PlayerState::INTERACT ||
-		_playerMovementState == PlayerState::ENTER_VEIL)
-	{
-		//if (_animator->IsCurrentAnimationEnd())
-		//{
-		//	SetState(PlayerMovementState::IDLE);
-		//}
-	}
-	else if (_playerMovementState != PlayerState::ROLL)
-	{
-		Move();
-	}
 
 	if (_isStateChanged)
 	{
@@ -257,26 +237,25 @@ void PlayerScript::SaveXML(Bulb::XMLElement compElem)
 	compElem.SetAttribute("ComponentType", "PlayerScript");
 }
 
-void PlayerScript::Roll()
+bool PlayerScript::Roll()
 {
-	if (INPUTM->IsKeyDown(KeyValue::SPACE) && 
-		!_animator->IsTransitionBlocked() && 
-		_playerMovementState != PlayerState::IDLE) {
+	if (INPUTM->IsKeyDown(KeyValue::SPACE)) {
 		SetState(PlayerState::ROLL);
+		return true;
 	}
+
+	return false;
 }
 
-void PlayerScript::Attack()
+bool PlayerScript::Attack()
 {
-	if (INPUTM->IsMouseLeftButtonDown() && 
-		_playerMovementState != PlayerState::ROLL &&
-		_playerMovementState != PlayerState::INTERACT &&
-		_playerMovementState != PlayerState::ENTER_VEIL &&
-		_playerMovementState != PlayerState::ATTACKCOMBO1 &&
-		_playerMovementState != PlayerState::ATTACKCOMBO2 &&
-		_playerMovementState != PlayerState::ATTACKCOMBO3) {
+	if (INPUTM->IsMouseLeftButtonDown() &&
+		_stemina >= _attackSteminaValue) {
 		SetState(PlayerState::ATTACKCOMBO1);
+		return true;
 	}
+
+	return false;
 }
 
 void PlayerScript::Move()
@@ -497,6 +476,9 @@ void PlayerScript::IdleState::StateStart(PlayerScript* owner)
 
 void PlayerScript::IdleState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Attack()) return;
+	owner->Move();
+
 	if (owner->_lockOnTarget) {
 		owner->_transform->LookAtWithNoRoll(
 			owner->_transform->GetPosition() -
@@ -522,6 +504,10 @@ void PlayerScript::WalkState::StateUpdate(PlayerScript* owner)
 		return;
 	}
 
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	owner->Move();
+
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed);
 }
@@ -539,6 +525,10 @@ void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 		return;
 	}
 
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	owner->Move();
+
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 3.0f);
 
@@ -554,8 +544,12 @@ void PlayerScript::AttackCombo1State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo1State::StateUpdate(PlayerScript* owner)
 {
-	if (INPUTM->IsMouseLeftButtonDown() && !owner->_animator->IsTransitionBlocked()) {
-		owner->SetState(PlayerState::ATTACKCOMBO2);
+	if (!owner->_animator->IsTransitionBlocked()) {
+		owner->Roll();
+
+		if (INPUTM->IsMouseLeftButtonDown() &&
+			owner->_stemina >= owner->_attackSteminaValue)
+			owner->SetState(PlayerState::ATTACKCOMBO2);
 	}
 
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
@@ -573,11 +567,12 @@ void PlayerScript::AttackCombo2State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo2State::StateUpdate(PlayerScript* owner)
 {
-	if (INPUTM->IsMouseLeftButtonDown() && !owner->_animator->IsTransitionBlocked()) {
-		owner->SetState(PlayerState::ATTACKCOMBO3);
-	}
+	if (!owner->_animator->IsTransitionBlocked()) {
+		owner->Roll();
 
-	if (owner->_animator->IsCurrentAnimationEnd()) {
+		if (INPUTM->IsMouseLeftButtonDown() &&
+			owner->_stemina >= owner->_attackSteminaValue)
+			owner->SetState(PlayerState::ATTACKCOMBO3);
 	}
 
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
@@ -596,6 +591,10 @@ void PlayerScript::AttackCombo3State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo3State::StateUpdate(PlayerScript* owner)
 {
+	if (!owner->_animator->IsTransitionBlocked()) {
+		owner->Roll();
+	}
+
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
 		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
@@ -632,6 +631,10 @@ void PlayerScript::StrafeForwardState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeForwardState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	owner->Move();
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;
@@ -655,6 +658,10 @@ void PlayerScript::StrafeBackState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeBackState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	owner->Move();
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;
@@ -678,6 +685,10 @@ void PlayerScript::StrafeRightState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeRightState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	owner->Move();
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;
@@ -701,6 +712,10 @@ void PlayerScript::StrafeLeftState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeLeftState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	owner->Move();
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;

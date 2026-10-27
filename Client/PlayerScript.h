@@ -120,8 +120,8 @@ public:
 	void SaveXML(Bulb::XMLElement compElem) override;
 
 public:
-	void Roll();
-	void Attack();
+	bool Roll();
+	bool Attack();
 	void Move();
 	void LockOn();
 	void LockRelease();
