@@ -47,7 +47,6 @@ void PlayerScript::Init()
 	// _animator->SetInPlace(true);
 
 	_playerMovementState = PlayerState::IDLE;
-	_isStateChanged = true;
 
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
 
@@ -156,12 +155,6 @@ void PlayerScript::Update()
 
 	// Interact
 	Interact();
-
-	if (_isStateChanged)
-	{
-		_states[static_cast<int>(_playerMovementState)]->StateStart(this);
-		_isStateChanged = false;
-	}
 
 	_states[static_cast<int>(_playerMovementState)]->StateUpdate(this);
 }

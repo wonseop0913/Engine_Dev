@@ -72,7 +72,7 @@ private:
 	void SetState(BossState state) {
 		if (_currentState == state) return;
 		_currentState = state;
-		_isStateChanged = true;
+		_patterns[static_cast<int>(_currentState)]->StateStart(this);
 	}
 
 	void SetDamageText(int damage);

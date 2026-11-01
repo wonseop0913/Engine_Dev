@@ -120,11 +120,6 @@ void BossScript::Update()
 	_targetVec.y = 0;
 	_targetDistance = _targetVec.Length();
 
-	if (_isStateChanged) {
-		_patterns[static_cast<int>(_currentState)]->StateStart(this);
-		_isStateChanged = false;
-	}
-
 	_patterns[static_cast<int>(_currentState)]->StateUpdate(this);
 
 	Vector3 pos = _transform->GetPosition();

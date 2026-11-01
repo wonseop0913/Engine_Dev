@@ -4,7 +4,7 @@
 #include "CommonStructs.h"
 
 enum class ZombieState {
-	Idle,
+	Init,
 	Scream,
 	Walk,
 	Attack,
@@ -15,7 +15,7 @@ enum class ZombieState {
 class ZombieScript : public EntityBase
 {
 #pragma region Player State Class
-	class IdleState : public BaseState<ZombieScript> {
+	class InitState : public BaseState<ZombieScript> {
 	public:
 		void StateStart(ZombieScript* owner) override;
 		void StateUpdate(ZombieScript* owner) override;
@@ -72,10 +72,10 @@ public:
 	void HitDelay() override;
 
 private:
-	void SetState(ZombieState state) {
-		if (_currentState == state) return;
+	void SetState(ZombieState state, bool forced = false) {
+		if (_currentState == state && !forced) return;
 		_currentState = state;
-		_isStateChanged = true;
+		_states[static_cast<int>(_currentState)]->StateStart(this);
 	}
 
 	void SetDamageText(int damage);
@@ -86,10 +86,9 @@ private:
 private:
 	shared_ptr<Rigidbody> _hitbox;
 
-	ZombieState _currentState = ZombieState::Idle;
-	bool _isStateChanged = false;
+	ZombieState _currentState = ZombieState::Init;
 
-	vector<BaseState<ZombieScript>*> _patterns;
+	vector<BaseState<ZombieScript>*> _states;
 	Bulb::Vector3 _targetVec;
 	float _targetDistance;
 	bool _isTargetLockedOn = false;

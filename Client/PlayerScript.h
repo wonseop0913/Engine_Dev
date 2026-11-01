@@ -129,7 +129,7 @@ public:
 	void SetState(PlayerState state) {
 		if (_playerMovementState == state) return;
 		_playerMovementState = state;
-		_isStateChanged = true;
+		_states[static_cast<int>(_playerMovementState)]->StateStart(this);
 	}
 
 	void HitDelay() override;
@@ -171,7 +171,6 @@ private:
 	Bulb::Vector3 _animEventVel = { 0.0f, 0.0f, 0.0f };
 
 	PlayerState _playerMovementState = PlayerState::IDLE;
-	bool _isStateChanged = false;
 
 	shared_ptr<GameObject> _lockOnTarget;
 	bool _isLockOn = false;

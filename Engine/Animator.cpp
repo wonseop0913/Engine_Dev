@@ -320,12 +320,14 @@ void Animator::PauseAnimation()
 	}
 
 	// 애니메이터 초기화 직후 멈춘 경우 첫 프레임 작동하지 않는 문제 방지용 강제 업데이트
-	Update();
+	if (isInitialized)
+		Update();
 
 	float currentTickStash = _currentTick;
 	float transitionTickStash = _transitionTick;
 
 	_isPlaying = false;
+	_isPlayOnInit = false;
 
 	_currentTick = currentTickStash;
 	_transitionTick = transitionTickStash;
