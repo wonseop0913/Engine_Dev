@@ -44,8 +44,6 @@ void PlayerScript::Init()
 		this->AnimationEventListener(e);
 	};
 
-	// _animator->SetInPlace(true);
-
 	_playerMovementState = PlayerState::IDLE;
 
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
@@ -55,38 +53,41 @@ void PlayerScript::Init()
 	_controller->SetRadius(0.3f);
 	_controller->SetOffset(Vector3(0.0f, 0.8f, 0.0f));
 
-	_hpBar = UI->CreateUI<UISlider>();
-	_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
-	_hpBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
-	_hpBar->GetTransform()->SetLocalPosition({ 15.0f, -15.0f, 0.0f });
-	_hpBar->SetEntireSize({ _health * 5.0f, 15.0f });
-	_hpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-	_hpBar->SetValueMaxLimit(100.0f);
-	_hpBar->SetValue(100.0f);
+	// UI
+	{
+		_hpBar = UI->CreateUI<UISlider>();
+		_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_hpBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_hpBar->GetTransform()->SetLocalPosition({ 15.0f, -15.0f, 0.0f });
+		_hpBar->SetEntireSize({ _health * 5.0f, 15.0f });
+		_hpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		_hpBar->SetValueMaxLimit(100.0f);
+		_hpBar->SetValue(100.0f);
 
-	_steminaBar = UI->CreateUI<UISlider>();
-	_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
-	_steminaBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
-	_steminaBar->GetTransform()->SetLocalPosition({ 15.0f, -35.0f, 0.0f });
-	_steminaBar->SetEntireSize({ _steminaMax * 5.0f, 15.0f });
-	_steminaBar->SetFillColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-	_steminaBar->SetValueMaxLimit(_steminaMax);
-	_steminaBar->SetValue(_stemina);
+		_steminaBar = UI->CreateUI<UISlider>();
+		_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_steminaBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_steminaBar->GetTransform()->SetLocalPosition({ 15.0f, -35.0f, 0.0f });
+		_steminaBar->SetEntireSize({ _steminaMax * 5.0f, 15.0f });
+		_steminaBar->SetFillColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+		_steminaBar->SetValueMaxLimit(_steminaMax);
+		_steminaBar->SetValue(_stemina);
 
-	_interactInfoPanel = UI->CreateUI<UIPanel>();
-	_interactInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
-	_interactInfoPanel->GetTransform()->SetPosition({0.0f, -400.0f, 0.0f});
-	_interactInfoPanel->GetTransform()->SetSize({ 500.0f, 50.0f });
-	_interactInfoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.1f });
-	_interactInfoPanel->SetRenderActive(false);
+		_interactInfoPanel = UI->CreateUI<UIPanel>();
+		_interactInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
+		_interactInfoPanel->GetTransform()->SetPosition({ 0.0f, -400.0f, 0.0f });
+		_interactInfoPanel->GetTransform()->SetSize({ 500.0f, 50.0f });
+		_interactInfoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.1f });
+		_interactInfoPanel->SetRenderActive(false);
 
-	_interactInfoText = UI->CreateUI<UIText>();
-	_interactInfoText->GetTransform()->SetSize({ 500.0f, 50.0f });
-	_interactInfoText->SetFont(L"KoPubBatang");
-	_interactInfoText->SetText(L"E키를 눌러 상호작용");
-	_interactInfoText->SetFontSize(22);
-	_interactInfoText->SetRenderActive(false);
-	_interactInfoText->GetTransform()->SetParent(_interactInfoPanel->GetTransform());
+		_interactInfoText = UI->CreateUI<UIText>();
+		_interactInfoText->GetTransform()->SetSize({ 500.0f, 50.0f });
+		_interactInfoText->SetFont(L"KoPubBatang");
+		_interactInfoText->SetText(L"E키를 눌러 상호작용");
+		_interactInfoText->SetFontSize(22);
+		_interactInfoText->SetRenderActive(false);
+		_interactInfoText->GetTransform()->SetParent(_interactInfoPanel->GetTransform());
+	}
 
 	tpvCameraScript = RENDER->GetObject("TPVCamera")->GetComponent<TPVCamera>();
 
@@ -155,6 +156,8 @@ void PlayerScript::Update()
 
 	// Interact
 	Interact();
+
+	UpdateMoveDir();
 
 	_states[static_cast<int>(_playerMovementState)]->StateUpdate(this);
 }
@@ -255,21 +258,11 @@ void PlayerScript::Move()
 {
 	if (!_controller->IsOnGround()) return;
 
-	int moveZ = (INPUTM->IsKeyPress(KeyValue::W) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::S) ? 1 : 0);
-	int moveX = (INPUTM->IsKeyPress(KeyValue::D) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::A) ? 1 : 0);
-
-	if (moveZ == 0 && moveX == 0) {
+	if (_movingDirection.Length() == 0.0f) {
 		SetState(PlayerState::IDLE);
 		return;
 	}
 
-	shared_ptr<Transform> cameraTransform = Camera::GetCurrentCamera()->GetTransform();
-	Vector3 look = cameraTransform->GetLook();
-	Vector3 right = cameraTransform->GetRight();
-	look.y = 0.0f;
-	right.y = 0.0f;
-
-	_movingDirection = (look * moveZ + right * moveX).Normalize();
 	Bulb::Vector3 interpolatedDir = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, _rotationSpeed);
 
 	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerState::RUN) &&
@@ -279,14 +272,20 @@ void PlayerScript::Move()
 	}
 	else {
 		if (_lockOnTarget) {
-			if (moveX == 1)
-				SetState(PlayerState::STRAFE_RIGHT);
-			else if (moveX == -1)
-				SetState(PlayerState::STRAFE_LEFT);
-			else if (moveZ == 1)
-				SetState(PlayerState::STRAFE_FORWARD);
-			else if (moveZ == -1)
-				SetState(PlayerState::STRAFE_BACK);
+			switch (_playerMoveDirection) {
+				case PlayerMoveDir::RIGHT:
+					SetState(PlayerState::STRAFE_RIGHT);
+					break;
+				case PlayerMoveDir::LEFT:
+					SetState(PlayerState::STRAFE_LEFT);
+					break;
+				case PlayerMoveDir::FORWARD:
+					SetState(PlayerState::STRAFE_FORWARD);
+					break;
+				case PlayerMoveDir::BACKWARD:
+					SetState(PlayerState::STRAFE_BACK);
+					break;
+			}
 		}
 		else {
 			_movingDirection = interpolatedDir;
@@ -365,6 +364,29 @@ void PlayerScript::HitDelay()
 	_isOnHitDelay = true;
 	_hitDelayTime = 0.08f;
 	_animator->PauseAnimation();
+}
+
+void PlayerScript::UpdateMoveDir()
+{
+	int moveZ = (INPUTM->IsKeyPress(KeyValue::W) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::S) ? 1 : 0);
+	int moveX = (INPUTM->IsKeyPress(KeyValue::D) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::A) ? 1 : 0);
+
+	if (moveX == 1)
+		_playerMoveDirection = PlayerMoveDir::RIGHT;
+	else if (moveX == -1)
+		_playerMoveDirection = PlayerMoveDir::LEFT;
+	else if (moveZ == 1)
+		_playerMoveDirection = PlayerMoveDir::FORWARD;
+	else if (moveZ == -1)
+		_playerMoveDirection = PlayerMoveDir::BACKWARD;
+
+	shared_ptr<Transform> cameraTransform = Camera::GetCurrentCamera()->GetTransform();
+	Vector3 look = cameraTransform->GetLook();
+	Vector3 right = cameraTransform->GetRight();
+	look.y = 0.0f;
+	right.y = 0.0f;
+
+	_movingDirection = (look * moveZ + right * moveX).Normalize();
 }
 
 void PlayerScript::Interact()
@@ -600,12 +622,13 @@ void PlayerScript::RollState::StateStart(PlayerScript* owner)
  	owner->_animator->SetLoop(false);
 
 	owner->DecreaseStemina(owner->_evadeSteminaValue, true);
+	_rollDir = owner->_movingDirection;
 }
 
 void PlayerScript::RollState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
-	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 4.0f);
+	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - _rollDir);
+	owner->_controller->SetVelocity(_rollDir * owner->_speed * 4.0f);
 
 	// 다른 애니메이션의 종말점 근처에서 구르기를 사용하는 경우
 	// Evade 이벤트가 true로 호출되고 완전히 전환되기 전에 현재 애니메이션이 끝나면

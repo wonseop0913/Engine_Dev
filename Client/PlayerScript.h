@@ -22,6 +22,14 @@ enum class PlayerState {
 	ENTER_VEIL
 };
 
+enum class PlayerMoveDir {
+	NONE,
+	FORWARD,
+	BACKWARD,
+	RIGHT,
+	LEFT
+};
+
 class PlayerScript : public EntityBase
 {
 #pragma region Player State Class
@@ -65,6 +73,8 @@ class PlayerScript : public EntityBase
 	public:
 		void StateStart(PlayerScript* owner) override;
 		void StateUpdate(PlayerScript* owner) override;
+	private:
+		Bulb::Vector3 _rollDir;
 	};
 
 	class StrafeForwardState : public BaseState<PlayerScript> {
@@ -135,6 +145,8 @@ public:
 	void HitDelay() override;
 
 private:
+	void UpdateMoveDir();
+
 	void Interact();
 
 	void RecoveryStemina();
@@ -171,6 +183,7 @@ private:
 	Bulb::Vector3 _animEventVel = { 0.0f, 0.0f, 0.0f };
 
 	PlayerState _playerMovementState = PlayerState::IDLE;
+	PlayerMoveDir _playerMoveDirection = PlayerMoveDir::NONE;
 
 	shared_ptr<GameObject> _lockOnTarget;
 	bool _isLockOn = false;
