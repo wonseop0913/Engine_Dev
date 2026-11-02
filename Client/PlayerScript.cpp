@@ -254,13 +254,13 @@ bool PlayerScript::Attack()
 	return false;
 }
 
-void PlayerScript::Move()
+bool PlayerScript::Move()
 {
-	if (!_controller->IsOnGround()) return;
+	if (!_controller->IsOnGround()) return false;
 
 	if (_movingDirection.Length() == 0.0f) {
 		SetState(PlayerState::IDLE);
-		return;
+		return false;
 	}
 
 	Bulb::Vector3 interpolatedDir = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, _rotationSpeed);
@@ -292,6 +292,8 @@ void PlayerScript::Move()
 			SetState(PlayerState::WALK);
 		}
 	}
+
+	return true;
 }
 
 void PlayerScript::LockOn()
@@ -492,7 +494,7 @@ void PlayerScript::IdleState::StateStart(PlayerScript* owner)
 void PlayerScript::IdleState::StateUpdate(PlayerScript* owner)
 {
 	if (owner->Attack()) return;
-	owner->Move();
+	if (owner->Move()) return;
 
 	if (owner->_lockOnTarget) {
 		owner->_transform->LookAtWithNoRoll(
@@ -521,7 +523,7 @@ void PlayerScript::WalkState::StateUpdate(PlayerScript* owner)
 
 	if (owner->Roll()) return;
 	if (owner->Attack()) return;
-	owner->Move();
+	if (!owner->Move()) return;
 
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed);
@@ -542,7 +544,7 @@ void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 
 	if (owner->Roll()) return;
 	if (owner->Attack()) return;
-	owner->Move();
+	if (!owner->Move()) return;
 
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 3.0f);
@@ -649,7 +651,7 @@ void PlayerScript::StrafeForwardState::StateUpdate(PlayerScript* owner)
 {
 	if (owner->Roll()) return;
 	if (owner->Attack()) return;
-	owner->Move();
+	if (!owner->Move()) return;
 
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
@@ -676,7 +678,7 @@ void PlayerScript::StrafeBackState::StateUpdate(PlayerScript* owner)
 {
 	if (owner->Roll()) return;
 	if (owner->Attack()) return;
-	owner->Move();
+	if (!owner->Move()) return;
 
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
@@ -703,7 +705,7 @@ void PlayerScript::StrafeRightState::StateUpdate(PlayerScript* owner)
 {
 	if (owner->Roll()) return;
 	if (owner->Attack()) return;
-	owner->Move();
+	if (!owner->Move()) return;
 
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
@@ -730,7 +732,7 @@ void PlayerScript::StrafeLeftState::StateUpdate(PlayerScript* owner)
 {
 	if (owner->Roll()) return;
 	if (owner->Attack()) return;
-	owner->Move();
+	if (!owner->Move()) return;
 
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();

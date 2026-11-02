@@ -132,7 +132,7 @@ public:
 public:
 	bool Roll();
 	bool Attack();
-	void Move();
+	bool Move();
 	void LockOn();
 	void LockRelease();
 
