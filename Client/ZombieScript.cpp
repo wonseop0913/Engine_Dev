@@ -131,7 +131,7 @@ void ZombieScript::OnCollisionEnter(shared_ptr<GameObject> other)
 			_bodyAs->SetSound(_hitSound);
 			_bodyAs->Play();
 			if (_health > 0) {
-				SetState(ZombieState::ReactionHit);
+				SetState(ZombieState::ReactionHit, true);
 			}
 			else {
 				SetState(ZombieState::Death);

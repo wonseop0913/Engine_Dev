@@ -76,6 +76,8 @@ public:
 			_isLoop = loop;
 	}
 
+	void ForcedUpdate();
+
 	void UpdateBoneTransform();
 
 	shared_ptr<Animation> GetCurrentAnimation() { return _currentAnimation != EMPTY_ANIMATION ? _animations[_currentAnimation] : nullptr; }

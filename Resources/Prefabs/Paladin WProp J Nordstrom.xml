@@ -3,7 +3,6 @@
         <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="0.01" ScaleY="0.01" ScaleZ="0.01" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>
         <Component ComponentType="Animator" Bone="..\Resources\Bones\Paladin WProp J Nordstrom.bbone">
             <Animations>
-                <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\T-Pose.banim"/>
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\idle_sword_1.banim"/>
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\idle_sword_2.banim"/>
                 <Animation Path="..\Resources\Animations\Paladin WProp J Nordstrom\idle_sword_3.banim"/>

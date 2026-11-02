@@ -136,8 +136,8 @@ public:
 	void LockOn();
 	void LockRelease();
 
-	void SetState(PlayerState state) {
-		if (_playerMovementState == state) return;
+	void SetState(PlayerState state, bool forced = false) {
+		if (_playerMovementState == state && !forced) return;
 		_playerMovementState = state;
 		_states[static_cast<int>(_playerMovementState)]->StateStart(this);
 	}

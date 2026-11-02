@@ -44,8 +44,6 @@ void PlayerScript::Init()
 		this->AnimationEventListener(e);
 	};
 
-	_playerMovementState = PlayerState::IDLE;
-
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
 
 	_controller = _gameObject->GetComponent<CharacterController>();
@@ -104,6 +102,8 @@ void PlayerScript::Init()
 	_states.push_back(new StrafeLeftState());
 	_states.push_back(new InteractState());
 	_states.push_back(new EnterVeilState());
+
+	SetState(PlayerState::IDLE, true);
 
 	_playerFootstepSounds[0] = SOUND->LoadSound("Sounds/PlayerStep1.wav", false);
 	_playerFootstepSounds[1] = SOUND->LoadSound("Sounds/PlayerStep2.wav", false);

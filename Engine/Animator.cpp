@@ -32,6 +32,9 @@ void Animator::Init()
 	}
 
 	ANIMATION->AddAnimator(static_pointer_cast<Animator>(shared_from_this()));
+
+	// 애니메이터 초기화 직후 멈춘 경우 첫 프레임 작동하지 않는 문제 방지용 강제 업데이트
+	Update();
 }
 
 void Animator::Update()
@@ -56,7 +59,7 @@ void Animator::Update()
 
 	else
 	{
-		if (_currentAnimation == EMPTY_ANIMATION || !_isPlaying)
+		if (_currentAnimation == EMPTY_ANIMATION)
 			return;
 
 		UpdateAnimationEvent();
@@ -64,12 +67,13 @@ void Animator::Update()
 		_skeleton->UpdateUploadBuffer();
 
 #ifdef BULB_EDITOR
-		// if (!EDITOR->IsOnPlay()) return;
 		if (!EDITOR->IsOnPlay()) {
 			_currentTick = 0.0f;
 			return;
 		}
 #endif
+
+		if (!_isPlaying) return;
 
 		if (_isInTransition) {
 			_transitionElapsedTime += TIME->DeltaTime();
@@ -319,10 +323,6 @@ void Animator::PauseAnimation()
 		return;
 	}
 
-	// 애니메이터 초기화 직후 멈춘 경우 첫 프레임 작동하지 않는 문제 방지용 강제 업데이트
-	if (isInitialized)
-		Update();
-
 	float currentTickStash = _currentTick;
 	float transitionTickStash = _transitionTick;
 
@@ -331,6 +331,11 @@ void Animator::PauseAnimation()
 
 	_currentTick = currentTickStash;
 	_transitionTick = transitionTickStash;
+}
+
+void Animator::ForcedUpdate()
+{
+
 }
 
 void Animator::UpdateBoneTransform()
