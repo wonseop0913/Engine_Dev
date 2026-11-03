@@ -135,11 +135,6 @@ void PlayerScript::Update()
 	else
 		_targetDistance = FLT_MAX;
 
-	if (_animEventVel.Length() > 0.0f) {
-		if (_targetDistance > 1.3f)
-			_transform->Translate(_animEventVel * TIME->DeltaTime());
-	}
-
 	if (INPUTM->IsKeyDown(KeyValue::Q))
 		LockOn();
 
@@ -455,6 +450,14 @@ void PlayerScript::DecreaseStemina(float value, bool instantChange)
 	_isRecoveryPossible = false;
 }
 
+void PlayerScript::AnimationVelocityUpdate()
+{
+	if (_animEventVel.Length() > 0.0f) {
+		if (_targetDistance > 1.3f)
+			_transform->Translate(_animEventVel * TIME->DeltaTime());
+	}
+}
+
 void PlayerScript::AnimationEventListener(AnimationEvent event)
 {
 	if (event.customEventName == "Attack") {
@@ -562,16 +565,20 @@ void PlayerScript::AttackCombo1State::StateStart(PlayerScript* owner)
 void PlayerScript::AttackCombo1State::StateUpdate(PlayerScript* owner)
 {
 	if (!owner->_animator->IsTransitionBlocked()) {
-		owner->Roll();
+		if (owner->Roll()) return;
 
 		if (INPUTM->IsMouseLeftButtonDown() &&
-			owner->_stemina >= owner->_attackSteminaValue)
+			owner->_stemina >= owner->_attackSteminaValue) {
 			owner->SetState(PlayerState::ATTACKCOMBO2);
+			return;
+		}
 	}
 
+	owner->AnimationVelocityUpdate();
+
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
-		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
+		owner->SetState(PlayerState::IDLE);
 	}
 }
 
@@ -585,17 +592,20 @@ void PlayerScript::AttackCombo2State::StateStart(PlayerScript* owner)
 void PlayerScript::AttackCombo2State::StateUpdate(PlayerScript* owner)
 {
 	if (!owner->_animator->IsTransitionBlocked()) {
-		owner->Roll();
+		if (owner->Roll()) return;
 
 		if (INPUTM->IsMouseLeftButtonDown() &&
-			owner->_stemina >= owner->_attackSteminaValue)
+			owner->_stemina >= owner->_attackSteminaValue) {
 			owner->SetState(PlayerState::ATTACKCOMBO3);
+			return;
+		}
 	}
 
+	owner->AnimationVelocityUpdate();
+
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
-		owner->SetState(PlayerState::ATTACKCOMBO3);
-		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
+		owner->SetState(PlayerState::IDLE);
 	}
 }
 
@@ -609,12 +619,14 @@ void PlayerScript::AttackCombo3State::StateStart(PlayerScript* owner)
 void PlayerScript::AttackCombo3State::StateUpdate(PlayerScript* owner)
 {
 	if (!owner->_animator->IsTransitionBlocked()) {
-		owner->Roll();
+		if (owner->Roll()) return;
 	}
 
+	owner->AnimationVelocityUpdate();
+
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
-		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
+		owner->SetState(PlayerState::IDLE);
 	}
 }
 
@@ -625,18 +637,21 @@ void PlayerScript::RollState::StateStart(PlayerScript* owner)
 
 	owner->DecreaseStemina(owner->_evadeSteminaValue, true);
 	_rollDir = owner->_movingDirection;
+	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - _rollDir);
 }
 
 void PlayerScript::RollState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - _rollDir);
-	owner->_controller->SetVelocity(_rollDir * owner->_speed * 4.0f);
+	// owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - _rollDir);
+
+	owner->AnimationVelocityUpdate();
 
 	// 다른 애니메이션의 종말점 근처에서 구르기를 사용하는 경우
 	// Evade 이벤트가 true로 호출되고 완전히 전환되기 전에 현재 애니메이션이 끝나면
 	// 구르기 애니메이션도 같이 끝나서 false값의 Evade 이벤트가 호출되지 않음.
 	// 엔진 단에서 해결해야될수도
 	if (!owner->_animator->IsInTransition() && owner->_animator->IsCurrentAnimationEnd()) {
+		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
  		owner->SetState(PlayerState::IDLE);
 	}
 }

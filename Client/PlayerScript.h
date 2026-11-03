@@ -156,6 +156,8 @@ private:
 	// Decrease stemina per second
 	void DecreaseStemina(float value, bool instantChange = true);
 
+	void AnimationVelocityUpdate();
+
 	void AnimationEventListener(AnimationEvent event) override;
 
 public:

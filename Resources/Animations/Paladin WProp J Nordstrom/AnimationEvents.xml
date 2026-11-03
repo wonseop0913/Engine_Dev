@@ -92,11 +92,13 @@
         <BlockTransition    Tick="0.0" Flag="true"/>
         <Custom             Tick="0.0" CustomEvent="Evade" Flag="true"/>
         <Speed              Tick="0.0" Speed="1.6"/>
+        <Custom             Tick="0.0" CustomEvent="Velocity" X="6"/>
         <Speed              Tick="6.1" Speed="1.8"/>
         <Speed              Tick="15.0" Speed="2.4"/>
         <Speed              Tick="19.0" Speed="1.5"/>
         <Custom             Tick="20.0" CustomEvent="Evade" Flag="false"/>
-        <Speed              Tick="20" Speed="0.7"/>
+        <Speed              Tick="20" Speed="0.6"/>
+        <Custom             Tick="20" CustomEvent="Velocity" X="3"/>
         <BlockTransition    Tick="21" Flag="false"/>
         <End                Tick="28.0"/>
     </Animation>
