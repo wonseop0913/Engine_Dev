@@ -6,6 +6,7 @@
 #include "Interactable.h"
 #include "MainSceneScript.h"
 #include "CommonStructs.h"
+#include "Managers.h"
 
 using namespace Bulb;
 
@@ -398,7 +399,7 @@ void PlayerScript::Interact()
 		}
 	}
 
-	if (_interactableScripts.size() > 0) {
+	if (_interactableScripts.size() > 0 && !Managers::Ui.IsAnyUIActive()) {
 		if (!_interactInfoPanel->IsRenderActive())
 			_interactInfoPanel->SetRenderActive(true);
 		if (INPUTM->IsKeyDown(KeyValue::E) &&

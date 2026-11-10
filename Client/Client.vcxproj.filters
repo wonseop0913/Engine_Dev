@@ -42,6 +42,9 @@
     <ClInclude Include="BaseState.h">
       <Filter>Scripts\Abstract</Filter>
     </ClInclude>
+    <ClInclude Include="SavePointFlag.h" />
+    <ClInclude Include="Managers.h" />
+    <ClInclude Include="UIManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -85,6 +88,9 @@
     <ClCompile Include="BaseState.cpp">
       <Filter>Scripts\Abstract</Filter>
     </ClCompile>
+    <ClCompile Include="SavePointFlag.cpp" />
+    <ClCompile Include="Managers.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">

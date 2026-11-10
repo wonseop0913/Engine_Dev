@@ -11,6 +11,7 @@
                 <RotOffset x="0" y="0" z="0"/>
             </Collider>
         </Component>
+        <Component ComponentType="SavePointFlag"/>
     </Components>
     <GameObjects>
         <GameObject Name="Cylinder.006" PSO="opaque_solid" Tag="Default">

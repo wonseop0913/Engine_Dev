@@ -1,6 +1,11 @@
 <Scene Name="MainScene" IBLFactor="0.050000001">
     <Skybox Texture="..\Resources\Textures\Skybox\CloudySkybox.dds"/>
     <GameObjects>
+        <GameObject Name="Manager" PSO="opaque_solid" Tag="Default">
+            <Components>
+                <Component ComponentType="Managers"/>
+            </Components>
+        </GameObject>
         <GameObject Name="SceneScript" PSO="opaque_solid" Tag="Default">
             <Components>
                 <Component ComponentType="Transform" PosX="0" PosY="0" PosZ="0" ScaleX="1" ScaleY="1" ScaleZ="1" QuatX="0" QuatY="0" QuatZ="0" QuatW="1"/>

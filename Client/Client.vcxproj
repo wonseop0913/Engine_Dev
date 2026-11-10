@@ -304,12 +304,15 @@
     <ClInclude Include="EntityBase.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="MainSceneScript.h" />
+    <ClInclude Include="Managers.h" />
     <ClInclude Include="MiddleGateLeverScript.h" />
     <ClInclude Include="PlayerScript.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="SavePointFlag.h" />
     <ClInclude Include="StartMenuSceneScript.h" />
     <ClInclude Include="TPVCamera.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="ZombieScript.h" />
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +324,7 @@
     <ClCompile Include="EntityBase.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />
+    <ClCompile Include="Managers.cpp" />
     <ClCompile Include="MiddleGateLeverScript.cpp" />
     <ClCompile Include="PlayerScript.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -332,8 +336,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Client Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Editor Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SavePointFlag.cpp" />
     <ClCompile Include="StartMenuSceneScript.cpp" />
     <ClCompile Include="TPVCamera.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="ZombieScript.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

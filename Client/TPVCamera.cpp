@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "TPVCamera.h"
+#include "Managers.h"
 
 using namespace Bulb;
 
@@ -85,63 +86,61 @@ void TPVCamera::Update()
 	if (rayCastResult.HitFlag) cameraTransform->SetLocalPosition({ 0.0f, 0.0f, -max(rayCastResult.Distance - 0.2f, 0.5f)});
 	else cameraTransform->SetLocalPosition({ 0.0f, 0.0f, -distance });
 
-	if (!isLockOn) {
-		float deltaX = INPUTM->GetMouseDelta().x * sensitivity * TIME->DeltaTime();
-		float deltaY = INPUTM->GetMouseDelta().y * sensitivity * TIME->DeltaTime();
+	if (!Managers::Ui.IsAnyUIActive()) {
+		if (!isLockOn) {
+			float deltaX = INPUTM->GetMouseDelta().x * sensitivity * TIME->DeltaTime();
+			float deltaY = INPUTM->GetMouseDelta().y * sensitivity * TIME->DeltaTime();
 
-		if (_lockOnMarker->IsRenderActive())
-			_lockOnMarker->SetRenderActive(false);
+			if (_lockOnMarker->IsRenderActive())
+				_lockOnMarker->SetRenderActive(false);
 
-		if (abs(deltaX) > 0.0f)
-			_transform->Rotate(Vector3(0.0f, deltaX, 0.0f));
-		if (abs(deltaY) > 0.0f) {
-			_pitch += deltaY * 50.0f;
-			_pitch = clamp(_pitch, pitchLimit.y, pitchLimit.x);
-			armTransform->SetLocalRotation(Vector3(_pitch, 0.0f, 0.0f));
-		}
-
-		cameraTransform->LookAtWithNoRoll(_pivotPosition);
-	}
-	else if (lockOnTargetTransform != nullptr) {
-		Vector3 targetPosition = lockOnTargetTransform->GetPosition();
-		Vector3 vecToTarget = targetPosition - cameraTransform->GetPosition();
-		vecToTarget.y = 0;
-		Vector3 lookVec = cameraTransform->GetLook();
-		lookVec.y = 0;
-
-		// y축 회전
-		float cosTarget = vecToTarget.Normalize().Dot(lookVec.Normalize());
-		if (cosTarget < cos(deadZoneHalfAngleHorizontal * MathHelper::Pi / 180.0f)) {
-			float targetAngle = acos(cosTarget) * 180.0f / MathHelper::Pi - 10.0f;
-			if (targetAngle > 0.001f) {
-				if (lookVec.Cross(vecToTarget).y < 0.0) targetAngle = -targetAngle;
-
-				_transform->Rotate(Vector3(0.0f, targetAngle * rotationSharpness * TIME->DeltaTime(), 0.0f));
+			if (abs(deltaX) > 0.0f)
+				_transform->Rotate(Vector3(0.0f, deltaX, 0.0f));
+			if (abs(deltaY) > 0.0f) {
+				_pitch += deltaY * 50.0f;
+				_pitch = clamp(_pitch, pitchLimit.y, pitchLimit.x);
+				armTransform->SetLocalRotation(Vector3(_pitch, 0.0f, 0.0f));
 			}
 		}
+		else if (lockOnTargetTransform != nullptr) {
+			Vector3 targetPosition = lockOnTargetTransform->GetPosition();
+			Vector3 vecToTarget = targetPosition - cameraTransform->GetPosition();
+			vecToTarget.y = 0;
+			Vector3 lookVec = cameraTransform->GetLook();
+			lookVec.y = 0;
 
-		if (!_lockOnMarker->IsRenderActive())
-			_lockOnMarker->SetRenderActive(true);
-		_lockOnMarker->GetTransform()->SetPosition(targetPosition);
+			// y축 회전
+			float cosTarget = vecToTarget.Normalize().Dot(lookVec.Normalize());
+			if (cosTarget < cos(deadZoneHalfAngleHorizontal * MathHelper::Pi / 180.0f)) {
+				float targetAngle = acos(cosTarget) * 180.0f / MathHelper::Pi - 10.0f;
+				if (targetAngle > 0.001f) {
+					if (lookVec.Cross(vecToTarget).y < 0.0) targetAngle = -targetAngle;
+
+					_transform->Rotate(Vector3(0.0f, targetAngle * rotationSharpness * TIME->DeltaTime(), 0.0f));
+				}
+			}
+
+			if (!_lockOnMarker->IsRenderActive())
+				_lockOnMarker->SetRenderActive(true);
+			_lockOnMarker->GetTransform()->SetPosition(targetPosition);
 
 
-		Vector3 relTargetPos = targetPosition - _pivotPosition;
-		float horizontalDist = Vector2(relTargetPos.x, relTargetPos.z).Length();
-		float currentPitchToTarget = -atan2(relTargetPos.y, horizontalDist) * (180.0f / MathHelper::Pi);
-		currentPitchToTarget = clamp(currentPitchToTarget, pitchLimit.y, pitchLimit.x);
-		if (currentPitchToTarget > 0.0f) {
-			float pitchDiff = currentPitchToTarget - armTransform->GetLocalRotation().x;
-			if (abs(pitchDiff) - deadZoneHalfAngleVertical > 0.001f) {
-				// _pitch = lerp(_pitch, clamp(targetPitch, pitchLimit.y, pitchLimit.x), pow(rotationSharpness, 2.0f));
-				float targetPitch = (abs(pitchDiff) - deadZoneHalfAngleVertical) * (pitchDiff < 0 ? -1.0f : 1.0f);
-				armTransform->Rotate(Vector3(targetPitch * rotationSharpness * TIME->DeltaTime(), 0.0f, 0.0f));
-				_pitch = armTransform->GetLocalRotation().x;
-				// armTransform->SetLocalRotation(Vector3(_pitch, 0.0f, 0.0f));
+			Vector3 relTargetPos = targetPosition - _pivotPosition;
+			float horizontalDist = Vector2(relTargetPos.x, relTargetPos.z).Length();
+			float currentPitchToTarget = -atan2(relTargetPos.y, horizontalDist) * (180.0f / MathHelper::Pi);
+			currentPitchToTarget = clamp(currentPitchToTarget, pitchLimit.y, pitchLimit.x);
+			if (currentPitchToTarget > 0.0f) {
+				float pitchDiff = currentPitchToTarget - armTransform->GetLocalRotation().x;
+				if (abs(pitchDiff) - deadZoneHalfAngleVertical > 0.001f) {
+					float targetPitch = (abs(pitchDiff) - deadZoneHalfAngleVertical) * (pitchDiff < 0 ? -1.0f : 1.0f);
+					armTransform->Rotate(Vector3(targetPitch * rotationSharpness * TIME->DeltaTime(), 0.0f, 0.0f));
+					_pitch = armTransform->GetLocalRotation().x;
+				}
 			}
 		}
-		
-		cameraTransform->LookAtWithNoRoll(_pivotPosition);
 	}
+
+	cameraTransform->LookAtWithNoRoll(_pivotPosition);
 }
 
 void TPVCamera::OnDestroy()
