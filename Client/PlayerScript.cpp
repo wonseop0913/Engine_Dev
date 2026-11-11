@@ -366,6 +366,8 @@ void PlayerScript::HitDelay()
 
 void PlayerScript::UpdateMoveDir()
 {
+	if (Managers::Ui.IsAnyUIActive()) return;
+
 	int moveZ = (INPUTM->IsKeyPress(KeyValue::W) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::S) ? 1 : 0);
 	int moveX = (INPUTM->IsKeyPress(KeyValue::D) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::A) ? 1 : 0);
 
