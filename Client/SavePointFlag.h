@@ -18,5 +18,8 @@ public:
 	void Interact(shared_ptr<GameObject> opponent) override;
 
 private:
-	shared_ptr<UIPanel> _savePanel;
+	shared_ptr<UIFrame> _checkPointUI;
+	shared_ptr<UIPanel> _backgroundPanel;
+	shared_ptr<UIText> _titleText;
+	shared_ptr<UIText> _levelText;
 };

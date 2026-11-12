@@ -1,11 +1,13 @@
 #pragma once
 
 #include "UIManager.h"
+#include "GameManager.h"
 
 class Managers : public Script
 {
 public:
 	static Client::UIManager Ui;
+	static Client::GameManager Game;
 private:
 	static Managers* Manager;
 

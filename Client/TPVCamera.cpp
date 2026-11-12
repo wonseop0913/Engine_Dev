@@ -8,7 +8,7 @@ REGISTER_COMPONENT(TPVCamera)
 
 TPVCamera::~TPVCamera()
 {
-	cout << "asdf";
+
 }
 
 void TPVCamera::Init()

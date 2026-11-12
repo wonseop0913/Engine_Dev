@@ -302,6 +302,7 @@
     <ClInclude Include="BossScript.h" />
     <ClInclude Include="CommonStructs.h" />
     <ClInclude Include="EntityBase.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Interactable.h" />
     <ClInclude Include="MainSceneScript.h" />
     <ClInclude Include="Managers.h" />
@@ -322,6 +323,7 @@
     <ClCompile Include="BossScript.cpp" />
     <ClCompile Include="CommonStructs.cpp" />
     <ClCompile Include="EntityBase.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Interactable.cpp" />
     <ClCompile Include="MainSceneScript.cpp" />
     <ClCompile Include="Managers.cpp" />

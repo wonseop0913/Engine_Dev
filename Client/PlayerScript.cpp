@@ -231,6 +231,8 @@ void PlayerScript::SaveXML(Bulb::XMLElement compElem)
 
 bool PlayerScript::Roll()
 {
+	if (Managers::Ui.IsAnyUIActive()) return false;
+
 	if (INPUTM->IsKeyDown(KeyValue::SPACE)) {
 		SetState(PlayerState::ROLL);
 		return true;
@@ -241,6 +243,8 @@ bool PlayerScript::Roll()
 
 bool PlayerScript::Attack()
 {
+	if (Managers::Ui.IsAnyUIActive()) return false;
+
 	if (INPUTM->IsMouseLeftButtonDown() &&
 		_stemina >= _attackSteminaValue) {
 		SetState(PlayerState::ATTACKCOMBO1);

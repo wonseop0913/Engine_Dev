@@ -45,6 +45,7 @@
     <ClInclude Include="SavePointFlag.h" />
     <ClInclude Include="Managers.h" />
     <ClInclude Include="UIManager.h" />
+    <ClInclude Include="GameManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="SavePointFlag.cpp" />
     <ClCompile Include="Managers.cpp" />
     <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">

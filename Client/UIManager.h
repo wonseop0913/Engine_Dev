@@ -11,7 +11,6 @@ namespace Client
 		UIManager(const UIManager& rhs) = delete;
 		UIManager& operator=(const UIManager& rhs) = delete;
 
-
 		void Update();
 
 	public:
