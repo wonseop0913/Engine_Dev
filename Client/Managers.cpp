@@ -6,6 +6,7 @@ REGISTER_COMPONENT(Managers)
 Managers* Managers::Manager;
 
 Client::UIManager Managers::Ui;
+Client::GameManager Managers::Game;
 
 
 Managers::~Managers()

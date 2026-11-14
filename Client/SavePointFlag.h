@@ -3,11 +3,9 @@
 
 class SavePointFlag : public Interactable {
 public:
-	~SavePointFlag();
+	~SavePointFlag() = default;
 
 	void Init() override;
-
-	void Update() override;
 
 	void OnDestroy() override;
 
@@ -17,9 +15,15 @@ public:
 
 	void Interact(shared_ptr<GameObject> opponent) override;
 
+public:
+	void OnMouseEnterButton();
+	void OnClickedLevelUpButton();
+
 private:
 	shared_ptr<UIFrame> _checkPointUI;
 	shared_ptr<UIPanel> _backgroundPanel;
 	shared_ptr<UIText> _titleText;
 	shared_ptr<UIText> _levelText;
+
+	shared_ptr<UIButton> _levelUpBtn;
 };

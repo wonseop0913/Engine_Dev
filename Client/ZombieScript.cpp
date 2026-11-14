@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ZombieScript.h"
 #include "PlayerScript.h"
+#include "Managers.h"
 
 using namespace Bulb;
 
@@ -327,4 +328,6 @@ void ZombieScript::DeathState::StateStart(ZombieScript* owner)
 	owner->_animator->SetLoop(false);
 	owner->_gameObject->SetTag("EnemyDeath");
 	owner->_hitbox->SetPhysicsActive(false);
+
+	Managers::Game.AddCurrency(50);
 }

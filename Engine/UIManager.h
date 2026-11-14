@@ -1,6 +1,6 @@
 #pragma once
 
-#define DEFAULT_UI_COUNT 30
+#define DEFAULT_UI_COUNT 100
 
 class BULB_API UIManager
 {
