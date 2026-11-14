@@ -16,6 +16,8 @@ void UITransform::UpdateTransform()
 	if (!_isDirty) return;
 
 	CalcAnchoredLocalPosition();
+	if (_stretchByParent)
+		SetSizePercentage(_stretchPercentage);
 
 	//if (_parent != nullptr) {
 	//	_position = _parent->GetPosition() + _localPosition;
@@ -89,9 +91,22 @@ void UITransform::SetLocalPosition(const Bulb::Vector3& position)
 
 void UITransform::SetSize(const Bulb::Vector2& size)
 {
-	SetDirtyFlag();
+	if (!_stretchByParent) {
+		SetDirtyFlag();
+
+		_size = size;
+	}
+	else {
+		DEBUG->WarnLog("Transform is not stretch mode but you tried to set percentage values.");
+	}
+}
+
+void UITransform::SetSizePercentage(const Bulb::Vector2& percentage)
+{
+	_stretchPercentage = percentage;
+
 	if (_stretchByParent) {
-		_stretchPercentage = size;
+		SetDirtyFlag();
 
 		Bulb::Vector2 parentSize;
 		if (_parent != nullptr)
@@ -102,7 +117,7 @@ void UITransform::SetSize(const Bulb::Vector2& size)
 		_size = { parentSize.x * _stretchPercentage.x, parentSize.y * _stretchPercentage.y };
 	}
 	else {
-		_size = size;
+		DEBUG->WarnLog("Transform is not stretch mode but you tried to set percentage values.");
 	}
 }
 
@@ -152,8 +167,9 @@ bool UITransform::CheckInRect(float x, float y)
 {
 	float halfWidth = _size.x * 0.5f;
 	float halfHeight = _size.y * 0.5f;
+	Bulb::Vector3 pos = GetPosition();
 
-	return (x >= _position.x - halfWidth && x <= _position.x + halfWidth) && (y >= _position.y - halfHeight && y <= _position.y + halfHeight);
+	return (x >= pos.x - halfWidth && x <= pos.x + halfWidth) && (y >= pos.y - halfHeight && y <= pos.y + halfHeight);
 }
 
 void UITransform::SetDirtyFlag()

@@ -31,6 +31,7 @@ public:
 	void SetLocalPosition(const Bulb::Vector3& position);
 	void SetStretchSize(bool value) { _stretchByParent = value; }
 	void SetSize(const Bulb::Vector2& size);
+	void SetSizePercentage(const Bulb::Vector2& percentage);
 	void SetWidth(float width) {
 		SetDirtyFlag();
 		_size.x = width;

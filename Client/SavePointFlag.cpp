@@ -8,14 +8,14 @@ void SavePointFlag::Init()
 {
 	_checkPointUI = UI->CreateUI<UIFrame>();
 	_checkPointUI->GetTransform()->SetStretchSize(true);
-	_checkPointUI->GetTransform()->SetSize({ 0.8f, 0.8f });
+	_checkPointUI->GetTransform()->SetSizePercentage({ 0.8f, 0.8f });
 
 	_backgroundPanel = UI->CreateUI<UIPanel>();
 	_backgroundPanel->SetColor({ 0.2f, 0.2f, 0.2f, 0.5f });
 	_backgroundPanel->GetTransform()->SetParent(_checkPointUI->GetTransform());
-	_backgroundPanel->GetTransform()->SetDepth(5);
 	_backgroundPanel->GetTransform()->SetStretchSize(true);
-	_backgroundPanel->GetTransform()->SetSize({ 1.0f, 1.0f });
+	_backgroundPanel->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
+	_backgroundPanel->GetTransform()->SetDepth(5);
 
 	_titleText = UI->CreateUI<UIText>();
 	_titleText->GetTransform()->SetParent(_backgroundPanel->GetTransform());
@@ -49,7 +49,7 @@ void SavePointFlag::Init()
 	_levelUpBtn->GetTransform()->SetDepth(1);
 	// _levelUpBtn->GetTransform()->SetDepth(3.0f);
 	// _levelUpBtn->background->SetTexture(L"..\\Resources\\Textures\\UI\\ButtonHovered.png");
-	_levelUpBtn->background->GetTransform()->SetSize({ 200.0f, 75.0f });
+	_levelUpBtn->GetTransform()->SetSize({ 200.0f, 75.0f });
 	_levelUpBtn->text->SetFont("Georgia");
 	_levelUpBtn->text->SetText("Up");
 	_levelUpBtn->mouseEnterEvent += [this]() { OnMouseEnterButton(); };
