@@ -16,7 +16,6 @@ public:
 	void Interact(shared_ptr<GameObject> opponent) override;
 
 public:
-	void OnMouseEnterButton();
 	void OnClickedLevelUpButton();
 
 private:

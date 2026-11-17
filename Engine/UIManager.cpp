@@ -12,6 +12,7 @@ UIManager::~UIManager()
 	_quadMesh.reset();
 	_prevHoveredUI.reset();
 	_hoveredUI.reset();
+	_pressedUI.reset();
 
 	for (auto& e : _elements) {
 		e->OnDestroy();
@@ -40,6 +41,9 @@ Bulb::ProcessResult UIManager::Delete()
 
 void UIManager::Initialize()
 {
+	_pressedUI.reset();
+	_prevHoveredUI.reset();
+	_hoveredUI.reset();
 	_elements.clear();
 	_panels.clear();
 }
@@ -100,7 +104,16 @@ void UIManager::Update()
 		if (_hoveredUI != nullptr) _hoveredUI->OnMouseEnter();
 	}
 	if (_hoveredUI != nullptr) {
-		if (INPUTM->IsMouseLeftButtonDown()) _hoveredUI->OnMouseDown();
+		if (INPUTM->IsMouseLeftButtonDown()) {
+			_pressedUI = _hoveredUI;
+			_pressedUI->OnMouseDown();
+		}
+	}
+
+	if (_pressedUI != nullptr && INPUTM->IsMouseLeftButtonUp()) {
+		if (_pressedUI == _hoveredUI)
+			_pressedUI->OnMouseUp();
+		_pressedUI.reset();
 	}
 
 	for (auto& ui : _panels) {
@@ -172,6 +185,12 @@ void UIManager::AddUI(const shared_ptr<UIElement>& ui)
 
 void UIManager::DeleteUI(const shared_ptr<UIElement>& ui)
 {
+	if (_pressedUI == ui) {
+		_pressedUI.reset();
+	}
+	if (_hoveredUI == ui) _hoveredUI.reset();
+	if (_prevHoveredUI == ui) _prevHoveredUI.reset();
+
 	for (int i = 0; i < _elementCount; ++i) {
 		if (_elements[i] == ui) {
 			--_elementCount;

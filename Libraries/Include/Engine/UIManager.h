@@ -50,6 +50,7 @@ private:
 	shared_ptr<Mesh> _quadMesh;
 	shared_ptr<UIElement> _prevHoveredUI;
 	shared_ptr<UIElement> _hoveredUI;
+	shared_ptr<UIElement> _pressedUI;
 
 	vector<shared_ptr<UIElement>> _elements;
 	vector<shared_ptr<UIPanel>> _panels;

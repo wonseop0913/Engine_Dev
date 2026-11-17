@@ -50,8 +50,7 @@ void SavePointFlag::Init()
 	_levelUpBtn->GetTransform()->SetSize({ 200.0f, 75.0f });
 	_levelUpBtn->text->SetFont("Georgia");
 	_levelUpBtn->text->SetText("Up");
-	_levelUpBtn->mouseEnterEvent += [this]() { OnMouseEnterButton(); };
-	_levelUpBtn->mouseDownEvent += [this]() { OnClickedLevelUpButton(); };
+	_levelUpBtn->mouseUpEvent += [this]() { OnClickedLevelUpButton(); };
 	_levelUpBtn->SetButtonActive(false);
 
 	_checkPointUI->SetRenderActive(false);
@@ -80,11 +79,6 @@ void SavePointFlag::Interact(shared_ptr<GameObject> opponent)
 
 	_levelText->SetText(to_string(Managers::Game.GetLevel()));
 	Managers::Ui.AddUI(_checkPointUI);
-}
-
-void SavePointFlag::OnMouseEnterButton()
-{
-	// __debugbreak();
 }
 
 void SavePointFlag::OnClickedLevelUpButton()

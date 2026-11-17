@@ -90,3 +90,11 @@ void UIButton::OnMouseDown()
 	background->SetColor(colorClicked);
 	mouseDownEvent.Execute();
 }
+
+void UIButton::OnMouseUp()
+{
+	if (!_buttonActive) return;
+	UIElement::OnMouseUp();
+	background->SetColor(colorDefault);
+	mouseUpEvent.Execute();
+}

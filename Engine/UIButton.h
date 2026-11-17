@@ -21,11 +21,13 @@ public:
 	void OnMouseEnter() override;
 	void OnMouseExit() override;
 	void OnMouseDown() override;
+	void OnMouseUp() override;
 
 public:
 	Event<> mouseEnterEvent;
 	Event<> mouseExitEvent;
 	Event<> mouseDownEvent;
+	Event<> mouseUpEvent;
 
 	shared_ptr<UIPanel> background;
 	shared_ptr<UIText> text;
