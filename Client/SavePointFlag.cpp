@@ -41,11 +41,35 @@ void SavePointFlag::Init()
 	_levelText->SetText(L"");
 	_levelText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 
+	_currencyText = UI->CreateUI<UIText>();
+	_currencyText->GetTransform()->SetParent(_backgroundPanel->GetTransform());
+	_currencyText->GetTransform()->SetPivot({ 0.0f, 1.0f });
+	_currencyText->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+	_currencyText->GetTransform()->SetLocalPosition({ 20.0f, -100.0f, 0.0f });
+	_currencyText->GetTransform()->SetDepth(1);
+	_currencyText->SetSize({ 800.0f, 30.0f });
+	_currencyText->SetFont(L"KoPubBatang");
+	_currencyText->SetFontSize(24);
+	_currencyText->SetText(L"");
+	_currencyText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+
+	_levelUpCostText = UI->CreateUI<UIText>();
+	_levelUpCostText->GetTransform()->SetParent(_backgroundPanel->GetTransform());
+	_levelUpCostText->GetTransform()->SetPivot({ 0.0f, 1.0f });
+	_levelUpCostText->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+	_levelUpCostText->GetTransform()->SetLocalPosition({ 20.0f, -140.0f, 0.0f });
+	_levelUpCostText->GetTransform()->SetDepth(1);
+	_levelUpCostText->SetSize({ 800.0f, 30.0f });
+	_levelUpCostText->SetFont(L"KoPubBatang");
+	_levelUpCostText->SetFontSize(24);
+	_levelUpCostText->SetText(L"");
+	_levelUpCostText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+
 	_levelUpBtn = UI->CreateUI<UIButton>();
 	_levelUpBtn->GetTransform()->SetParent(_backgroundPanel->GetTransform());
 	_levelUpBtn->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_levelUpBtn->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
-	_levelUpBtn->GetTransform()->SetLocalPosition({ 20.0f, -100.0f, -1.0f });
+	_levelUpBtn->GetTransform()->SetLocalPosition({ 20.0f, -180.0f, -1.0f });
 	_levelUpBtn->GetTransform()->SetDepth(1);
 	_levelUpBtn->GetTransform()->SetSize({ 200.0f, 75.0f });
 	_levelUpBtn->text->SetFont("Georgia");
@@ -75,16 +99,21 @@ void SavePointFlag::SaveXML(Bulb::XMLElement compElem)
 
 void SavePointFlag::Interact(shared_ptr<GameObject> opponent)
 {
-	_levelUpBtn->SetButtonActive(Managers::Game.IsLevelUpAvailable());
-
-	_levelText->SetText(to_string(Managers::Game.GetLevel()));
+	UpdateLevelUpUI();
 	Managers::Ui.AddUI(_checkPointUI);
 }
 
 void SavePointFlag::OnClickedLevelUpButton()
 {
-	if (Managers::Game.LevelUp())
-		_levelText->SetText(to_string(Managers::Game.GetLevel()));
+	Managers::Game.LevelUp();
+	UpdateLevelUpUI();
+}
 
+
+void SavePointFlag::UpdateLevelUpUI()
+{
+	_levelText->SetText(to_string(Managers::Game.GetLevel()));
+	_currencyText->SetText("보유 경험치: " + to_string(Managers::Game.GetCurrency()));
+	_levelUpCostText->SetText("레벨업 필요 경험치: " + to_string(Managers::Game.GetLevelUpCost()));
 	_levelUpBtn->SetButtonActive(Managers::Game.IsLevelUpAvailable());
 }
