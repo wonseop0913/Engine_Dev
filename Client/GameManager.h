@@ -20,6 +20,7 @@ namespace Client
 		void AddCurrency(int amount);
 
 		bool LevelUp();
+		bool IsLevelUpAvailable() { return GetLevelUpCost() <= _playerStatus.currency; }
 
 		PlayerStatus _playerStatus;
 	};

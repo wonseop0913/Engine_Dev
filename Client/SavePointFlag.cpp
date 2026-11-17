@@ -47,13 +47,12 @@ void SavePointFlag::Init()
 	_levelUpBtn->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_levelUpBtn->GetTransform()->SetLocalPosition({ 20.0f, -100.0f, -1.0f });
 	_levelUpBtn->GetTransform()->SetDepth(1);
-	// _levelUpBtn->GetTransform()->SetDepth(3.0f);
-	// _levelUpBtn->background->SetTexture(L"..\\Resources\\Textures\\UI\\ButtonHovered.png");
 	_levelUpBtn->GetTransform()->SetSize({ 200.0f, 75.0f });
 	_levelUpBtn->text->SetFont("Georgia");
 	_levelUpBtn->text->SetText("Up");
 	_levelUpBtn->mouseEnterEvent += [this]() { OnMouseEnterButton(); };
 	_levelUpBtn->mouseDownEvent += [this]() { OnClickedLevelUpButton(); };
+	_levelUpBtn->SetButtonActive(false);
 
 	_checkPointUI->SetRenderActive(false);
 
@@ -77,6 +76,8 @@ void SavePointFlag::SaveXML(Bulb::XMLElement compElem)
 
 void SavePointFlag::Interact(shared_ptr<GameObject> opponent)
 {
+	_levelUpBtn->SetButtonActive(Managers::Game.IsLevelUpAvailable());
+
 	_levelText->SetText(to_string(Managers::Game.GetLevel()));
 	Managers::Ui.AddUI(_checkPointUI);
 }
@@ -90,4 +91,6 @@ void SavePointFlag::OnClickedLevelUpButton()
 {
 	if (Managers::Game.LevelUp())
 		_levelText->SetText(to_string(Managers::Game.GetLevel()));
+
+	_levelUpBtn->SetButtonActive(Managers::Game.IsLevelUpAvailable());
 }
