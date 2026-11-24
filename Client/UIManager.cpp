@@ -20,7 +20,10 @@ void Client::UIManager::AddUI(shared_ptr<UIElement> ui)
 
 void Client::UIManager::PopUI()
 {
-	if (_elements.size() == 0) return;
+	if (_elements.size() == 0) {
+		pauseUIEvent.Execute();
+		return;
+	}
 
 	shared_ptr<UIElement> lastUI = _elements[_elements.size() - 1];
 

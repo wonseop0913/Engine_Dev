@@ -19,6 +19,8 @@ namespace Client
 
 		bool IsAnyUIActive() { return _elements.size() > 0; }
 
+		Event<> pauseUIEvent;
+
 	private:
 		vector<shared_ptr<UIElement>> _elements;
 	};

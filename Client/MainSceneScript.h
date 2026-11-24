@@ -68,6 +68,8 @@ public:
 
 	bool IsInfoPanelActive() { return _isInfoPanelActive; }
 
+	void ActivatePauseUI();
+
 private:
 	vector<BaseState<MainSceneScript>*> _states;
 	MainSceneState _currentState = MainSceneState::Init;
@@ -81,6 +83,9 @@ private:
 	shared_ptr<UIPanel>		_bossInfoPanel;
 	shared_ptr<UISlider>	_bossHpBar;
 	shared_ptr<UIText>		_bossNameText;
+
+	shared_ptr<UIFrame>		_pauseUI;
+	shared_ptr<UIPanel>		_pauseBackgroundPanel;
 
 	bool _isInfoPanelActive = false;
 
