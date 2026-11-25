@@ -96,6 +96,6 @@ void UIButton::OnMouseUp()
 {
 	if (!_buttonActive) return;
 	UIElement::OnMouseUp();
-	background->SetColor(colorDefault);
+	background->SetColor(_isHovered ? colorHovered : colorDefault);
 	mouseUpEvent.Execute();
 }
