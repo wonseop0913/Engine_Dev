@@ -82,7 +82,45 @@ void MainSceneScript::Init()
 		_pauseBackgroundPanel->GetTransform()->SetParent(_pauseUI->GetTransform());
 		_pauseBackgroundPanel->GetTransform()->SetStretchSize(true);
 		_pauseBackgroundPanel->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
-		_pauseBackgroundPanel->GetTransform()->SetDepth(5);
+
+		//shared_ptr<UIText> titleText = UI->CreateUI<UIText>();
+		//titleText->GetTransform()->SetParent(_pauseBackgroundPanel->GetTransform());
+		//titleText->GetTransform()->SetPivot({ 0.5f, 1.0f });
+		//titleText->GetTransform()->SetAnchor(UIAnchorMode::CenterTop);
+		//titleText->GetTransform()->SetLocalPosition({ 0.0f, -20.0f, 0.0f });
+		//titleText->SetSize({ 800.0f, 50.0f });
+		//titleText->SetFont(L"KoPubBatang");
+		//titleText->SetFontSize(42);
+		//titleText->SetText(L"일시정지");
+		//titleText->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+
+		_closeBtn = UI->CreateUI<UIButton>();
+		_closeBtn->GetTransform()->SetParent(_pauseBackgroundPanel->GetTransform());
+		_closeBtn->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_closeBtn->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_closeBtn->GetTransform()->SetLocalPosition({ 0.0f, -180.0f, -1.0f });
+		_closeBtn->GetTransform()->SetSize({ 300.0f, 60.0f });
+		_closeBtn->text->SetFont("Georgia");
+		_closeBtn->text->SetText("계속하기");
+
+		_settingBtn = UI->CreateUI<UIButton>();
+		_settingBtn->GetTransform()->SetParent(_pauseBackgroundPanel->GetTransform());
+		_settingBtn->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_settingBtn->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_settingBtn->GetTransform()->SetLocalPosition({ 0.0f, -260.0f, -1.0f });
+		_settingBtn->GetTransform()->SetSize({ 300.0f, 60.0f });
+		_settingBtn->text->SetFont("Georgia");
+		_settingBtn->text->SetText("환경설정");
+
+		_exitBtn = UI->CreateUI<UIButton>();
+		_exitBtn->GetTransform()->SetParent(_pauseBackgroundPanel->GetTransform());
+		_exitBtn->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_exitBtn->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_exitBtn->GetTransform()->SetLocalPosition({ 0.0f, -340.0f, -1.0f });
+		_exitBtn->GetTransform()->SetSize({ 300.0f, 60.0f });
+		_exitBtn->text->SetFont("Georgia");
+		_exitBtn->text->SetText("메인메뉴로 나가기");
+		// _closeBtn->mouseUpEvent += [this]() { OnClickedLevelUpButton(); };
 
 		_pauseUI->SetRenderActive(false);
 	}

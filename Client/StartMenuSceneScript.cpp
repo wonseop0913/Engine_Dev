@@ -18,7 +18,6 @@ void StartMenuSceneScript::Init()
 	SetState(StartMenuSceneState::MenuFadeIn);
 
 	_startButton = UI->CreateUI<UIButton>();
-	_startButton->GetTransform()->SetDepth(3.0f);
 	_startButton->GetTransform()->SetPosition({ 0.0f, -100.0f, 0.0f });
 	_startButton->background->SetTexture(L"..\\Resources\\Textures\\UI\\ButtonHovered.png");
 	_startButton->background->GetTransform()->SetSize({ 300.0f, 75.0f });
@@ -28,7 +27,6 @@ void StartMenuSceneScript::Init()
 	_startButton->mouseDownEvent += [this]() { OnClickedStartButton(); };
 
 	_settingButton = UI->CreateUI<UIButton>();
-	_settingButton->GetTransform()->SetDepth(3.0f);
 	_settingButton->GetTransform()->SetPosition({ 0.0f, -175.0f, 0.0f });
 	_settingButton->background->SetTexture(L"..\\Resources\\Textures\\UI\\ButtonHovered.png");
 	_settingButton->background->GetTransform()->SetSize({ 300.0f, 75.0f });
@@ -38,7 +36,6 @@ void StartMenuSceneScript::Init()
 	_settingButton->mouseDownEvent += [this]() { OnClickedSettingsButton(); };
 
 	_exitButton = UI->CreateUI<UIButton>();
-	_exitButton->GetTransform()->SetDepth(3.0f);
 	_exitButton->GetTransform()->SetPosition({ 0.0f, -250.0f, 0.0f });
 	_exitButton->background->SetTexture(L"..\\Resources\\Textures\\UI\\ButtonHovered.png");
 	_exitButton->background->GetTransform()->SetSize({ 300.0f, 75.0f });
@@ -49,7 +46,6 @@ void StartMenuSceneScript::Init()
 
 	shared_ptr<UIPanel> mainTitlePanel = UI->CreateUI<UIPanel>();
 	mainTitlePanel->SetTexture(L"..\\Resources\\Textures\\Logos\\MainTitle.png");
-	mainTitlePanel->GetTransform()->SetDepth(5.0f);
 	mainTitlePanel->GetTransform()->SetSize({ 1500.0f, 468.75f });
 	mainTitlePanel->GetTransform()->SetPosition({ 0.0f, 150.0f, 0.0f });
 

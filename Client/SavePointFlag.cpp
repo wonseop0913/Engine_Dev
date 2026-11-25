@@ -15,14 +15,12 @@ void SavePointFlag::Init()
 	_backgroundPanel->GetTransform()->SetParent(_checkPointUI->GetTransform());
 	_backgroundPanel->GetTransform()->SetStretchSize(true);
 	_backgroundPanel->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
-	_backgroundPanel->GetTransform()->SetDepth(5);
 
 	_titleText = UI->CreateUI<UIText>();
 	_titleText->GetTransform()->SetParent(_backgroundPanel->GetTransform());
 	_titleText->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_titleText->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_titleText->GetTransform()->SetLocalPosition({ 20.0f, -20.0f, 0.0f });
-	_titleText->GetTransform()->SetDepth(1);
 	_titleText->SetSize({ 800.0f, 30.0f });
 	_titleText->SetFont(L"KoPubBatang");
 	_titleText->SetFontSize(30);
@@ -34,7 +32,6 @@ void SavePointFlag::Init()
 	_levelText->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_levelText->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_levelText->GetTransform()->SetLocalPosition({ 20.0f, -60.0f, 0.0f });
-	_levelText->GetTransform()->SetDepth(1);
 	_levelText->SetSize({ 800.0f, 30.0f });
 	_levelText->SetFont(L"KoPubBatang");
 	_levelText->SetFontSize(24);
@@ -46,7 +43,6 @@ void SavePointFlag::Init()
 	_currencyText->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_currencyText->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_currencyText->GetTransform()->SetLocalPosition({ 20.0f, -100.0f, 0.0f });
-	_currencyText->GetTransform()->SetDepth(1);
 	_currencyText->SetSize({ 800.0f, 30.0f });
 	_currencyText->SetFont(L"KoPubBatang");
 	_currencyText->SetFontSize(24);
@@ -58,7 +54,6 @@ void SavePointFlag::Init()
 	_levelUpCostText->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_levelUpCostText->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_levelUpCostText->GetTransform()->SetLocalPosition({ 20.0f, -140.0f, 0.0f });
-	_levelUpCostText->GetTransform()->SetDepth(1);
 	_levelUpCostText->SetSize({ 800.0f, 30.0f });
 	_levelUpCostText->SetFont(L"KoPubBatang");
 	_levelUpCostText->SetFontSize(24);
@@ -70,7 +65,6 @@ void SavePointFlag::Init()
 	_levelUpBtn->GetTransform()->SetPivot({ 0.0f, 1.0f });
 	_levelUpBtn->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
 	_levelUpBtn->GetTransform()->SetLocalPosition({ 20.0f, -180.0f, -1.0f });
-	_levelUpBtn->GetTransform()->SetDepth(1);
 	_levelUpBtn->GetTransform()->SetSize({ 200.0f, 75.0f });
 	_levelUpBtn->text->SetFont("Georgia");
 	_levelUpBtn->text->SetText("Up");

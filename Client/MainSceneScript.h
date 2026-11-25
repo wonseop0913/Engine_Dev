@@ -86,6 +86,9 @@ private:
 
 	shared_ptr<UIFrame>		_pauseUI;
 	shared_ptr<UIPanel>		_pauseBackgroundPanel;
+	shared_ptr<UIButton>	_closeBtn;
+	shared_ptr<UIButton>	_settingBtn;
+	shared_ptr<UIButton>	_exitBtn;
 
 	bool _isInfoPanelActive = false;
 

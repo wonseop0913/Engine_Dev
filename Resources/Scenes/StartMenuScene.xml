@@ -14,7 +14,7 @@
         </GameObject>
     </GameObjects>
     <UIs>
-        <UI Type="Panel" Texture="Tex_Default" Depth="10">
+        <UI Type="Panel" Texture="Tex_Default">
             <Pivot x="0.5" y="0.5"/>
             <Position x="0" y="0" z="0"/>
             <Size StretchByParent="true" x="1" y="1"/>

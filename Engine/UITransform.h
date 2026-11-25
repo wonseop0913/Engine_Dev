@@ -40,7 +40,6 @@ public:
 		SetDirtyFlag();
 		_size.y = height;
 	}
-	void SetDepth(float depth);
 	void SetDynamicPosition(bool value) { _isDynamicPosition = value; }
 
 	Bulb::Vector2 GetPivot() { return _pivot; }
@@ -52,15 +51,13 @@ public:
 	Bulb::Vector2 GetSize() { return _size; }
 	float GetWidth() { return _size.x; }
 	float GetHeight() { return _size.y; }
-	float GetDepth() { 
-		return _depth; 
-	}
 	bool IsDynamicPosition() { return _isDynamicPosition; }
 
 	void SetParent(shared_ptr<UITransform> parent);
 	void AddChild(shared_ptr<UITransform> child);
 
 	const vector<shared_ptr<UITransform>>& GetChilds() { return _childs; }
+	shared_ptr<UITransform> GetParent() { return _parent; }
 
 	shared_ptr<UIElement> GetUIElement() { return _element.lock(); }
 
@@ -86,8 +83,6 @@ private:
 	bool _stretchByParent = false;
 	Bulb::Vector2 _stretchPercentage = { 100.0f, 100.0f };
 	Bulb::Vector2 _size = { 100.0f, 100.0f };
-	float _depth = 1.0f;
-
 	shared_ptr<UITransform> _parent = nullptr;
 	vector<shared_ptr<UITransform>> _childs;
 

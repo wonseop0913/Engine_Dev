@@ -27,11 +27,12 @@ void UIButton::Init()
 	background->GetTransform()->SetParent(_transform);
 	background->GetTransform()->SetStretchSize(true);
 	background->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
-	background->GetTransform()->SetDepth(_transform->GetDepth() + 1.0f);
+	background->SetPassthroughMouse(true);
 
 	text->GetTransform()->SetParent(_transform);
 	text->GetTransform()->SetStretchSize(true);
 	text->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
+	text->SetPassthroughMouse(true);
 }
 
 void UIButton::Update()

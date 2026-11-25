@@ -121,17 +121,6 @@ void UITransform::SetSizePercentage(const Bulb::Vector2& percentage)
 	}
 }
 
-void UITransform::SetDepth(float depth)
-{
-	float depthDiff = depth - _depth;
-	for (auto& child : _childs) {
-		child->SetDepth(child->GetDepth() + depthDiff);
-	}
-	_depth = depth;
-
-	UI->SetDepthSortFlag();
-}
-
 Bulb::Vector3 UITransform::GetPosition()
 {
 	if (_isDirty) UpdateTransform();
@@ -150,6 +139,12 @@ Bulb::Vector3 UITransform::GetPosition()
 
 void UITransform::SetParent(shared_ptr<UITransform> parent)
 {
+	if (_parent == parent) return;
+	if (_parent != nullptr) {
+		auto& siblings = _parent->_childs;
+		siblings.erase(remove(siblings.begin(), siblings.end(), shared_from_this()), siblings.end());
+	}
+
 	_parent = parent;
 
 	if (_parent != nullptr) {

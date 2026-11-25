@@ -105,7 +105,6 @@ struct UIInstanceConstants
 {
 	XMFLOAT2 CenterPos;
 	XMFLOAT2 Size;
-	float Depth;
-	UINT TextureIndex;
 	Bulb::Color Color;
+	UINT TextureIndex;
 };
