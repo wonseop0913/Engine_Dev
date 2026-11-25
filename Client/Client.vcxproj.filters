@@ -42,6 +42,18 @@
     <ClInclude Include="BaseState.h">
       <Filter>Scripts\Abstract</Filter>
     </ClInclude>
+    <ClInclude Include="Managers.h">
+      <Filter>Scripts\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Scripts\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Scripts\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SavePointFlag.h">
+      <Filter>Scripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
@@ -85,6 +97,18 @@
     <ClCompile Include="BaseState.cpp">
       <Filter>Scripts\Abstract</Filter>
     </ClCompile>
+    <ClCompile Include="Managers.cpp">
+      <Filter>Scripts\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Scripts\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Scripts\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SavePointFlag.cpp">
+      <Filter>Scripts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scripts">
@@ -104,6 +128,9 @@
     </Filter>
     <Filter Include="Scripts\Entities">
       <UniqueIdentifier>{fc002a37-f23e-462a-b094-fb31d0ee81bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts\Managers">
+      <UniqueIdentifier>{e762159f-7927-4357-8bc9-95fd73b73f3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

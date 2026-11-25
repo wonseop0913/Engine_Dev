@@ -13,22 +13,31 @@ public:
 
 	void OnDestroy() override;
 
+	void SetButtonActive(bool active);
+	bool IsButtonActive() const { return _buttonActive; }
+
 	void LoadXML(XMLElement* uiElem) override;
 
 	void OnMouseEnter() override;
 	void OnMouseExit() override;
 	void OnMouseDown() override;
+	void OnMouseUp() override;
 
 public:
 	Event<> mouseEnterEvent;
 	Event<> mouseExitEvent;
 	Event<> mouseDownEvent;
+	Event<> mouseUpEvent;
 
 	shared_ptr<UIPanel> background;
 	shared_ptr<UIText> text;
 
-	Bulb::Color colorDefault = { 1.0f, 1.0f, 1.0f, 1.0f };
-	Bulb::Color colorHovered = { 0.7f, 0.7f, 0.7f, 1.0f };
+	Bulb::Color colorDefault = { 0.8f, 0.8f, 0.8f, 1.0f };
+	Bulb::Color colorHovered = { 1.0f, 1.0f, 1.0f, 1.0f };
 	Bulb::Color colorClicked = { 0.55f, 0.55f, 0.55f, 1.0f };
+	Bulb::Color colorDisabled = { 0.4f, 0.4f, 0.4f, 1.0f };
+
+private:
+	bool _buttonActive = true;
 };
 

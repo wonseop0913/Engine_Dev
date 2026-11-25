@@ -31,6 +31,7 @@ public:
 	void SetLocalPosition(const Bulb::Vector3& position);
 	void SetStretchSize(bool value) { _stretchByParent = value; }
 	void SetSize(const Bulb::Vector2& size);
+	void SetSizePercentage(const Bulb::Vector2& percentage);
 	void SetWidth(float width) {
 		SetDirtyFlag();
 		_size.x = width;
@@ -39,7 +40,6 @@ public:
 		SetDirtyFlag();
 		_size.y = height;
 	}
-	void SetDepth(float depth);
 	void SetDynamicPosition(bool value) { _isDynamicPosition = value; }
 
 	Bulb::Vector2 GetPivot() { return _pivot; }
@@ -48,11 +48,17 @@ public:
 		if (_isDirty) UpdateTransform();
 		return _localPosition; 
 	}
-	Bulb::Vector2 GetSize() { return _size; }
-	float GetWidth() { return _size.x; }
-	float GetHeight() { return _size.y; }
-	float GetDepth() { 
-		return _depth; 
+	Bulb::Vector2 GetSize() {
+		if (_isDirty) UpdateTransform();
+		return _size;
+	}
+	float GetWidth() {
+		if (_isDirty) UpdateTransform();
+		return _size.x;
+	}
+	float GetHeight() {
+		if (_isDirty) UpdateTransform();
+		return _size.y;
 	}
 	bool IsDynamicPosition() { return _isDynamicPosition; }
 
@@ -60,6 +66,7 @@ public:
 	void AddChild(shared_ptr<UITransform> child);
 
 	const vector<shared_ptr<UITransform>>& GetChilds() { return _childs; }
+	shared_ptr<UITransform> GetParent() { return _parent; }
 
 	shared_ptr<UIElement> GetUIElement() { return _element.lock(); }
 
@@ -85,8 +92,6 @@ private:
 	bool _stretchByParent = false;
 	Bulb::Vector2 _stretchPercentage = { 100.0f, 100.0f };
 	Bulb::Vector2 _size = { 100.0f, 100.0f };
-	float _depth = 1.0f;
-
 	shared_ptr<UITransform> _parent = nullptr;
 	vector<shared_ptr<UITransform>> _childs;
 

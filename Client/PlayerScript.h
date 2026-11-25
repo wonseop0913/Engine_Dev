@@ -22,6 +22,14 @@ enum class PlayerState {
 	ENTER_VEIL
 };
 
+enum class PlayerMoveDir {
+	NONE,
+	FORWARD,
+	BACKWARD,
+	RIGHT,
+	LEFT
+};
+
 class PlayerScript : public EntityBase
 {
 #pragma region Player State Class
@@ -65,6 +73,8 @@ class PlayerScript : public EntityBase
 	public:
 		void StateStart(PlayerScript* owner) override;
 		void StateUpdate(PlayerScript* owner) override;
+	private:
+		Bulb::Vector3 _rollDir;
 	};
 
 	class StrafeForwardState : public BaseState<PlayerScript> {
@@ -120,21 +130,23 @@ public:
 	void SaveXML(Bulb::XMLElement compElem) override;
 
 public:
-	void Roll();
-	void Attack();
-	void Move();
+	bool Roll();
+	bool Attack();
+	bool Move();
 	void LockOn();
 	void LockRelease();
 
-	void SetState(PlayerState state) {
-		if (_playerMovementState == state) return;
+	void SetState(PlayerState state, bool forced = false) {
+		if (_playerMovementState == state && !forced) return;
 		_playerMovementState = state;
-		_isStateChanged = true;
+		_states[static_cast<int>(_playerMovementState)]->StateStart(this);
 	}
 
 	void HitDelay() override;
 
 private:
+	void UpdateMoveDir();
+
 	void Interact();
 
 	void RecoveryStemina();
@@ -144,13 +156,12 @@ private:
 	// Decrease stemina per second
 	void DecreaseStemina(float value, bool instantChange = true);
 
+	void AnimationVelocityUpdate();
+
 	void AnimationEventListener(AnimationEvent event) override;
 
 public:
 	shared_ptr<TPVCamera> tpvCameraScript;
-
-	float steminaMax = 6000.0f;
-	float stemina = 6000.0f;
 
 private:
 	shared_ptr<Rigidbody> _swordRb;
@@ -161,12 +172,20 @@ private:
 	shared_ptr<UIPanel> _interactInfoPanel;
 	shared_ptr<UIText> _interactInfoText;
 
+	float _steminaMax = 60.0f;
+	float _stemina = 60.0f;
+	float _steminaRecoveryValue = 10.0f;
+
+	float _runSteminaValue = 5.0f;		// Per Tick
+	float _evadeSteminaValue = 10.0f;
+	float _attackSteminaValue = 8.0f;
+
 	float _speed = 1.55f;
 	float _rotationSpeed = 17.0f;
 	Bulb::Vector3 _animEventVel = { 0.0f, 0.0f, 0.0f };
 
 	PlayerState _playerMovementState = PlayerState::IDLE;
-	bool _isStateChanged = false;
+	PlayerMoveDir _playerMoveDirection = PlayerMoveDir::NONE;
 
 	shared_ptr<GameObject> _lockOnTarget;
 	bool _isLockOn = false;

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ZombieScript.h"
 #include "PlayerScript.h"
+#include "Managers.h"
 
 using namespace Bulb;
 
@@ -27,14 +28,14 @@ void ZombieScript::Init()
 	_controller->SetRadius(0.3f);
 	_controller->SetOffset(Vector3(0.0f, 0.9f, 0.0f));
 
-	_patterns.push_back(new IdleState());
-	_patterns.push_back(new ScreamState());
-	_patterns.push_back(new WalkState());
-	_patterns.push_back(new AttackState());
-	_patterns.push_back(new ReactionHitState());
-	_patterns.push_back(new DeathState());
+	_states.push_back(new InitState());
+	_states.push_back(new ScreamState());
+	_states.push_back(new WalkState());
+	_states.push_back(new AttackState());
+	_states.push_back(new ReactionHitState());
+	_states.push_back(new DeathState());
 
-	_isStateChanged = true;
+	SetState(ZombieState::Init, true);
 
 	_enemyStateUI = UI->CreateUI<UIFrame>();
 	_enemyStateUI->GetTransform()->SetDynamicPosition(true);
@@ -92,12 +93,7 @@ void ZombieScript::Update()
 	_targetVec.y = 0;
 	_targetDistance = _targetVec.Length();
 
-	if (_isStateChanged) {
-		_patterns[static_cast<int>(_currentState)]->StateStart(this);
-		_isStateChanged = false;
-	}
-
-	_patterns[static_cast<int>(_currentState)]->StateUpdate(this);
+	_states[static_cast<int>(_currentState)]->StateUpdate(this);
 
 	Vector3 pos = _transform->GetPosition();
 	_enemyStateUI->GetTransform()->SetPosition({ pos.x, pos.y + 2.2f, pos.z });
@@ -113,7 +109,7 @@ void ZombieScript::OnDestroy()
 	_animator.reset();
 	_controller.reset();
 
-	for (auto& pattern : _patterns) {
+	for (auto& pattern : _states) {
 		delete pattern;
 	}
 
@@ -136,8 +132,7 @@ void ZombieScript::OnCollisionEnter(shared_ptr<GameObject> other)
 			_bodyAs->SetSound(_hitSound);
 			_bodyAs->Play();
 			if (_health > 0) {
-				_isStateChanged = true;
-				SetState(ZombieState::ReactionHit);
+				SetState(ZombieState::ReactionHit, true);
 			}
 			else {
 				SetState(ZombieState::Death);
@@ -195,8 +190,7 @@ void ZombieScript::UpdateDamageText()
 
 void ZombieScript::AnimationEventListener(AnimationEvent event)
 {
-	switch (event.type) {
-	case AnimationEventTypes::Sound: {
+	if (event.customEventName == "Sound") {
 		if (event.strData == "ZombieScream") {
 			_headAs->SetSound(_screamSound);
 			_headAs->Play();
@@ -217,28 +211,24 @@ void ZombieScript::AnimationEventListener(AnimationEvent event)
 			_headAs->SetSound(_deathEndSound);
 			_headAs->Play();
 		}
-		break;
 	}
-	case AnimationEventTypes::Step: {
+	else if (event.customEventName == "Step") {
 		_footAs->SetSound(_footstepSounds[Utils::Random(0, 4)]);
 		_footAs->Play();
-		break;
 	}
-	case AnimationEventTypes::RotateToTarget: {
+	else if (event.customEventName == "RotateToTarget") {
 		_rotateToTarget = event.datas[0].x == 1;
-		break;
-	}
 	}
 }
 
-void ZombieScript::IdleState::StateStart(ZombieScript* owner)
+void ZombieScript::InitState::StateStart(ZombieScript* owner)
 {
 	owner->_animator->SetCurrentAnimation("idle", 0.0f);
 	owner->_animator->SetLoop(false);
 	owner->_animator->PauseAnimation();
 }
 
-void ZombieScript::IdleState::StateUpdate(ZombieScript* owner)
+void ZombieScript::InitState::StateUpdate(ZombieScript* owner)
 {
 	Bulb::Vector3 ownerPos = owner->_headTransform->GetPosition();
 	Bulb::Vector3 rayDir = owner->targetTransform->GetPosition() - ownerPos;
@@ -247,7 +237,7 @@ void ZombieScript::IdleState::StateUpdate(ZombieScript* owner)
 		rayDir,
 		rayDir.Length());
 
-	if (owner->_currentState == ZombieState::Idle && 
+	if (owner->_currentState == ZombieState::Init && 
 		owner->_targetDistance <= 5.0f &&
 		!rayCastResult.HitFlag) {
 		owner->_animator->PlayAnimation();
@@ -338,4 +328,6 @@ void ZombieScript::DeathState::StateStart(ZombieScript* owner)
 	owner->_animator->SetLoop(false);
 	owner->_gameObject->SetTag("EnemyDeath");
 	owner->_hitbox->SetPhysicsActive(false);
+
+	Managers::Game.AddCurrency(50);
 }

@@ -118,6 +118,13 @@ public:
 
 		return _mouseStates.LeftButton == KeyState::Press;
 	}
+	bool IsMouseLeftButtonUp() {
+#ifdef BULB_EDITOR
+		if (ImGui::GetIO().WantCaptureMouse) return false;
+#endif
+
+		return _mouseStates.LeftButton == KeyState::Up;
+	}
 
 	bool IsMouseRightButtonDown() {
 #ifdef BULB_EDITOR

@@ -1,6 +1,6 @@
 #pragma once
 
-#define DEFAULT_UI_COUNT 30
+#define DEFAULT_UI_COUNT 100
 
 class BULB_API UIManager
 {
@@ -33,8 +33,6 @@ public:
 	void AddUI(const shared_ptr<UIElement>& ui);
 	void DeleteUI(const shared_ptr<UIElement>& ui);
 
-	void SetDepthSortFlag() { _sortFlag = true; }
-
 	Bulb::Vector2 GetUIResolution() { return _uiResolution; }
 
 private:
@@ -44,21 +42,20 @@ private:
 	static UIManager* s_instance;
 
 	Bulb::Vector2 _uiResolution = { 1920.0f, 1080.0f };
-	int _elementCount = 0;
-	int _panelCount = 0;
 
 	shared_ptr<Mesh> _quadMesh;
 	shared_ptr<UIElement> _prevHoveredUI;
 	shared_ptr<UIElement> _hoveredUI;
+	shared_ptr<UIElement> _pressedUI;
 
 	vector<shared_ptr<UIElement>> _elements;
+	vector<shared_ptr<UIElement>> _orderedElements;
 	vector<shared_ptr<UIPanel>> _panels;
 	vector<UIInstanceConstants> _uiConstants;
 
 	unique_ptr<UploadBuffer<UIInstanceConstants>> _uploadBuffer = nullptr;
 	UINT _uploadBufferSrvIndex = -1;
 
-	bool _sortFlag = false;
 };
 
 template<typename T>

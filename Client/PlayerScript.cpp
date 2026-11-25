@@ -6,6 +6,7 @@
 #include "Interactable.h"
 #include "MainSceneScript.h"
 #include "CommonStructs.h"
+#include "Managers.h"
 
 using namespace Bulb;
 
@@ -44,11 +45,6 @@ void PlayerScript::Init()
 		this->AnimationEventListener(e);
 	};
 
-	// _animator->SetInPlace(true);
-
-	_playerMovementState = PlayerState::IDLE;
-	_isStateChanged = true;
-
 	_movingDirection = { 0.0f, 0.0f, 0.0f };
 
 	_controller = _gameObject->GetComponent<CharacterController>();
@@ -56,38 +52,41 @@ void PlayerScript::Init()
 	_controller->SetRadius(0.3f);
 	_controller->SetOffset(Vector3(0.0f, 0.8f, 0.0f));
 
-	_hpBar = UI->CreateUI<UISlider>();
-	_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
-	_hpBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
-	_hpBar->GetTransform()->SetLocalPosition({ 15.0f, -15.0f, 0.0f });
-	_hpBar->SetEntireSize({ _health * 5.0f, 15.0f });
-	_hpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
-	_hpBar->SetValueMaxLimit(100.0f);
-	_hpBar->SetValue(100.0f);
+	// UI
+	{
+		_hpBar = UI->CreateUI<UISlider>();
+		_hpBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_hpBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_hpBar->GetTransform()->SetLocalPosition({ 15.0f, -15.0f, 0.0f });
+		_hpBar->SetEntireSize({ _health * 5.0f, 15.0f });
+		_hpBar->SetFillColor({ 1.0f, 0.0f, 0.0f, 1.0f });
+		_hpBar->SetValueMaxLimit(100.0f);
+		_hpBar->SetValue(100.0f);
 
-	_steminaBar = UI->CreateUI<UISlider>();
-	_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
-	_steminaBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
-	_steminaBar->GetTransform()->SetLocalPosition({ 15.0f, -35.0f, 0.0f });
-	_steminaBar->SetEntireSize({ 200.0f, 15.0f });
-	_steminaBar->SetFillColor({ 0.0f, 1.0f, 0.0f, 1.0f });
-	_steminaBar->SetValueMaxLimit(steminaMax);
-	_steminaBar->SetValue(stemina);
+		_steminaBar = UI->CreateUI<UISlider>();
+		_steminaBar->GetTransform()->SetPivot({ 0.0f, 1.0f });
+		_steminaBar->GetTransform()->SetAnchor(UIAnchorMode::LeftTop);
+		_steminaBar->GetTransform()->SetLocalPosition({ 15.0f, -35.0f, 0.0f });
+		_steminaBar->SetEntireSize({ _steminaMax * 5.0f, 15.0f });
+		_steminaBar->SetFillColor({ 0.0f, 1.0f, 0.0f, 1.0f });
+		_steminaBar->SetValueMaxLimit(_steminaMax);
+		_steminaBar->SetValue(_stemina);
 
-	_interactInfoPanel = UI->CreateUI<UIPanel>();
-	_interactInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
-	_interactInfoPanel->GetTransform()->SetPosition({0.0f, -400.0f, 0.0f});
-	_interactInfoPanel->GetTransform()->SetSize({ 500.0f, 50.0f });
-	_interactInfoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.1f });
-	_interactInfoPanel->SetRenderActive(false);
+		_interactInfoPanel = UI->CreateUI<UIPanel>();
+		_interactInfoPanel->GetTransform()->SetPivot({ 0.5f, 0.0f });
+		_interactInfoPanel->GetTransform()->SetPosition({ 0.0f, -400.0f, 0.0f });
+		_interactInfoPanel->GetTransform()->SetSize({ 500.0f, 50.0f });
+		_interactInfoPanel->SetColor({ 0.0f, 0.0f, 0.0f, 0.1f });
+		_interactInfoPanel->SetRenderActive(false);
 
-	_interactInfoText = UI->CreateUI<UIText>();
-	_interactInfoText->GetTransform()->SetSize({ 500.0f, 50.0f });
-	_interactInfoText->SetFont(L"KoPubBatang");
-	_interactInfoText->SetText(L"E키를 눌러 상호작용");
-	_interactInfoText->SetFontSize(22);
-	_interactInfoText->SetRenderActive(false);
-	_interactInfoText->GetTransform()->SetParent(_interactInfoPanel->GetTransform());
+		_interactInfoText = UI->CreateUI<UIText>();
+		_interactInfoText->GetTransform()->SetSize({ 500.0f, 50.0f });
+		_interactInfoText->SetFont(L"KoPubBatang");
+		_interactInfoText->SetText(L"E키를 눌러 상호작용");
+		_interactInfoText->SetFontSize(22);
+		_interactInfoText->SetRenderActive(false);
+		_interactInfoText->GetTransform()->SetParent(_interactInfoPanel->GetTransform());
+	}
 
 	tpvCameraScript = RENDER->GetObject("TPVCamera")->GetComponent<TPVCamera>();
 
@@ -104,6 +103,8 @@ void PlayerScript::Init()
 	_states.push_back(new StrafeLeftState());
 	_states.push_back(new InteractState());
 	_states.push_back(new EnterVeilState());
+
+	SetState(PlayerState::IDLE, true);
 
 	_playerFootstepSounds[0] = SOUND->LoadSound("Sounds/PlayerStep1.wav", false);
 	_playerFootstepSounds[1] = SOUND->LoadSound("Sounds/PlayerStep2.wav", false);
@@ -135,11 +136,6 @@ void PlayerScript::Update()
 	else
 		_targetDistance = FLT_MAX;
 
-	if (_animEventVel.Length() > 0.0f) {
-		if (_targetDistance > 1.3f)
-			_transform->Translate(_animEventVel * TIME->DeltaTime());
-	}
-
 	if (INPUTM->IsKeyDown(KeyValue::Q))
 		LockOn();
 
@@ -154,34 +150,10 @@ void PlayerScript::Update()
 		}
 	}
 
-	Roll();
-	Attack();
-
 	// Interact
 	Interact();
 
-	if (_playerMovementState == PlayerState::ATTACKCOMBO1 ||
-		_playerMovementState == PlayerState::ATTACKCOMBO2 ||
-		_playerMovementState == PlayerState::ATTACKCOMBO3 ||
-		_playerMovementState == PlayerState::ROLL ||
-		_playerMovementState == PlayerState::INTERACT ||
-		_playerMovementState == PlayerState::ENTER_VEIL)
-	{
-		//if (_animator->IsCurrentAnimationEnd())
-		//{
-		//	SetState(PlayerMovementState::IDLE);
-		//}
-	}
-	else if (_playerMovementState != PlayerState::ROLL)
-	{
-		Move();
-	}
-
-	if (_isStateChanged)
-	{
-		_states[static_cast<int>(_playerMovementState)]->StateStart(this);
-		_isStateChanged = false;
-	}
+	UpdateMoveDir();
 
 	_states[static_cast<int>(_playerMovementState)]->StateUpdate(this);
 }
@@ -257,70 +229,71 @@ void PlayerScript::SaveXML(Bulb::XMLElement compElem)
 	compElem.SetAttribute("ComponentType", "PlayerScript");
 }
 
-void PlayerScript::Roll()
+bool PlayerScript::Roll()
 {
-	if (INPUTM->IsKeyDown(KeyValue::SPACE) && 
-		!_animator->IsTransitionBlocked() && 
-		_playerMovementState != PlayerState::IDLE) {
+	if (Managers::Ui.IsAnyUIActive()) return false;
+
+	if (INPUTM->IsKeyDown(KeyValue::SPACE)) {
 		SetState(PlayerState::ROLL);
+		return true;
 	}
+
+	return false;
 }
 
-void PlayerScript::Attack()
+bool PlayerScript::Attack()
 {
-	if (INPUTM->IsMouseLeftButtonDown() && 
-		_playerMovementState != PlayerState::ROLL &&
-		_playerMovementState != PlayerState::INTERACT &&
-		_playerMovementState != PlayerState::ENTER_VEIL &&
-		_playerMovementState != PlayerState::ATTACKCOMBO1 &&
-		_playerMovementState != PlayerState::ATTACKCOMBO2 &&
-		_playerMovementState != PlayerState::ATTACKCOMBO3) {
+	if (Managers::Ui.IsAnyUIActive()) return false;
+
+	if (INPUTM->IsMouseLeftButtonDown() &&
+		_stemina >= _attackSteminaValue) {
 		SetState(PlayerState::ATTACKCOMBO1);
+		return true;
 	}
+
+	return false;
 }
 
-void PlayerScript::Move()
+bool PlayerScript::Move()
 {
-	if (!_controller->IsOnGround()) return;
+	if (!_controller->IsOnGround()) return false;
 
-	int moveZ = (INPUTM->IsKeyPress(KeyValue::W) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::S) ? 1 : 0);
-	int moveX = (INPUTM->IsKeyPress(KeyValue::D) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::A) ? 1 : 0);
-
-	if (moveZ == 0 && moveX == 0) {
+	if (_movingDirection.Length() == 0.0f) {
 		SetState(PlayerState::IDLE);
-		return;
+		return false;
 	}
 
-	shared_ptr<Transform> cameraTransform = Camera::GetCurrentCamera()->GetTransform();
-	Vector3 look = cameraTransform->GetLook();
-	Vector3 right = cameraTransform->GetRight();
-	look.y = 0.0f;
-	right.y = 0.0f;
-
-	_movingDirection = (look * moveZ + right * moveX).Normalize();
 	Bulb::Vector3 interpolatedDir = MathHelper::InterpolateVector(_transform->GetBack(), _movingDirection, _rotationSpeed);
 
 	if ((INPUTM->IsKeyDown(KeyValue::SHIFT) || _playerMovementState == PlayerState::RUN) &&
-		stemina > 0.0f) {
+		_stemina > 0.0f) {
 		_movingDirection = interpolatedDir;
 		SetState(PlayerState::RUN);
 	}
 	else {
 		if (_lockOnTarget) {
-			if (moveX == 1)
-				SetState(PlayerState::STRAFE_RIGHT);
-			else if (moveX == -1)
-				SetState(PlayerState::STRAFE_LEFT);
-			else if (moveZ == 1)
-				SetState(PlayerState::STRAFE_FORWARD);
-			else if (moveZ == -1)
-				SetState(PlayerState::STRAFE_BACK);
+			switch (_playerMoveDirection) {
+				case PlayerMoveDir::RIGHT:
+					SetState(PlayerState::STRAFE_RIGHT);
+					break;
+				case PlayerMoveDir::LEFT:
+					SetState(PlayerState::STRAFE_LEFT);
+					break;
+				case PlayerMoveDir::FORWARD:
+					SetState(PlayerState::STRAFE_FORWARD);
+					break;
+				case PlayerMoveDir::BACKWARD:
+					SetState(PlayerState::STRAFE_BACK);
+					break;
+			}
 		}
 		else {
 			_movingDirection = interpolatedDir;
 			SetState(PlayerState::WALK);
 		}
 	}
+
+	return true;
 }
 
 void PlayerScript::LockOn()
@@ -395,6 +368,34 @@ void PlayerScript::HitDelay()
 	_animator->PauseAnimation();
 }
 
+void PlayerScript::UpdateMoveDir()
+{
+	if (Managers::Ui.IsAnyUIActive()) {
+		_movingDirection = { 0.0f, 0.0f, 0.0f };
+		return;
+	}
+
+	int moveZ = (INPUTM->IsKeyPress(KeyValue::W) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::S) ? 1 : 0);
+	int moveX = (INPUTM->IsKeyPress(KeyValue::D) ? 1 : 0) - (INPUTM->IsKeyPress(KeyValue::A) ? 1 : 0);
+
+	if (moveX == 1)
+		_playerMoveDirection = PlayerMoveDir::RIGHT;
+	else if (moveX == -1)
+		_playerMoveDirection = PlayerMoveDir::LEFT;
+	else if (moveZ == 1)
+		_playerMoveDirection = PlayerMoveDir::FORWARD;
+	else if (moveZ == -1)
+		_playerMoveDirection = PlayerMoveDir::BACKWARD;
+
+	shared_ptr<Transform> cameraTransform = Camera::GetCurrentCamera()->GetTransform();
+	Vector3 look = cameraTransform->GetLook();
+	Vector3 right = cameraTransform->GetRight();
+	look.y = 0.0f;
+	right.y = 0.0f;
+
+	_movingDirection = (look * moveZ + right * moveX).Normalize();
+}
+
 void PlayerScript::Interact()
 {
 	// 1. 상호작용 비활성화 객체 삭제
@@ -407,7 +408,7 @@ void PlayerScript::Interact()
 		}
 	}
 
-	if (_interactableScripts.size() > 0) {
+	if (_interactableScripts.size() > 0 && !Managers::Ui.IsAnyUIActive()) {
 		if (!_interactInfoPanel->IsRenderActive())
 			_interactInfoPanel->SetRenderActive(true);
 		if (INPUTM->IsKeyDown(KeyValue::E) &&
@@ -425,9 +426,9 @@ void PlayerScript::RecoveryStemina()
 {
 	if (!_isRecoveryPossible)
 		_recoverySteminaDelayedTime -= TIME->DeltaTime();
-	else if (stemina < steminaMax) {
-		stemina += 10.0f * TIME->DeltaTime();
-		if (stemina > steminaMax) stemina = steminaMax;
+	else if (_stemina < _steminaMax) {
+		_stemina += _steminaRecoveryValue * TIME->DeltaTime();
+		if (_stemina > _steminaMax) _stemina = _steminaMax;
 	}
 
 	if (_recoverySteminaDelayedTime < 0.0f) {
@@ -435,7 +436,7 @@ void PlayerScript::RecoveryStemina()
 		_isRecoveryPossible = true;
 	}
 
-	_steminaBar->SetValue(stemina);
+	_steminaBar->SetValue(_stemina);
 }
 
 void PlayerScript::TakeDamage(int damage)
@@ -447,51 +448,53 @@ void PlayerScript::TakeDamage(int damage)
 void PlayerScript::DecreaseStemina(float value, bool instantChange)
 {
 	if (instantChange) {
-		stemina -= value;
+		_stemina -= value;
 	}
 	else {
-		stemina -= value * TIME->DeltaTime();
+		_stemina -= value * TIME->DeltaTime();
 	}
 
-	if (stemina < 0.0f) stemina = 0.0f;
+	if (_stemina < 0.0f) _stemina = 0.0f;
 
 	_recoverySteminaDelayedTime = 1.0f;
 	_isRecoveryPossible = false;
 }
 
+void PlayerScript::AnimationVelocityUpdate()
+{
+	if (_animEventVel.Length() > 0.0f) {
+		if (_targetDistance > 1.3f)
+			_transform->Translate(_animEventVel * TIME->DeltaTime());
+	}
+}
+
 void PlayerScript::AnimationEventListener(AnimationEvent event)
 {
-	switch (event.type) {
-		case AnimationEventTypes::Attack: {
-			bool attackFlag = event.datas[2].x == 1;
+	if (event.customEventName == "Attack") {
+		bool attackFlag = event.datas[2].x == 1;
 
-			_swordRb->SetPhysicsActive(attackFlag);
-			if (attackFlag) {
-				_attackInfo.attakee = _gameObject;
-				_attackInfo.damage = event.datas[0].w;
-				_swordRb->customData = &_attackInfo;
-			}
-			break;
+		_swordRb->SetPhysicsActive(attackFlag);
+		if (attackFlag) {
+			_attackInfo.attakee = _gameObject;
+			_attackInfo.damage = event.datas[0].w;
+			_swordRb->customData = &_attackInfo;
+			DecreaseStemina(_attackSteminaValue, true);
 		}
-		case AnimationEventTypes::Sound: {
-			if (event.strData == "PlayerAttack")
-				_swordAs->Play();
-			break;
-		}
-		case AnimationEventTypes::Step: {
-			_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
-			_playerFootAs->Play();
-			break;
-		}
-		case AnimationEventTypes::Evade: {
-			_isEvading = event.datas[0].x == 1;
-			break;
-		}
-		case AnimationEventTypes::Velocity: {
-			// _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
-			_animEventVel = _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
-			break;
-		}
+	}
+	else if (event.customEventName == "Sound") {
+		if (event.strData == "PlayerAttack")
+			_swordAs->Play();
+	}
+	else if (event.customEventName == "Step") {
+		_playerFootAs->SetSound(_playerFootstepSounds[Utils::Random(0, 4)]);
+		_playerFootAs->Play();
+	}
+	else if (event.customEventName == "Evade") {
+		_isEvading = event.datas[0].x == 1;
+	}
+	else if (event.customEventName == "Velocity") {
+		// _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
+		_animEventVel = _transform->GetBack() * event.datas[0].x + _transform->GetUp() * event.datas[0].y + _transform->GetLeft() * event.datas[0].z;
 	}
 }
 
@@ -503,6 +506,9 @@ void PlayerScript::IdleState::StateStart(PlayerScript* owner)
 
 void PlayerScript::IdleState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Attack()) return;
+	if (owner->Move()) return;
+
 	if (owner->_lockOnTarget) {
 		owner->_transform->LookAtWithNoRoll(
 			owner->_transform->GetPosition() -
@@ -528,6 +534,10 @@ void PlayerScript::WalkState::StateUpdate(PlayerScript* owner)
 		return;
 	}
 
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	if (!owner->Move()) return;
+
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed);
 }
@@ -545,9 +555,14 @@ void PlayerScript::RunState::StateUpdate(PlayerScript* owner)
 		return;
 	}
 
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	if (!owner->Move()) return;
+
 	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
 	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 3.0f);
-	owner->DecreaseStemina(10.0f, false);
+
+	owner->DecreaseStemina(owner->_runSteminaValue, false);
 }
 
 void PlayerScript::AttackCombo1State::StateStart(PlayerScript* owner)
@@ -559,13 +574,21 @@ void PlayerScript::AttackCombo1State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo1State::StateUpdate(PlayerScript* owner)
 {
-	if (INPUTM->IsMouseLeftButtonDown() && !owner->_animator->IsTransitionBlocked()) {
-		owner->SetState(PlayerState::ATTACKCOMBO2);
+	if (!owner->_animator->IsTransitionBlocked()) {
+		if (owner->Roll()) return;
+
+		if (INPUTM->IsMouseLeftButtonDown() &&
+			owner->_stemina >= owner->_attackSteminaValue) {
+			owner->SetState(PlayerState::ATTACKCOMBO2);
+			return;
+		}
 	}
 
+	owner->AnimationVelocityUpdate();
+
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
-		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
+		owner->SetState(PlayerState::IDLE);
 	}
 }
 
@@ -578,17 +601,21 @@ void PlayerScript::AttackCombo2State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo2State::StateUpdate(PlayerScript* owner)
 {
-	if (INPUTM->IsMouseLeftButtonDown() && !owner->_animator->IsTransitionBlocked()) {
-		owner->SetState(PlayerState::ATTACKCOMBO3);
+	if (!owner->_animator->IsTransitionBlocked()) {
+		if (owner->Roll()) return;
+
+		if (INPUTM->IsMouseLeftButtonDown() &&
+			owner->_stemina >= owner->_attackSteminaValue) {
+			owner->SetState(PlayerState::ATTACKCOMBO3);
+			return;
+		}
 	}
 
-	if (owner->_animator->IsCurrentAnimationEnd()) {
-	}
+	owner->AnimationVelocityUpdate();
 
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
-		owner->SetState(PlayerState::ATTACKCOMBO3);
-		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
+		owner->SetState(PlayerState::IDLE);
 	}
 }
 
@@ -601,9 +628,15 @@ void PlayerScript::AttackCombo3State::StateStart(PlayerScript* owner)
 
 void PlayerScript::AttackCombo3State::StateUpdate(PlayerScript* owner)
 {
+	if (!owner->_animator->IsTransitionBlocked()) {
+		if (owner->Roll()) return;
+	}
+
+	owner->AnimationVelocityUpdate();
+
 	if (owner->_animator->IsCurrentAnimationEnd() && !owner->_animator->IsInTransition()) {
-		owner->SetState(PlayerState::IDLE);
 		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
+		owner->SetState(PlayerState::IDLE);
 	}
 }
 
@@ -611,18 +644,24 @@ void PlayerScript::RollState::StateStart(PlayerScript* owner)
 {
   	owner->_animator->SetCurrentAnimation("roll");
  	owner->_animator->SetLoop(false);
+
+	owner->DecreaseStemina(owner->_evadeSteminaValue, true);
+	_rollDir = owner->_movingDirection;
+	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - _rollDir);
 }
 
 void PlayerScript::RollState::StateUpdate(PlayerScript* owner)
 {
-	owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - owner->_movingDirection);
-	owner->_controller->SetVelocity(owner->_movingDirection * owner->_speed * 4.0f);
+	// owner->_transform->LookAtWithNoRoll(owner->_transform->GetPosition() - _rollDir);
+
+	owner->AnimationVelocityUpdate();
 
 	// 다른 애니메이션의 종말점 근처에서 구르기를 사용하는 경우
 	// Evade 이벤트가 true로 호출되고 완전히 전환되기 전에 현재 애니메이션이 끝나면
 	// 구르기 애니메이션도 같이 끝나서 false값의 Evade 이벤트가 호출되지 않음.
 	// 엔진 단에서 해결해야될수도
 	if (!owner->_animator->IsInTransition() && owner->_animator->IsCurrentAnimationEnd()) {
+		owner->_animEventVel = { 0.0f, 0.0f, 0.0f };
  		owner->SetState(PlayerState::IDLE);
 	}
 }
@@ -635,6 +674,10 @@ void PlayerScript::StrafeForwardState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeForwardState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	if (!owner->Move()) return;
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;
@@ -658,6 +701,10 @@ void PlayerScript::StrafeBackState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeBackState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	if (!owner->Move()) return;
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;
@@ -681,6 +728,10 @@ void PlayerScript::StrafeRightState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeRightState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	if (!owner->Move()) return;
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;
@@ -704,6 +755,10 @@ void PlayerScript::StrafeLeftState::StateStart(PlayerScript* owner)
 
 void PlayerScript::StrafeLeftState::StateUpdate(PlayerScript* owner)
 {
+	if (owner->Roll()) return;
+	if (owner->Attack()) return;
+	if (!owner->Move()) return;
+
 	Vector3 targetPos = owner->_lockOnTarget->GetTransform()->GetPosition();
 	Vector3 playerPos = owner->_transform->GetPosition();
 	targetPos.y = playerPos.y;

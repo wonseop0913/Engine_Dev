@@ -1,93 +1,93 @@
 <AnimationEvents>
     <Animation Name="axe_attack_downup_1">
         <Speed          Tick="0.0" Speed="1.5"/>
-        <RotateToTarget Tick="0.0" Flag="true"/>
+        <Custom         Tick="0.0" CustomEvent="RotateToTarget" Flag="true"/>
         <Speed          Tick="20.0" Speed="1.0"/>
         <Speed          Tick="23.5" Speed="1.5"/>
-        <RotateToTarget Tick="23.5" Flag="false"/>
-        <Sound          Tick="23.5" SoundName="EnemyAttack"/>
+        <Custom         Tick="23.5" CustomEvent="RotateToTarget" Flag="false"/>
+        <Custom         Tick="23.5" CustomEvent="Sound" SoundName="EnemyAttack"/>
         <Speed          Tick="27.0" Speed="1.9"/>
-        <Attack         Tick="27.0" Damage="10.0" MeleeWeaponActivation="true"/>
-        <Attack         Tick="35.0" MeleeWeaponActivation="false"/>
+        <Custom         Tick="27.0" CustomEvent="Attack" Damage="10.0" MeleeWeaponActivation="true"/>
+        <Custom         Tick="35.0" CustomEvent="Attack" MeleeWeaponActivation="false"/>
         <Speed          Tick="35.0" Speed="1.3"/>
         <Speed          Tick="45.0" Speed="1.0"/>
     </Animation>
 
     <Animation Name="axe_attack_360_1">
         <Speed          Tick="0.0" Speed="1.5"/>
-        <RotateToTarget Tick="0.0" Flag="true"/>
+        <Custom         Tick="0.0" CustomEvent="RotateToTarget" Flag="true"/>
         <Speed          Tick="17.0" Speed="1.0"/>
         <Speed          Tick="22.8" Speed="1.5"/>
-        <RotateToTarget Tick="22.8" Flag="false"/>
-        <Sound          Tick="23.6" SoundName="EnemyAttack"/>
+        <Custom         Tick="22.8" CustomEvent="RotateToTarget" Flag="false"/>
+        <Custom         Tick="23.6" CustomEvent="Sound" SoundName="EnemyAttack"/>
         <Speed          Tick="28.6" Speed="1.9"/>
-        <Attack         Tick="28.6" Damage="10.0" MeleeWeaponActivation="true"/>
-        <Attack         Tick="34.4" MeleeWeaponActivation="false"/>
+        <Custom         Tick="28.6" CustomEvent="Attack" Damage="10.0" MeleeWeaponActivation="true"/>
+        <Custom         Tick="34.4" CustomEvent="Attack" MeleeWeaponActivation="false"/>
         <Speed          Tick="34.4" Speed="1.3"/>
         <Speed          Tick="43.9" Speed="1.0"/>
     </Animation>
 
     <Animation Name="axe_attack_360_2">
         <Speed          Tick="0.0" Speed="1.5"/>
-        <RotateToTarget Tick="0.0" Flag="true"/>
+        <Custom         Tick="0.0" CustomEvent="RotateToTarget" Flag="true"/>
         <Speed          Tick="18.0" Speed="1.0"/>
         <Speed          Tick="23.9" Speed="1.5"/>
-        <RotateToTarget Tick="23.9" Flag="false"/>
-        <Sound          Tick="25.9" SoundName="EnemyAttack"/>
+        <Custom         Tick="23.9" CustomEvent="RotateToTarget" Flag="false"/>
+        <Custom         Tick="25.9" CustomEvent="Sound" SoundName="EnemyAttack"/>
         <Speed          Tick="28.0" Speed="1.9"/>
-        <Attack         Tick="28.0" Damage="10.0" MeleeWeaponActivation="true"/>
-        <Attack         Tick="32.3" MeleeWeaponActivation="false"/>
+        <Custom         Tick="28.0" CustomEvent="Attack" Damage="10.0" MeleeWeaponActivation="true"/>
+        <Custom         Tick="32.3" CustomEvent="Attack" MeleeWeaponActivation="false"/>
         <Speed          Tick="32.3" Speed="1.3"/>
         <Speed          Tick="40.3" Speed="1.0"/>
     </Animation>
 
     <Animation Name="axe_attack_combo_2">
         <Speed          Tick="0.0" Speed="1.5"/>
-        <RotateToTarget Tick="0.0" Flag="true"/>
+        <Custom         Tick="0.0" CustomEvent="RotateToTarget" Flag="true"/>
         <Speed          Tick="19.0" Speed="1.0"/>
         <Speed          Tick="25.3" Speed="1.5"/>
-        <RotateToTarget Tick="25.3" Flag="false"/>
-        <Sound          Tick="25.3" SoundName="EnemyAttack"/>
+        <Custom         Tick="25.3" CustomEvent="RotateToTarget" Flag="false"/>
+        <Custom         Tick="25.3" CustomEvent="Sound" SoundName="EnemyAttack"/>
         <Speed          Tick="28.8" Speed="1.9"/>
-        <Attack         Tick="28.8" Damage="8.0" MeleeWeaponActivation="true"/>
-        <Attack         Tick="35.1" MeleeWeaponActivation="false"/>
+        <Custom         Tick="28.8" CustomEvent="Attack" Damage="8.0" MeleeWeaponActivation="true"/>
+        <Custom         Tick="35.1" CustomEvent="Attack" MeleeWeaponActivation="false"/>
         <Speed          Tick="35.1" Speed="1.3"/>
-        <RotateToTarget Tick="35.1" Flag="true"/>
+        <Custom         Tick="35.1" CustomEvent="RotateToTarget" Flag="true"/>
         <Speed          Tick="41.0" Speed="1.5"/>
-        <Sound          Tick="42.0" SoundName="EnemyAttack"/>
+        <Custom         Tick="42.0" CustomEvent="Sound" SoundName="EnemyAttack"/>
         <Speed          Tick="47.1" Speed="1.9"/>
-        <RotateToTarget Tick="47.1" Flag="false"/>
-        <Attack         Tick="47.1" Damage="8.0" MeleeWeaponActivation="true"/>
-        <Attack         Tick="52.0" MeleeWeaponActivation="false"/>
+        <Custom         Tick="47.1" CustomEvent="RotateToTarget" Flag="false"/>
+        <Custom         Tick="47.1" CustomEvent="Attack" Damage="8.0" MeleeWeaponActivation="true"/>
+        <Custom         Tick="52.0" CustomEvent="Attack" MeleeWeaponActivation="false"/>
         <Speed          Tick="59.7" Speed="1.3"/>
-        <RotateToTarget Tick="59.7" Flag="true"/>
+        <Custom         Tick="59.7" CustomEvent="RotateToTarget" Flag="true"/>
         <Speed          Tick="66.0" Speed="1.0"/>
         <Speed          Tick="73.7" Speed="1.5"/>
-        <RotateToTarget Tick="73.7" Flag="false"/>
-        <Sound          Tick="73.7" SoundName="EnemyAttack"/>
+        <Custom         Tick="73.7" CustomEvent="RotateToTarget" Flag="false"/>
+        <Custom         Tick="73.7" CustomEvent="Sound" SoundName="EnemyAttack"/>
         <Speed          Tick="78.6" Speed="1.9"/>
-        <Attack         Tick="78.6" Damage="15.0" MeleeWeaponActivation="true"/>
-        <Attack         Tick="80.0" MeleeWeaponActivation="false"/>
+        <Custom         Tick="78.6" CustomEvent="Attack" Damage="15.0" MeleeWeaponActivation="true"/>
+        <Custom         Tick="80.0" CustomEvent="Attack" MeleeWeaponActivation="false"/>
         <Speed          Tick="90.6" Speed="1.0"/>
     </Animation>
 
     <Animation Name="walk_forward">
-        <Step Tick="9.4"/>
-        <Step Tick="30.4"/>
+        <Custom         Tick="9.4" CustomEvent="Step" />
+        <Custom         Tick="30.4" CustomEvent="Step" />
     </Animation>
 
     <Animation Name="walk_left">
-        <Step Tick="6.4"/>
-        <Step Tick="24.6"/>
+        <Custom         Tick="6.4" CustomEvent="Step"/>
+        <Custom         Tick="24.6" CustomEvent="Step"/>
     </Animation>
 
     <Animation Name="walk_right">
-        <Step Tick="7.9"/>
-        <Step Tick="26.2"/>
+        <Custom         Tick="7.9" CustomEvent="Step"/>
+        <Custom         Tick="26.2" CustomEvent="Step"/>
     </Animation>
 
     <Animation Name="run_forward">
-        <Step Tick="6.4"/>
-        <Step Tick="17.6"/>
+        <Custom         Tick="6.4" CustomEvent="Step"/>
+        <Custom         Tick="17.6" CustomEvent="Step"/>
     </Animation>
 </AnimationEvents>

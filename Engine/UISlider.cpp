@@ -27,7 +27,6 @@ void UISlider::Init()
 	_transformBg = _background->GetTransform();
 	_transformBg->SetParent(_transform);
 	_transformBg->SetSize(_transform->GetSize());
-	_transformBg->SetDepth(_transform->GetDepth() + 1.0f);
 	_background->SetColor({ 0.7f, 0.7f, 0.7f, 1.0f });
 
 	_transformFill = _fill->GetTransform();

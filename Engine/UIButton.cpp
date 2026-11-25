@@ -25,12 +25,14 @@ void UIButton::Init()
 
 	background->SetColor(colorDefault);
 	background->GetTransform()->SetParent(_transform);
-	background->GetTransform()->SetStretchSize(false);
-	background->GetTransform()->SetSize({ 200.0f, 60.0f });
-	background->GetTransform()->SetDepth(_transform->GetDepth() + 1.0f);
+	background->GetTransform()->SetStretchSize(true);
+	background->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
+	background->SetPassthroughMouse(true);
 
 	text->GetTransform()->SetParent(_transform);
-	text->SetSize({ 200.0f, 60.0f });
+	text->GetTransform()->SetStretchSize(true);
+	text->GetTransform()->SetSizePercentage({ 1.0f, 1.0f });
+	text->SetPassthroughMouse(true);
 }
 
 void UIButton::Update()
@@ -45,6 +47,20 @@ void UIButton::OnDestroy()
 	mouseDownEvent.Clear();
 }
 
+void UIButton::SetButtonActive(bool active)
+{
+	if (_buttonActive == active) return;
+
+	_buttonActive = active;
+	if (!_buttonActive) {
+		UIElement::OnMouseExit();
+		background->SetColor(colorDisabled);
+	}
+	else {
+		background->SetColor(colorDefault);
+	}
+}
+
 void UIButton::LoadXML(XMLElement* uiElem)
 {
 	XMLElement* textElem = uiElem->FirstChildElement("Text");
@@ -54,18 +70,32 @@ void UIButton::LoadXML(XMLElement* uiElem)
 
 void UIButton::OnMouseEnter()
 {
+	UIElement::OnMouseEnter();
+	if (!_buttonActive) return;
 	background->SetColor(colorHovered);
 	mouseEnterEvent.Execute();
 }
 
 void UIButton::OnMouseExit()
 {
+	UIElement::OnMouseExit();
+	if (!_buttonActive) return;
 	background->SetColor(colorDefault);
 	mouseExitEvent.Execute();
 }
 
 void UIButton::OnMouseDown()
 {
+	if (!_buttonActive) return;
+	UIElement::OnMouseDown();
 	background->SetColor(colorClicked);
 	mouseDownEvent.Execute();
+}
+
+void UIButton::OnMouseUp()
+{
+	if (!_buttonActive) return;
+	UIElement::OnMouseUp();
+	background->SetColor(_isHovered ? colorHovered : colorDefault);
+	mouseUpEvent.Execute();
 }

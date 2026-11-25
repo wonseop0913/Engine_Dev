@@ -32,6 +32,9 @@ void Animator::Init()
 	}
 
 	ANIMATION->AddAnimator(static_pointer_cast<Animator>(shared_from_this()));
+
+	// 애니메이터 초기화 직후 멈춘 경우 첫 프레임 작동하지 않는 문제 방지용 강제 업데이트
+	Update();
 }
 
 void Animator::Update()
@@ -56,7 +59,7 @@ void Animator::Update()
 
 	else
 	{
-		if (_currentAnimation == EMPTY_ANIMATION || !_isPlaying)
+		if (_currentAnimation == EMPTY_ANIMATION)
 			return;
 
 		UpdateAnimationEvent();
@@ -64,12 +67,13 @@ void Animator::Update()
 		_skeleton->UpdateUploadBuffer();
 
 #ifdef BULB_EDITOR
-		// if (!EDITOR->IsOnPlay()) return;
 		if (!EDITOR->IsOnPlay()) {
 			_currentTick = 0.0f;
 			return;
 		}
 #endif
+
+		if (!_isPlaying) return;
 
 		if (_isInTransition) {
 			_transitionElapsedTime += TIME->DeltaTime();
@@ -319,16 +323,19 @@ void Animator::PauseAnimation()
 		return;
 	}
 
-	// 애니메이터 초기화 직후 멈춘 경우 첫 프레임 작동하지 않는 문제 방지용 강제 업데이트
-	Update();
-
 	float currentTickStash = _currentTick;
 	float transitionTickStash = _transitionTick;
 
 	_isPlaying = false;
+	_isPlayOnInit = false;
 
 	_currentTick = currentTickStash;
 	_transitionTick = transitionTickStash;
+}
+
+void Animator::ForcedUpdate()
+{
+
 }
 
 void Animator::UpdateBoneTransform()
@@ -596,53 +603,48 @@ void Animator::LoadAnimationEvents(const string& path)
 
 				animEvent.datas[0].x = event->FloatAttribute("Speed");
 			}
-			if (eventName == "Attack") {
-				animEvent.type = AnimationEventTypes::Attack;
-
-				animEvent.datas[0].x = event->FloatAttribute("OffsetX");
-				animEvent.datas[0].y = event->FloatAttribute("OffsetY");
-				animEvent.datas[0].z = event->FloatAttribute("OffsetZ");
-				animEvent.datas[0].w = event->FloatAttribute("Damage");
-
-				animEvent.datas[1].x = event->FloatAttribute("ScaleX", 1.0f);
-				animEvent.datas[1].y = event->FloatAttribute("ScaleY", 1.0f);
-				animEvent.datas[1].z = event->FloatAttribute("ScaleZ", 1.0f);
-				animEvent.datas[1].w = event->BoolAttribute("IsHostile") ? 1 : 0;
-
-				animEvent.datas[2].x = event->BoolAttribute("MeleeWeaponActivation", true) ? 1 : 0;
-			}
-			if (eventName == "End") {
-				animEvent.type = AnimationEventTypes::End;
-			}
 			if (eventName == "BlockTransition") {
 				animEvent.type = AnimationEventTypes::BlockTransition;
 
 				animEvent.datas[0].x = event->BoolAttribute("Flag") ? 1 : 0;
 			}
-			if (eventName == "Step") {
-				animEvent.type = AnimationEventTypes::Step;
+			if (eventName == "End") {
+				animEvent.type = AnimationEventTypes::End;
 			}
-			if (eventName == "Sound") {
-				animEvent.type = AnimationEventTypes::Sound;
+			if (eventName == "Custom") {
+				animEvent.type = AnimationEventTypes::Custom;
+				animEvent.customEventName = event->Attribute("CustomEvent");
 
-				animEvent.strData = event->Attribute("SoundName");
-			}
-			if (eventName == "RotateToTarget") {
-				animEvent.type = AnimationEventTypes::RotateToTarget;
+				if (animEvent.customEventName == "Attack") {
+					animEvent.datas[0].x = event->FloatAttribute("OffsetX");
+					animEvent.datas[0].y = event->FloatAttribute("OffsetY");
+					animEvent.datas[0].z = event->FloatAttribute("OffsetZ");
+					animEvent.datas[0].w = event->FloatAttribute("Damage");
 
-				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
-			}
-			if (eventName == "Evade") {
-				animEvent.type = AnimationEventTypes::Evade;
+					animEvent.datas[1].x = event->FloatAttribute("ScaleX", 1.0f);
+					animEvent.datas[1].y = event->FloatAttribute("ScaleY", 1.0f);
+					animEvent.datas[1].z = event->FloatAttribute("ScaleZ", 1.0f);
+					animEvent.datas[1].w = event->BoolAttribute("IsHostile") ? 1 : 0;
 
-				animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
-			}
-			if (eventName == "Velocity") {
-				animEvent.type = AnimationEventTypes::Velocity;
-
-				animEvent.datas[0].x = event->FloatAttribute("X");
-				animEvent.datas[0].y = event->FloatAttribute("Y");
-				animEvent.datas[0].z = event->FloatAttribute("Z");
+					animEvent.datas[2].x = event->BoolAttribute("MeleeWeaponActivation", true) ? 1 : 0;
+				}
+				if (animEvent.customEventName == "Step") {
+					// none
+				}
+				if (animEvent.customEventName == "Sound") {
+					animEvent.strData = event->Attribute("SoundName");
+				}
+				if (animEvent.customEventName == "RotateToTarget") {
+					animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
+				}
+				if (animEvent.customEventName == "Evade") {
+					animEvent.datas[0].x = event->BoolAttribute("Flag", true) ? 1 : 0;
+				}
+				if (animEvent.customEventName == "Velocity") {
+					animEvent.datas[0].x = event->FloatAttribute("X");
+					animEvent.datas[0].y = event->FloatAttribute("Y");
+					animEvent.datas[0].z = event->FloatAttribute("Z");
+				}
 			}
 			_animationEventScriptData[animationName].events.push_back(animEvent);
 			event = event->NextSiblingElement();

@@ -34,8 +34,16 @@ string Utils::ToString(wstring s)
 
 wstring Utils::ToWString(string s)
 {
-	wstring result;
-	result.assign(s.begin(), s.end());
+	if (s.empty()) return wstring();
+
+	int bufferSize = MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, nullptr, 0);
+	if (bufferSize == 0) return wstring();
+
+	wstring result(bufferSize, L'\0');
+	if (MultiByteToWideChar(CP_UTF8, 0, s.c_str(), -1, result.data(), bufferSize) == 0)
+		return wstring();
+
+	result.pop_back();
 	return result;
 }
 

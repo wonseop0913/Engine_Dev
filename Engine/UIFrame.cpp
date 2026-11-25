@@ -3,7 +3,7 @@
 
 UIFrame::UIFrame() : UIElement(UIType::Frame)
 {
-
+	_passthroughMouse = true;
 }
 
 UIFrame::~UIFrame()

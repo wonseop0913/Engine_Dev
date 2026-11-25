@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "UIManager.h"
+#include <unordered_set>
 
 UIManager* UIManager::s_instance = nullptr;
 
@@ -12,12 +13,14 @@ UIManager::~UIManager()
 	_quadMesh.reset();
 	_prevHoveredUI.reset();
 	_hoveredUI.reset();
+	_pressedUI.reset();
 
 	for (auto& e : _elements) {
 		e->OnDestroy();
 	}
 
 	_elements.clear();
+	_orderedElements.clear();
 	_panels.clear();
 }
 
@@ -40,7 +43,11 @@ Bulb::ProcessResult UIManager::Delete()
 
 void UIManager::Initialize()
 {
+	_pressedUI.reset();
+	_prevHoveredUI.reset();
+	_hoveredUI.reset();
 	_elements.clear();
+	_orderedElements.clear();
 	_panels.clear();
 }
 
@@ -62,11 +69,31 @@ void UIManager::Init()
 // dirty flag를 넣던가 해서 최적화 작업 필요
 void UIManager::Update()
 {
-	if (_sortFlag) {
-		sort(_elements.begin(), _elements.end(), [](shared_ptr<UIElement> a, shared_ptr<UIElement> b) -> bool { return a->GetTransform()->GetDepth() > b->GetTransform()->GetDepth(); });
-		sort(_panels.begin(), _panels.end(), [](shared_ptr<UIPanel> a, shared_ptr<UIPanel> b) -> bool { return a->GetTransform()->GetDepth() > b->GetTransform()->GetDepth(); });
-		_sortFlag = false;
+	_orderedElements.clear();
+	_panels.clear();
+	unordered_set<UIElement*> registeredElements;
+	for (const auto& ui : _elements)
+		registeredElements.insert(ui.get());
+
+	auto appendHierarchy = [&](auto&& self, const shared_ptr<UIElement>& ui) -> void {
+		if (ui == nullptr || registeredElements.erase(ui.get()) == 0)
+			return;
+
+		_orderedElements.push_back(ui);
+		if (ui->_type & (UINT)UIType::Panel)
+			_panels.push_back(static_pointer_cast<UIPanel>(ui));
+
+		for (const auto& childTransform : ui->GetTransform()->GetChilds())
+			self(self, childTransform->GetUIElement());
+	};
+
+	for (const auto& ui : _elements) {
+		if (ui->GetTransform()->GetParent() == nullptr)
+			appendHierarchy(appendHierarchy, ui);
 	}
+	// Include any elements whose transform was not reachable from a registered root.
+	//for (const auto& ui : _elements)
+	//	appendHierarchy(appendHierarchy, ui);
 
 	D3D12_VIEWPORT viewport = GRAPHIC->GetViewport();
 	XMMATRIX viewProj = XMLoadFloat4x4(&Camera::GetViewProjMatrix());
@@ -79,19 +106,15 @@ void UIManager::Update()
 
 	_prevHoveredUI = _hoveredUI;
 	_hoveredUI = nullptr;
-	for (auto& ui : _elements) {
+	for (auto& ui : _orderedElements)
 		ui->Update();
 
-		if (ui->_passthroughMouse) continue;
-
-		if (ui->GetTransform()->CheckInRect(mousePos.x, mousePos.y)) {
-			if (_hoveredUI == nullptr)
-				_hoveredUI = ui;
-			else {
-				if (ui->GetTransform()->GetDepth() <= _hoveredUI->GetTransform()->GetDepth()) {
-					_hoveredUI = ui;
-				}
-			}
+	for (auto ui = _orderedElements.rbegin(); ui != _orderedElements.rend(); ++ui) {
+		if ((*ui)->_passthroughMouse || !(*ui)->IsRenderActive())
+			continue;
+		if ((*ui)->GetTransform()->CheckInRect(mousePos.x, mousePos.y)) {
+			_hoveredUI = *ui;
+			break;
 		}
 	}
 
@@ -100,7 +123,16 @@ void UIManager::Update()
 		if (_hoveredUI != nullptr) _hoveredUI->OnMouseEnter();
 	}
 	if (_hoveredUI != nullptr) {
-		if (INPUTM->IsMouseLeftButtonDown()) _hoveredUI->OnMouseDown();
+		if (INPUTM->IsMouseLeftButtonDown()) {
+			_pressedUI = _hoveredUI;
+			_pressedUI->OnMouseDown();
+		}
+	}
+
+	if (_pressedUI != nullptr && INPUTM->IsMouseLeftButtonUp()) {
+		if (_pressedUI == _hoveredUI)
+			_pressedUI->OnMouseUp();
+		_pressedUI.reset();
 	}
 
 	for (auto& ui : _panels) {
@@ -113,7 +145,6 @@ void UIManager::Update()
 		constants.CenterPos = { position.x, position.y };
 
 		constants.Color = ui->IsRenderActive() ? ui->_color : XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f);
-		constants.Depth = transform->GetDepth();
 		constants.TextureIndex = ui->_textureSrvHeapIndex;
 		constants.Size = size;
 
@@ -125,7 +156,7 @@ void UIManager::Update()
 
 void UIManager::Render(ID3D12GraphicsCommandList* cmdList)
 {
-	if (_panelCount <= 0) return;
+	if (_panels.empty()) return;
 
 	cmdList->IASetVertexBuffers(0, 1, &_quadMesh->vertexBufferView);
 	cmdList->IASetIndexBuffer(&_quadMesh->indexBufferView);
@@ -160,30 +191,16 @@ void UIManager::CreateBuffer()
 
 void UIManager::AddUI(const shared_ptr<UIElement>& ui)
 {
-	++_elementCount;
 	_elements.push_back(ui);
-	if (ui->_type & (UINT)UIType::Panel) {
-		++_panelCount;
-		_panels.push_back(static_pointer_cast<UIPanel>(ui));
-	}
-
-	_sortFlag = true;
 }
 
 void UIManager::DeleteUI(const shared_ptr<UIElement>& ui)
 {
-	for (int i = 0; i < _elementCount; ++i) {
-		if (_elements[i] == ui) {
-			--_elementCount;
-			_elements.erase(_elements.begin() + i);
-		}
+	if (_pressedUI == ui) {
+		_pressedUI.reset();
 	}
+	if (_hoveredUI == ui) _hoveredUI.reset();
+	if (_prevHoveredUI == ui) _prevHoveredUI.reset();
 
-	if (ui->_type & (UINT)UIType::Panel) {
-		for (int i = 0; i < _panels.size(); ++i) {
-			if (_panels[i] == ui) {
-				_panels.erase(_panels.begin() + i);
-			}
-		}
-	}
+	_elements.erase(remove(_elements.begin(), _elements.end(), ui), _elements.end());
 }

@@ -113,6 +113,20 @@ bool Rigidbody::ShowComponentEditorGUI()
 			PHYSICS->GetPhysicsSystem()->GetBodyInterface().SetIsSensor(_bodyID, _isTrigger);
 		}
 
+		ImGui::SeparatorText("Collider Type##Rigidbody");
+		if (ImGui::BeginCombo("##RigidbodyColliderType", magic_enum::enum_name(_colliderShape).data())) {
+			if (ImGui::Selectable("Box", _colliderShape == ColliderShape::Box)) {
+				SetColliderShape(ColliderShape::Box);
+			}
+			if (ImGui::Selectable("Sphere", _colliderShape == ColliderShape::Sphere)) {
+				SetColliderShape(ColliderShape::Sphere);
+			}
+			if (ImGui::Selectable("Capsule", _colliderShape == ColliderShape::Capsule)) {
+				SetColliderShape(ColliderShape::Capsule);
+			}
+			ImGui::EndCombo();
+		}
+
 		static float posOffsetValues[3];
 		posOffsetValues[0] = _colliderOffset.x;
 		posOffsetValues[1] = _colliderOffset.y;
@@ -140,6 +154,27 @@ bool Rigidbody::ShowComponentEditorGUI()
 			ImGui::SeparatorText("Extents##Rigidbody");
 			if (ImGui::InputFloat3("##ColliderExtents", extentsValues)) {
 				SetColliderExtents({ extentsValues[0], extentsValues[1], extentsValues[2] });
+			}
+			break;
+		}
+		case ColliderShape::Sphere: {
+			float radius = _radius;
+			ImGui::SeparatorText("Radius##Rigidbody");
+			if (ImGui::InputFloat("##RigidbodyColliderRadius", &radius)) {
+				SetColliderRadius(radius);
+			}
+			break;
+		}
+		case ColliderShape::Capsule: {
+			float radius = _radius;
+			ImGui::SeparatorText("Radius##Rigidbody");
+			if (ImGui::InputFloat("##RigidbodyColliderRadius", &radius)) {
+				SetColliderRadius(radius);
+			}
+			float height = _height;
+			ImGui::SeparatorText("HalfHeight##Rigidbody");
+			if (ImGui::InputFloat("##RigidbodyColliderHeight", &height)) {
+				SetColliderHalfHeight(height);
 			}
 			break;
 		}
@@ -316,16 +351,21 @@ void Rigidbody::SetColliderHalfHeight(float height)
 {
 	_height = height;
 
-	if (_colliderShape == ColliderShape::Capsule)
+	if (_colliderShape == ColliderShape::Capsule) {
+		CreateShape();
 		UpdateShapeData();
+	}
 }
 
 void Rigidbody::SetColliderRadius(float radius)
 {
 	_radius = radius;
 
-	if (_colliderShape == ColliderShape::Sphere)
+	if (_colliderShape == ColliderShape::Sphere ||
+		_colliderShape == ColliderShape::Capsule) {
+		CreateShape();
 		UpdateShapeData();
+	}
 }
 
 void Rigidbody::SetColliderOffset(const Bulb::Vector3& offset)

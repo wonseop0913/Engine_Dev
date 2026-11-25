@@ -25,8 +25,6 @@ void UIPanel::LoadXML(XMLElement* uiElem)
 
 	shared_ptr<UITransform> transform = GetTransform();
 
-	transform->SetDepth(uiElem->FloatAttribute("Depth"));
-
 	XMLElement* pivotElem = uiElem->FirstChildElement("Pivot");
 	transform->SetPivot({ pivotElem->FloatAttribute("x", 0.5f), pivotElem->FloatAttribute("y", 0.5f) });
 
