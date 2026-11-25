@@ -22,19 +22,20 @@ public:
 	void SetFont(const wstring& fontName);
 
 	void SetFontSize(float fontSize);
-	void SetTextAlignment(DWRITE_TEXT_ALIGNMENT textAlignment) { 
+	void SetTextAlignment(DWRITE_TEXT_ALIGNMENT textAlignment) {
 		_textAlignment = textAlignment;
 		_textFormat->SetTextAlignment(_textAlignment);
+		_isDirty = true;
 	}
 	void SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT paragraphAlignment) {
 		_paragraphAlignment = paragraphAlignment;
 		_textFormat->SetParagraphAlignment(_paragraphAlignment);
+		_isDirty = true;
 	}
 	void SetTextColor(const Bulb::Color& color);
 
 	void SetSize(const Bulb::Vector2 size) { 
-		_transform->SetSize(size); 
-		_isDirty = true;
+		_transform->SetSize(size);
 	}
 
 private:
@@ -66,6 +67,9 @@ private:
 
 	D3D12_GPU_DESCRIPTOR_HANDLE _srvHandle;
 
+	UINT _textureWidth = 0;
+	UINT _textureHeight = 0;
+	bool _isTextureDirty = true;
 	bool _isDirty = true;
 };
 

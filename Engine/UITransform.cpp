@@ -34,10 +34,7 @@ void UITransform::UpdateTransform()
 
 void UITransform::OnResolutionUpdate()
 {
-	if (_stretchByParent)
-		SetSize(_size);
-
-	_isDirty = true;
+	SetDirtyFlag();
 }
 
 void UITransform::SetPivot(const Bulb::Vector2& pivot)

@@ -22,6 +22,9 @@ UIText::~UIText()
 void UIText::Init()
 {
 	_textureSrvHeapIndex = GRAPHIC->GetAndIncreaseSRVHeapIndex();
+	Bulb::Vector2 size = _transform->GetSize();
+	_textureWidth = (UINT)std::max(1.0f, ceil(size.x));
+	_textureHeight = (UINT)std::max(1.0f, ceil(size.y));
 
 	UpdateTextFormat();
 	UpdateTextLayout();
@@ -30,11 +33,24 @@ void UIText::Init()
 
 void UIText::Update()
 {
+	Bulb::Vector2 size = _transform->GetSize();
+	UINT textureWidth = (UINT)std::max(1.0f, ceil(size.x));
+	UINT textureHeight = (UINT)std::max(1.0f, ceil(size.y));
+	if (textureWidth != _textureWidth || textureHeight != _textureHeight) {
+		_textureWidth = textureWidth;
+		_textureHeight = textureHeight;
+		_isTextureDirty = true;
+		_isDirty = true;
+	}
+
 	if (_isDirty) {
 		UpdateTextLayout();
 
-		BuildResource();
-		BuildDescriptors();
+		if (_isTextureDirty) {
+			BuildResource();
+			BuildDescriptors();
+			_isTextureDirty = false;
+		}
 
 		RenderTextToTexture();
 
@@ -59,6 +75,7 @@ void UIText::SetFont(const wstring& fontName)
 	_fontName = fontName;
 
 	UpdateTextFormat();
+	_isDirty = true;
 }
 
 void UIText::SetFontSize(float fontSize)
@@ -66,6 +83,7 @@ void UIText::SetFontSize(float fontSize)
 	_fontSize = fontSize;
 
 	UpdateTextFormat();
+	_isDirty = true;
 }
 
 void UIText::SetTextColor(const Bulb::Color& color)
@@ -73,6 +91,7 @@ void UIText::SetTextColor(const Bulb::Color& color)
 	_textColor = color;
 
 	UpdateBrush();
+	_isDirty = true;
 }
 
 void UIText::BuildDescriptors()
@@ -96,8 +115,13 @@ void UIText::BuildDescriptors()
 
 void UIText::BuildResource()
 {
+	GRAPHIC->GetDeviceContextD2D()->SetTarget(nullptr);
+	_d2dBitmap.Reset();
+	_wrappedResource.Reset();
+	_textTexture.Reset();
+
 	D3D12_RESOURCE_DESC texDesc =
-		CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_B8G8R8A8_UNORM, _transform->GetWidth(), _transform->GetHeight());
+		CD3DX12_RESOURCE_DESC::Tex2D(DXGI_FORMAT_B8G8R8A8_UNORM, _textureWidth, _textureHeight);
 	texDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
 	texDesc.MipLevels = 1;
 
@@ -171,7 +195,7 @@ void UIText::UpdateTextLayout()
 	// Using transform size for size limit
 	ThrowIfFailed(GRAPHIC->GetWriteFactory()->CreateTextLayout(
 		_text.c_str(), _text.length(),
-		_textFormat.Get(), _transform->GetWidth(), _transform->GetHeight(), &_textLayout));
+		_textFormat.Get(), (float)_textureWidth, (float)_textureHeight, &_textLayout));
 
 	_textLayout->GetMetrics(&_metrics);
 }

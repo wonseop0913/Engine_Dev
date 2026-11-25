@@ -48,9 +48,18 @@ public:
 		if (_isDirty) UpdateTransform();
 		return _localPosition; 
 	}
-	Bulb::Vector2 GetSize() { return _size; }
-	float GetWidth() { return _size.x; }
-	float GetHeight() { return _size.y; }
+	Bulb::Vector2 GetSize() {
+		if (_isDirty) UpdateTransform();
+		return _size;
+	}
+	float GetWidth() {
+		if (_isDirty) UpdateTransform();
+		return _size.x;
+	}
+	float GetHeight() {
+		if (_isDirty) UpdateTransform();
+		return _size.y;
+	}
 	bool IsDynamicPosition() { return _isDynamicPosition; }
 
 	void SetParent(shared_ptr<UITransform> parent);
