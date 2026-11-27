@@ -51,7 +51,7 @@ void FrameResource::Update()
 
 void FrameResource::UpdateObjectSB()
 {
-	auto objects = RENDER->GetObjects();
+	auto& objects = RENDER->GetObjects();
 	for (auto& o : objects)
 	{
 		if (!o->IsActive()) continue;
@@ -106,7 +106,7 @@ void FrameResource::UpdateObjectSB()
 
 void FrameResource::UpdateMaterialSB()
 {
-	auto materials = RESOURCE->GetByType<Material>();
+	auto& materials = RESOURCE->GetByType<Material>();
 	for (auto& m : materials)
 	{
 		shared_ptr<Material> mat = static_pointer_cast<Material>(m.second);
@@ -138,7 +138,7 @@ void FrameResource::UpdateMaterialSB()
 
 void FrameResource::UpdateLightSB()
 {
-	auto lights = RENDER->GetLights();
+	auto& lights = RENDER->GetLights();
 
 	if (lights.size() == 0)
 		return;
