@@ -243,7 +243,7 @@ void EditorGUIManager::ShowHierarchyView()
 
 		auto& objects = RENDER->GetObjects();
 		for (int i = 0; i < objects.size(); ++i) {
-			if (objects[i]->GetTag() == "EditorCamera" || objects[i]->GetTransform()->GetDepthLevel() > 0)
+			if (objects[i]->_tag == "EditorCamera" || objects[i]->GetTransform()->GetDepthLevel() > 0)
 				continue;
 
 			HierarchyObjectRecursion(objects[i]->GetTransform());
@@ -396,7 +396,7 @@ void EditorGUIManager::HierarchyObjectRecursion(shared_ptr<Transform> transform)
 
 	bool isActive = obj->IsActive();
 	if (!isActive) ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.6f, 0.6f, 0.6f, 1.0f));
-	bool isNodeOpen = ImGui::TreeNodeEx((obj->GetName() + "##" + to_string(obj->GetId())).c_str(), tree_flags);
+	bool isNodeOpen = ImGui::TreeNodeEx(obj.get(), tree_flags, "%s", obj->_name.c_str());
 	if (!isActive) ImGui::PopStyleColor();
 
 	// left click
