@@ -1,5 +1,6 @@
 #pragma once
 #include <Jolt/Renderer/DebugRenderer.h>
+#include <source_location>
 
 #define DEFAULT_VERTEX_BUFFER_SIZE	10000000
 #define DEFAULT_INDEX_BUFFER_SIZE	10000000
@@ -16,6 +17,11 @@ struct BULB_API DebugLog
 	float time;
 	LogLevel logLevel;
 	string message;
+	string className;
+	string functionName;
+
+	DebugLog(float time, string message, string className, string functionName) : 
+		time(time), message(message), className(className), functionName(functionName) { }
 };
 
 struct BULB_API DebugLine
@@ -97,13 +103,16 @@ public:
 	bool IsPhysicsDebugRenderEnabled() { return _isPhysicsDebugRenderEnabled; }
 	void SetPhysicsDebugRenderEnabled(bool value) { _isPhysicsDebugRenderEnabled = value; }
 
-	void Log(const string& message);
-	void WarnLog(const string& message);
-	void ErrorLog(const string& message);
+	void Log(const string& message, std::source_location& loc = std::source_location::current());
+	void WarnLog(const string& message, std::source_location& loc = std::source_location::current());
+	void ErrorLog(const string& message, std::source_location& loc = std::source_location::current());
 	void ClearLogs() { _debugLogs.clear(); }
 	vector<DebugLog>& GetLogs() { return _debugLogs; }
 
 	void ExportDebugLogs();
+
+private:
+	DebugLog CreateDebugLogData(const string& message, std::source_location& loc);
 
 private:
 	static DebugManager* s_instance;

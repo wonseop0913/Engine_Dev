@@ -23,6 +23,7 @@ bool GameTimer::Init()
 	_secondsPerCount = 0.0;
 	_deltaTime = -1.0;
 	_baseTime = 0;
+	_stopTime = 0;
 	_pausedTime = 0;
 	_prevTime = 0;
 	_currTime = 0;
@@ -61,6 +62,7 @@ void GameTimer::Reset()
 
 	_baseTime = currTime;
 	_prevTime = currTime;
+	_currTime = currTime;
 	_stopTime = 0;
 	_stopped  = false;
 }

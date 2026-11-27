@@ -67,6 +67,7 @@ float MathHelper::CCW(const Bulb::Vector2& va, const Bulb::Vector2& vb)
 
 Bulb::Vector3 MathHelper::InterpolateVector(Bulb::Vector3 currentForward, Bulb::Vector3 targetDir, float rotationSpeed)
 {
+	DEBUG->Log("asdf");
 	XMVECTOR current = XMVector3Normalize(XMLoadFloat3(&currentForward));
 	XMVECTOR target = XMVector3Normalize(XMLoadFloat3(&targetDir));
 

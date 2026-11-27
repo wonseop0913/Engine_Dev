@@ -431,7 +431,7 @@ void Animator::RefreshEventScript()
 {
 	_animationEventScriptData.clear();
 	LoadAnimationEvents(_animationEventPath);
-	DEBUG->Log("[Animator] Animation event script hot reloaded");
+	DEBUG->Log("Animation event script hot reloaded");
 }
 
 void Animator::SetCurrentAnimation(const string& animationName, float _transitionTime)

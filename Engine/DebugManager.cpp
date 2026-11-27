@@ -200,19 +200,28 @@ void DebugManager::DrawText3D(RVec3Arg inPosition, const string_view& inString, 
 
 }
 
-void DebugManager::Log(const string& message)
+void DebugManager::Log(const string& message, std::source_location& loc)
 {
-	_debugLogs.push_back({ TIME->TotalTime(), LOG_INFO, message });
+	DebugLog logData = CreateDebugLogData(message, loc);
+	logData.logLevel = LOG_INFO;
+
+	_debugLogs.push_back(logData);
 }
 
-void DebugManager::WarnLog(const string& message)
+void DebugManager::WarnLog(const string& message, std::source_location& loc)
 {
-	_debugLogs.push_back({ TIME->TotalTime(), LOG_WARN, message });
+	DebugLog logData = CreateDebugLogData(message, loc);
+	logData.logLevel = LOG_WARN;
+
+	_debugLogs.push_back(logData);
 }
 
-void DebugManager::ErrorLog(const string& message)
+void DebugManager::ErrorLog(const string& message, std::source_location& loc)
 {
-	_debugLogs.push_back({ TIME->TotalTime(), LOG_ERROR, message });
+	DebugLog logData = CreateDebugLogData(message, loc);
+	logData.logLevel = LOG_ERROR;
+
+	_debugLogs.push_back(logData);
 }
 
 void DebugManager::ExportDebugLogs()
@@ -227,4 +236,14 @@ void DebugManager::ExportDebugLogs()
 	}
 
 	doc.SaveFile("DebugLog.xml");
+}
+
+DebugLog DebugManager::CreateDebugLogData(const string& message, std::source_location& loc)
+{
+	string origin = loc.function_name();
+	const auto parenPos = origin.find('(');
+	string funcName = origin.substr(origin.substr(0, parenPos).rfind(' ') + 1);
+	string className = funcName.substr(0, funcName.find(':'));
+
+	return DebugLog(TIME->TotalTime(), message, className, funcName);
 }

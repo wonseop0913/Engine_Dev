@@ -575,7 +575,7 @@ void EditorGUIManager::ShowConsole()
 
 	if (ImGui::Begin("Engine Console", &_guiToggleValues[TOGGLEVALUE_GUI_CONSOLE], windowFlags))
 	{
-		auto logs = DEBUG->GetLogs();
+		auto& logs = DEBUG->GetLogs();
 		for (const auto& log : logs)
 		{
 			ImVec4 textColor;
@@ -591,7 +591,7 @@ void EditorGUIManager::ShowConsole()
 					textColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 					break;
 			}
-			ImGui::TextColored(textColor, "%.2f: %s", log.time, log.message.c_str());
+			ImGui::TextColored(textColor, "%.2f: [%s] %s", log.time, log.className.c_str(), log.message.c_str());
 		}
 	}
 	ImGui::End();
